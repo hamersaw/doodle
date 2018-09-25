@@ -44,17 +44,15 @@ public class PluginListCli implements Runnable {
             return;
         }
 
-        /*// handle PluginListResponse
-        System.out.println("plugins:");
-        for (String plugin : response.getPluginsList()) {
-            System.out.println("\t'" + plugin + "'");
+        // handle PluginListResponse
+        System.out.println("control:");
+        for (String controlPlugin : response.getControlPluginsList()) {
+            System.out.println("\t- '" + controlPlugin + "'");
         }
 
-        System.out.println("instances:");
-        for (Map.Entry<String, String> entry :
-                response.getInstancesMap().entrySet()) {
-            System.out.println("\t'" + entry.getKey()
-                + "' : '" + entry.getValue() + "'");
-        }*/
+        System.out.println("sketch:");
+        for (String sketchPlugin : response.getSketchPluginsList()) {
+            System.out.println("\t- '" + sketchPlugin + "'");
+        }
     }
 }

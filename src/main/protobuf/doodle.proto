@@ -27,6 +27,8 @@ message PluginListRequest {
 } 
 
 message PluginListResponse {
+    repeated string controlPlugins = 1;
+    repeated string sketchPlugins = 2;
 }
 
 message PluginShowRequest {

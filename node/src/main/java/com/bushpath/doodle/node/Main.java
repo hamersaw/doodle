@@ -83,9 +83,9 @@ public class Main {
             // reguster sketch plugins
             for (Class<? extends SketchPlugin> clazz :
                     reflections.getSubTypesOf(SketchPlugin.class)) {
-                // TODO - pluginManager.registerSketchPlugin(clazz);
+                pluginManager.registerSketchPlugin(clazz);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Unknown plugin loading failure", e);
             System.exit(3);
         }

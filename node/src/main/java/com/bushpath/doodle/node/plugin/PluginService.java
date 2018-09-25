@@ -1,5 +1,8 @@
 package com.bushpath.doodle.node.plugin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListRequest;
@@ -11,6 +14,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 public class PluginService implements Service {
+    protected static final Logger log =
+        LoggerFactory.getLogger(PluginService.class);
+
     protected PluginManager pluginManager;
 
     public PluginService(PluginManager pluginManager) {
@@ -36,11 +42,20 @@ public class PluginService implements Service {
                 PluginListRequest pluginListRequest =
                     PluginListRequest.parseDelimitedFrom(in);
 
+                log.info("handling PluginListRequest");
+
                 // init response
                 PluginListResponse.Builder pluginListBuilder =
                     PluginListResponse.newBuilder();
 
-                // TODO - populate builder
+                // populate builder
+                for (String controlPlugin : pluginManager.getControlPlugins()) {
+                    pluginListBuilder.addControlPlugins(controlPlugin);
+                }
+
+                for (String sketchPlugin : pluginManager.getSketchPlugins()) {
+                    pluginListBuilder.addSketchPlugins(sketchPlugin);
+                }
 
                 // write to out
                 out.writeInt(messageType);
@@ -50,6 +65,8 @@ public class PluginService implements Service {
                 // parse request
                 PluginShowRequest pluginShowRequest =
                     PluginShowRequest.parseDelimitedFrom(in);
+
+                log.info("handling PluginShowRequest");
 
                 // init response
                 PluginShowResponse.Builder pluginShowBuilder =

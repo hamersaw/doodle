@@ -1223,6 +1223,44 @@ public final class DoodleProtos {
   public interface PluginListResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:PluginListResponse)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    java.util.List<java.lang.String>
+        getControlPluginsList();
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    int getControlPluginsCount();
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    java.lang.String getControlPlugins(int index);
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getControlPluginsBytes(int index);
+
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getSketchPluginsList();
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    int getSketchPluginsCount();
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    java.lang.String getSketchPlugins(int index);
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getSketchPluginsBytes(int index);
   }
   /**
    * Protobuf type {@code PluginListResponse}
@@ -1237,6 +1275,8 @@ public final class DoodleProtos {
       super(builder);
     }
     private PluginListResponse() {
+      controlPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      sketchPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -1252,6 +1292,7 @@ public final class DoodleProtos {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1262,6 +1303,24 @@ public final class DoodleProtos {
             case 0:
               done = true;
               break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                controlPlugins_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              controlPlugins_.add(s);
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                sketchPlugins_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              sketchPlugins_.add(s);
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -1277,6 +1336,12 @@ public final class DoodleProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          controlPlugins_ = controlPlugins_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          sketchPlugins_ = sketchPlugins_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1294,6 +1359,64 @@ public final class DoodleProtos {
               com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse.Builder.class);
     }
 
+    public static final int CONTROLPLUGINS_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList controlPlugins_;
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getControlPluginsList() {
+      return controlPlugins_;
+    }
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    public int getControlPluginsCount() {
+      return controlPlugins_.size();
+    }
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    public java.lang.String getControlPlugins(int index) {
+      return controlPlugins_.get(index);
+    }
+    /**
+     * <code>repeated string controlPlugins = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getControlPluginsBytes(int index) {
+      return controlPlugins_.getByteString(index);
+    }
+
+    public static final int SKETCHPLUGINS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList sketchPlugins_;
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getSketchPluginsList() {
+      return sketchPlugins_;
+    }
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    public int getSketchPluginsCount() {
+      return sketchPlugins_.size();
+    }
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    public java.lang.String getSketchPlugins(int index) {
+      return sketchPlugins_.get(index);
+    }
+    /**
+     * <code>repeated string sketchPlugins = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSketchPluginsBytes(int index) {
+      return sketchPlugins_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1308,6 +1431,12 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      for (int i = 0; i < controlPlugins_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, controlPlugins_.getRaw(i));
+      }
+      for (int i = 0; i < sketchPlugins_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, sketchPlugins_.getRaw(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1317,6 +1446,22 @@ public final class DoodleProtos {
       if (size != -1) return size;
 
       size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < controlPlugins_.size(); i++) {
+          dataSize += computeStringSizeNoTag(controlPlugins_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getControlPluginsList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < sketchPlugins_.size(); i++) {
+          dataSize += computeStringSizeNoTag(sketchPlugins_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getSketchPluginsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1333,6 +1478,10 @@ public final class DoodleProtos {
       com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse) obj;
 
       boolean result = true;
+      result = result && getControlPluginsList()
+          .equals(other.getControlPluginsList());
+      result = result && getSketchPluginsList()
+          .equals(other.getSketchPluginsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1344,6 +1493,14 @@ public final class DoodleProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (getControlPluginsCount() > 0) {
+        hash = (37 * hash) + CONTROLPLUGINS_FIELD_NUMBER;
+        hash = (53 * hash) + getControlPluginsList().hashCode();
+      }
+      if (getSketchPluginsCount() > 0) {
+        hash = (37 * hash) + SKETCHPLUGINS_FIELD_NUMBER;
+        hash = (53 * hash) + getSketchPluginsList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1477,6 +1634,10 @@ public final class DoodleProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        controlPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sketchPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1503,6 +1664,17 @@ public final class DoodleProtos {
       @java.lang.Override
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          controlPlugins_ = controlPlugins_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.controlPlugins_ = controlPlugins_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          sketchPlugins_ = sketchPlugins_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.sketchPlugins_ = sketchPlugins_;
         onBuilt();
         return result;
       }
@@ -1551,6 +1723,26 @@ public final class DoodleProtos {
 
       public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse other) {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse.getDefaultInstance()) return this;
+        if (!other.controlPlugins_.isEmpty()) {
+          if (controlPlugins_.isEmpty()) {
+            controlPlugins_ = other.controlPlugins_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureControlPluginsIsMutable();
+            controlPlugins_.addAll(other.controlPlugins_);
+          }
+          onChanged();
+        }
+        if (!other.sketchPlugins_.isEmpty()) {
+          if (sketchPlugins_.isEmpty()) {
+            sketchPlugins_ = other.sketchPlugins_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureSketchPluginsIsMutable();
+            sketchPlugins_.addAll(other.sketchPlugins_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1577,6 +1769,195 @@ public final class DoodleProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList controlPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureControlPluginsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          controlPlugins_ = new com.google.protobuf.LazyStringArrayList(controlPlugins_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getControlPluginsList() {
+        return controlPlugins_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public int getControlPluginsCount() {
+        return controlPlugins_.size();
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public java.lang.String getControlPlugins(int index) {
+        return controlPlugins_.get(index);
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getControlPluginsBytes(int index) {
+        return controlPlugins_.getByteString(index);
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public Builder setControlPlugins(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureControlPluginsIsMutable();
+        controlPlugins_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public Builder addControlPlugins(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureControlPluginsIsMutable();
+        controlPlugins_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public Builder addAllControlPlugins(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureControlPluginsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, controlPlugins_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public Builder clearControlPlugins() {
+        controlPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string controlPlugins = 1;</code>
+       */
+      public Builder addControlPluginsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureControlPluginsIsMutable();
+        controlPlugins_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList sketchPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureSketchPluginsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          sketchPlugins_ = new com.google.protobuf.LazyStringArrayList(sketchPlugins_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getSketchPluginsList() {
+        return sketchPlugins_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public int getSketchPluginsCount() {
+        return sketchPlugins_.size();
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public java.lang.String getSketchPlugins(int index) {
+        return sketchPlugins_.get(index);
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSketchPluginsBytes(int index) {
+        return sketchPlugins_.getByteString(index);
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public Builder setSketchPlugins(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSketchPluginsIsMutable();
+        sketchPlugins_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public Builder addSketchPlugins(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSketchPluginsIsMutable();
+        sketchPlugins_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public Builder addAllSketchPlugins(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureSketchPluginsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, sketchPlugins_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public Builder clearSketchPlugins() {
+        sketchPlugins_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string sketchPlugins = 2;</code>
+       */
+      public Builder addSketchPluginsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureSketchPluginsIsMutable();
+        sketchPlugins_.add(value);
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -2492,11 +2873,13 @@ public final class DoodleProtos {
     java.lang.String[] descriptorData = {
       "\n\036src/main/protobuf/doodle.proto\"&\n\007Fail" +
       "ure\022\r\n\005class\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"\023\n\021Plug" +
-      "inListRequest\"\024\n\022PluginListResponse\"\023\n\021P" +
-      "luginShowRequest\"\024\n\022PluginShowResponse*<" +
-      "\n\013MessageType\022\013\n\007FAILURE\020\000\022\017\n\013PLUGIN_LIS" +
-      "T\020\001\022\017\n\013PLUGIN_SHOW\020\002B/\n\034com.bushpath.doo" +
-      "dle.protobufB\014DoodleProtos\240\001\001b\006proto3"
+      "inListRequest\"C\n\022PluginListResponse\022\026\n\016c" +
+      "ontrolPlugins\030\001 \003(\t\022\025\n\rsketchPlugins\030\002 \003" +
+      "(\t\"\023\n\021PluginShowRequest\"\024\n\022PluginShowRes" +
+      "ponse*<\n\013MessageType\022\013\n\007FAILURE\020\000\022\017\n\013PLU" +
+      "GIN_LIST\020\001\022\017\n\013PLUGIN_SHOW\020\002B/\n\034com.bushp" +
+      "ath.doodle.protobufB\014DoodleProtos\240\001\001b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2527,7 +2910,7 @@ public final class DoodleProtos {
     internal_static_PluginListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginListResponse_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "ControlPlugins", "SketchPlugins", });
     internal_static_PluginShowRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_PluginShowRequest_fieldAccessorTable = new
