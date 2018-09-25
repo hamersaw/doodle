@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_package = "com.bushpath.doodle.protobuf";
+option java_outer_classname = "DoodleProtos";
+option java_generate_equals_and_hash = true;
+
+/**
+ * Message Type
+ */ 
+
+enum MessageType {
+    FAILURE = 0;
+    PLUGIN_LIST = 1;
+    PLUGIN_SHOW = 2;
+}
+
+message Failure {
+    string class = 1;
+    string text = 2;
+}
+
+/**
+ * Plugin Messages
+ */
+
+message PluginListRequest {
+} 
+
+message PluginListResponse {
+}
+
+message PluginShowRequest {
+}
+
+message PluginShowResponse {
+}

@@ -50,6 +50,8 @@ public class Server extends Thread {
 
             this.services.put(messageType, service);
         }
+
+        log.info("Registered Service '{}'", service.getClass().getName());
     }
 
     @Override
@@ -123,10 +125,12 @@ public class Server extends Thread {
                     // recv message type
                     int messageType = in.readInt();
 
-                    // mutliplex message to Service
                     if (!services.containsKey(messageType)) {
-                        // TODO - log unregistered service
+                        // warn if messageType is unregistered
+                        log.warn("Recv unregistered messageType '"
+                            + messageType + "'");
                     } else {
+                        // send message to Service
                         services.get(messageType)
                             .handleMessage(messageType, in, out);
                     }

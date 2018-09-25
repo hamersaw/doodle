@@ -1,0 +1,4 @@
+rootProject.name = 'doodle'
+
+include ':doodle-core'
+project(':doodle-core').projectDir = new File(settingsDir, '../')

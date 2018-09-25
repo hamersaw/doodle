@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.plugin.PluginManager;
+import com.bushpath.doodle.node.plugin.PluginService;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +87,16 @@ public class Main {
             }
         } catch (IOException e) {
             log.error("Unknown plugin loading failure", e);
+            System.exit(3);
+        }
+
+        // register Services
+        try {
+            PluginService pluginService = new PluginService(pluginManager);
+            server.registerService(pluginService);
+        } catch (Exception e) {
+            log.error("Unknwon Service registration failure", e);
+            System.exit(4);
         }
 
         // start Server
