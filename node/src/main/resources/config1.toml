@@ -1,0 +1,27 @@
+#
+# Control Plane Configuration  
+#
+[control]
+nodeId = 0                     
+ipAddress = "127.0.0.1"        
+port = 5450                    
+threadCount = 4                
+  
+[control.gossip]
+intervalMilliSeconds = 2500    
+          
+[[control.gossip.seed]]
+ipAddress = "127.0.0.1"
+port = 5451
+        
+#       
+# Sketch Plane Configuration   
+#
+[sketch]
+directory = "."
+
+#   
+# Plugins Configuration        
+# 
+[plugins]
+directory = "./plugins"

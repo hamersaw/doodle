@@ -26,7 +26,7 @@ public class Server extends Thread {
 
     protected boolean shutdown;
 
-    public Server(short port, int threadCount) {
+    public Server(short port, short threadCount) {
         this.port = port;
         this.workers = new Worker[threadCount];
         this.queue = new ArrayBlockingQueue(128);
