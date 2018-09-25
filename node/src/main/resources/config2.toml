@@ -24,4 +24,4 @@ directory = "."
 # Plugins Configuration        
 # 
 [plugins]
-directory = "../plugins"
+directory = "./plugins"

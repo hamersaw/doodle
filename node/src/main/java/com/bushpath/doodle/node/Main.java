@@ -10,6 +10,10 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.node.control.ControlPluginManager;
+import com.bushpath.doodle.node.control.ControlService;
+import com.bushpath.doodle.node.control.NodeManager;
+import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 
@@ -20,6 +24,10 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main {
     protected static final Logger log = LoggerFactory.getLogger(Main.class);
@@ -39,12 +47,6 @@ public class Main {
             log.error("Failed to parse configuration file", e);
             System.exit(2);
         }
-
-        // initialize Server
-        Server server = new Server(
-                toml.getLong("control.port").shortValue(),
-                toml.getLong("control.threadCount").shortValue()
-            );
 
         // initialize PluginManager
         PluginManager pluginManager = new PluginManager();
@@ -90,8 +92,53 @@ public class Main {
             System.exit(3);
         }
 
+        // initialize ControlPluginManager
+        ControlPluginManager controlPluginManager =
+            new ControlPluginManager();
+
+        // initialize NodeManager
+        List<NodeMetadata> seedNodes = new ArrayList();
+        if (toml.getTables("control.gossip.seed") != null) {
+            for (Toml seedToml : toml.getTables("control.gossip.seed")) {
+                seedNodes.add(
+                    new NodeMetadata(
+                        (short) -1,
+                        seedToml.getString("ipAddress"),
+                        seedToml.getLong("port").shortValue()
+                    ));
+            }
+        }
+
+        NodeManager nodeManager = new NodeManager(
+                toml.getLong("control.nodeId").intValue(),
+                seedNodes
+            );
+
+        try {
+            NodeMetadata nodeMetadata = new NodeMetadata(
+                    toml.getLong("control.nodeId").intValue(),
+                    toml.getString("control.ipAddress"),
+                    toml.getLong("control.port").shortValue()
+                );
+
+            nodeManager.addNode(nodeMetadata);
+        } catch (Exception e) {
+            log.error("Failed to initialize NodeManager", e);
+            System.exit(2);
+        }
+
+        // initialize Server
+        Server server = new Server(
+                toml.getLong("control.port").shortValue(),
+                toml.getLong("control.threadCount").shortValue()
+            );
+
         // register Services
         try {
+            ControlService controlService =
+                new ControlService(controlPluginManager, nodeManager);
+            server.registerService(controlService);
+
             PluginService pluginService = new PluginService(pluginManager);
             server.registerService(pluginService);
         } catch (Exception e) {
@@ -99,9 +146,16 @@ public class Main {
             System.exit(4);
         }
 
-        // start Server
         try {
+            // start Server
             server.start();
+
+            // start GossipTimerTask
+            Timer timer = new Timer();
+            GossipTimerTask gossipTimerTask = new GossipTimerTask(
+                controlPluginManager, nodeManager, pluginManager);
+            timer.scheduleAtFixedRate(gossipTimerTask, 0,
+                toml.getLong("control.gossip.intervalMilliSeconds"));
 
             server.join();
         } catch (InterruptedException e) {

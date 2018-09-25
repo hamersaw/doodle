@@ -22,8 +22,28 @@ public class PluginManager {
         this.sketchPlugins = new HashMap();
     }
 
+    public Class<? extends ControlPlugin> getControlPlugin(String id)
+            throws Exception {
+        if (!this.controlPlugins.containsKey(id)) {
+            throw new RuntimeException("ControlPlugin '"
+                + id + "' does not exist");
+        }
+
+        return this.controlPlugins.get(id);
+    }
+
     public Set<String> getControlPlugins() {
         return this.controlPlugins.keySet();
+    }
+
+    public Class<? extends SketchPlugin> getSketchPlugin(String id)
+            throws Exception {
+        if (!this.sketchPlugins.containsKey(id)) {
+            throw new RuntimeException("SketchPlugin '"
+                + id + "' does not exist");
+        }
+
+        return this.sketchPlugins.get(id);
     }
 
     public Set<String> getSketchPlugins() {
