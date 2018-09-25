@@ -1,0 +1,13 @@
+apply plugin: 'java'
+
+// define repositories
+repositories {
+    mavenCentral()
+}
+
+// define dependencies
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.google.protobuf:protobuf-java:3.4.0'
+}
