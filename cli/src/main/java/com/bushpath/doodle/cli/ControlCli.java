@@ -6,7 +6,8 @@ import picocli.CommandLine.Command;
 @Command(name = "control",
     description = "Configure control plane.",
     mixinStandardHelpOptions = true,
-    subcommands = {ControlInitCli.class, ControlListCli.class})
+    subcommands = {ControlInitCli.class, ControlListCli.class,
+        ControlModifyCli.class, ControlShowCli.class})
 public class ControlCli implements Runnable {
     @Override
     public void run() {

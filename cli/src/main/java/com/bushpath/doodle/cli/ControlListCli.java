@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.util.Map;
 
 @Command(name = "list",
-    description = "List ControlPlugins.",
+    description = "List a ControlPlugin.",
     mixinStandardHelpOptions = true)
 public class ControlListCli implements Runnable {
     @Override

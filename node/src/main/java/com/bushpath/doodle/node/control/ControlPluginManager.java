@@ -55,6 +55,19 @@ public class ControlPluginManager {
         }
     }
 
+    public ControlPlugin getPlugin(String id) {
+        this.lock.readLock().lock();
+        try {
+            if (!this.plugins.containsKey(id)) {
+                throw new RuntimeException("plugin '" + id + "' does not exist");
+            }
+
+            return this.plugins.get(id);
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
     public Set<Map.Entry<String, ControlPlugin>> getPluginEntrySet() {
         this.lock.readLock().lock();
         try {

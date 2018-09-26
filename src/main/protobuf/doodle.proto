@@ -40,8 +40,7 @@ message ControlListResponse {
 
 message ControlModifyRequest {
     string id = 1;
-    repeated PluginVariable addVariables = 2;
-    repeated PluginVariable deleteVariables = 3;
+    repeated VariableOperation operations = 2;
 }
 
 message ControlModifyResponse {
@@ -110,4 +109,18 @@ message Node {
 }
 
 message PluginVariable {
+    string type = 1;
+    string name = 2;
+    repeated string values = 3;
+}
+
+message VariableOperation {
+    int64 timestamp = 1;
+    Operation operation = 2;
+    PluginVariable variable = 3;
+
+    enum Operation {
+        ADD = 0;
+        DELETE = 1;
+    }
 }

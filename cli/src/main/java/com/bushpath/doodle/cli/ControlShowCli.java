@@ -1,8 +1,9 @@
 package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -13,24 +14,20 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
-@Command(name = "init",
-    description = "Initialize a ControlPlugin.",
+@Command(name = "show",
+    description = "Show a ControlPlugin.",
     mixinStandardHelpOptions = true)
-public class ControlInitCli implements Runnable {
+public class ControlShowCli implements Runnable {
     @Parameters(index="0", description="Id of ControlPlugin instance.")
     private String id;
 
-    @Parameters(index="1", description="ControlPlugin classpath.")
-    private String plugin;
-
     @Override
     public void run() {
-        // create ControlInitRequest
-        ControlInitRequest request = ControlInitRequest.newBuilder()
+        // create ControlShowRequest
+        ControlShowRequest request = ControlShowRequest.newBuilder()
             .setId(this.id)
-            .setPlugin(this.plugin)
             .build();
-        ControlInitResponse response = null;
+        ControlShowResponse response = null;
 
         try {
             // send request
@@ -40,19 +37,29 @@ public class ControlInitCli implements Runnable {
                 new DataOutputStream(socket.getOutputStream());
             DataInputStream in = new DataInputStream(socket.getInputStream());
 
-            out.writeInt(MessageType.CONTROL_INIT.getNumber());
+            out.writeInt(MessageType.CONTROL_SHOW.getNumber());
             request.writeDelimitedTo(out);
 
             // recv response
             // TODO - validate we have the correct message type
             in.readInt();
-            response = ControlInitResponse.parseDelimitedFrom(in);
+            response = ControlShowResponse.parseDelimitedFrom(in);
         } catch (IOException e) {
             System.err.println("Unknown communication error: " +
                 e.getClass() + ":" + e.getMessage());
             return;
         }
 
-        // TODO - handle ControlInitResponse
+        // handle ControlShowResponse
+        System.out.println(this.id + "\n" + response.getPlugin());
+        for (PluginVariable variable : response.getVariablesList()) {
+            System.out.print("\t" + variable.getType()
+                + ":" + variable.getName() + "\n\t\t[");
+
+            for (int i=0; i<variable.getValuesCount(); i++) {
+                System.out.print((i!=0 ? ", " : "") + variable.getValues(i));
+            }
+            System.out.println("]");
+        }
     }
 }

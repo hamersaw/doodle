@@ -2414,51 +2414,27 @@ public final class DoodleProtos {
         getIdBytes();
 
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> 
-        getAddVariablesList();
+    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation> 
+        getOperationsList();
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getAddVariables(int index);
+    com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation getOperations(int index);
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    int getAddVariablesCount();
+    int getOperationsCount();
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-        getAddVariablesOrBuilderList();
+    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder> 
+        getOperationsOrBuilderList();
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getAddVariablesOrBuilder(
-        int index);
-
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> 
-        getDeleteVariablesList();
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getDeleteVariables(int index);
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    int getDeleteVariablesCount();
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-        getDeleteVariablesOrBuilderList();
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getDeleteVariablesOrBuilder(
+    com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder getOperationsOrBuilder(
         int index);
   }
   /**
@@ -2475,8 +2451,7 @@ public final class DoodleProtos {
     }
     private ControlModifyRequest() {
       id_ = "";
-      addVariables_ = java.util.Collections.emptyList();
-      deleteVariables_ = java.util.Collections.emptyList();
+      operations_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -2511,20 +2486,11 @@ public final class DoodleProtos {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                addVariables_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable>();
+                operations_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              addVariables_.add(
-                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.parser(), extensionRegistry));
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                deleteVariables_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              deleteVariables_.add(
-                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.parser(), extensionRegistry));
+              operations_.add(
+                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -2543,10 +2509,7 @@ public final class DoodleProtos {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          addVariables_ = java.util.Collections.unmodifiableList(addVariables_);
-        }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          deleteVariables_ = java.util.Collections.unmodifiableList(deleteVariables_);
+          operations_ = java.util.Collections.unmodifiableList(operations_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2600,74 +2563,39 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int ADDVARIABLES_FIELD_NUMBER = 2;
-    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> addVariables_;
+    public static final int OPERATIONS_FIELD_NUMBER = 2;
+    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation> operations_;
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> getAddVariablesList() {
-      return addVariables_;
+    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation> getOperationsList() {
+      return operations_;
     }
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-        getAddVariablesOrBuilderList() {
-      return addVariables_;
+    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder> 
+        getOperationsOrBuilderList() {
+      return operations_;
     }
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    public int getAddVariablesCount() {
-      return addVariables_.size();
+    public int getOperationsCount() {
+      return operations_.size();
     }
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getAddVariables(int index) {
-      return addVariables_.get(index);
+    public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation getOperations(int index) {
+      return operations_.get(index);
     }
     /**
-     * <code>repeated .PluginVariable addVariables = 2;</code>
+     * <code>repeated .VariableOperation operations = 2;</code>
      */
-    public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getAddVariablesOrBuilder(
+    public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder getOperationsOrBuilder(
         int index) {
-      return addVariables_.get(index);
-    }
-
-    public static final int DELETEVARIABLES_FIELD_NUMBER = 3;
-    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> deleteVariables_;
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> getDeleteVariablesList() {
-      return deleteVariables_;
-    }
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-        getDeleteVariablesOrBuilderList() {
-      return deleteVariables_;
-    }
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    public int getDeleteVariablesCount() {
-      return deleteVariables_.size();
-    }
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getDeleteVariables(int index) {
-      return deleteVariables_.get(index);
-    }
-    /**
-     * <code>repeated .PluginVariable deleteVariables = 3;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getDeleteVariablesOrBuilder(
-        int index) {
-      return deleteVariables_.get(index);
+      return operations_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2687,11 +2615,8 @@ public final class DoodleProtos {
       if (!getIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
       }
-      for (int i = 0; i < addVariables_.size(); i++) {
-        output.writeMessage(2, addVariables_.get(i));
-      }
-      for (int i = 0; i < deleteVariables_.size(); i++) {
-        output.writeMessage(3, deleteVariables_.get(i));
+      for (int i = 0; i < operations_.size(); i++) {
+        output.writeMessage(2, operations_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -2705,13 +2630,9 @@ public final class DoodleProtos {
       if (!getIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
       }
-      for (int i = 0; i < addVariables_.size(); i++) {
+      for (int i = 0; i < operations_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, addVariables_.get(i));
-      }
-      for (int i = 0; i < deleteVariables_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, deleteVariables_.get(i));
+          .computeMessageSize(2, operations_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2731,10 +2652,8 @@ public final class DoodleProtos {
       boolean result = true;
       result = result && getId()
           .equals(other.getId());
-      result = result && getAddVariablesList()
-          .equals(other.getAddVariablesList());
-      result = result && getDeleteVariablesList()
-          .equals(other.getDeleteVariablesList());
+      result = result && getOperationsList()
+          .equals(other.getOperationsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2748,13 +2667,9 @@ public final class DoodleProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId().hashCode();
-      if (getAddVariablesCount() > 0) {
-        hash = (37 * hash) + ADDVARIABLES_FIELD_NUMBER;
-        hash = (53 * hash) + getAddVariablesList().hashCode();
-      }
-      if (getDeleteVariablesCount() > 0) {
-        hash = (37 * hash) + DELETEVARIABLES_FIELD_NUMBER;
-        hash = (53 * hash) + getDeleteVariablesList().hashCode();
+      if (getOperationsCount() > 0) {
+        hash = (37 * hash) + OPERATIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2884,8 +2799,7 @@ public final class DoodleProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getAddVariablesFieldBuilder();
-          getDeleteVariablesFieldBuilder();
+          getOperationsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -2893,17 +2807,11 @@ public final class DoodleProtos {
         super.clear();
         id_ = "";
 
-        if (addVariablesBuilder_ == null) {
-          addVariables_ = java.util.Collections.emptyList();
+        if (operationsBuilder_ == null) {
+          operations_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          addVariablesBuilder_.clear();
-        }
-        if (deleteVariablesBuilder_ == null) {
-          deleteVariables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-        } else {
-          deleteVariablesBuilder_.clear();
+          operationsBuilder_.clear();
         }
         return this;
       }
@@ -2934,23 +2842,14 @@ public final class DoodleProtos {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.id_ = id_;
-        if (addVariablesBuilder_ == null) {
+        if (operationsBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            addVariables_ = java.util.Collections.unmodifiableList(addVariables_);
+            operations_ = java.util.Collections.unmodifiableList(operations_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
-          result.addVariables_ = addVariables_;
+          result.operations_ = operations_;
         } else {
-          result.addVariables_ = addVariablesBuilder_.build();
-        }
-        if (deleteVariablesBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            deleteVariables_ = java.util.Collections.unmodifiableList(deleteVariables_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.deleteVariables_ = deleteVariables_;
-        } else {
-          result.deleteVariables_ = deleteVariablesBuilder_.build();
+          result.operations_ = operationsBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3005,55 +2904,29 @@ public final class DoodleProtos {
           id_ = other.id_;
           onChanged();
         }
-        if (addVariablesBuilder_ == null) {
-          if (!other.addVariables_.isEmpty()) {
-            if (addVariables_.isEmpty()) {
-              addVariables_ = other.addVariables_;
+        if (operationsBuilder_ == null) {
+          if (!other.operations_.isEmpty()) {
+            if (operations_.isEmpty()) {
+              operations_ = other.operations_;
               bitField0_ = (bitField0_ & ~0x00000002);
             } else {
-              ensureAddVariablesIsMutable();
-              addVariables_.addAll(other.addVariables_);
+              ensureOperationsIsMutable();
+              operations_.addAll(other.operations_);
             }
             onChanged();
           }
         } else {
-          if (!other.addVariables_.isEmpty()) {
-            if (addVariablesBuilder_.isEmpty()) {
-              addVariablesBuilder_.dispose();
-              addVariablesBuilder_ = null;
-              addVariables_ = other.addVariables_;
+          if (!other.operations_.isEmpty()) {
+            if (operationsBuilder_.isEmpty()) {
+              operationsBuilder_.dispose();
+              operationsBuilder_ = null;
+              operations_ = other.operations_;
               bitField0_ = (bitField0_ & ~0x00000002);
-              addVariablesBuilder_ = 
+              operationsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getAddVariablesFieldBuilder() : null;
+                   getOperationsFieldBuilder() : null;
             } else {
-              addVariablesBuilder_.addAllMessages(other.addVariables_);
-            }
-          }
-        }
-        if (deleteVariablesBuilder_ == null) {
-          if (!other.deleteVariables_.isEmpty()) {
-            if (deleteVariables_.isEmpty()) {
-              deleteVariables_ = other.deleteVariables_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureDeleteVariablesIsMutable();
-              deleteVariables_.addAll(other.deleteVariables_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.deleteVariables_.isEmpty()) {
-            if (deleteVariablesBuilder_.isEmpty()) {
-              deleteVariablesBuilder_.dispose();
-              deleteVariablesBuilder_ = null;
-              deleteVariables_ = other.deleteVariables_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              deleteVariablesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getDeleteVariablesFieldBuilder() : null;
-            } else {
-              deleteVariablesBuilder_.addAllMessages(other.deleteVariables_);
+              operationsBuilder_.addAllMessages(other.operations_);
             }
           }
         }
@@ -3156,484 +3029,244 @@ public final class DoodleProtos {
         return this;
       }
 
-      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> addVariables_ =
+      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation> operations_ =
         java.util.Collections.emptyList();
-      private void ensureAddVariablesIsMutable() {
+      private void ensureOperationsIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          addVariables_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable>(addVariables_);
+          operations_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation>(operations_);
           bitField0_ |= 0x00000002;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> addVariablesBuilder_;
+          com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder> operationsBuilder_;
 
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> getAddVariablesList() {
-        if (addVariablesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(addVariables_);
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation> getOperationsList() {
+        if (operationsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(operations_);
         } else {
-          return addVariablesBuilder_.getMessageList();
+          return operationsBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public int getAddVariablesCount() {
-        if (addVariablesBuilder_ == null) {
-          return addVariables_.size();
+      public int getOperationsCount() {
+        if (operationsBuilder_ == null) {
+          return operations_.size();
         } else {
-          return addVariablesBuilder_.getCount();
+          return operationsBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getAddVariables(int index) {
-        if (addVariablesBuilder_ == null) {
-          return addVariables_.get(index);
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation getOperations(int index) {
+        if (operationsBuilder_ == null) {
+          return operations_.get(index);
         } else {
-          return addVariablesBuilder_.getMessage(index);
+          return operationsBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder setAddVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
-        if (addVariablesBuilder_ == null) {
+      public Builder setOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation value) {
+        if (operationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureAddVariablesIsMutable();
-          addVariables_.set(index, value);
+          ensureOperationsIsMutable();
+          operations_.set(index, value);
           onChanged();
         } else {
-          addVariablesBuilder_.setMessage(index, value);
+          operationsBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder setAddVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
-        if (addVariablesBuilder_ == null) {
-          ensureAddVariablesIsMutable();
-          addVariables_.set(index, builderForValue.build());
+      public Builder setOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder builderForValue) {
+        if (operationsBuilder_ == null) {
+          ensureOperationsIsMutable();
+          operations_.set(index, builderForValue.build());
           onChanged();
         } else {
-          addVariablesBuilder_.setMessage(index, builderForValue.build());
+          operationsBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder addAddVariables(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
-        if (addVariablesBuilder_ == null) {
+      public Builder addOperations(com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation value) {
+        if (operationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureAddVariablesIsMutable();
-          addVariables_.add(value);
+          ensureOperationsIsMutable();
+          operations_.add(value);
           onChanged();
         } else {
-          addVariablesBuilder_.addMessage(value);
+          operationsBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder addAddVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
-        if (addVariablesBuilder_ == null) {
+      public Builder addOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation value) {
+        if (operationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureAddVariablesIsMutable();
-          addVariables_.add(index, value);
+          ensureOperationsIsMutable();
+          operations_.add(index, value);
           onChanged();
         } else {
-          addVariablesBuilder_.addMessage(index, value);
+          operationsBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder addAddVariables(
-          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
-        if (addVariablesBuilder_ == null) {
-          ensureAddVariablesIsMutable();
-          addVariables_.add(builderForValue.build());
+      public Builder addOperations(
+          com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder builderForValue) {
+        if (operationsBuilder_ == null) {
+          ensureOperationsIsMutable();
+          operations_.add(builderForValue.build());
           onChanged();
         } else {
-          addVariablesBuilder_.addMessage(builderForValue.build());
+          operationsBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder addAddVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
-        if (addVariablesBuilder_ == null) {
-          ensureAddVariablesIsMutable();
-          addVariables_.add(index, builderForValue.build());
+      public Builder addOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder builderForValue) {
+        if (operationsBuilder_ == null) {
+          ensureOperationsIsMutable();
+          operations_.add(index, builderForValue.build());
           onChanged();
         } else {
-          addVariablesBuilder_.addMessage(index, builderForValue.build());
+          operationsBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder addAllAddVariables(
-          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> values) {
-        if (addVariablesBuilder_ == null) {
-          ensureAddVariablesIsMutable();
+      public Builder addAllOperations(
+          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation> values) {
+        if (operationsBuilder_ == null) {
+          ensureOperationsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, addVariables_);
+              values, operations_);
           onChanged();
         } else {
-          addVariablesBuilder_.addAllMessages(values);
+          operationsBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder clearAddVariables() {
-        if (addVariablesBuilder_ == null) {
-          addVariables_ = java.util.Collections.emptyList();
+      public Builder clearOperations() {
+        if (operationsBuilder_ == null) {
+          operations_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
-          addVariablesBuilder_.clear();
+          operationsBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public Builder removeAddVariables(int index) {
-        if (addVariablesBuilder_ == null) {
-          ensureAddVariablesIsMutable();
-          addVariables_.remove(index);
+      public Builder removeOperations(int index) {
+        if (operationsBuilder_ == null) {
+          ensureOperationsIsMutable();
+          operations_.remove(index);
           onChanged();
         } else {
-          addVariablesBuilder_.remove(index);
+          operationsBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder getAddVariablesBuilder(
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder getOperationsBuilder(
           int index) {
-        return getAddVariablesFieldBuilder().getBuilder(index);
+        return getOperationsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getAddVariablesOrBuilder(
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder getOperationsOrBuilder(
           int index) {
-        if (addVariablesBuilder_ == null) {
-          return addVariables_.get(index);  } else {
-          return addVariablesBuilder_.getMessageOrBuilder(index);
+        if (operationsBuilder_ == null) {
+          return operations_.get(index);  } else {
+          return operationsBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-           getAddVariablesOrBuilderList() {
-        if (addVariablesBuilder_ != null) {
-          return addVariablesBuilder_.getMessageOrBuilderList();
+      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder> 
+           getOperationsOrBuilderList() {
+        if (operationsBuilder_ != null) {
+          return operationsBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(addVariables_);
+          return java.util.Collections.unmodifiableList(operations_);
         }
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder addAddVariablesBuilder() {
-        return getAddVariablesFieldBuilder().addBuilder(
-            com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance());
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder addOperationsBuilder() {
+        return getOperationsFieldBuilder().addBuilder(
+            com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.getDefaultInstance());
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder addAddVariablesBuilder(
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder addOperationsBuilder(
           int index) {
-        return getAddVariablesFieldBuilder().addBuilder(
-            index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance());
+        return getOperationsFieldBuilder().addBuilder(
+            index, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.getDefaultInstance());
       }
       /**
-       * <code>repeated .PluginVariable addVariables = 2;</code>
+       * <code>repeated .VariableOperation operations = 2;</code>
        */
-      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder> 
-           getAddVariablesBuilderList() {
-        return getAddVariablesFieldBuilder().getBuilderList();
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder> 
+           getOperationsBuilderList() {
+        return getOperationsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-          getAddVariablesFieldBuilder() {
-        if (addVariablesBuilder_ == null) {
-          addVariablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder>(
-                  addVariables_,
+          com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder> 
+          getOperationsFieldBuilder() {
+        if (operationsBuilder_ == null) {
+          operationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder>(
+                  operations_,
                   ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
-          addVariables_ = null;
+          operations_ = null;
         }
-        return addVariablesBuilder_;
-      }
-
-      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> deleteVariables_ =
-        java.util.Collections.emptyList();
-      private void ensureDeleteVariablesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          deleteVariables_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable>(deleteVariables_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> deleteVariablesBuilder_;
-
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> getDeleteVariablesList() {
-        if (deleteVariablesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(deleteVariables_);
-        } else {
-          return deleteVariablesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public int getDeleteVariablesCount() {
-        if (deleteVariablesBuilder_ == null) {
-          return deleteVariables_.size();
-        } else {
-          return deleteVariablesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getDeleteVariables(int index) {
-        if (deleteVariablesBuilder_ == null) {
-          return deleteVariables_.get(index);
-        } else {
-          return deleteVariablesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder setDeleteVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
-        if (deleteVariablesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.set(index, value);
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder setDeleteVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
-        if (deleteVariablesBuilder_ == null) {
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder addDeleteVariables(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
-        if (deleteVariablesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.add(value);
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder addDeleteVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
-        if (deleteVariablesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.add(index, value);
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder addDeleteVariables(
-          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
-        if (deleteVariablesBuilder_ == null) {
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.add(builderForValue.build());
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder addDeleteVariables(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
-        if (deleteVariablesBuilder_ == null) {
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder addAllDeleteVariables(
-          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> values) {
-        if (deleteVariablesBuilder_ == null) {
-          ensureDeleteVariablesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, deleteVariables_);
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder clearDeleteVariables() {
-        if (deleteVariablesBuilder_ == null) {
-          deleteVariables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public Builder removeDeleteVariables(int index) {
-        if (deleteVariablesBuilder_ == null) {
-          ensureDeleteVariablesIsMutable();
-          deleteVariables_.remove(index);
-          onChanged();
-        } else {
-          deleteVariablesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder getDeleteVariablesBuilder(
-          int index) {
-        return getDeleteVariablesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getDeleteVariablesOrBuilder(
-          int index) {
-        if (deleteVariablesBuilder_ == null) {
-          return deleteVariables_.get(index);  } else {
-          return deleteVariablesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-           getDeleteVariablesOrBuilderList() {
-        if (deleteVariablesBuilder_ != null) {
-          return deleteVariablesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(deleteVariables_);
-        }
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder addDeleteVariablesBuilder() {
-        return getDeleteVariablesFieldBuilder().addBuilder(
-            com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder addDeleteVariablesBuilder(
-          int index) {
-        return getDeleteVariablesFieldBuilder().addBuilder(
-            index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .PluginVariable deleteVariables = 3;</code>
-       */
-      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder> 
-           getDeleteVariablesBuilderList() {
-        return getDeleteVariablesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
-          getDeleteVariablesFieldBuilder() {
-        if (deleteVariablesBuilder_ == null) {
-          deleteVariablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder>(
-                  deleteVariables_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
-                  getParentForChildren(),
-                  isClean());
-          deleteVariables_ = null;
-        }
-        return deleteVariablesBuilder_;
+        return operationsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -11671,23 +11304,52 @@ public final class DoodleProtos {
 
   }
 
-  public interface PluginVariableOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PluginVariable)
+  public interface VariableOperationOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:VariableOperation)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    long getTimestamp();
+
+    /**
+     * <code>.VariableOperation.Operation operation = 2;</code>
+     */
+    int getOperationValue();
+    /**
+     * <code>.VariableOperation.Operation operation = 2;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation getOperation();
+
+    /**
+     * <code>.PluginVariable variable = 3;</code>
+     */
+    boolean hasVariable();
+    /**
+     * <code>.PluginVariable variable = 3;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getVariable();
+    /**
+     * <code>.PluginVariable variable = 3;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getVariableOrBuilder();
   }
   /**
-   * Protobuf type {@code PluginVariable}
+   * Protobuf type {@code VariableOperation}
    */
-  public  static final class PluginVariable extends
+  public  static final class VariableOperation extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:PluginVariable)
-      PluginVariableOrBuilder {
+      // @@protoc_insertion_point(message_implements:VariableOperation)
+      VariableOperationOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use PluginVariable.newBuilder() to construct.
-    private PluginVariable(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use VariableOperation.newBuilder() to construct.
+    private VariableOperation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private PluginVariable() {
+    private VariableOperation() {
+      timestamp_ = 0L;
+      operation_ = 0;
     }
 
     @java.lang.Override
@@ -11695,7 +11357,7 @@ public final class DoodleProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private PluginVariable(
+    private VariableOperation(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -11703,6 +11365,7 @@ public final class DoodleProtos {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11713,6 +11376,30 @@ public final class DoodleProtos {
             case 0:
               done = true;
               break;
+            case 8: {
+
+              timestamp_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              operation_ = rawValue;
+              break;
+            }
+            case 26: {
+              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder subBuilder = null;
+              if (variable_ != null) {
+                subBuilder = variable_.toBuilder();
+              }
+              variable_ = input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(variable_);
+                variable_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -11734,15 +11421,160 @@ public final class DoodleProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginVariable_descriptor;
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_VariableOperation_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginVariable_fieldAccessorTable
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_VariableOperation_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder.class);
+              com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.class, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code VariableOperation.Operation}
+     */
+    public enum Operation
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>ADD = 0;</code>
+       */
+      ADD(0),
+      /**
+       * <code>DELETE = 1;</code>
+       */
+      DELETE(1),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>ADD = 0;</code>
+       */
+      public static final int ADD_VALUE = 0;
+      /**
+       * <code>DELETE = 1;</code>
+       */
+      public static final int DELETE_VALUE = 1;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Operation valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Operation forNumber(int value) {
+        switch (value) {
+          case 0: return ADD;
+          case 1: return DELETE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Operation>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Operation> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Operation>() {
+              public Operation findValueByNumber(int number) {
+                return Operation.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Operation[] VALUES = values();
+
+      public static Operation valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Operation(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:VariableOperation.Operation)
+    }
+
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_;
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    public long getTimestamp() {
+      return timestamp_;
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 2;
+    private int operation_;
+    /**
+     * <code>.VariableOperation.Operation operation = 2;</code>
+     */
+    public int getOperationValue() {
+      return operation_;
+    }
+    /**
+     * <code>.VariableOperation.Operation operation = 2;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation getOperation() {
+      @SuppressWarnings("deprecation")
+      com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation result = com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation.valueOf(operation_);
+      return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation.UNRECOGNIZED : result;
+    }
+
+    public static final int VARIABLE_FIELD_NUMBER = 3;
+    private com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable variable_;
+    /**
+     * <code>.PluginVariable variable = 3;</code>
+     */
+    public boolean hasVariable() {
+      return variable_ != null;
+    }
+    /**
+     * <code>.PluginVariable variable = 3;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getVariable() {
+      return variable_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance() : variable_;
+    }
+    /**
+     * <code>.PluginVariable variable = 3;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getVariableOrBuilder() {
+      return getVariable();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -11759,6 +11591,15 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
+      }
+      if (operation_ != com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation.ADD.getNumber()) {
+        output.writeEnum(2, operation_);
+      }
+      if (variable_ != null) {
+        output.writeMessage(3, getVariable());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -11768,6 +11609,849 @@ public final class DoodleProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (timestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, timestamp_);
+      }
+      if (operation_ != com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation.ADD.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, operation_);
+      }
+      if (variable_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getVariable());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation other = (com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation) obj;
+
+      boolean result = true;
+      result = result && (getTimestamp()
+          == other.getTimestamp());
+      result = result && operation_ == other.operation_;
+      result = result && (hasVariable() == other.hasVariable());
+      if (hasVariable()) {
+        result = result && getVariable()
+            .equals(other.getVariable());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
+      hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+      hash = (53 * hash) + operation_;
+      if (hasVariable()) {
+        hash = (37 * hash) + VARIABLE_FIELD_NUMBER;
+        hash = (53 * hash) + getVariable().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code VariableOperation}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:VariableOperation)
+        com.bushpath.doodle.protobuf.DoodleProtos.VariableOperationOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_VariableOperation_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_VariableOperation_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.class, com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        timestamp_ = 0L;
+
+        operation_ = 0;
+
+        if (variableBuilder_ == null) {
+          variable_ = null;
+        } else {
+          variable_ = null;
+          variableBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_VariableOperation_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation result = new com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation(this);
+        result.timestamp_ = timestamp_;
+        result.operation_ = operation_;
+        if (variableBuilder_ == null) {
+          result.variable_ = variable_;
+        } else {
+          result.variable_ = variableBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.getDefaultInstance()) return this;
+        if (other.getTimestamp() != 0L) {
+          setTimestamp(other.getTimestamp());
+        }
+        if (other.operation_ != 0) {
+          setOperationValue(other.getOperationValue());
+        }
+        if (other.hasVariable()) {
+          mergeVariable(other.getVariable());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private long timestamp_ ;
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder setTimestamp(long value) {
+        
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        
+        timestamp_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int operation_ = 0;
+      /**
+       * <code>.VariableOperation.Operation operation = 2;</code>
+       */
+      public int getOperationValue() {
+        return operation_;
+      }
+      /**
+       * <code>.VariableOperation.Operation operation = 2;</code>
+       */
+      public Builder setOperationValue(int value) {
+        operation_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.VariableOperation.Operation operation = 2;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation getOperation() {
+        @SuppressWarnings("deprecation")
+        com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation result = com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation.valueOf(operation_);
+        return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.VariableOperation.Operation operation = 2;</code>
+       */
+      public Builder setOperation(com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation.Operation value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        operation_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.VariableOperation.Operation operation = 2;</code>
+       */
+      public Builder clearOperation() {
+        
+        operation_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable variable_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> variableBuilder_;
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public boolean hasVariable() {
+        return variableBuilder_ != null || variable_ != null;
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getVariable() {
+        if (variableBuilder_ == null) {
+          return variable_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance() : variable_;
+        } else {
+          return variableBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public Builder setVariable(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
+        if (variableBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          variable_ = value;
+          onChanged();
+        } else {
+          variableBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public Builder setVariable(
+          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
+        if (variableBuilder_ == null) {
+          variable_ = builderForValue.build();
+          onChanged();
+        } else {
+          variableBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public Builder mergeVariable(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
+        if (variableBuilder_ == null) {
+          if (variable_ != null) {
+            variable_ =
+              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.newBuilder(variable_).mergeFrom(value).buildPartial();
+          } else {
+            variable_ = value;
+          }
+          onChanged();
+        } else {
+          variableBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public Builder clearVariable() {
+        if (variableBuilder_ == null) {
+          variable_ = null;
+          onChanged();
+        } else {
+          variable_ = null;
+          variableBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder getVariableBuilder() {
+        
+        onChanged();
+        return getVariableFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getVariableOrBuilder() {
+        if (variableBuilder_ != null) {
+          return variableBuilder_.getMessageOrBuilder();
+        } else {
+          return variable_ == null ?
+              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance() : variable_;
+        }
+      }
+      /**
+       * <code>.PluginVariable variable = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
+          getVariableFieldBuilder() {
+        if (variableBuilder_ == null) {
+          variableBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder>(
+                  getVariable(),
+                  getParentForChildren(),
+                  isClean());
+          variable_ = null;
+        }
+        return variableBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:VariableOperation)
+    }
+
+    // @@protoc_insertion_point(class_scope:VariableOperation)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<VariableOperation>
+        PARSER = new com.google.protobuf.AbstractParser<VariableOperation>() {
+      @java.lang.Override
+      public VariableOperation parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new VariableOperation(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<VariableOperation> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<VariableOperation> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PluginVariableOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:PluginVariable)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string type = 1;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <code>string type = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
+
+    /**
+     * <code>string name = 2;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>string name = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    java.util.List<java.lang.String>
+        getValuesList();
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    int getValuesCount();
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    java.lang.String getValues(int index);
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getValuesBytes(int index);
+  }
+  /**
+   * Protobuf type {@code PluginVariable}
+   */
+  public  static final class PluginVariable extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:PluginVariable)
+      PluginVariableOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use PluginVariable.newBuilder() to construct.
+    private PluginVariable(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private PluginVariable() {
+      type_ = "";
+      name_ = "";
+      values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PluginVariable(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              type_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                values_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              values_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          values_ = values_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginVariable_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginVariable_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>string type = 1;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string type = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object name_;
+    /**
+     * <code>string name = 2;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VALUES_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList values_;
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getValuesList() {
+      return values_;
+    }
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    public int getValuesCount() {
+      return values_.size();
+    }
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    public java.lang.String getValues(int index) {
+      return values_.get(index);
+    }
+    /**
+     * <code>repeated string values = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getValuesBytes(int index) {
+      return values_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
+      }
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
+      }
+      for (int i = 0; i < values_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, values_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < values_.size(); i++) {
+          dataSize += computeStringSizeNoTag(values_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getValuesList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -11784,6 +12468,12 @@ public final class DoodleProtos {
       com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable other = (com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable) obj;
 
       boolean result = true;
+      result = result && getType()
+          .equals(other.getType());
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getValuesList()
+          .equals(other.getValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -11795,6 +12485,14 @@ public final class DoodleProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      if (getValuesCount() > 0) {
+        hash = (37 * hash) + VALUES_FIELD_NUMBER;
+        hash = (53 * hash) + getValuesList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -11928,6 +12626,12 @@ public final class DoodleProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        type_ = "";
+
+        name_ = "";
+
+        values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -11954,6 +12658,16 @@ public final class DoodleProtos {
       @java.lang.Override
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable result = new com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.type_ = type_;
+        result.name_ = name_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          values_ = values_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.values_ = values_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -12002,6 +12716,24 @@ public final class DoodleProtos {
 
       public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable other) {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance()) return this;
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
+        if (!other.values_.isEmpty()) {
+          if (values_.isEmpty()) {
+            values_ = other.values_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureValuesIsMutable();
+            values_.addAll(other.values_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -12028,6 +12760,239 @@ public final class DoodleProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>string type = 1;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          type_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string type = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string type = 1;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string type = 1;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string type = 1;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>string name = 2;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string name = 2;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 2;</code>
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 2;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureValuesIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          values_ = new com.google.protobuf.LazyStringArrayList(values_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getValuesList() {
+        return values_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public int getValuesCount() {
+        return values_.size();
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public java.lang.String getValues(int index) {
+        return values_.get(index);
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getValuesBytes(int index) {
+        return values_.getByteString(index);
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public Builder setValues(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureValuesIsMutable();
+        values_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public Builder addValues(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureValuesIsMutable();
+        values_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public Builder addAllValues(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureValuesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, values_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public Builder clearValues() {
+        values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string values = 3;</code>
+       */
+      public Builder addValuesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureValuesIsMutable();
+        values_.add(value);
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -12189,6 +13154,11 @@ public final class DoodleProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Node_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_VariableOperation_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_VariableOperation_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_PluginVariable_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -12208,39 +13178,43 @@ public final class DoodleProtos {
       "Request\"y\n\023ControlListResponse\0222\n\007plugin" +
       "s\030\001 \003(\0132!.ControlListResponse.PluginsEnt" +
       "ry\032.\n\014PluginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\"s\n\024ControlModifyRequest\022\n\n\002id" +
-      "\030\001 \001(\t\022%\n\014addVariables\030\002 \003(\0132\017.PluginVar" +
-      "iable\022(\n\017deleteVariables\030\003 \003(\0132\017.PluginV" +
-      "ariable\"\027\n\025ControlModifyResponse\" \n\022Cont" +
-      "rolShowRequest\022\n\n\002id\030\001 \001(\t\"I\n\023ControlSho" +
-      "wResponse\022\016\n\006plugin\030\001 \001(\t\022\"\n\tvariables\030\002" +
-      " \003(\0132\017.PluginVariable\"\303\001\n\rGossipRequest\022" +
-      "\021\n\tnodesHash\030\001 \001(\005\022\032\n\022controlPluginsHash" +
-      "\030\002 \001(\005\022\031\n\021sketchPluginsHash\030\003 \001(\005\0224\n\013plu" +
-      "ginBytes\030\004 \003(\0132\037.GossipRequest.PluginByt" +
-      "esEntry\0322\n\020PluginBytesEntry\022\013\n\003key\030\001 \001(\t" +
-      "\022\r\n\005value\030\002 \001(\014:\0028\001\"\366\002\n\016GossipResponse\022\024" +
-      "\n\005nodes\030\001 \003(\0132\005.Node\022;\n\016controlPlugins\030\002" +
-      " \003(\0132#.GossipResponse.ControlPluginsEntr" +
-      "y\0229\n\rsketchPlugins\030\003 \003(\0132\".GossipRespons" +
-      "e.SketchPluginsEntry\0225\n\013pluginBytes\030\004 \003(" +
-      "\0132 .GossipResponse.PluginBytesEntry\0325\n\023C" +
-      "ontrolPluginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\0324\n\022SketchPluginsEntry\022\013\n\003key\030" +
-      "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\0322\n\020PluginBytesE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"\023\n\021" +
-      "PluginListRequest\"C\n\022PluginListResponse\022" +
-      "\026\n\016controlPlugins\030\001 \003(\t\022\025\n\rsketchPlugins" +
-      "\030\002 \003(\t\"#\n\021PluginShowRequest\022\016\n\006plugin\030\001 " +
-      "\001(\t\"\024\n\022PluginShowResponse\"&\n\007Failure\022\r\n\005" +
-      "class\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030" +
-      "\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"\020" +
-      "\n\016PluginVariable*\222\001\n\013MessageType\022\020\n\014CONT" +
-      "ROL_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTROL_" +
-      "MODIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020\004\022" +
-      "\n\n\006GOSSIP\020\005\022\017\n\013PLUGIN_LIST\020\006\022\017\n\013PLUGIN_S" +
-      "HOW\020\007B/\n\034com.bushpath.doodle.protobufB\014D" +
-      "oodleProtos\240\001\001b\006proto3"
+      "\030\002 \001(\t:\0028\001\"J\n\024ControlModifyRequest\022\n\n\002id" +
+      "\030\001 \001(\t\022&\n\noperations\030\002 \003(\0132\022.VariableOpe" +
+      "ration\"\027\n\025ControlModifyResponse\" \n\022Contr" +
+      "olShowRequest\022\n\n\002id\030\001 \001(\t\"I\n\023ControlShow" +
+      "Response\022\016\n\006plugin\030\001 \001(\t\022\"\n\tvariables\030\002 " +
+      "\003(\0132\017.PluginVariable\"\303\001\n\rGossipRequest\022\021" +
+      "\n\tnodesHash\030\001 \001(\005\022\032\n\022controlPluginsHash\030" +
+      "\002 \001(\005\022\031\n\021sketchPluginsHash\030\003 \001(\005\0224\n\013plug" +
+      "inBytes\030\004 \003(\0132\037.GossipRequest.PluginByte" +
+      "sEntry\0322\n\020PluginBytesEntry\022\013\n\003key\030\001 \001(\t\022" +
+      "\r\n\005value\030\002 \001(\014:\0028\001\"\366\002\n\016GossipResponse\022\024\n" +
+      "\005nodes\030\001 \003(\0132\005.Node\022;\n\016controlPlugins\030\002 " +
+      "\003(\0132#.GossipResponse.ControlPluginsEntry" +
+      "\0229\n\rsketchPlugins\030\003 \003(\0132\".GossipResponse" +
+      ".SketchPluginsEntry\0225\n\013pluginBytes\030\004 \003(\013" +
+      "2 .GossipResponse.PluginBytesEntry\0325\n\023Co" +
+      "ntrolPluginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
+      "\002 \001(\t:\0028\001\0324\n\022SketchPluginsEntry\022\013\n\003key\030\001" +
+      " \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\0322\n\020PluginBytesEn" +
+      "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"\023\n\021P" +
+      "luginListRequest\"C\n\022PluginListResponse\022\026" +
+      "\n\016controlPlugins\030\001 \003(\t\022\025\n\rsketchPlugins\030" +
+      "\002 \003(\t\"#\n\021PluginShowRequest\022\016\n\006plugin\030\001 \001" +
+      "(\t\"\024\n\022PluginShowResponse\"&\n\007Failure\022\r\n\005c" +
+      "lass\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001" +
+      " \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"\234\001" +
+      "\n\021VariableOperation\022\021\n\ttimestamp\030\001 \001(\003\022/" +
+      "\n\toperation\030\002 \001(\0162\034.VariableOperation.Op" +
+      "eration\022!\n\010variable\030\003 \001(\0132\017.PluginVariab" +
+      "le\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001\"<\n\016" +
+      "PluginVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001" +
+      "(\t\022\016\n\006values\030\003 \003(\t*\222\001\n\013MessageType\022\020\n\014CO" +
+      "NTROL_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTRO" +
+      "L_MODIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020" +
+      "\004\022\n\n\006GOSSIP\020\005\022\017\n\013PLUGIN_LIST\020\006\022\017\n\013PLUGIN" +
+      "_SHOW\020\007B/\n\034com.bushpath.doodle.protobufB" +
+      "\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -12289,7 +13263,7 @@ public final class DoodleProtos {
     internal_static_ControlModifyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ControlModifyRequest_descriptor,
-        new java.lang.String[] { "Id", "AddVariables", "DeleteVariables", });
+        new java.lang.String[] { "Id", "Operations", });
     internal_static_ControlModifyResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_ControlModifyResponse_fieldAccessorTable = new
@@ -12380,12 +13354,18 @@ public final class DoodleProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Node_descriptor,
         new java.lang.String[] { "Id", "IpAddress", "Port", });
-    internal_static_PluginVariable_descriptor =
+    internal_static_VariableOperation_descriptor =
       getDescriptor().getMessageTypes().get(16);
+    internal_static_VariableOperation_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_VariableOperation_descriptor,
+        new java.lang.String[] { "Timestamp", "Operation", "Variable", });
+    internal_static_PluginVariable_descriptor =
+      getDescriptor().getMessageTypes().get(17);
     internal_static_PluginVariable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginVariable_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Type", "Name", "Values", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

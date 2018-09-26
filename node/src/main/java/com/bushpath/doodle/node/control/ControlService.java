@@ -5,10 +5,15 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,10 +153,58 @@ public class ControlService implements Service {
                 controlListBuilder.build().writeDelimitedTo(out);
                 break;
             case CONTROL_MODIFY:
-                // TODO
+                // parse request
+                ControlModifyRequest controlModifyRequest =
+                    ControlModifyRequest.parseDelimitedFrom(in);
+
+                log.info("handling ControlModifyRequest");
+
+                // init response
+                ControlModifyResponse.Builder controlModifyBuilder =
+                    ControlModifyResponse.newBuilder();
+
+                // handle operations
+                try {
+                    ControlPlugin plugin = this.controlPluginManager
+                        .getPlugin(controlModifyRequest.getId());
+
+                    for (VariableOperation operation :
+                            controlModifyRequest.getOperationsList()) {
+                        plugin.handleVariableOperation(operation);
+                    }
+                } catch (Exception e) {
+                    log.error("Failed to handle operation", e);
+                }
+
+                // write to out
+                out.writeInt(messageType);
+                controlModifyBuilder.build().writeDelimitedTo(out);
                 break;
             case CONTROL_SHOW:
-                // TODO
+                // parse request
+                ControlShowRequest controlShowRequest =
+                    ControlShowRequest.parseDelimitedFrom(in);
+
+                log.info("handling ControlShowRequest");
+
+                // init response
+                ControlShowResponse.Builder controlShowBuilder =
+                    ControlShowResponse.newBuilder();
+
+                // handle operations
+                try {
+                    ControlPlugin plugin = this.controlPluginManager
+                        .getPlugin(controlShowRequest.getId());
+
+                    controlShowBuilder.setPlugin(plugin.getClass().getName());
+                    controlShowBuilder.addAllVariables(plugin.getVariables());
+                } catch (Exception e) {
+                    log.error("Failed to handle operation", e);
+                }
+
+                // write to out
+                out.writeInt(messageType);
+                controlShowBuilder.build().writeDelimitedTo(out);
                 break;
             default:
                 // unreachable code
