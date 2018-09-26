@@ -63,14 +63,14 @@ message GossipRequest {
     int32 nodesHash = 1;
     int32 controlPluginsHash = 2;
     int32 sketchPluginsHash = 3;
-    map<string, bytes> pluginBytes = 4;
+    map<string, int32> pluginHashes = 4;
 }
 
 message GossipResponse {
     repeated Node nodes = 1;
     map<string, string> controlPlugins = 2;
     map<string, string> sketchPlugins = 3;
-    map<string, bytes> pluginBytes = 4;
+    map<string, VariableOperations> pluginOperations = 4;
 }
 
 /**
@@ -123,4 +123,8 @@ message VariableOperation {
         ADD = 0;
         DELETE = 1;
     }
+}
+
+message VariableOperations {
+    repeated VariableOperation operations = 1;
 }

@@ -93,7 +93,21 @@ public class ControlService implements Service {
                     }
                 }
 
-                // TODO - populate pluginBytes
+                // populate pluginOperations
+                for (Map.Entry<String, Integer> entry :
+                        gossipRequest.getPluginHashesMap().entrySet()) {
+                    try {
+                        ControlPlugin controlPlugin =
+                            this.controlPluginManager.getPlugin(entry.getKey());
+
+                        if (controlPlugin.hashCode() != entry.getValue()) {
+                            gossipBuilder.putPluginOperations(entry.getKey(),
+                                controlPlugin.getVariableOperations());
+                        }
+                    } catch (Exception e) {
+                        log.error("");
+                    }
+                }
 
                 // write to out
                 out.writeInt(messageType);

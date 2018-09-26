@@ -1,7 +1,8 @@
 package com.bushpath.doodle;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,15 @@ public abstract class ControlPlugin {
         }
 
         return pluginVariables;
+    }
+
+    public VariableOperations getVariableOperations() {
+        VariableOperations.Builder builder = VariableOperations.newBuilder();        
+        for (VariableOperation operation : this.operations.values()) {
+            builder.addOperations(operation);
+        }
+
+        return builder.build();
     }
 
     @Override

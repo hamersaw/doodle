@@ -5,6 +5,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +56,10 @@ public class GossipTimerTask extends TimerTask {
             .setNodesHash(this.nodeManager.getNodesHash())
             .setControlPluginsHash(this.controlPluginManager.getPluginsHash());
 
-        // TODO - populate pluginData
+        for (Map.Entry<String, ControlPlugin> entry :
+                this.controlPluginManager.getPluginEntrySet()) {
+            builder.putPluginHashes(entry.getKey(), entry.getValue().hashCode());
+        }
 
         GossipRequest request = builder.build();
 
@@ -123,6 +128,21 @@ public class GossipTimerTask extends TimerTask {
             }
         }
 
-        // TODO - handle pluginData
+        // handle pluginOperations
+        for (Map.Entry<String, VariableOperations> entry :
+                response.getPluginOperationsMap().entrySet()) {
+            try {
+                ControlPlugin controlPlugin =
+                    this.controlPluginManager.getPlugin(entry.getKey());
+
+                for (VariableOperation operation :
+                        entry.getValue().getOperationsList()) {
+                    controlPlugin.handleVariableOperation(operation);
+                }
+            } catch (Exception e) {
+                log.error("Failed to process VariableOperations "
+                    + "for ControlPlugin '{}'", entry.getKey(), e);
+            }
+        }
     }
 }
