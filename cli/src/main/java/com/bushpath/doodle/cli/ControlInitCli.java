@@ -1,10 +1,11 @@
 package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginListRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,16 +13,24 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
-@Command(name = "list",
-    description = "List available ControlPlugins and SketchPlugins.",
+@Command(name = "init",
+    description = "Initialize a ControlPlugin.",
     mixinStandardHelpOptions = true)
-public class PluginListCli implements Runnable {
+public class ControlInitCli implements Runnable {
+    @Parameters(index="0", description="Id of ControlPlugin instance.")
+    private String id;
+
+    @Parameters(index="1", description="ControlPlugin classpath.")
+    private String plugin;
+
     @Override
     public void run() {
-        // create PluginListRequest
-        PluginListRequest request = PluginListRequest.newBuilder()
+        // create ControlInitRequest
+        ControlInitRequest request = ControlInitRequest.newBuilder()
+            .setId(this.id)
+            .setPlugin(this.plugin)
             .build();
-        PluginListResponse response = null;
+        ControlInitResponse response = null;
 
         try {
             // send request
@@ -31,28 +40,19 @@ public class PluginListCli implements Runnable {
                 new DataOutputStream(socket.getOutputStream());
             DataInputStream in = new DataInputStream(socket.getInputStream());
 
-            out.writeInt(MessageType.PLUGIN_LIST.getNumber());
+            out.writeInt(MessageType.CONTROL_INIT.getNumber());
             request.writeDelimitedTo(out);
 
             // recv response
             // TODO - validate we have the correct message type
             in.readInt();
-            response = PluginListResponse.parseDelimitedFrom(in);
+            response = ControlInitResponse.parseDelimitedFrom(in);
         } catch (IOException e) {
             System.err.println("Unknown communication error: " +
                 e.getClass() + ":" + e.getMessage());
             return;
         }
 
-        // handle PluginListResponse
-        System.out.println("control:");
-        for (String controlPlugin : response.getControlPluginsList()) {
-            System.out.println("\t- '" + controlPlugin + "'");
-        }
-
-        System.out.println("sketch:");
-        for (String sketchPlugin : response.getSketchPluginsList()) {
-            System.out.println("\t- '" + sketchPlugin + "'");
-        }
+        // handle ControlInitResponse
     }
 }

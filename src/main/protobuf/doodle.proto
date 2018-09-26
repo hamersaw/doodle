@@ -9,15 +9,51 @@ option java_generate_equals_and_hash = true;
  */ 
 
 enum MessageType {
-    FAILURE = 0;
-    GOSSIP = 1;
-    PLUGIN_LIST = 2;
-    PLUGIN_SHOW = 3;
+    CONTROL_INIT = 0;
+    CONTROL_LIST = 1;
+    CONTROL_MODIFY = 2;
+    CONTROL_SHOW = 3;
+    FAILURE = 4;
+    GOSSIP = 5;
+    PLUGIN_LIST = 6;
+    PLUGIN_SHOW = 7;
 }
 
-message Failure {
-    string class = 1;
-    string text = 2;
+/**
+ * Control Messages
+ */
+
+message ControlInitRequest {
+    string id = 1;
+    string plugin = 2;
+}
+
+message ControlInitResponse {
+}
+
+message ControlListRequest {
+}
+
+message ControlListResponse {
+    map<string, string> plugins = 1;
+}
+
+message ControlModifyRequest {
+    string id = 1;
+    repeated PluginVariable addVariables = 2;
+    repeated PluginVariable deleteVariables = 3;
+}
+
+message ControlModifyResponse {
+}
+
+message ControlShowRequest {
+    string id = 1;
+}
+
+message ControlShowResponse {
+    string plugin = 1;    
+    repeated PluginVariable variables = 2;
 }
 
 /**
@@ -38,12 +74,6 @@ message GossipResponse {
     map<string, bytes> pluginBytes = 4;
 }
 
-message Node {
-    int32 id = 1;
-    string ipAddress = 2;
-    int32 port = 3;
-}
-
 /**
  * Plugin Messages
  */
@@ -61,12 +91,23 @@ message PluginShowRequest {
 }
 
 message PluginShowResponse {
-    repeated PluginVariable variables = 1;
+    // TODO
+}
+
+/**
+ * Miscellaneous Messages
+ */
+
+message Failure {
+    string class = 1;
+    string text = 2;
+}
+
+message Node {
+    int32 id = 1;
+    string ipAddress = 2;
+    int32 port = 3;
 }
 
 message PluginVariable {
-    string type = 1;
-    string description = 2;
-    bool multipleValues = 3;
-    bool required = 4;
 }

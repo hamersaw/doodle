@@ -1,18 +1,24 @@
 package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.ControlPlugin;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlListRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.plugin.PluginManager;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.lang.reflect.Constructor;
 import java.util.Map;
 
 public class ControlService implements Service {
@@ -21,17 +27,23 @@ public class ControlService implements Service {
 
     protected ControlPluginManager controlPluginManager;
     protected NodeManager nodeManager;
+    protected PluginManager pluginManager;
 
     public ControlService(ControlPluginManager controlPluginManager,
-            NodeManager nodeManager) {
+            NodeManager nodeManager, PluginManager pluginManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
+        this.pluginManager = pluginManager;
     }
 
     @Override
     public int[] getMessageTypes() {
         return new int[]{
                 MessageType.GOSSIP.getNumber(),
+                MessageType.CONTROL_INIT.getNumber(),
+                MessageType.CONTROL_LIST.getNumber(),
+                MessageType.CONTROL_MODIFY.getNumber(),
+                MessageType.CONTROL_SHOW.getNumber()
             };
     }
 
@@ -81,6 +93,65 @@ public class ControlService implements Service {
                 // write to out
                 out.writeInt(messageType);
                 gossipBuilder.build().writeDelimitedTo(out);
+                break;
+            case CONTROL_INIT:
+                // parse request
+                ControlInitRequest controlInitRequest =
+                    ControlInitRequest.parseDelimitedFrom(in);
+
+                log.info("handling ControlInitRequest {}:{}",
+                    controlInitRequest.getId(), controlInitRequest.getPlugin());
+
+                // init response
+                ControlInitResponse.Builder controlInitBuilder =
+                    ControlInitResponse.newBuilder();
+
+                // add control plugin
+                try {
+                    Class<? extends ControlPlugin> clazz = this.pluginManager
+                        .getControlPlugin(controlInitRequest.getPlugin());
+                    Constructor constructor = clazz.getConstructor();
+                    ControlPlugin controlPlugin =
+                        (ControlPlugin) constructor.newInstance();
+
+                    this.controlPluginManager.addPlugin(controlInitRequest.getId(),
+                        controlPlugin);
+                } catch (Exception e) {
+                    log.error("Failed to add ControlPlugin: {}",
+                        controlInitRequest.getId(), e);
+                }
+
+                // write to out
+                out.writeInt(messageType);
+                controlInitBuilder.build().writeDelimitedTo(out);
+                break;
+            case CONTROL_LIST:
+                // parse request
+                ControlListRequest controlListRequest =
+                    ControlListRequest.parseDelimitedFrom(in);
+
+                log.info("handling ControlListRequest");
+
+                // init response
+                ControlListResponse.Builder controlListBuilder =
+                    ControlListResponse.newBuilder();
+
+                // add plugins
+                for (Map.Entry<String, ControlPlugin> entry :
+                        this.controlPluginManager.getPluginEntrySet()) {
+                    controlListBuilder.putPlugins(entry.getKey(),
+                        entry.getValue().getClass().getName());
+                }
+                
+                // write to out
+                out.writeInt(messageType);
+                controlListBuilder.build().writeDelimitedTo(out);
+                break;
+            case CONTROL_MODIFY:
+                // TODO
+                break;
+            case CONTROL_SHOW:
+                // TODO
                 break;
             default:
                 // unreachable code

@@ -135,8 +135,8 @@ public class Main {
 
         // register Services
         try {
-            ControlService controlService =
-                new ControlService(controlPluginManager, nodeManager);
+            ControlService controlService = new ControlService(
+                controlPluginManager, nodeManager, pluginManager);
             server.registerService(controlService);
 
             PluginService pluginService = new PluginService(pluginManager);
