@@ -214,7 +214,7 @@ public class ControlService implements Service {
                     controlShowBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
-                    // unreachable code
+                    log.warn("Unreachable");
             }
         } catch (Exception e) {
             log.warn("Handling exception", e);

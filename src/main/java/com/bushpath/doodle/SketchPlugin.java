@@ -1,4 +1,4 @@
 package com.bushpath.doodle;
 
-public interface SketchPlugin {
+public abstract class SketchPlugin extends Plugin {
 }

@@ -16,6 +16,8 @@ import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
+import com.bushpath.doodle.node.sketch.SketchPluginManager;
+import com.bushpath.doodle.node.sketch.SketchService;
 
 import java.io.File;
 import java.io.IOException;
@@ -127,6 +129,10 @@ public class Main {
             System.exit(2);
         }
 
+        // initialize SketchPluginManager
+        SketchPluginManager sketchPluginManager =
+            new SketchPluginManager();
+
         // initialize Server
         Server server = new Server(
                 toml.getLong("control.port").shortValue(),
@@ -141,6 +147,10 @@ public class Main {
 
             PluginService pluginService = new PluginService(pluginManager);
             server.registerService(pluginService);
+
+            SketchService sketchService = new SketchService(
+                sketchPluginManager, pluginManager);
+            server.registerService(sketchService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
             System.exit(4);

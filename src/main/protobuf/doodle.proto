@@ -17,6 +17,10 @@ enum MessageType {
     GOSSIP = 5;
     PLUGIN_LIST = 6;
     PLUGIN_SHOW = 7;
+    SKETCH_INIT = 8;
+    SKETCH_LIST = 9;
+    SKETCH_MODIFY = 10;
+    SKETCH_SHOW = 11;
 }
 
 /**
@@ -91,6 +95,42 @@ message PluginShowRequest {
 
 message PluginShowResponse {
     // TODO
+}
+
+/**
+ * Sketch Messages
+ */
+
+message SketchInitRequest {
+    string id = 1;
+    string plugin = 2;
+}
+
+message SketchInitResponse {
+}
+
+message SketchListRequest {
+}
+
+message SketchListResponse {
+    map<string, string> plugins = 1;
+}
+
+message SketchModifyRequest {
+    string id = 1;
+    repeated VariableOperation operations = 2;
+}
+
+message SketchModifyResponse {
+}
+
+message SketchShowRequest {
+    string id = 1;
+}
+
+message SketchShowResponse {
+    string plugin = 1;    
+    repeated PluginVariable variables = 2;
 }
 
 /**

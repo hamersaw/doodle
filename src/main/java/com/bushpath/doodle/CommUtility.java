@@ -10,6 +10,10 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
 
 import java.io.DataInputStream;
@@ -67,9 +71,17 @@ public class CommUtility {
                 return GossipResponse.parseDelimitedFrom(in);
             case PLUGIN_LIST:
                 return PluginListResponse.parseDelimitedFrom(in);
+            case SKETCH_INIT:
+                return SketchInitResponse.parseDelimitedFrom(in);
+            case SKETCH_LIST:
+                return SketchListResponse.parseDelimitedFrom(in);
+            case SKETCH_MODIFY:
+                return SketchModifyResponse.parseDelimitedFrom(in);
+            case SKETCH_SHOW:
+                return SketchShowResponse.parseDelimitedFrom(in);
             default:
-                throw new UnsupportedOperationException("Unsupported message type '"
-                    + messageType + "'");
+                throw new UnsupportedOperationException("CommUtility does not"
+                    + " support parsing message type '" + messageType + "'");
         }
     }
 }
