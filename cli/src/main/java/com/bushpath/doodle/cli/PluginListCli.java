@@ -35,14 +35,19 @@ public class PluginListCli implements Runnable {
         }
 
         // handle PluginListResponse
-        System.out.println("control:");
+        int i=0;
         for (String controlPlugin : response.getControlPluginsList()) {
-            System.out.println("\t- '" + controlPlugin + "'");
+            System.out.println((i != 0 ? "\n" : "")
+                + "[[control.plugin]]"
+                + "\nclass = \"" + controlPlugin + "\"");
+            i++;
         }
 
-        System.out.println("sketch:");
         for (String sketchPlugin : response.getSketchPluginsList()) {
-            System.out.println("\t- '" + sketchPlugin + "'");
+            System.out.println((i != 0 ? "\n" : "")
+                + "[[sketch.plugin]]"
+                + "\nclass = \"" + sketchPlugin + "\"");
+            i++;
         }
     }
 }

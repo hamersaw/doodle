@@ -35,9 +35,14 @@ public class ControlListCli implements Runnable {
         }
 
         // handle ControlListResponse
+        int i=0;
         for (Map.Entry<String, String> entry :
                 response.getPluginsMap().entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            System.out.println((i != 0 ? "\n\n" : "") + "[[control.plugin]]"
+                + "\nid = \"" + entry.getKey() + "\""
+                + "\nclass = \"" + entry.getValue() + "\"");
+
+            i++;
         }
     }
 }

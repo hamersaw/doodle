@@ -41,13 +41,18 @@ public class ControlShowCli implements Runnable {
         }
 
         // handle ControlShowResponse
-        System.out.println(this.id + "\n" + response.getPlugin());
+        System.out.println("id = \"" + this.id + "\""
+            + "\nclass = \"" + response.getPlugin() + "\"");
+
         for (PluginVariable variable : response.getVariablesList()) {
-            System.out.print("\t" + variable.getType()
-                + ":" + variable.getName() + "\n\t\t[");
+            System.out.print("\n[[variable]]"
+                + "\ntype = \"" + variable.getType() + "\""
+                + "\nname = \"" + variable.getName() + "\""
+                + "\nvalues = [");
 
             for (int i=0; i<variable.getValuesCount(); i++) {
-                System.out.print((i!=0 ? ", " : "") + variable.getValues(i));
+                System.out.print((i!=0 ? ", " : "")
+                    + "\"" + variable.getValues(i) + "\"");
             }
             System.out.println("]");
         }
