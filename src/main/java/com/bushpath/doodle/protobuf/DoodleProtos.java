@@ -9946,14 +9946,14 @@ public final class DoodleProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string class = 1;</code>
+     * <code>string type = 1;</code>
      */
-    java.lang.String getClass_();
+    java.lang.String getType();
     /**
-     * <code>string class = 1;</code>
+     * <code>string type = 1;</code>
      */
     com.google.protobuf.ByteString
-        getClass_Bytes();
+        getTypeBytes();
 
     /**
      * <code>string text = 2;</code>
@@ -9978,7 +9978,7 @@ public final class DoodleProtos {
       super(builder);
     }
     private Failure() {
-      class__ = "";
+      type_ = "";
       text_ = "";
     }
 
@@ -10009,7 +10009,7 @@ public final class DoodleProtos {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              class__ = s;
+              type_ = s;
               break;
             }
             case 18: {
@@ -10050,34 +10050,34 @@ public final class DoodleProtos {
               com.bushpath.doodle.protobuf.DoodleProtos.Failure.class, com.bushpath.doodle.protobuf.DoodleProtos.Failure.Builder.class);
     }
 
-    public static final int CLASS_FIELD_NUMBER = 1;
-    private volatile java.lang.Object class__;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object type_;
     /**
-     * <code>string class = 1;</code>
+     * <code>string type = 1;</code>
      */
-    public java.lang.String getClass_() {
-      java.lang.Object ref = class__;
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        class__ = s;
+        type_ = s;
         return s;
       }
     }
     /**
-     * <code>string class = 1;</code>
+     * <code>string type = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getClass_Bytes() {
-      java.lang.Object ref = class__;
+        getTypeBytes() {
+      java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        class__ = b;
+        type_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -10132,8 +10132,8 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getClass_Bytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, class__);
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
       if (!getTextBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, text_);
@@ -10147,8 +10147,8 @@ public final class DoodleProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getClass_Bytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, class__);
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
       }
       if (!getTextBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, text_);
@@ -10169,8 +10169,8 @@ public final class DoodleProtos {
       com.bushpath.doodle.protobuf.DoodleProtos.Failure other = (com.bushpath.doodle.protobuf.DoodleProtos.Failure) obj;
 
       boolean result = true;
-      result = result && getClass_()
-          .equals(other.getClass_());
+      result = result && getType()
+          .equals(other.getType());
       result = result && getText()
           .equals(other.getText());
       result = result && unknownFields.equals(other.unknownFields);
@@ -10184,8 +10184,8 @@ public final class DoodleProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + CLASS_FIELD_NUMBER;
-      hash = (53 * hash) + getClass_().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + TEXT_FIELD_NUMBER;
       hash = (53 * hash) + getText().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -10321,7 +10321,7 @@ public final class DoodleProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        class__ = "";
+        type_ = "";
 
         text_ = "";
 
@@ -10351,7 +10351,7 @@ public final class DoodleProtos {
       @java.lang.Override
       public com.bushpath.doodle.protobuf.DoodleProtos.Failure buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.Failure result = new com.bushpath.doodle.protobuf.DoodleProtos.Failure(this);
-        result.class__ = class__;
+        result.type_ = type_;
         result.text_ = text_;
         onBuilt();
         return result;
@@ -10401,8 +10401,8 @@ public final class DoodleProtos {
 
       public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.Failure other) {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.Failure.getDefaultInstance()) return this;
-        if (!other.getClass_().isEmpty()) {
-          class__ = other.class__;
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
           onChanged();
         }
         if (!other.getText().isEmpty()) {
@@ -10438,71 +10438,71 @@ public final class DoodleProtos {
         return this;
       }
 
-      private java.lang.Object class__ = "";
+      private java.lang.Object type_ = "";
       /**
-       * <code>string class = 1;</code>
+       * <code>string type = 1;</code>
        */
-      public java.lang.String getClass_() {
-        java.lang.Object ref = class__;
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          class__ = s;
+          type_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string class = 1;</code>
+       * <code>string type = 1;</code>
        */
       public com.google.protobuf.ByteString
-          getClass_Bytes() {
-        java.lang.Object ref = class__;
+          getTypeBytes() {
+        java.lang.Object ref = type_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          class__ = b;
+          type_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string class = 1;</code>
+       * <code>string type = 1;</code>
        */
-      public Builder setClass_(
+      public Builder setType(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        class__ = value;
+        type_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string class = 1;</code>
+       * <code>string type = 1;</code>
        */
-      public Builder clearClass_() {
+      public Builder clearType() {
         
-        class__ = getDefaultInstance().getClass_();
+        type_ = getDefaultInstance().getType();
         onChanged();
         return this;
       }
       /**
-       * <code>string class = 1;</code>
+       * <code>string type = 1;</code>
        */
-      public Builder setClass_Bytes(
+      public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        class__ = value;
+        type_ = value;
         onChanged();
         return this;
       }
@@ -13989,22 +13989,22 @@ public final class DoodleProtos {
       "uginListRequest\"C\n\022PluginListResponse\022\026\n" +
       "\016controlPlugins\030\001 \003(\t\022\025\n\rsketchPlugins\030\002" +
       " \003(\t\"#\n\021PluginShowRequest\022\016\n\006plugin\030\001 \001(" +
-      "\t\"\024\n\022PluginShowResponse\"&\n\007Failure\022\r\n\005cl" +
-      "ass\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 " +
-      "\001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016" +
-      "PluginVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001" +
-      "(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021VariableOperation" +
-      "\022\021\n\ttimestamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034" +
-      ".VariableOperation.Operation\022!\n\010variable" +
-      "\030\003 \001(\0132\017.PluginVariable\" \n\tOperation\022\007\n\003" +
-      "ADD\020\000\022\n\n\006DELETE\020\001\"<\n\022VariableOperations\022" +
-      "&\n\noperations\030\001 \003(\0132\022.VariableOperation*" +
-      "\222\001\n\013MessageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CON" +
-      "TROL_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTR" +
-      "OL_SHOW\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\017\n\013PL" +
-      "UGIN_LIST\020\006\022\017\n\013PLUGIN_SHOW\020\007B/\n\034com.bush" +
-      "path.doodle.protobufB\014DoodleProtos\240\001\001b\006p" +
-      "roto3"
+      "\t\"\024\n\022PluginShowResponse\"%\n\007Failure\022\014\n\004ty" +
+      "pe\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001" +
+      "(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016P" +
+      "luginVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(" +
+      "\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021VariableOperation\022" +
+      "\021\n\ttimestamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034." +
+      "VariableOperation.Operation\022!\n\010variable\030" +
+      "\003 \001(\0132\017.PluginVariable\" \n\tOperation\022\007\n\003A" +
+      "DD\020\000\022\n\n\006DELETE\020\001\"<\n\022VariableOperations\022&" +
+      "\n\noperations\030\001 \003(\0132\022.VariableOperation*\222" +
+      "\001\n\013MessageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONT" +
+      "ROL_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTRO" +
+      "L_SHOW\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\017\n\013PLU" +
+      "GIN_LIST\020\006\022\017\n\013PLUGIN_SHOW\020\007B/\n\034com.bushp" +
+      "ath.doodle.protobufB\014DoodleProtos\240\001\001b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -14137,7 +14137,7 @@ public final class DoodleProtos {
     internal_static_Failure_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Failure_descriptor,
-        new java.lang.String[] { "Class_", "Text", });
+        new java.lang.String[] { "Type", "Text", });
     internal_static_Node_descriptor =
       getDescriptor().getMessageTypes().get(15);
     internal_static_Node_fieldAccessorTable = new

@@ -9,9 +9,10 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
@@ -57,46 +58,52 @@ public class ControlService implements Service {
         DataInputStream in, DataOutputStream out) throws Exception  {
 
         // handle message
-        switch (MessageType.forNumber(messageType)) {
-            case GOSSIP:
-                // parse request
-                GossipRequest gossipRequest =
-                    GossipRequest.parseDelimitedFrom(in);
+        try {
+            switch (MessageType.forNumber(messageType)) {
+                case GOSSIP:
+                    // parse request
+                    GossipRequest gossipRequest =
+                        GossipRequest.parseDelimitedFrom(in);
 
-                log.trace("handling GossipRequest");
+                    log.trace("handling GossipRequest");
 
-                // init response
-                GossipResponse.Builder gossipBuilder = GossipResponse.newBuilder();
+                    // init response
+                    GossipResponse.Builder gossipBuilder =
+                        GossipResponse.newBuilder();
 
-                // populate builder
-                if (gossipRequest.getNodesHash() !=
-                        this.nodeManager.getNodesHash()) {
-                    // if node hash != -> add all nodes
-                    for (NodeMetadata node : this.nodeManager.getNodeValues()) {
-                        Node nodeProto = Node.newBuilder()
-                            .setId(node.getId())
-                            .setIpAddress(node.getIpAddress())
-                            .setPort(node.getPort())
-                            .build();
+                    // populate builder
+                    if (gossipRequest.getNodesHash() !=
+                            this.nodeManager.getNodesHash()) {
+                        // if node hash != -> add all nodes
+                        for (NodeMetadata node : this.nodeManager.getNodeValues()) {
+                            Node nodeProto = Node.newBuilder()
+                                .setId(node.getId())
+                                .setIpAddress(node.getIpAddress())
+                                .setPort(node.getPort())
+                                .build();
 
-                        gossipBuilder.addNodes(nodeProto);
+                            gossipBuilder.addNodes(nodeProto);
+                        }
                     }
-                }
 
-                if (gossipRequest.getControlPluginsHash() !=
-                        this.controlPluginManager.getPluginsHash()) {
-                    // if control plugins hash != -> add all control plugins
-                    for (Map.Entry<String, ControlPlugin> entry :
-                            this.controlPluginManager.getPluginEntrySet()) {
-                        gossipBuilder.putControlPlugins(entry.getKey(),
-                            entry.getValue().getClass().getName());
+                    if (gossipRequest.getControlPluginsHash() !=
+                            this.controlPluginManager.getPluginsHash()) {
+                        // if control plugins hash != -> add all control plugins
+                        for (Map.Entry<String, ControlPlugin> entry :
+                                this.controlPluginManager.getPluginEntrySet()) {
+                            gossipBuilder.putControlPlugins(entry.getKey(),
+                                entry.getValue().getClass().getName());
+                        }
                     }
-                }
 
-                // populate pluginOperations
-                for (Map.Entry<String, Integer> entry :
-                        gossipRequest.getPluginHashesMap().entrySet()) {
-                    try {
+                    // populate pluginOperations
+                    for (Map.Entry<String, Integer> entry :
+                            gossipRequest.getPluginHashesMap().entrySet()) {
+                        if (!this.controlPluginManager
+                                .containsPlugin(entry.getKey())) {
+                            continue;
+                        }
+
                         ControlPlugin controlPlugin =
                             this.controlPluginManager.getPlugin(entry.getKey());
 
@@ -104,29 +111,25 @@ public class ControlService implements Service {
                             gossipBuilder.putPluginOperations(entry.getKey(),
                                 controlPlugin.getVariableOperations());
                         }
-                    } catch (Exception e) {
-                        log.error("");
                     }
-                }
 
-                // write to out
-                out.writeInt(messageType);
-                gossipBuilder.build().writeDelimitedTo(out);
-                break;
-            case CONTROL_INIT:
-                // parse request
-                ControlInitRequest controlInitRequest =
-                    ControlInitRequest.parseDelimitedFrom(in);
+                    // write to out
+                    out.writeInt(messageType);
+                    gossipBuilder.build().writeDelimitedTo(out);
+                    break;
+                case CONTROL_INIT:
+                    // parse request
+                    ControlInitRequest controlInitRequest =
+                        ControlInitRequest.parseDelimitedFrom(in);
 
-                log.info("handling ControlInitRequest {}:{}",
-                    controlInitRequest.getId(), controlInitRequest.getPlugin());
+                    log.info("handling ControlInitRequest {}:{}",
+                        controlInitRequest.getId(), controlInitRequest.getPlugin());
 
-                // init response
-                ControlInitResponse.Builder controlInitBuilder =
-                    ControlInitResponse.newBuilder();
+                    // init response
+                    ControlInitResponse.Builder controlInitBuilder =
+                        ControlInitResponse.newBuilder();
 
-                // add control plugin
-                try {
+                    // add control plugin
                     Class<? extends ControlPlugin> clazz = this.pluginManager
                         .getControlPlugin(controlInitRequest.getPlugin());
                     Constructor constructor = clazz.getConstructor();
@@ -135,93 +138,98 @@ public class ControlService implements Service {
 
                     this.controlPluginManager.addPlugin(controlInitRequest.getId(),
                         controlPlugin);
-                } catch (Exception e) {
-                    log.error("Failed to add ControlPlugin: {}",
-                        controlInitRequest.getId(), e);
-                }
 
-                // write to out
-                out.writeInt(messageType);
-                controlInitBuilder.build().writeDelimitedTo(out);
-                break;
-            case CONTROL_LIST:
-                // parse request
-                ControlListRequest controlListRequest =
-                    ControlListRequest.parseDelimitedFrom(in);
+                    // write to out
+                    out.writeInt(messageType);
+                    controlInitBuilder.build().writeDelimitedTo(out);
+                    break;
+                case CONTROL_LIST:
+                    // parse request
+                    ControlListRequest controlListRequest =
+                        ControlListRequest.parseDelimitedFrom(in);
 
-                log.info("handling ControlListRequest");
+                    log.info("handling ControlListRequest");
 
-                // init response
-                ControlListResponse.Builder controlListBuilder =
-                    ControlListResponse.newBuilder();
+                    // init response
+                    ControlListResponse.Builder controlListBuilder =
+                        ControlListResponse.newBuilder();
 
-                // add plugins
-                for (Map.Entry<String, ControlPlugin> entry :
-                        this.controlPluginManager.getPluginEntrySet()) {
-                    controlListBuilder.putPlugins(entry.getKey(),
-                        entry.getValue().getClass().getName());
-                }
-                
-                // write to out
-                out.writeInt(messageType);
-                controlListBuilder.build().writeDelimitedTo(out);
-                break;
-            case CONTROL_MODIFY:
-                // parse request
-                ControlModifyRequest controlModifyRequest =
-                    ControlModifyRequest.parseDelimitedFrom(in);
+                    // add plugins
+                    for (Map.Entry<String, ControlPlugin> entry :
+                            this.controlPluginManager.getPluginEntrySet()) {
+                        controlListBuilder.putPlugins(entry.getKey(),
+                            entry.getValue().getClass().getName());
+                    }
+                    
+                    // write to out
+                    out.writeInt(messageType);
+                    controlListBuilder.build().writeDelimitedTo(out);
+                    break;
+                case CONTROL_MODIFY:
+                    // parse request
+                    ControlModifyRequest controlModifyRequest =
+                        ControlModifyRequest.parseDelimitedFrom(in);
 
-                log.info("handling ControlModifyRequest");
+                    log.info("handling ControlModifyRequest '{}'",
+                        controlModifyRequest.getId());
 
-                // init response
-                ControlModifyResponse.Builder controlModifyBuilder =
-                    ControlModifyResponse.newBuilder();
+                    // init response
+                    ControlModifyResponse.Builder controlModifyBuilder =
+                        ControlModifyResponse.newBuilder();
 
-                // handle operations
-                try {
-                    ControlPlugin plugin = this.controlPluginManager
+                    // handle operations
+                    ControlPlugin modifyPlugin = this.controlPluginManager
                         .getPlugin(controlModifyRequest.getId());
 
                     for (VariableOperation operation :
                             controlModifyRequest.getOperationsList()) {
-                        plugin.handleVariableOperation(operation);
+                        modifyPlugin.handleVariableOperation(operation);
                     }
-                } catch (Exception e) {
-                    log.error("Failed to handle operation", e);
-                }
 
-                // write to out
-                out.writeInt(messageType);
-                controlModifyBuilder.build().writeDelimitedTo(out);
-                break;
-            case CONTROL_SHOW:
-                // parse request
-                ControlShowRequest controlShowRequest =
-                    ControlShowRequest.parseDelimitedFrom(in);
+                    // write to out
+                    out.writeInt(messageType);
+                    controlModifyBuilder.build().writeDelimitedTo(out);
+                    break;
+                case CONTROL_SHOW:
+                    // parse request
+                    ControlShowRequest controlShowRequest =
+                        ControlShowRequest.parseDelimitedFrom(in);
 
-                log.info("handling ControlShowRequest");
+                    log.info("handling ControlShowRequest '{}'",
+                        controlShowRequest.getId());
 
-                // init response
-                ControlShowResponse.Builder controlShowBuilder =
-                    ControlShowResponse.newBuilder();
+                    // init response
+                    ControlShowResponse.Builder controlShowBuilder =
+                        ControlShowResponse.newBuilder();
 
-                // handle operations
-                try {
-                    ControlPlugin plugin = this.controlPluginManager
+                    // handle operations
+                    ControlPlugin showPlugin = this.controlPluginManager
                         .getPlugin(controlShowRequest.getId());
 
-                    controlShowBuilder.setPlugin(plugin.getClass().getName());
-                    controlShowBuilder.addAllVariables(plugin.getVariables());
-                } catch (Exception e) {
-                    log.error("Failed to handle operation", e);
-                }
+                    controlShowBuilder.setPlugin(showPlugin.getClass().getName());
+                    controlShowBuilder.addAllVariables(showPlugin.getVariables());
 
-                // write to out
-                out.writeInt(messageType);
-                controlShowBuilder.build().writeDelimitedTo(out);
-                break;
-            default:
-                // unreachable code
+                    // write to out
+                    out.writeInt(messageType);
+                    controlShowBuilder.build().writeDelimitedTo(out);
+                    break;
+                default:
+                    // unreachable code
+            }
+        } catch (Exception e) {
+            log.warn("Handling exception", e);
+
+            // create Failure
+            Failure.Builder builder = Failure.newBuilder()
+                .setType(e.getClass().getName());
+
+            if (e.getMessage() != null) {
+                builder.setText(e.getMessage());
+            }
+
+            // write to out
+            out.writeInt(MessageType.FAILURE.getNumber());
+            builder.build().writeDelimitedTo(out);
         }
     }
 }
