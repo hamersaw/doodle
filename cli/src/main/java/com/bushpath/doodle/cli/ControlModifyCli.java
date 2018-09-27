@@ -1,5 +1,6 @@
 package com.bushpath.doodle.cli;
 
+import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
@@ -62,24 +63,13 @@ public class ControlModifyCli implements Runnable {
         ControlModifyRequest request = builder.build();
         ControlModifyResponse response = null;
 
+        // send request
         try {
-            // send request
-            Socket socket = new Socket(Main.ipAddress, Main.port);
-
-            DataOutputStream out =
-                new DataOutputStream(socket.getOutputStream());
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-
-            out.writeInt(MessageType.CONTROL_MODIFY.getNumber());
-            request.writeDelimitedTo(out);
-
-            // recv response
-            // TODO - validate we have the correct message type
-            in.readInt();
-            response = ControlModifyResponse.parseDelimitedFrom(in);
-        } catch (IOException e) {
-            System.err.println("Unknown communication error: " +
-                e.getClass() + ":" + e.getMessage());
+            response = (ControlModifyResponse) CommUtility.send(
+                MessageType.CONTROL_MODIFY.getNumber(),
+                request, Main.ipAddress, Main.port);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
             return;
         }
 
