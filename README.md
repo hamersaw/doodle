@@ -24,7 +24,6 @@ SketchPlugin
     abstract void writeObservation(byte[] bytes)
 Processor
     BlockingQueue<ObservatioBuffer>
-    
     abstract void process(float[] observation)
 
 ### NOTES
@@ -44,4 +43,6 @@ Synopsis
 
 
 ## TODO
-- everything
+- add sketch plane operations to gossip messages
+- implement sketch data insertion
+    - ProcessorManager?

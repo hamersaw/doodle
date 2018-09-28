@@ -10,10 +10,16 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.NodeShowResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
 
 import java.io.DataInputStream;
@@ -69,6 +75,16 @@ public class CommUtility {
                 return ControlShowResponse.parseDelimitedFrom(in);
             case GOSSIP:
                 return GossipResponse.parseDelimitedFrom(in);
+            case NODE_LIST:
+                return NodeListResponse.parseDelimitedFrom(in);
+            case NODE_SHOW:
+                return NodeShowResponse.parseDelimitedFrom(in);
+            case PIPE_CLOSE:
+                return PipeCloseResponse.parseDelimitedFrom(in);
+            case PIPE_OPEN:
+                return PipeOpenResponse.parseDelimitedFrom(in);
+            case PIPE_WRITE:
+                return PipeWriteResponse.parseDelimitedFrom(in);
             case PLUGIN_LIST:
                 return PluginListResponse.parseDelimitedFrom(in);
             case SKETCH_INIT:
@@ -79,6 +95,8 @@ public class CommUtility {
                 return SketchModifyResponse.parseDelimitedFrom(in);
             case SKETCH_SHOW:
                 return SketchShowResponse.parseDelimitedFrom(in);
+            case SKETCH_WRITE:
+                return SketchWriteResponse.parseDelimitedFrom(in);
             default:
                 throw new UnsupportedOperationException("CommUtility does not"
                     + " support parsing message type '" + messageType + "'");

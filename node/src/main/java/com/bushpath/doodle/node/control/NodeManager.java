@@ -60,6 +60,20 @@ public class NodeManager {
         }
     }
 
+    public NodeMetadata getNode(int id) throws Exception {
+        this.lock.readLock().lock();
+        try {
+            // check if node exists
+            if (!this.nodes.containsKey(id)) {
+                throw new RuntimeException("Node '" + id + "' does not exist");
+            }
+
+            return this.nodes.get(id);
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
     public int getNodesHash() {
         CRC32 crc32 = new CRC32();
 

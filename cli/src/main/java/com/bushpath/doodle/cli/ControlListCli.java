@@ -7,10 +7,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
 
 import picocli.CommandLine.Command;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
 import java.util.Map;
 
 @Command(name = "list",
@@ -38,7 +34,7 @@ public class ControlListCli implements Runnable {
         int i=0;
         for (Map.Entry<String, String> entry :
                 response.getPluginsMap().entrySet()) {
-            System.out.println((i != 0 ? "\n\n" : "") + "[[control.plugin]]"
+            System.out.println((i != 0 ? "\n" : "") + "[[control.plugin]]"
                 + "\nid = \"" + entry.getKey() + "\""
                 + "\nclass = \"" + entry.getValue() + "\"");
 

@@ -8,12 +8,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.Map;
-
 @Command(name = "init",
     description = "Initialize a SketchPlugin.",
     mixinStandardHelpOptions = true)

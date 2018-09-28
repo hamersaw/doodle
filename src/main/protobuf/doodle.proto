@@ -15,12 +15,18 @@ enum MessageType {
     CONTROL_SHOW = 3;
     FAILURE = 4;
     GOSSIP = 5;
-    PLUGIN_LIST = 6;
-    PLUGIN_SHOW = 7;
-    SKETCH_INIT = 8;
-    SKETCH_LIST = 9;
-    SKETCH_MODIFY = 10;
-    SKETCH_SHOW = 11;
+    NODE_LIST = 6;
+    NODE_SHOW = 7;
+    PIPE_CLOSE = 8;
+    PIPE_OPEN = 9;
+    PIPE_WRITE = 10;
+    PLUGIN_LIST = 11;
+    PLUGIN_SHOW = 12;
+    SKETCH_INIT = 13;
+    SKETCH_LIST = 14;
+    SKETCH_MODIFY = 15;
+    SKETCH_SHOW = 16;
+    SKETCH_WRITE = 17;
 }
 
 /**
@@ -78,6 +84,55 @@ message GossipResponse {
 }
 
 /**
+ * Node Messages
+ */
+
+message NodeListRequest {
+}
+
+message NodeListResponse {
+    repeated Node nodes = 1;
+}
+
+message NodeShowRequest {
+    int32 id = 1;
+}
+
+message NodeShowResponse {
+    Node node = 1;
+}
+
+/**
+ * Pipe Messages
+ */
+
+message PipeCloseRequest {
+    int32 id = 1;
+}
+
+message PipeCloseResponse {
+}
+
+message PipeOpenRequest {
+    string sketchId = 1;
+    repeated string features = 2;
+    int32 transformThreadCount = 3;
+    int32 distributorThreadCount = 4;
+}
+
+message PipeOpenResponse {
+    int32 id = 1;
+}
+
+message PipeWriteRequest {
+    int32 id = 1;
+    repeated float values = 2;
+}
+
+message PipeWriteResponse {
+}
+
+/**
  * Plugin Messages
  */
 
@@ -131,6 +186,15 @@ message SketchShowRequest {
 message SketchShowResponse {
     string plugin = 1;    
     repeated PluginVariable variables = 2;
+}
+
+message SketchWriteRequest {
+    int32 nodeId = 1;
+    string sketchId = 2;
+    bytes data = 3;
+}
+
+message SketchWriteResponse {
 }
 
 /**

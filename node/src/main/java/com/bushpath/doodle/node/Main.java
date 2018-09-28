@@ -14,6 +14,7 @@ import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.ControlService;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
+import com.bushpath.doodle.node.control.NodeService;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 import com.bushpath.doodle.node.sketch.SketchPluginManager;
@@ -144,6 +145,9 @@ public class Main {
             ControlService controlService = new ControlService(
                 controlPluginManager, nodeManager, pluginManager);
             server.registerService(controlService);
+
+            NodeService nodeService = new NodeService(nodeManager);
+            server.registerService(nodeService);
 
             PluginService pluginService = new PluginService(pluginManager);
             server.registerService(pluginService);

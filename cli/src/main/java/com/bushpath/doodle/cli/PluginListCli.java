@@ -7,12 +7,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
 
 import picocli.CommandLine.Command;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.Map;
-
 @Command(name = "list",
     description = "List available ControlPlugins and SketchPlugins.",
     mixinStandardHelpOptions = true)
