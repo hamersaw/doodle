@@ -19,6 +19,8 @@ import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 import com.bushpath.doodle.node.sketch.SketchPluginManager;
 import com.bushpath.doodle.node.sketch.SketchService;
+import com.bushpath.doodle.node.sketch.PipeManager;
+import com.bushpath.doodle.node.sketch.PipeService;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,10 +132,13 @@ public class Main {
             System.exit(2);
         }
 
+        // initailize PipeManager
+        PipeManager pipeManager = new PipeManager();
+
         // initialize SketchPluginManager
         SketchPluginManager sketchPluginManager =
             new SketchPluginManager();
-
+ 
         // initialize Server
         Server server = new Server(
                 toml.getLong("control.port").shortValue(),
@@ -151,6 +156,10 @@ public class Main {
 
             PluginService pluginService = new PluginService(pluginManager);
             server.registerService(pluginService);
+
+            PipeService pipeService =
+                new PipeService(sketchPluginManager, pipeManager);
+            server.registerService(pipeService);
 
             SketchService sketchService = new SketchService(
                 sketchPluginManager, pluginManager);

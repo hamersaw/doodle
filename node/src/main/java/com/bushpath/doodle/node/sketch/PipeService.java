@@ -1,5 +1,6 @@
 package com.bushpath.doodle.node.sketch;
 
+import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseRequest;
@@ -58,7 +59,8 @@ public class PipeService implements Service {
                     PipeCloseResponse.Builder pipeCloseBuilder =
                         PipeCloseResponse.newBuilder();
 
-                    // TODO - handle
+                    // handle
+                    this.pipeManager.closePipe(pipeCloseRequest.getId());
 
                     // write to out
                     out.writeInt(messageType);
@@ -76,7 +78,13 @@ public class PipeService implements Service {
                     PipeOpenResponse.Builder pipeOpenBuilder =
                         PipeOpenResponse.newBuilder();
 
-                    // TODO - handle
+                    // handle
+                    SketchPlugin sketch = this.sketchPluginManager
+                        .getPlugin(pipeOpenRequest.getSketchId());
+
+                    int id = this.pipeManager.openPipe(sketch,
+                        pipeOpenRequest.getTransformThreadCount(),
+                        pipeOpenRequest.getDistributorThreadCount());
 
                     // write to out
                     out.writeInt(messageType);
