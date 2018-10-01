@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.ControlPlugin;
+import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListRequest;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.plugin.PluginManager;
+import com.bushpath.doodle.node.sketch.SketchPluginManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,12 +36,15 @@ public class ControlService implements Service {
     protected ControlPluginManager controlPluginManager;
     protected NodeManager nodeManager;
     protected PluginManager pluginManager;
+    protected SketchPluginManager sketchPluginManager;
 
     public ControlService(ControlPluginManager controlPluginManager,
-            NodeManager nodeManager, PluginManager pluginManager) {
+            NodeManager nodeManager, PluginManager pluginManager,
+            SketchPluginManager sketchPluginManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
+        this.sketchPluginManager = sketchPluginManager;
     }
 
     @Override
@@ -86,6 +91,7 @@ public class ControlService implements Service {
                         }
                     }
 
+                    // handle control plugins
                     if (gossipRequest.getControlPluginsHash() !=
                             this.controlPluginManager.getPluginsHash()) {
                         // if control plugins hash != -> add all control plugins
@@ -96,9 +102,10 @@ public class ControlService implements Service {
                         }
                     }
 
-                    // populate pluginOperations
+                    // populate controlOperations
                     for (Map.Entry<String, Integer> entry :
-                            gossipRequest.getPluginHashesMap().entrySet()) {
+                            gossipRequest.getControlOperationsHashesMap()
+                                .entrySet()) {
                         if (!this.controlPluginManager
                                 .containsPlugin(entry.getKey())) {
                             continue;
@@ -108,8 +115,37 @@ public class ControlService implements Service {
                             this.controlPluginManager.getPlugin(entry.getKey());
 
                         if (controlPlugin.hashCode() != entry.getValue()) {
-                            gossipBuilder.putPluginOperations(entry.getKey(),
+                            gossipBuilder.putControlOperations(entry.getKey(),
                                 controlPlugin.getVariableOperations());
+                        }
+                    }
+
+                    // handle sketch plugins
+                    if (gossipRequest.getSketchPluginsHash() !=
+                            this.sketchPluginManager.getPluginsHash()) {
+                        // if sketch plugins hash != -> add all sketch plugins
+                        for (Map.Entry<String, SketchPlugin> entry :
+                                this.sketchPluginManager.getPluginEntrySet()) {
+                            gossipBuilder.putSketchPlugins(entry.getKey(),
+                                entry.getValue().getClass().getName());
+                        }
+                    }
+
+                    // populate sketchOperations
+                    for (Map.Entry<String, Integer> entry :
+                            gossipRequest.getSketchOperationsHashesMap()
+                                .entrySet()) {
+                        if (!this.sketchPluginManager
+                                .containsPlugin(entry.getKey())) {
+                            continue;
+                        }
+
+                        SketchPlugin sketchPlugin =
+                            this.sketchPluginManager.getPlugin(entry.getKey());
+
+                        if (sketchPlugin.hashCode() != entry.getValue()) {
+                            gossipBuilder.putSketchOperations(entry.getKey(),
+                                sketchPlugin.getVariableOperations());
                         }
                     }
 

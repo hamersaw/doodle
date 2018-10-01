@@ -43,6 +43,5 @@ Synopsis
 
 
 ## TODO
-- add sketch plane operations to gossip messages
 - implement sketch data insertion
     - ProcessorManager?

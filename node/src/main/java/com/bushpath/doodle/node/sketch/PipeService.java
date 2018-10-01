@@ -86,6 +86,9 @@ public class PipeService implements Service {
                         pipeOpenRequest.getTransformThreadCount(),
                         pipeOpenRequest.getDistributorThreadCount());
 
+
+                    pipeOpenBuilder.setId(id);
+
                     // write to out
                     out.writeInt(messageType);
                     pipeOpenBuilder.build().writeDelimitedTo(out);

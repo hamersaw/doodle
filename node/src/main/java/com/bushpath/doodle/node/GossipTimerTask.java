@@ -1,6 +1,8 @@
 package com.bushpath.doodle.node;
 
+import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.ControlPlugin;
+import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -15,6 +17,7 @@ import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.plugin.PluginManager;
+import com.bushpath.doodle.node.sketch.SketchPluginManager;
 
 import java.util.TimerTask;
 
@@ -33,12 +36,15 @@ public class GossipTimerTask extends TimerTask {
     protected ControlPluginManager controlPluginManager;
     protected NodeManager nodeManager;
     protected PluginManager pluginManager;
+    protected SketchPluginManager sketchPluginManager;
 
     public GossipTimerTask(ControlPluginManager controlPluginManager,
-            NodeManager nodeManager, PluginManager pluginManager) {
+            NodeManager nodeManager, PluginManager pluginManager, 
+            SketchPluginManager sketchPluginManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
+        this.sketchPluginManager = sketchPluginManager;
     }
 
     @Override
@@ -54,11 +60,19 @@ public class GossipTimerTask extends TimerTask {
         // create GossipRequest
         GossipRequest.Builder builder = GossipRequest.newBuilder()
             .setNodesHash(this.nodeManager.getNodesHash())
-            .setControlPluginsHash(this.controlPluginManager.getPluginsHash());
+            .setControlPluginsHash(this.controlPluginManager.getPluginsHash())
+            .setSketchPluginsHash(this.sketchPluginManager.getPluginsHash());
 
         for (Map.Entry<String, ControlPlugin> entry :
                 this.controlPluginManager.getPluginEntrySet()) {
-            builder.putPluginHashes(entry.getKey(), entry.getValue().hashCode());
+            builder.putControlOperationsHashes(entry.getKey(),
+                entry.getValue().hashCode());
+        }
+
+        for (Map.Entry<String, SketchPlugin> entry :
+                this.sketchPluginManager.getPluginEntrySet()) {
+            builder.putSketchOperationsHashes(entry.getKey(),
+                entry.getValue().hashCode());
         }
 
         GossipRequest request = builder.build();
@@ -66,23 +80,13 @@ public class GossipTimerTask extends TimerTask {
         // send GossipRequest
         GossipResponse response = null;
         try {
-            Socket socket = new Socket(node.getIpAddress(), node.getPort());
-
-            DataOutputStream out =
-                new DataOutputStream(socket.getOutputStream());
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-
-            out.writeInt(MessageType.GOSSIP.getNumber());
-            request.writeDelimitedTo(out);
-
-            // recv response
-            // TODO - validate we have the correct message type
-            in.readInt();
-            response = GossipResponse.parseDelimitedFrom(in);
+            response = (GossipResponse) CommUtility.send(
+                MessageType.GOSSIP.getNumber(), request,
+                node.getIpAddress(), (short) node.getPort());
         } catch (ConnectException e) {
             log.warn("Connection to {} unsuccessful", node.toString());
             return;
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Unknown communication error", e);
             return;
         }
@@ -105,6 +109,7 @@ public class GossipTimerTask extends TimerTask {
             }
         }
 
+        // handle control plugin hashes and operations
         for (Map.Entry<String, String> pluginEntry :
                 response.getControlPluginsMap().entrySet()) {
             // check if control plugin exists
@@ -128,9 +133,8 @@ public class GossipTimerTask extends TimerTask {
             }
         }
 
-        // handle pluginOperations
         for (Map.Entry<String, VariableOperations> entry :
-                response.getPluginOperationsMap().entrySet()) {
+                response.getControlOperationsMap().entrySet()) {
             try {
                 ControlPlugin controlPlugin =
                     this.controlPluginManager.getPlugin(entry.getKey());
@@ -142,6 +146,46 @@ public class GossipTimerTask extends TimerTask {
             } catch (Exception e) {
                 log.error("Failed to process VariableOperations "
                     + "for ControlPlugin '{}'", entry.getKey(), e);
+            }
+        }
+ 
+        // handle sketch plugin hashes and operations
+        for (Map.Entry<String, String> pluginEntry :
+                response.getSketchPluginsMap().entrySet()) {
+            // check if sketch plugin exists
+            if (this.sketchPluginManager.containsPlugin(pluginEntry.getKey())) {
+                continue;
+            }
+
+            // add sketch plugin
+            try {
+                Class<? extends SketchPlugin> clazz =
+                    this.pluginManager.getSketchPlugin(pluginEntry.getValue());
+                Constructor constructor = clazz.getConstructor();
+                SketchPlugin sketchPlugin =
+                    (SketchPlugin) constructor.newInstance();
+
+                this.sketchPluginManager.addPlugin(pluginEntry.getKey(),
+                    sketchPlugin);
+            } catch (Exception e) {
+                log.error("Failed to add SketchPlugin: {}",
+                    pluginEntry.getKey(), e);
+            }
+        }
+
+        for (Map.Entry<String, VariableOperations> entry :
+                response.getSketchOperationsMap().entrySet()) {
+            try {
+                SketchPlugin sketchPlugin =
+                    this.sketchPluginManager.getPlugin(entry.getKey());
+
+                for (VariableOperation operation :
+                        entry.getValue().getOperationsList()) {
+                    sketchPlugin.handleVariableOperation(operation);
+                }
+            } catch (Exception e) {
+                log.error("Failed to process VariableOperations "
+                    + "for SketchPlugin '{}'", entry.getKey(), e);
             }
         }
     }

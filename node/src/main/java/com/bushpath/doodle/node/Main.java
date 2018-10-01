@@ -147,8 +147,8 @@ public class Main {
 
         // register Services
         try {
-            ControlService controlService = new ControlService(
-                controlPluginManager, nodeManager, pluginManager);
+            ControlService controlService = new ControlService(controlPluginManager,
+                nodeManager, pluginManager, sketchPluginManager);
             server.registerService(controlService);
 
             NodeService nodeService = new NodeService(nodeManager);
@@ -175,8 +175,9 @@ public class Main {
 
             // start GossipTimerTask
             Timer timer = new Timer();
-            GossipTimerTask gossipTimerTask = new GossipTimerTask(
-                controlPluginManager, nodeManager, pluginManager);
+            GossipTimerTask gossipTimerTask =
+                new GossipTimerTask(controlPluginManager, nodeManager,
+                    pluginManager, sketchPluginManager);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
 

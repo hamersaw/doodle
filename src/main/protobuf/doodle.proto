@@ -72,15 +72,17 @@ message ControlShowResponse {
 message GossipRequest {
     int32 nodesHash = 1;
     int32 controlPluginsHash = 2;
-    int32 sketchPluginsHash = 3;
-    map<string, int32> pluginHashes = 4;
+    map<string, int32> controlOperationsHashes = 3;
+    int32 sketchPluginsHash = 4;
+    map<string, int32> sketchOperationsHashes = 5;
 }
 
 message GossipResponse {
     repeated Node nodes = 1;
     map<string, string> controlPlugins = 2;
-    map<string, string> sketchPlugins = 3;
-    map<string, VariableOperations> pluginOperations = 4;
+    map<string, VariableOperations> controlOperations = 3;
+    map<string, string> sketchPlugins = 4;
+    map<string, VariableOperations> sketchOperations = 5;
 }
 
 /**
