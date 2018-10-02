@@ -5,6 +5,9 @@ import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 
@@ -12,6 +15,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Distributor extends Thread {
+    protected static final Logger log =
+        LoggerFactory.getLogger(Distributor.class);
+
     protected BlockingQueue<SketchWriteRequest> queue;
     protected NodeManager nodeManager;
     protected boolean shutdown;
@@ -48,7 +54,7 @@ public class Distributor extends Thread {
                         sketchWriteRequest, nodeMetadata.getIpAddress(),
                         nodeMetadata.getPort());
             } catch (Exception e) {
-                // TODO - handle exception
+                log.error("Failed to send SketchWriteRequest", e);
             }
         }
     }

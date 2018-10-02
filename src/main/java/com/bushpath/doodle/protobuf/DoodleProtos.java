@@ -68,29 +68,25 @@ public final class DoodleProtos {
      */
     PLUGIN_LIST(11),
     /**
-     * <code>PLUGIN_SHOW = 12;</code>
+     * <code>SKETCH_INIT = 12;</code>
      */
-    PLUGIN_SHOW(12),
+    SKETCH_INIT(12),
     /**
-     * <code>SKETCH_INIT = 13;</code>
+     * <code>SKETCH_LIST = 13;</code>
      */
-    SKETCH_INIT(13),
+    SKETCH_LIST(13),
     /**
-     * <code>SKETCH_LIST = 14;</code>
+     * <code>SKETCH_MODIFY = 14;</code>
      */
-    SKETCH_LIST(14),
+    SKETCH_MODIFY(14),
     /**
-     * <code>SKETCH_MODIFY = 15;</code>
+     * <code>SKETCH_SHOW = 15;</code>
      */
-    SKETCH_MODIFY(15),
+    SKETCH_SHOW(15),
     /**
-     * <code>SKETCH_SHOW = 16;</code>
+     * <code>SKETCH_WRITE = 16;</code>
      */
-    SKETCH_SHOW(16),
-    /**
-     * <code>SKETCH_WRITE = 17;</code>
-     */
-    SKETCH_WRITE(17),
+    SKETCH_WRITE(16),
     UNRECOGNIZED(-1),
     ;
 
@@ -143,29 +139,25 @@ public final class DoodleProtos {
      */
     public static final int PLUGIN_LIST_VALUE = 11;
     /**
-     * <code>PLUGIN_SHOW = 12;</code>
+     * <code>SKETCH_INIT = 12;</code>
      */
-    public static final int PLUGIN_SHOW_VALUE = 12;
+    public static final int SKETCH_INIT_VALUE = 12;
     /**
-     * <code>SKETCH_INIT = 13;</code>
+     * <code>SKETCH_LIST = 13;</code>
      */
-    public static final int SKETCH_INIT_VALUE = 13;
+    public static final int SKETCH_LIST_VALUE = 13;
     /**
-     * <code>SKETCH_LIST = 14;</code>
+     * <code>SKETCH_MODIFY = 14;</code>
      */
-    public static final int SKETCH_LIST_VALUE = 14;
+    public static final int SKETCH_MODIFY_VALUE = 14;
     /**
-     * <code>SKETCH_MODIFY = 15;</code>
+     * <code>SKETCH_SHOW = 15;</code>
      */
-    public static final int SKETCH_MODIFY_VALUE = 15;
+    public static final int SKETCH_SHOW_VALUE = 15;
     /**
-     * <code>SKETCH_SHOW = 16;</code>
+     * <code>SKETCH_WRITE = 16;</code>
      */
-    public static final int SKETCH_SHOW_VALUE = 16;
-    /**
-     * <code>SKETCH_WRITE = 17;</code>
-     */
-    public static final int SKETCH_WRITE_VALUE = 17;
+    public static final int SKETCH_WRITE_VALUE = 16;
 
 
     public final int getNumber() {
@@ -198,12 +190,11 @@ public final class DoodleProtos {
         case 9: return PIPE_OPEN;
         case 10: return PIPE_WRITE;
         case 11: return PLUGIN_LIST;
-        case 12: return PLUGIN_SHOW;
-        case 13: return SKETCH_INIT;
-        case 14: return SKETCH_LIST;
-        case 15: return SKETCH_MODIFY;
-        case 16: return SKETCH_SHOW;
-        case 17: return SKETCH_WRITE;
+        case 12: return SKETCH_INIT;
+        case 13: return SKETCH_LIST;
+        case 14: return SKETCH_MODIFY;
+        case 15: return SKETCH_SHOW;
+        case 16: return SKETCH_WRITE;
         default: return null;
       }
     }
@@ -15261,976 +15252,6 @@ public final class DoodleProtos {
 
   }
 
-  public interface PluginShowRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PluginShowRequest)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string plugin = 1;</code>
-     */
-    java.lang.String getPlugin();
-    /**
-     * <code>string plugin = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getPluginBytes();
-  }
-  /**
-   * Protobuf type {@code PluginShowRequest}
-   */
-  public  static final class PluginShowRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:PluginShowRequest)
-      PluginShowRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use PluginShowRequest.newBuilder() to construct.
-    private PluginShowRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private PluginShowRequest() {
-      plugin_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PluginShowRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              plugin_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowRequest_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.Builder.class);
-    }
-
-    public static final int PLUGIN_FIELD_NUMBER = 1;
-    private volatile java.lang.Object plugin_;
-    /**
-     * <code>string plugin = 1;</code>
-     */
-    public java.lang.String getPlugin() {
-      java.lang.Object ref = plugin_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        plugin_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string plugin = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getPluginBytes() {
-      java.lang.Object ref = plugin_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        plugin_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getPluginBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, plugin_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getPluginBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, plugin_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest)) {
-        return super.equals(obj);
-      }
-      com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest) obj;
-
-      boolean result = true;
-      result = result && getPlugin()
-          .equals(other.getPlugin());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + PLUGIN_FIELD_NUMBER;
-      hash = (53 * hash) + getPlugin().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code PluginShowRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:PluginShowRequest)
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowRequest_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.Builder.class);
-      }
-
-      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        plugin_ = "";
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowRequest_descriptor;
-      }
-
-      @java.lang.Override
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest getDefaultInstanceForType() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest build() {
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest buildPartial() {
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest(this);
-        result.plugin_ = plugin_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest) {
-          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest other) {
-        if (other == com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest.getDefaultInstance()) return this;
-        if (!other.getPlugin().isEmpty()) {
-          plugin_ = other.plugin_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object plugin_ = "";
-      /**
-       * <code>string plugin = 1;</code>
-       */
-      public java.lang.String getPlugin() {
-        java.lang.Object ref = plugin_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          plugin_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string plugin = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getPluginBytes() {
-        java.lang.Object ref = plugin_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          plugin_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string plugin = 1;</code>
-       */
-      public Builder setPlugin(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        plugin_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string plugin = 1;</code>
-       */
-      public Builder clearPlugin() {
-        
-        plugin_ = getDefaultInstance().getPlugin();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string plugin = 1;</code>
-       */
-      public Builder setPluginBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        plugin_ = value;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:PluginShowRequest)
-    }
-
-    // @@protoc_insertion_point(class_scope:PluginShowRequest)
-    private static final com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest();
-    }
-
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<PluginShowRequest>
-        PARSER = new com.google.protobuf.AbstractParser<PluginShowRequest>() {
-      @java.lang.Override
-      public PluginShowRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PluginShowRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<PluginShowRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PluginShowRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface PluginShowResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PluginShowResponse)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * <pre>
-   * TODO
-   * </pre>
-   *
-   * Protobuf type {@code PluginShowResponse}
-   */
-  public  static final class PluginShowResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:PluginShowResponse)
-      PluginShowResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use PluginShowResponse.newBuilder() to construct.
-    private PluginShowResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private PluginShowResponse() {
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PluginShowResponse(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowResponse_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse)) {
-        return super.equals(obj);
-      }
-      com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse) obj;
-
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * TODO
-     * </pre>
-     *
-     * Protobuf type {@code PluginShowResponse}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:PluginShowResponse)
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowResponse_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowResponse_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.Builder.class);
-      }
-
-      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_PluginShowResponse_descriptor;
-      }
-
-      @java.lang.Override
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse getDefaultInstanceForType() {
-        return com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse build() {
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse buildPartial() {
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse(this);
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse) {
-          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse other) {
-        if (other == com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:PluginShowResponse)
-    }
-
-    // @@protoc_insertion_point(class_scope:PluginShowResponse)
-    private static final com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse();
-    }
-
-    public static com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<PluginShowResponse>
-        PARSER = new com.google.protobuf.AbstractParser<PluginShowResponse>() {
-      @java.lang.Override
-      public PluginShowResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PluginShowResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<PluginShowResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PluginShowResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface SketchInitRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:SketchInitRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -26396,16 +25417,6 @@ public final class DoodleProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_PluginListResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PluginShowRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PluginShowRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PluginShowResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PluginShowResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_SketchInitRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -26541,40 +25552,38 @@ public final class DoodleProtos {
       "riteRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n" +
       "\021PipeWriteResponse\"\023\n\021PluginListRequest\"" +
       "C\n\022PluginListResponse\022\026\n\016controlPlugins\030" +
-      "\001 \003(\t\022\025\n\rsketchPlugins\030\002 \003(\t\"#\n\021PluginSh" +
-      "owRequest\022\016\n\006plugin\030\001 \001(\t\"\024\n\022PluginShowR" +
-      "esponse\"/\n\021SketchInitRequest\022\n\n\002id\030\001 \001(\t" +
-      "\022\016\n\006plugin\030\002 \001(\t\"\024\n\022SketchInitResponse\"\023" +
-      "\n\021SketchListRequest\"w\n\022SketchListRespons" +
-      "e\0221\n\007plugins\030\001 \003(\0132 .SketchListResponse." +
-      "PluginsEntry\032.\n\014PluginsEntry\022\013\n\003key\030\001 \001(" +
-      "\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\023SketchModifyRequ" +
-      "est\022\n\n\002id\030\001 \001(\t\022&\n\noperations\030\002 \003(\0132\022.Va" +
-      "riableOperation\"\026\n\024SketchModifyResponse\"" +
-      "\037\n\021SketchShowRequest\022\n\n\002id\030\001 \001(\t\"H\n\022Sket" +
-      "chShowResponse\022\016\n\006plugin\030\001 \001(\t\022\"\n\tvariab" +
-      "les\030\002 \003(\0132\017.PluginVariable\"D\n\022SketchWrit" +
-      "eRequest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001" +
-      "(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteResponse\"" +
-      "%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3" +
-      "\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n" +
-      "\004port\030\003 \001(\005\"<\n\016PluginVariable\022\014\n\004type\030\001 " +
-      "\001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021Va" +
-      "riableOperation\022\021\n\ttimestamp\030\001 \001(\003\022/\n\top" +
-      "eration\030\002 \001(\0162\034.VariableOperation.Operat" +
-      "ion\022!\n\010variable\030\003 \001(\0132\017.PluginVariable\" " +
-      "\n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001\"<\n\022Vari" +
-      "ableOperations\022&\n\noperations\030\001 \003(\0132\022.Var" +
-      "iableOperation*\267\002\n\013MessageType\022\020\n\014CONTRO" +
-      "L_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTROL_MO" +
-      "DIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020\004\022\n\n" +
-      "\006GOSSIP\020\005\022\r\n\tNODE_LIST\020\006\022\r\n\tNODE_SHOW\020\007\022" +
-      "\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIPE_OPEN\020\t\022\016\n\nPIPE_W" +
-      "RITE\020\n\022\017\n\013PLUGIN_LIST\020\013\022\017\n\013PLUGIN_SHOW\020\014" +
-      "\022\017\n\013SKETCH_INIT\020\r\022\017\n\013SKETCH_LIST\020\016\022\021\n\rSK" +
-      "ETCH_MODIFY\020\017\022\017\n\013SKETCH_SHOW\020\020\022\020\n\014SKETCH" +
-      "_WRITE\020\021B/\n\034com.bushpath.doodle.protobuf" +
-      "B\014DoodleProtos\240\001\001b\006proto3"
+      "\001 \003(\t\022\025\n\rsketchPlugins\030\002 \003(\t\"/\n\021SketchIn" +
+      "itRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006plugin\030\002 \001(\t\"\024\n" +
+      "\022SketchInitResponse\"\023\n\021SketchListRequest" +
+      "\"w\n\022SketchListResponse\0221\n\007plugins\030\001 \003(\0132" +
+      " .SketchListResponse.PluginsEntry\032.\n\014Plu" +
+      "ginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
+      "\001\"I\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\n" +
+      "operations\030\002 \003(\0132\022.VariableOperation\"\026\n\024" +
+      "SketchModifyResponse\"\037\n\021SketchShowReques" +
+      "t\022\n\n\002id\030\001 \001(\t\"H\n\022SketchShowResponse\022\016\n\006p" +
+      "lugin\030\001 \001(\t\022\"\n\tvariables\030\002 \003(\0132\017.PluginV" +
+      "ariable\"D\n\022SketchWriteRequest\022\016\n\006nodeId\030" +
+      "\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n" +
+      "\023SketchWriteResponse\"%\n\007Failure\022\014\n\004type\030" +
+      "\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022" +
+      "\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016Plug" +
+      "inVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016" +
+      "\n\006values\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\t" +
+      "timestamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.Var" +
+      "iableOperation.Operation\022!\n\010variable\030\003 \001" +
+      "(\0132\017.PluginVariable\" \n\tOperation\022\007\n\003ADD\020" +
+      "\000\022\n\n\006DELETE\020\001\"<\n\022VariableOperations\022&\n\no" +
+      "perations\030\001 \003(\0132\022.VariableOperation*\246\002\n\013" +
+      "MessageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTROL" +
+      "_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL_S" +
+      "HOW\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\r\n\tNODE_L" +
+      "IST\020\006\022\r\n\tNODE_SHOW\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\t" +
+      "PIPE_OPEN\020\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_LI" +
+      "ST\020\013\022\017\n\013SKETCH_INIT\020\014\022\017\n\013SKETCH_LIST\020\r\022\021" +
+      "\n\rSKETCH_MODIFY\020\016\022\017\n\013SKETCH_SHOW\020\017\022\020\n\014SK" +
+      "ETCH_WRITE\020\020B/\n\034com.bushpath.doodle.prot" +
+      "obufB\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -26762,38 +25771,26 @@ public final class DoodleProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginListResponse_descriptor,
         new java.lang.String[] { "ControlPlugins", "SketchPlugins", });
-    internal_static_PluginShowRequest_descriptor =
-      getDescriptor().getMessageTypes().get(22);
-    internal_static_PluginShowRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PluginShowRequest_descriptor,
-        new java.lang.String[] { "Plugin", });
-    internal_static_PluginShowResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
-    internal_static_PluginShowResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PluginShowResponse_descriptor,
-        new java.lang.String[] { });
     internal_static_SketchInitRequest_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_SketchInitRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchInitRequest_descriptor,
         new java.lang.String[] { "Id", "Plugin", });
     internal_static_SketchInitResponse_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_SketchInitResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchInitResponse_descriptor,
         new java.lang.String[] { });
     internal_static_SketchListRequest_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_SketchListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchListRequest_descriptor,
         new java.lang.String[] { });
     internal_static_SketchListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_SketchListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchListResponse_descriptor,
@@ -26805,67 +25802,67 @@ public final class DoodleProtos {
         internal_static_SketchListResponse_PluginsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_SketchModifyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_SketchModifyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchModifyRequest_descriptor,
         new java.lang.String[] { "Id", "Operations", });
     internal_static_SketchModifyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_SketchModifyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchModifyResponse_descriptor,
         new java.lang.String[] { });
     internal_static_SketchShowRequest_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_SketchShowRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowRequest_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_SketchShowResponse_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_SketchShowResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowResponse_descriptor,
         new java.lang.String[] { "Plugin", "Variables", });
     internal_static_SketchWriteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_SketchWriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchWriteRequest_descriptor,
         new java.lang.String[] { "NodeId", "SketchId", "Data", });
     internal_static_SketchWriteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_SketchWriteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchWriteResponse_descriptor,
         new java.lang.String[] { });
     internal_static_Failure_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_Failure_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Failure_descriptor,
         new java.lang.String[] { "Type", "Text", });
     internal_static_Node_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_Node_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Node_descriptor,
         new java.lang.String[] { "Id", "IpAddress", "Port", });
     internal_static_PluginVariable_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_PluginVariable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginVariable_descriptor,
         new java.lang.String[] { "Type", "Name", "Values", });
     internal_static_VariableOperation_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_VariableOperation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_VariableOperation_descriptor,
         new java.lang.String[] { "Timestamp", "Operation", "Variable", });
     internal_static_VariableOperations_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_VariableOperations_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_VariableOperations_descriptor,

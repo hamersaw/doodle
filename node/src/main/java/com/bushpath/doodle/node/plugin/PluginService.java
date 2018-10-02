@@ -8,8 +8,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginShowRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginShowResponse;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -27,8 +25,7 @@ public class PluginService implements Service {
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.PLUGIN_LIST.getNumber(),
-                MessageType.PLUGIN_SHOW.getNumber()
+                MessageType.PLUGIN_LIST.getNumber()
             };
     }
 
@@ -62,24 +59,6 @@ public class PluginService implements Service {
                     // write to out
                     out.writeInt(messageType);
                     pluginListBuilder.build().writeDelimitedTo(out);
-                    break;
-                case PLUGIN_SHOW:
-                    // parse request
-                    PluginShowRequest pluginShowRequest =
-                        PluginShowRequest.parseDelimitedFrom(in);
-
-                    log.info("handling PluginShowRequest '{}'",
-                        pluginShowRequest.getPlugin());
-
-                    // init response
-                    PluginShowResponse.Builder pluginShowBuilder =
-                        PluginShowResponse.newBuilder();
-
-                    // TODO - populate builder
-
-                    // write to out
-                    out.writeInt(messageType);
-                    pluginShowBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");
