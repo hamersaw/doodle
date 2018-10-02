@@ -4,8 +4,12 @@ import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.Transform;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
 
+import com.google.protobuf.ByteString;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.bushpath.doodle.node.control.NodeManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,13 +24,15 @@ public class PipeManager {
     protected static final Logger log =
         LoggerFactory.getLogger(PipeManager.class);
 
-    protected Map<Integer, BlockingQueue<List<Float>>> queues;
+    protected NodeManager nodeManager;
+    protected Map<Integer, BlockingQueue<ByteString>> queues;
     protected Map<Integer, Transform[]> transforms;
     protected Map<Integer, Distributor[]> distributors;
     protected ReadWriteLock lock;
     protected Random random;
 
-    public PipeManager() {
+    public PipeManager(NodeManager nodeManager) {
+        this.nodeManager = nodeManager;
         this.queues = new HashMap();
         this.transforms = new HashMap();
         this.distributors = new HashMap();
@@ -78,7 +84,7 @@ public class PipeManager {
             } while (this.queues.containsKey(id));
  
             // create queues
-            BlockingQueue<List<Float>> in = new ArrayBlockingQueue(1024);
+            BlockingQueue<ByteString> in = new ArrayBlockingQueue(1024);
             BlockingQueue<SketchWriteRequest> out = new ArrayBlockingQueue(1024);
 
             // create transforms
@@ -92,7 +98,7 @@ public class PipeManager {
             Distributor[] distributorArray =
                 new Distributor[distributorThreadCount];
             for (int i=0; i<distributorArray.length; i++) {
-                distributorArray[i] = new Distributor(out);
+                distributorArray[i] = new Distributor(out, this.nodeManager);
                 distributorArray[i].start();
             }
 
@@ -107,11 +113,17 @@ public class PipeManager {
         }
     }
 
-    public BlockingQueue<float[]> writePipe(int id, List<Float> values) {
+    public void writePipe(int id, ByteString byteString) {
         this.lock.readLock().lock();
         try {
-            // TODO
-            return null;
+            // check if pipe exists
+            if (!this.queues.containsKey(id)) {
+                throw new RuntimeException("Pipe '" + id + "' does not exist");
+            }
+
+            // add ByteString input queue
+            BlockingQueue<ByteString> queue = this.queues.get(id);
+            while (!queue.offer(byteString)) {}
         } finally {
             this.lock.readLock().unlock();
         }

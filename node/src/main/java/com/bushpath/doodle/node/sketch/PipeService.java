@@ -82,10 +82,16 @@ public class PipeService implements Service {
                     SketchPlugin sketch = this.sketchPluginManager
                         .getPlugin(pipeOpenRequest.getSketchId());
 
+                    int[] featureIndexes =
+                        sketch.indexFeatures(pipeOpenRequest.getFeaturesList());
+
+                    for (int featureIndex : featureIndexes) {
+                        pipeOpenBuilder.addFeatureIndexes(featureIndex);
+                    }
+
                     int id = this.pipeManager.openPipe(sketch,
                         pipeOpenRequest.getTransformThreadCount(),
                         pipeOpenRequest.getDistributorThreadCount());
-
 
                     pipeOpenBuilder.setId(id);
 
@@ -105,7 +111,9 @@ public class PipeService implements Service {
                     PipeWriteResponse.Builder pipeWriteBuilder =
                         PipeWriteResponse.newBuilder();
 
-                    // TODO - handle
+                    // handle
+                    this.pipeManager.writePipe(pipeWriteRequest.getId(),
+                        pipeWriteRequest.getData());
 
                     // write to out
                     out.writeInt(messageType);

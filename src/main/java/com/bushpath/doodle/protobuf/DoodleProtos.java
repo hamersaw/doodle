@@ -12457,6 +12457,19 @@ public final class DoodleProtos {
      * <code>int32 id = 1;</code>
      */
     int getId();
+
+    /**
+     * <code>repeated int32 featureIndexes = 2;</code>
+     */
+    java.util.List<java.lang.Integer> getFeatureIndexesList();
+    /**
+     * <code>repeated int32 featureIndexes = 2;</code>
+     */
+    int getFeatureIndexesCount();
+    /**
+     * <code>repeated int32 featureIndexes = 2;</code>
+     */
+    int getFeatureIndexes(int index);
   }
   /**
    * Protobuf type {@code PipeOpenResponse}
@@ -12472,6 +12485,7 @@ public final class DoodleProtos {
     }
     private PipeOpenResponse() {
       id_ = 0;
+      featureIndexes_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -12503,6 +12517,27 @@ public final class DoodleProtos {
               id_ = input.readInt32();
               break;
             }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                featureIndexes_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              featureIndexes_.add(input.readInt32());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                featureIndexes_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                featureIndexes_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -12518,6 +12553,9 @@ public final class DoodleProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          featureIndexes_ = java.util.Collections.unmodifiableList(featureIndexes_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -12535,6 +12573,7 @@ public final class DoodleProtos {
               com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse.Builder.class);
     }
 
+    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
@@ -12543,6 +12582,29 @@ public final class DoodleProtos {
     public int getId() {
       return id_;
     }
+
+    public static final int FEATUREINDEXES_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> featureIndexes_;
+    /**
+     * <code>repeated int32 featureIndexes = 2;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getFeatureIndexesList() {
+      return featureIndexes_;
+    }
+    /**
+     * <code>repeated int32 featureIndexes = 2;</code>
+     */
+    public int getFeatureIndexesCount() {
+      return featureIndexes_.size();
+    }
+    /**
+     * <code>repeated int32 featureIndexes = 2;</code>
+     */
+    public int getFeatureIndexes(int index) {
+      return featureIndexes_.get(index);
+    }
+    private int featureIndexesMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
@@ -12558,8 +12620,16 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (id_ != 0) {
         output.writeInt32(1, id_);
+      }
+      if (getFeatureIndexesList().size() > 0) {
+        output.writeUInt32NoTag(18);
+        output.writeUInt32NoTag(featureIndexesMemoizedSerializedSize);
+      }
+      for (int i = 0; i < featureIndexes_.size(); i++) {
+        output.writeInt32NoTag(featureIndexes_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -12573,6 +12643,20 @@ public final class DoodleProtos {
       if (id_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, id_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < featureIndexes_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(featureIndexes_.get(i));
+        }
+        size += dataSize;
+        if (!getFeatureIndexesList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        featureIndexesMemoizedSerializedSize = dataSize;
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -12592,6 +12676,8 @@ public final class DoodleProtos {
       boolean result = true;
       result = result && (getId()
           == other.getId());
+      result = result && getFeatureIndexesList()
+          .equals(other.getFeatureIndexesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -12605,6 +12691,10 @@ public final class DoodleProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
+      if (getFeatureIndexesCount() > 0) {
+        hash = (37 * hash) + FEATUREINDEXES_FIELD_NUMBER;
+        hash = (53 * hash) + getFeatureIndexesList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12740,6 +12830,8 @@ public final class DoodleProtos {
         super.clear();
         id_ = 0;
 
+        featureIndexes_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -12766,7 +12858,15 @@ public final class DoodleProtos {
       @java.lang.Override
       public com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.id_ = id_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          featureIndexes_ = java.util.Collections.unmodifiableList(featureIndexes_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.featureIndexes_ = featureIndexes_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -12818,6 +12918,16 @@ public final class DoodleProtos {
         if (other.getId() != 0) {
           setId(other.getId());
         }
+        if (!other.featureIndexes_.isEmpty()) {
+          if (featureIndexes_.isEmpty()) {
+            featureIndexes_ = other.featureIndexes_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureFeatureIndexesIsMutable();
+            featureIndexes_.addAll(other.featureIndexes_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -12846,6 +12956,7 @@ public final class DoodleProtos {
         }
         return this;
       }
+      private int bitField0_;
 
       private int id_ ;
       /**
@@ -12869,6 +12980,72 @@ public final class DoodleProtos {
       public Builder clearId() {
         
         id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<java.lang.Integer> featureIndexes_ = java.util.Collections.emptyList();
+      private void ensureFeatureIndexesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          featureIndexes_ = new java.util.ArrayList<java.lang.Integer>(featureIndexes_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getFeatureIndexesList() {
+        return java.util.Collections.unmodifiableList(featureIndexes_);
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public int getFeatureIndexesCount() {
+        return featureIndexes_.size();
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public int getFeatureIndexes(int index) {
+        return featureIndexes_.get(index);
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public Builder setFeatureIndexes(
+          int index, int value) {
+        ensureFeatureIndexesIsMutable();
+        featureIndexes_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public Builder addFeatureIndexes(int value) {
+        ensureFeatureIndexesIsMutable();
+        featureIndexes_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public Builder addAllFeatureIndexes(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureFeatureIndexesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, featureIndexes_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 featureIndexes = 2;</code>
+       */
+      public Builder clearFeatureIndexes() {
+        featureIndexes_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -12935,17 +13112,9 @@ public final class DoodleProtos {
     int getId();
 
     /**
-     * <code>repeated float values = 2;</code>
+     * <code>bytes data = 2;</code>
      */
-    java.util.List<java.lang.Float> getValuesList();
-    /**
-     * <code>repeated float values = 2;</code>
-     */
-    int getValuesCount();
-    /**
-     * <code>repeated float values = 2;</code>
-     */
-    float getValues(int index);
+    com.google.protobuf.ByteString getData();
   }
   /**
    * Protobuf type {@code PipeWriteRequest}
@@ -12961,7 +13130,7 @@ public final class DoodleProtos {
     }
     private PipeWriteRequest() {
       id_ = 0;
-      values_ = java.util.Collections.emptyList();
+      data_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -12993,25 +13162,9 @@ public final class DoodleProtos {
               id_ = input.readInt32();
               break;
             }
-            case 21: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                values_ = new java.util.ArrayList<java.lang.Float>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              values_.add(input.readFloat());
-              break;
-            }
             case 18: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Float>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readFloat());
-              }
-              input.popLimit(limit);
+
+              data_ = input.readBytes();
               break;
             }
             default: {
@@ -13029,9 +13182,6 @@ public final class DoodleProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -13049,7 +13199,6 @@ public final class DoodleProtos {
               com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
@@ -13059,28 +13208,14 @@ public final class DoodleProtos {
       return id_;
     }
 
-    public static final int VALUES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Float> values_;
+    public static final int DATA_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString data_;
     /**
-     * <code>repeated float values = 2;</code>
+     * <code>bytes data = 2;</code>
      */
-    public java.util.List<java.lang.Float>
-        getValuesList() {
-      return values_;
+    public com.google.protobuf.ByteString getData() {
+      return data_;
     }
-    /**
-     * <code>repeated float values = 2;</code>
-     */
-    public int getValuesCount() {
-      return values_.size();
-    }
-    /**
-     * <code>repeated float values = 2;</code>
-     */
-    public float getValues(int index) {
-      return values_.get(index);
-    }
-    private int valuesMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
@@ -13096,16 +13231,11 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       if (id_ != 0) {
         output.writeInt32(1, id_);
       }
-      if (getValuesList().size() > 0) {
-        output.writeUInt32NoTag(18);
-        output.writeUInt32NoTag(valuesMemoizedSerializedSize);
-      }
-      for (int i = 0; i < values_.size(); i++) {
-        output.writeFloatNoTag(values_.get(i));
+      if (!data_.isEmpty()) {
+        output.writeBytes(2, data_);
       }
       unknownFields.writeTo(output);
     }
@@ -13120,16 +13250,9 @@ public final class DoodleProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, id_);
       }
-      {
-        int dataSize = 0;
-        dataSize = 4 * getValuesList().size();
-        size += dataSize;
-        if (!getValuesList().isEmpty()) {
-          size += 1;
-          size += com.google.protobuf.CodedOutputStream
-              .computeInt32SizeNoTag(dataSize);
-        }
-        valuesMemoizedSerializedSize = dataSize;
+      if (!data_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, data_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -13149,8 +13272,8 @@ public final class DoodleProtos {
       boolean result = true;
       result = result && (getId()
           == other.getId());
-      result = result && getValuesList()
-          .equals(other.getValuesList());
+      result = result && getData()
+          .equals(other.getData());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -13164,10 +13287,8 @@ public final class DoodleProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
-      if (getValuesCount() > 0) {
-        hash = (37 * hash) + VALUES_FIELD_NUMBER;
-        hash = (53 * hash) + getValuesList().hashCode();
-      }
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13303,8 +13424,8 @@ public final class DoodleProtos {
         super.clear();
         id_ = 0;
 
-        values_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        data_ = com.google.protobuf.ByteString.EMPTY;
+
         return this;
       }
 
@@ -13331,15 +13452,8 @@ public final class DoodleProtos {
       @java.lang.Override
       public com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.id_ = id_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
-          bitField0_ = (bitField0_ & ~0x00000002);
-        }
-        result.values_ = values_;
-        result.bitField0_ = to_bitField0_;
+        result.data_ = data_;
         onBuilt();
         return result;
       }
@@ -13391,15 +13505,8 @@ public final class DoodleProtos {
         if (other.getId() != 0) {
           setId(other.getId());
         }
-        if (!other.values_.isEmpty()) {
-          if (values_.isEmpty()) {
-            values_ = other.values_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureValuesIsMutable();
-            values_.addAll(other.values_);
-          }
-          onChanged();
+        if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
+          setData(other.getData());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -13429,7 +13536,6 @@ public final class DoodleProtos {
         }
         return this;
       }
-      private int bitField0_;
 
       private int id_ ;
       /**
@@ -13457,68 +13563,31 @@ public final class DoodleProtos {
         return this;
       }
 
-      private java.util.List<java.lang.Float> values_ = java.util.Collections.emptyList();
-      private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          values_ = new java.util.ArrayList<java.lang.Float>(values_);
-          bitField0_ |= 0x00000002;
-         }
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes data = 2;</code>
+       */
+      public com.google.protobuf.ByteString getData() {
+        return data_;
       }
       /**
-       * <code>repeated float values = 2;</code>
+       * <code>bytes data = 2;</code>
        */
-      public java.util.List<java.lang.Float>
-          getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
-      }
-      /**
-       * <code>repeated float values = 2;</code>
-       */
-      public int getValuesCount() {
-        return values_.size();
-      }
-      /**
-       * <code>repeated float values = 2;</code>
-       */
-      public float getValues(int index) {
-        return values_.get(index);
-      }
-      /**
-       * <code>repeated float values = 2;</code>
-       */
-      public Builder setValues(
-          int index, float value) {
-        ensureValuesIsMutable();
-        values_.set(index, value);
+      public Builder setData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        data_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>repeated float values = 2;</code>
+       * <code>bytes data = 2;</code>
        */
-      public Builder addValues(float value) {
-        ensureValuesIsMutable();
-        values_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated float values = 2;</code>
-       */
-      public Builder addAllValues(
-          java.lang.Iterable<? extends java.lang.Float> values) {
-        ensureValuesIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, values_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated float values = 2;</code>
-       */
-      public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+      public Builder clearData() {
+        
+        data_ = getDefaultInstance().getData();
         onChanged();
         return this;
       }
@@ -26467,45 +26536,45 @@ public final class DoodleProtos {
       "\021PipeCloseResponse\"s\n\017PipeOpenRequest\022\020\n" +
       "\010sketchId\030\001 \001(\t\022\020\n\010features\030\002 \003(\t\022\034\n\024tra" +
       "nsformThreadCount\030\003 \001(\005\022\036\n\026distributorTh" +
-      "readCount\030\004 \001(\005\"\036\n\020PipeOpenResponse\022\n\n\002i" +
-      "d\030\001 \001(\005\".\n\020PipeWriteRequest\022\n\n\002id\030\001 \001(\005\022" +
-      "\016\n\006values\030\002 \003(\002\"\023\n\021PipeWriteResponse\"\023\n\021" +
-      "PluginListRequest\"C\n\022PluginListResponse\022" +
-      "\026\n\016controlPlugins\030\001 \003(\t\022\025\n\rsketchPlugins" +
-      "\030\002 \003(\t\"#\n\021PluginShowRequest\022\016\n\006plugin\030\001 " +
-      "\001(\t\"\024\n\022PluginShowResponse\"/\n\021SketchInitR" +
-      "equest\022\n\n\002id\030\001 \001(\t\022\016\n\006plugin\030\002 \001(\t\"\024\n\022Sk" +
-      "etchInitResponse\"\023\n\021SketchListRequest\"w\n" +
-      "\022SketchListResponse\0221\n\007plugins\030\001 \003(\0132 .S" +
-      "ketchListResponse.PluginsEntry\032.\n\014Plugin" +
-      "sEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I" +
-      "\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\nope" +
-      "rations\030\002 \003(\0132\022.VariableOperation\"\026\n\024Ske" +
-      "tchModifyResponse\"\037\n\021SketchShowRequest\022\n" +
-      "\n\002id\030\001 \001(\t\"H\n\022SketchShowResponse\022\016\n\006plug" +
-      "in\030\001 \001(\t\022\"\n\tvariables\030\002 \003(\0132\017.PluginVari" +
-      "able\"D\n\022SketchWriteRequest\022\016\n\006nodeId\030\001 \001" +
-      "(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023Sk" +
-      "etchWriteResponse\"%\n\007Failure\022\014\n\004type\030\001 \001" +
-      "(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\t" +
-      "ipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginV" +
-      "ariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006v" +
-      "alues\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\ttim" +
-      "estamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.Variab" +
-      "leOperation.Operation\022!\n\010variable\030\003 \001(\0132" +
-      "\017.PluginVariable\" \n\tOperation\022\007\n\003ADD\020\000\022\n" +
-      "\n\006DELETE\020\001\"<\n\022VariableOperations\022&\n\noper" +
-      "ations\030\001 \003(\0132\022.VariableOperation*\267\002\n\013Mes" +
-      "sageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTROL_LI" +
-      "ST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL_SHOW" +
-      "\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\r\n\tNODE_LIST" +
-      "\020\006\022\r\n\tNODE_SHOW\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIP" +
-      "E_OPEN\020\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_LIST\020" +
-      "\013\022\017\n\013PLUGIN_SHOW\020\014\022\017\n\013SKETCH_INIT\020\r\022\017\n\013S" +
-      "KETCH_LIST\020\016\022\021\n\rSKETCH_MODIFY\020\017\022\017\n\013SKETC" +
-      "H_SHOW\020\020\022\020\n\014SKETCH_WRITE\020\021B/\n\034com.bushpa" +
-      "th.doodle.protobufB\014DoodleProtos\240\001\001b\006pro" +
-      "to3"
+      "readCount\030\004 \001(\005\"6\n\020PipeOpenResponse\022\n\n\002i" +
+      "d\030\001 \001(\005\022\026\n\016featureIndexes\030\002 \003(\005\",\n\020PipeW" +
+      "riteRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n" +
+      "\021PipeWriteResponse\"\023\n\021PluginListRequest\"" +
+      "C\n\022PluginListResponse\022\026\n\016controlPlugins\030" +
+      "\001 \003(\t\022\025\n\rsketchPlugins\030\002 \003(\t\"#\n\021PluginSh" +
+      "owRequest\022\016\n\006plugin\030\001 \001(\t\"\024\n\022PluginShowR" +
+      "esponse\"/\n\021SketchInitRequest\022\n\n\002id\030\001 \001(\t" +
+      "\022\016\n\006plugin\030\002 \001(\t\"\024\n\022SketchInitResponse\"\023" +
+      "\n\021SketchListRequest\"w\n\022SketchListRespons" +
+      "e\0221\n\007plugins\030\001 \003(\0132 .SketchListResponse." +
+      "PluginsEntry\032.\n\014PluginsEntry\022\013\n\003key\030\001 \001(" +
+      "\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\023SketchModifyRequ" +
+      "est\022\n\n\002id\030\001 \001(\t\022&\n\noperations\030\002 \003(\0132\022.Va" +
+      "riableOperation\"\026\n\024SketchModifyResponse\"" +
+      "\037\n\021SketchShowRequest\022\n\n\002id\030\001 \001(\t\"H\n\022Sket" +
+      "chShowResponse\022\016\n\006plugin\030\001 \001(\t\022\"\n\tvariab" +
+      "les\030\002 \003(\0132\017.PluginVariable\"D\n\022SketchWrit" +
+      "eRequest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001" +
+      "(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteResponse\"" +
+      "%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3" +
+      "\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n" +
+      "\004port\030\003 \001(\005\"<\n\016PluginVariable\022\014\n\004type\030\001 " +
+      "\001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021Va" +
+      "riableOperation\022\021\n\ttimestamp\030\001 \001(\003\022/\n\top" +
+      "eration\030\002 \001(\0162\034.VariableOperation.Operat" +
+      "ion\022!\n\010variable\030\003 \001(\0132\017.PluginVariable\" " +
+      "\n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001\"<\n\022Vari" +
+      "ableOperations\022&\n\noperations\030\001 \003(\0132\022.Var" +
+      "iableOperation*\267\002\n\013MessageType\022\020\n\014CONTRO" +
+      "L_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTROL_MO" +
+      "DIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020\004\022\n\n" +
+      "\006GOSSIP\020\005\022\r\n\tNODE_LIST\020\006\022\r\n\tNODE_SHOW\020\007\022" +
+      "\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIPE_OPEN\020\t\022\016\n\nPIPE_W" +
+      "RITE\020\n\022\017\n\013PLUGIN_LIST\020\013\022\017\n\013PLUGIN_SHOW\020\014" +
+      "\022\017\n\013SKETCH_INIT\020\r\022\017\n\013SKETCH_LIST\020\016\022\021\n\rSK" +
+      "ETCH_MODIFY\020\017\022\017\n\013SKETCH_SHOW\020\020\022\020\n\014SKETCH" +
+      "_WRITE\020\021B/\n\034com.bushpath.doodle.protobuf" +
+      "B\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -26668,13 +26737,13 @@ public final class DoodleProtos {
     internal_static_PipeOpenResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeOpenResponse_descriptor,
-        new java.lang.String[] { "Id", });
+        new java.lang.String[] { "Id", "FeatureIndexes", });
     internal_static_PipeWriteRequest_descriptor =
       getDescriptor().getMessageTypes().get(18);
     internal_static_PipeWriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeWriteRequest_descriptor,
-        new java.lang.String[] { "Id", "Values", });
+        new java.lang.String[] { "Id", "Data", });
     internal_static_PipeWriteResponse_descriptor =
       getDescriptor().getMessageTypes().get(19);
     internal_static_PipeWriteResponse_fieldAccessorTable = new

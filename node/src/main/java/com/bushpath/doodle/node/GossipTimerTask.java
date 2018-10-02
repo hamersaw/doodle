@@ -161,9 +161,9 @@ public class GossipTimerTask extends TimerTask {
             try {
                 Class<? extends SketchPlugin> clazz =
                     this.pluginManager.getSketchPlugin(pluginEntry.getValue());
-                Constructor constructor = clazz.getConstructor();
+                Constructor constructor = clazz.getConstructor(String.class);
                 SketchPlugin sketchPlugin =
-                    (SketchPlugin) constructor.newInstance();
+                    (SketchPlugin) constructor.newInstance(pluginEntry.getKey());
 
                 this.sketchPluginManager.addPlugin(pluginEntry.getKey(),
                     sketchPlugin);

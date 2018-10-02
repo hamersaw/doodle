@@ -133,7 +133,7 @@ public class Main {
         }
 
         // initailize PipeManager
-        PipeManager pipeManager = new PipeManager();
+        PipeManager pipeManager = new PipeManager(nodeManager);
 
         // initialize SketchPluginManager
         SketchPluginManager sketchPluginManager =

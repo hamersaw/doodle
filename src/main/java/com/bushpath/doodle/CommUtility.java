@@ -15,12 +15,12 @@ import com.bushpath.doodle.protobuf.DoodleProtos.NodeShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

@@ -124,11 +124,12 @@ message PipeOpenRequest {
 
 message PipeOpenResponse {
     int32 id = 1;
+    repeated int32 featureIndexes = 2;
 }
 
 message PipeWriteRequest {
     int32 id = 1;
-    repeated float values = 2;
+    bytes data = 2;
 }
 
 message PipeWriteResponse {

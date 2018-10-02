@@ -12,6 +12,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import org.slf4j.Logger;
@@ -44,7 +46,8 @@ public class SketchService implements Service {
                 MessageType.SKETCH_INIT.getNumber(),
                 MessageType.SKETCH_LIST.getNumber(),
                 MessageType.SKETCH_MODIFY.getNumber(),
-                MessageType.SKETCH_SHOW.getNumber()
+                MessageType.SKETCH_SHOW.getNumber(),
+                MessageType.SKETCH_WRITE.getNumber()
             };
     }
 
@@ -70,9 +73,9 @@ public class SketchService implements Service {
                     // add sketch plugin
                     Class<? extends SketchPlugin> clazz = this.pluginManager
                         .getSketchPlugin(sketchInitRequest.getPlugin());
-                    Constructor constructor = clazz.getConstructor();
-                    SketchPlugin sketchPlugin =
-                        (SketchPlugin) constructor.newInstance();
+                    Constructor constructor = clazz.getConstructor(String.class);
+                    SketchPlugin sketchPlugin = (SketchPlugin)
+                        constructor.newInstance(sketchInitRequest.getId());
 
                     this.sketchPluginManager.addPlugin(sketchInitRequest.getId(),
                         sketchPlugin);
@@ -150,6 +153,28 @@ public class SketchService implements Service {
                     // write to out
                     out.writeInt(messageType);
                     sketchShowBuilder.build().writeDelimitedTo(out);
+                    break;
+                case SKETCH_WRITE:
+                    // parse request
+                    SketchWriteRequest sketchWriteRequest =
+                        SketchWriteRequest.parseDelimitedFrom(in);
+
+                    log.info("handling SketchWriteRequest '{}'",
+                        sketchWriteRequest.getSketchId());
+
+                    // init response
+                    SketchWriteResponse.Builder sketchWriteBuilder =
+                        SketchWriteResponse.newBuilder();
+
+                    // handle
+                    SketchPlugin writePlugin = this.sketchPluginManager
+                        .getPlugin(sketchWriteRequest.getSketchId());
+
+                    writePlugin.write(sketchWriteRequest.getData());
+
+                    // write to out
+                    out.writeInt(messageType);
+                    sketchWriteBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

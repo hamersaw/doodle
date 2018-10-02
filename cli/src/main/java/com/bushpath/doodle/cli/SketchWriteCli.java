@@ -12,10 +12,15 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 
+import com.bushpath.rutils.reader.ThreadedCsvReader;
+
+import com.google.protobuf.ByteString;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.DataOutputStream;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +29,10 @@ import java.util.Random;
     mixinStandardHelpOptions = true)
 public class SketchWriteCli implements Runnable {
     @Parameters(index="0", description="Id of SketchPlugin instance.")
-    private String id;
+    private String sketchId;
+
+    @Parameters(index="1", description="CSV file to load.")
+    private String filename;
 
     @Option(names={"-p", "--pipe-count"}, description="")
     private int pipeCount = 5;
@@ -40,6 +48,18 @@ public class SketchWriteCli implements Runnable {
 
     @Override
     public void run() {
+        /**
+         * open file for writing
+         */
+
+        ThreadedCsvReader reader = null;
+        try {
+            reader = new ThreadedCsvReader(this.filename, 4);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
         /**
          * get random nodes
          */
@@ -70,15 +90,19 @@ public class SketchWriteCli implements Runnable {
 
         // create PipeOpenRequest
         PipeOpenRequest.Builder pipeOpenBuilder = PipeOpenRequest.newBuilder()
-            .setSketchId(this.id)
+            .setSketchId(this.sketchId)
             .setTransformThreadCount(this.transformThreadCount)
             .setDistributorThreadCount(this.distributorThreadCount);
 
-        // TODO - add features to pipeOpenBuilder
+        // add features to pipeOpenBuilder
+        for (String feature : reader.getHeader()) {
+            pipeOpenBuilder.addFeatures(feature);
+        }
  
         PipeOpenRequest pipeOpenRequest = pipeOpenBuilder.build();
         PipeOpenResponse pipeOpenResponse = null;
         Integer[] pipeIds = new Integer[nodes.size()];
+        int[] featureIndexes = null;
         for (int i=0; i<nodes.size(); i++) {
             Node node = nodes.get(i);
 
@@ -89,6 +113,17 @@ public class SketchWriteCli implements Runnable {
                     pipeOpenRequest, node.getIpAddress(), (short) node.getPort());
 
                 pipeIds[i] = pipeOpenResponse.getId();
+
+                if (featureIndexes == null ) {
+                    List<Integer> pipeFeatureIndexes =
+                        pipeOpenResponse.getFeatureIndexesList();
+                    featureIndexes = new int[pipeFeatureIndexes.size()];
+                    for (int j=0; j<featureIndexes.length; j++) {
+                        featureIndexes[j] = pipeFeatureIndexes.get(j);
+                    }
+                } else {
+                    // TODO - check if featureIndexes have changed
+                }
             } catch (Exception e) {
                 pipeIds[i] = null;
                 System.err.println(e.getMessage());
@@ -97,7 +132,77 @@ public class SketchWriteCli implements Runnable {
 
         // TODO - check if any pipe ids initialized valid
 
-        // TODO - send PipeWriteRequests
+        // send PipeWriteRequests
+        ByteString.Output byteOut = ByteString.newOutput();
+        DataOutputStream out = new DataOutputStream(byteOut);
+        double[] record = null;
+        int index = 0;
+        try {
+            while ((record = reader.next()) != null) {
+                // write record to out
+                for (int i=0; i<featureIndexes.length; i++) {
+                    out.writeFloat((float) record[featureIndexes[i]]);
+                }
+
+                if (byteOut.size() >= 5000) {
+                    // close DataOutputStream
+                    out. close();
+
+                    // find value node to write to
+                    while (pipeIds[index] == null) {
+                        index = (index + 1) % pipeIds.length;
+                    }
+
+                    // create PipeWriteRequest
+                    PipeWriteRequest pipeWriteRequest =
+                        PipeWriteRequest.newBuilder()
+                        .setId(pipeIds[index])
+                        .setData(byteOut.toByteString())
+                        .build();
+     
+                    // write to node
+                    PipeWriteResponse pipeWriteResponse = null;
+                    Node node = nodes.get(index);
+                    pipeWriteResponse = (PipeWriteResponse) CommUtility.send(
+                        MessageType.PIPE_WRITE.getNumber(),
+                        pipeWriteRequest, node.getIpAddress(),
+                        (short) node.getPort());
+
+                    // update variables
+                    index = (index + 1) % pipeIds.length;
+                    byteOut = ByteString.newOutput();
+                    out = new DataOutputStream(byteOut);
+                }
+            }
+ 
+            // close DataOutputStream
+            out. close();
+
+            // if byteOut.size() > 0 the nwrite
+            if (byteOut.size() > 0) {
+                // find value node to write to
+                while (pipeIds[index] == null) {
+                    index = (index + 1) % pipeIds.length;
+                }
+
+                // create PipeWriteRequest
+                PipeWriteRequest pipeWriteRequest =
+                    PipeWriteRequest.newBuilder()
+                    .setId(pipeIds[index])
+                    .setData(byteOut.toByteString())
+                    .build();
+ 
+                // write to node
+                PipeWriteResponse pipeWriteResponse = null;
+                Node node = nodes.get(index);
+                pipeWriteResponse = (PipeWriteResponse) CommUtility.send(
+                    MessageType.PIPE_WRITE.getNumber(),
+                    pipeWriteRequest, node.getIpAddress(),
+                    (short) node.getPort());
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         /**
          * close pipes
