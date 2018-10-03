@@ -11612,6 +11612,11 @@ public final class DoodleProtos {
      * <code>int32 distributorThreadCount = 4;</code>
      */
     int getDistributorThreadCount();
+
+    /**
+     * <code>int32 bufferSize = 5;</code>
+     */
+    int getBufferSize();
   }
   /**
    * Protobuf type {@code PipeOpenRequest}
@@ -11630,6 +11635,7 @@ public final class DoodleProtos {
       features_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       transformThreadCount_ = 0;
       distributorThreadCount_ = 0;
+      bufferSize_ = 0;
     }
 
     @java.lang.Override
@@ -11679,6 +11685,11 @@ public final class DoodleProtos {
             case 32: {
 
               distributorThreadCount_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              bufferSize_ = input.readInt32();
               break;
             }
             default: {
@@ -11798,6 +11809,15 @@ public final class DoodleProtos {
       return distributorThreadCount_;
     }
 
+    public static final int BUFFERSIZE_FIELD_NUMBER = 5;
+    private int bufferSize_;
+    /**
+     * <code>int32 bufferSize = 5;</code>
+     */
+    public int getBufferSize() {
+      return bufferSize_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -11823,6 +11843,9 @@ public final class DoodleProtos {
       }
       if (distributorThreadCount_ != 0) {
         output.writeInt32(4, distributorThreadCount_);
+      }
+      if (bufferSize_ != 0) {
+        output.writeInt32(5, bufferSize_);
       }
       unknownFields.writeTo(output);
     }
@@ -11852,6 +11875,10 @@ public final class DoodleProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, distributorThreadCount_);
       }
+      if (bufferSize_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, bufferSize_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -11876,6 +11903,8 @@ public final class DoodleProtos {
           == other.getTransformThreadCount());
       result = result && (getDistributorThreadCount()
           == other.getDistributorThreadCount());
+      result = result && (getBufferSize()
+          == other.getBufferSize());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -11897,6 +11926,8 @@ public final class DoodleProtos {
       hash = (53 * hash) + getTransformThreadCount();
       hash = (37 * hash) + DISTRIBUTORTHREADCOUNT_FIELD_NUMBER;
       hash = (53 * hash) + getDistributorThreadCount();
+      hash = (37 * hash) + BUFFERSIZE_FIELD_NUMBER;
+      hash = (53 * hash) + getBufferSize();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12038,6 +12069,8 @@ public final class DoodleProtos {
 
         distributorThreadCount_ = 0;
 
+        bufferSize_ = 0;
+
         return this;
       }
 
@@ -12074,6 +12107,7 @@ public final class DoodleProtos {
         result.features_ = features_;
         result.transformThreadCount_ = transformThreadCount_;
         result.distributorThreadCount_ = distributorThreadCount_;
+        result.bufferSize_ = bufferSize_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12142,6 +12176,9 @@ public final class DoodleProtos {
         }
         if (other.getDistributorThreadCount() != 0) {
           setDistributorThreadCount(other.getDistributorThreadCount());
+        }
+        if (other.getBufferSize() != 0) {
+          setBufferSize(other.getBufferSize());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -12384,6 +12421,32 @@ public final class DoodleProtos {
       public Builder clearDistributorThreadCount() {
         
         distributorThreadCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int bufferSize_ ;
+      /**
+       * <code>int32 bufferSize = 5;</code>
+       */
+      public int getBufferSize() {
+        return bufferSize_;
+      }
+      /**
+       * <code>int32 bufferSize = 5;</code>
+       */
+      public Builder setBufferSize(int value) {
+        
+        bufferSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 bufferSize = 5;</code>
+       */
+      public Builder clearBufferSize() {
+        
+        bufferSize_ = 0;
         onChanged();
         return this;
       }
@@ -25544,46 +25607,47 @@ public final class DoodleProtos {
       "\030\001 \003(\0132\005.Node\"\035\n\017NodeShowRequest\022\n\n\002id\030\001" +
       " \001(\005\"\'\n\020NodeShowResponse\022\023\n\004node\030\001 \001(\0132\005" +
       ".Node\"\036\n\020PipeCloseRequest\022\n\n\002id\030\001 \001(\005\"\023\n" +
-      "\021PipeCloseResponse\"s\n\017PipeOpenRequest\022\020\n" +
-      "\010sketchId\030\001 \001(\t\022\020\n\010features\030\002 \003(\t\022\034\n\024tra" +
-      "nsformThreadCount\030\003 \001(\005\022\036\n\026distributorTh" +
-      "readCount\030\004 \001(\005\"6\n\020PipeOpenResponse\022\n\n\002i" +
-      "d\030\001 \001(\005\022\026\n\016featureIndexes\030\002 \003(\005\",\n\020PipeW" +
-      "riteRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n" +
-      "\021PipeWriteResponse\"\023\n\021PluginListRequest\"" +
-      "C\n\022PluginListResponse\022\026\n\016controlPlugins\030" +
-      "\001 \003(\t\022\025\n\rsketchPlugins\030\002 \003(\t\"/\n\021SketchIn" +
-      "itRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006plugin\030\002 \001(\t\"\024\n" +
-      "\022SketchInitResponse\"\023\n\021SketchListRequest" +
-      "\"w\n\022SketchListResponse\0221\n\007plugins\030\001 \003(\0132" +
-      " .SketchListResponse.PluginsEntry\032.\n\014Plu" +
-      "ginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
-      "\001\"I\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\n" +
-      "operations\030\002 \003(\0132\022.VariableOperation\"\026\n\024" +
-      "SketchModifyResponse\"\037\n\021SketchShowReques" +
-      "t\022\n\n\002id\030\001 \001(\t\"H\n\022SketchShowResponse\022\016\n\006p" +
-      "lugin\030\001 \001(\t\022\"\n\tvariables\030\002 \003(\0132\017.PluginV" +
-      "ariable\"D\n\022SketchWriteRequest\022\016\n\006nodeId\030" +
-      "\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n" +
-      "\023SketchWriteResponse\"%\n\007Failure\022\014\n\004type\030" +
-      "\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022" +
-      "\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016Plug" +
-      "inVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016" +
-      "\n\006values\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\t" +
-      "timestamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.Var" +
-      "iableOperation.Operation\022!\n\010variable\030\003 \001" +
-      "(\0132\017.PluginVariable\" \n\tOperation\022\007\n\003ADD\020" +
-      "\000\022\n\n\006DELETE\020\001\"<\n\022VariableOperations\022&\n\no" +
-      "perations\030\001 \003(\0132\022.VariableOperation*\246\002\n\013" +
-      "MessageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTROL" +
-      "_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL_S" +
-      "HOW\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\r\n\tNODE_L" +
-      "IST\020\006\022\r\n\tNODE_SHOW\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\t" +
-      "PIPE_OPEN\020\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_LI" +
-      "ST\020\013\022\017\n\013SKETCH_INIT\020\014\022\017\n\013SKETCH_LIST\020\r\022\021" +
-      "\n\rSKETCH_MODIFY\020\016\022\017\n\013SKETCH_SHOW\020\017\022\020\n\014SK" +
-      "ETCH_WRITE\020\020B/\n\034com.bushpath.doodle.prot" +
-      "obufB\014DoodleProtos\240\001\001b\006proto3"
+      "\021PipeCloseResponse\"\207\001\n\017PipeOpenRequest\022\020" +
+      "\n\010sketchId\030\001 \001(\t\022\020\n\010features\030\002 \003(\t\022\034\n\024tr" +
+      "ansformThreadCount\030\003 \001(\005\022\036\n\026distributorT" +
+      "hreadCount\030\004 \001(\005\022\022\n\nbufferSize\030\005 \001(\005\"6\n\020" +
+      "PipeOpenResponse\022\n\n\002id\030\001 \001(\005\022\026\n\016featureI" +
+      "ndexes\030\002 \003(\005\",\n\020PipeWriteRequest\022\n\n\002id\030\001" +
+      " \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n\021PipeWriteResponse\"" +
+      "\023\n\021PluginListRequest\"C\n\022PluginListRespon" +
+      "se\022\026\n\016controlPlugins\030\001 \003(\t\022\025\n\rsketchPlug" +
+      "ins\030\002 \003(\t\"/\n\021SketchInitRequest\022\n\n\002id\030\001 \001" +
+      "(\t\022\016\n\006plugin\030\002 \001(\t\"\024\n\022SketchInitResponse" +
+      "\"\023\n\021SketchListRequest\"w\n\022SketchListRespo" +
+      "nse\0221\n\007plugins\030\001 \003(\0132 .SketchListRespons" +
+      "e.PluginsEntry\032.\n\014PluginsEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\023SketchModifyRe" +
+      "quest\022\n\n\002id\030\001 \001(\t\022&\n\noperations\030\002 \003(\0132\022." +
+      "VariableOperation\"\026\n\024SketchModifyRespons" +
+      "e\"\037\n\021SketchShowRequest\022\n\n\002id\030\001 \001(\t\"H\n\022Sk" +
+      "etchShowResponse\022\016\n\006plugin\030\001 \001(\t\022\"\n\tvari" +
+      "ables\030\002 \003(\0132\017.PluginVariable\"D\n\022SketchWr" +
+      "iteRequest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002" +
+      " \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteRespons" +
+      "e\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t" +
+      "\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022" +
+      "\014\n\004port\030\003 \001(\005\"<\n\016PluginVariable\022\014\n\004type\030" +
+      "\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021" +
+      "VariableOperation\022\021\n\ttimestamp\030\001 \001(\003\022/\n\t" +
+      "operation\030\002 \001(\0162\034.VariableOperation.Oper" +
+      "ation\022!\n\010variable\030\003 \001(\0132\017.PluginVariable" +
+      "\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001\"<\n\022Va" +
+      "riableOperations\022&\n\noperations\030\001 \003(\0132\022.V" +
+      "ariableOperation*\246\002\n\013MessageType\022\020\n\014CONT" +
+      "ROL_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTROL_" +
+      "MODIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020\004\022" +
+      "\n\n\006GOSSIP\020\005\022\r\n\tNODE_LIST\020\006\022\r\n\tNODE_SHOW\020" +
+      "\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIPE_OPEN\020\t\022\016\n\nPIPE" +
+      "_WRITE\020\n\022\017\n\013PLUGIN_LIST\020\013\022\017\n\013SKETCH_INIT" +
+      "\020\014\022\017\n\013SKETCH_LIST\020\r\022\021\n\rSKETCH_MODIFY\020\016\022\017" +
+      "\n\013SKETCH_SHOW\020\017\022\020\n\014SKETCH_WRITE\020\020B/\n\034com" +
+      ".bushpath.doodle.protobufB\014DoodleProtos\240" +
+      "\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -25740,7 +25804,7 @@ public final class DoodleProtos {
     internal_static_PipeOpenRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeOpenRequest_descriptor,
-        new java.lang.String[] { "SketchId", "Features", "TransformThreadCount", "DistributorThreadCount", });
+        new java.lang.String[] { "SketchId", "Features", "TransformThreadCount", "DistributorThreadCount", "BufferSize", });
     internal_static_PipeOpenResponse_descriptor =
       getDescriptor().getMessageTypes().get(17);
     internal_static_PipeOpenResponse_fieldAccessorTable = new

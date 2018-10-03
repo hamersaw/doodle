@@ -91,7 +91,8 @@ public class PipeService implements Service {
 
                     int id = this.pipeManager.openPipe(sketch,
                         pipeOpenRequest.getTransformThreadCount(),
-                        pipeOpenRequest.getDistributorThreadCount());
+                        pipeOpenRequest.getDistributorThreadCount(),
+                        pipeOpenRequest.getBufferSize());
 
                     pipeOpenBuilder.setId(id);
 

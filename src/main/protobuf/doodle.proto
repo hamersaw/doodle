@@ -119,6 +119,7 @@ message PipeOpenRequest {
     repeated string features = 2;
     int32 transformThreadCount = 3;
     int32 distributorThreadCount = 4;
+    int32 bufferSize = 5;
 }
 
 message PipeOpenResponse {

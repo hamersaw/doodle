@@ -37,14 +37,17 @@ public class SketchWriteCli implements Runnable {
     @Option(names={"-p", "--pipe-count"}, description="")
     private int pipeCount = 5;
 
-    @Option(names={"-s", "--buffer-size"}, description="")
-    private int bufferSize = 2000;
-
     @Option(names={"-t", "--transform-thread-count"}, description="")
     private int transformThreadCount = 3;
 
     @Option(names={"-d", "--distributor-thread-count"}, description="")
     private int distributorThreadCount = 3;
+
+    @Option(names={"-b", "--sketch-write-buffer-size"}, description="")
+    private int sketchWriteBufferSize = 2000;
+
+    @Option(names={"-s", "--pipe-write-buffer-size"}, description="")
+    private int pipeWriteBufferSize = 2000;
 
     @Override
     public void run() {
@@ -92,7 +95,8 @@ public class SketchWriteCli implements Runnable {
         PipeOpenRequest.Builder pipeOpenBuilder = PipeOpenRequest.newBuilder()
             .setSketchId(this.sketchId)
             .setTransformThreadCount(this.transformThreadCount)
-            .setDistributorThreadCount(this.distributorThreadCount);
+            .setDistributorThreadCount(this.distributorThreadCount)
+            .setBufferSize(this.sketchWriteBufferSize);
 
         // add features to pipeOpenBuilder
         for (String feature : reader.getHeader()) {
@@ -144,7 +148,7 @@ public class SketchWriteCli implements Runnable {
                     out.writeFloat((float) record[featureIndexes[i]]);
                 }
 
-                if (byteOut.size() >= 5000) {
+                if (byteOut.size() >= this.pipeWriteBufferSize) {
                     // close DataOutputStream
                     out. close();
 

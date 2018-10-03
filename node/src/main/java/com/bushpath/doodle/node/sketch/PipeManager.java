@@ -74,7 +74,7 @@ public class PipeManager {
     }
 
     public int openPipe(SketchPlugin sketch, int transformThreadCount,
-            int distributorThreadCount) throws Exception {
+            int distributorThreadCount, int bufferSize) throws Exception {
         this.lock.writeLock().lock();
         try {
             // generate pipe id
@@ -90,7 +90,7 @@ public class PipeManager {
             // create transforms
             Transform[] transformArray = new Transform[transformThreadCount];
             for (int i=0; i<transformArray.length; i++) {
-                transformArray[i] = sketch.getTransform(in, out);
+                transformArray[i] = sketch.getTransform(in, out, bufferSize);
                 transformArray[i].start();
             }
 
