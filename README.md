@@ -43,5 +43,5 @@ Synopsis
 
 
 ## TODO
+- add control plugins to 'sketch show' command
 - implement sketch data insertion
-    - ProcessorManager?

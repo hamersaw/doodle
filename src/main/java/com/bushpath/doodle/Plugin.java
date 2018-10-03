@@ -2,7 +2,6 @@ package com.bushpath.doodle;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,32 @@ public abstract class Plugin {
         this.id = id;
         this.operations = new TreeMap();
         this.variables = new TreeMap();
+    }
+
+    public abstract void addVariable(String type, String name, String value);
+    public abstract void deleteVariable(String type, String name, String value);
+
+    public String getId() {
+        return this.id;
+    }
+
+    public List<PluginVariable> getVariables() {
+        List<PluginVariable> pluginVariables = new ArrayList();
+        for (String type : this.variables.keySet()) {
+            for (String name : this.variables.get(type).keySet()) {
+                PluginVariable.Builder builder = PluginVariable.newBuilder()
+                    .setType(type)
+                    .setName(name);
+
+                for (String value : this.variables.get(type).get(name)) {
+                    builder.addValues(value);
+                }
+
+                pluginVariables.add(builder.build());
+            }
+        }
+
+        return pluginVariables;
     }
 
     public void handleVariableOperation(VariableOperation variableOperation) {
@@ -81,37 +106,6 @@ public abstract class Plugin {
 
         // add operation to processed list
         this.operations.put(variableOperation.getTimestamp(), variableOperation);
-    }
-
-    public abstract void addVariable(String type, String name, String value);
-    public abstract void deleteVariable(String type, String name, String value);
-
-    public List<PluginVariable> getVariables() {
-        List<PluginVariable> pluginVariables = new ArrayList();
-        for (String type : this.variables.keySet()) {
-            for (String name : this.variables.get(type).keySet()) {
-                PluginVariable.Builder builder = PluginVariable.newBuilder()
-                    .setType(type)
-                    .setName(name);
-
-                for (String value : this.variables.get(type).get(name)) {
-                    builder.addValues(value);
-                }
-
-                pluginVariables.add(builder.build());
-            }
-        }
-
-        return pluginVariables;
-    }
-
-    public VariableOperations getVariableOperations() {
-        VariableOperations.Builder builder = VariableOperations.newBuilder();        
-        for (VariableOperation operation : this.operations.values()) {
-            builder.addOperations(operation);
-        }
-
-        return builder.build();
     }
 
     @Override

@@ -1,18 +1,27 @@
 package com.bushpath.doodle;
 
+import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import com.google.protobuf.ByteString;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public abstract class SketchPlugin extends Plugin {
-    public SketchPlugin(String id) {
+    List<String> controlPluginIds;
+
+    public SketchPlugin(String id, ControlPlugin[] controlPlugins) {
         super(id);
+
+        this.controlPluginIds = new ArrayList();
+        for (ControlPlugin controlPlugin : controlPlugins) {
+            this.controlPluginIds.add(controlPlugin.getId());
+        }
     }
 
     public int[] indexFeatures(List<String> list) throws Exception {
@@ -50,7 +59,8 @@ public abstract class SketchPlugin extends Plugin {
     public SketchPluginGossip toGossip() {
         SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()
             .setId(this.id)
-            .setClasspath(this.getClass().getName());
+            .setClasspath(this.getClass().getName())
+            .addAllControlPlugins(this.controlPluginIds);
 
         for (VariableOperation operation : this.operations.values()) {
             builder.addOperations(operation);

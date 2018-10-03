@@ -1,5 +1,6 @@
 package com.bushpath.doodle.node.sketch;
 
+import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 
 import java.io.DataInputStream;
@@ -32,11 +34,13 @@ public class SketchService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(SketchService.class);
 
+    protected ControlPluginManager controlPluginManager;
     protected PluginManager pluginManager;
     protected SketchPluginManager sketchPluginManager;
 
-    public SketchService(PluginManager pluginManager,
-            SketchPluginManager sketchPluginManager) {
+    public SketchService(ControlPluginManager controlPluginManager,
+            PluginManager pluginManager, SketchPluginManager sketchPluginManager) {
+        this.controlPluginManager = controlPluginManager;
         this.pluginManager = pluginManager;
         this.sketchPluginManager = sketchPluginManager;
     }
@@ -72,11 +76,19 @@ public class SketchService implements Service {
                         SketchInitResponse.newBuilder();
 
                     // add sketch plugin
+                    List<String> list = sketchInitRequest.getControlPluginsList();
+                    ControlPlugin[] controlPlugins = new ControlPlugin[list.size()];
+                    for (int i=0; i<controlPlugins.length; i++) {
+                        controlPlugins[i] =
+                            this.controlPluginManager.getPlugin(list.get(i));
+                    }
+
                     Class<? extends SketchPlugin> clazz = this.pluginManager
                         .getSketchPlugin(sketchInitRequest.getPlugin());
-                    Constructor constructor = clazz.getConstructor(String.class);
-                    SketchPlugin sketchPlugin = (SketchPlugin)
-                        constructor.newInstance(sketchInitRequest.getId());
+                    Constructor constructor =
+                        clazz.getConstructor(String.class, ControlPlugin[].class);
+                    SketchPlugin sketchPlugin = (SketchPlugin) constructor
+                        .newInstance(sketchInitRequest.getId(), controlPlugins);
 
                     this.sketchPluginManager.addPlugin(sketchInitRequest.getId(),
                         sketchPlugin);

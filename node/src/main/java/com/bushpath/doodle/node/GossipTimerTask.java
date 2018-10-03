@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.List;
 import java.util.Map;
 
 public class GossipTimerTask extends TimerTask {
@@ -139,11 +140,19 @@ public class GossipTimerTask extends TimerTask {
             } else {
                 // create plugin if it doesn't exit
                 try {
+                    List<String> list = pluginGossip.getControlPluginsList();
+                    ControlPlugin[] controlPlugins = new ControlPlugin[list.size()];
+                    for (int i=0; i<controlPlugins.length; i++) {
+                        controlPlugins[i] =
+                            this.controlPluginManager.getPlugin(list.get(i));
+                    }
+
                     Class<? extends SketchPlugin> clazz = this.pluginManager
                         .getSketchPlugin(pluginGossip.getClasspath());
-                    Constructor constructor = clazz.getConstructor(String.class);
-                    plugin = (SketchPlugin)
-                        constructor.newInstance(pluginGossip.getId());
+                    Constructor constructor = 
+                        clazz.getConstructor(String.class, ControlPlugin[].class);
+                    plugin = (SketchPlugin) constructor
+                        .newInstance(pluginGossip.getId(), controlPlugins);
 
                     this.sketchPluginManager
                         .addPlugin(pluginGossip.getId(), plugin);
