@@ -13,10 +13,12 @@ import java.util.TreeSet;
 import java.util.zip.CRC32;
 
 public abstract class Plugin {
+    protected String id;
     protected Map<Long, VariableOperation> operations;
     protected Map<String, Map<String, Set<String>>> variables;
 
-    public Plugin() {
+    public Plugin(String id) {
+        this.id = id;
         this.operations = new TreeMap();
         this.variables = new TreeMap();
     }
@@ -115,6 +117,7 @@ public abstract class Plugin {
     @Override
     public int hashCode() {
         CRC32 crc32 = new CRC32();
+
         for (String type : this.variables.keySet()) {
             crc32.update(type.getBytes());
             for (String name : this.variables.get(type).keySet()) {

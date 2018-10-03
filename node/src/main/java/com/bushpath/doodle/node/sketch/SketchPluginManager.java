@@ -77,7 +77,7 @@ public class SketchPluginManager {
         }
     }
 
-    public int getPluginsHash() {
+    /*public int getPluginsHash() {
         CRC32 crc32 = new CRC32();
 
         this.lock.readLock().lock();
@@ -85,6 +85,24 @@ public class SketchPluginManager {
             // update crc32 with toString() of each node
             for (String plugin : this.plugins.keySet()) {
                 crc32.update(plugin.getBytes());
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
+        return (int) crc32.getValue();
+    }*/
+
+    @Override
+    public int hashCode() {
+        CRC32 crc32 = new CRC32();
+
+        this.lock.readLock().lock();
+        try {
+            for (Map.Entry<String, SketchPlugin> entry :
+                    this.plugins.entrySet()) {
+                crc32.update(entry.getKey().getBytes());
+                crc32.update(entry.getValue().hashCode());
             }
         } finally {
             this.lock.readLock().unlock();

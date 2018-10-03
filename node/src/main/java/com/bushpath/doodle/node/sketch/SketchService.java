@@ -25,19 +25,20 @@ import com.bushpath.doodle.node.plugin.PluginManager;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Map;
 
 public class SketchService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(SketchService.class);
 
-    protected SketchPluginManager sketchPluginManager;
     protected PluginManager pluginManager;
+    protected SketchPluginManager sketchPluginManager;
 
-    public SketchService(SketchPluginManager sketchPluginManager,
-            PluginManager pluginManager) {
-        this.sketchPluginManager = sketchPluginManager;
+    public SketchService(PluginManager pluginManager,
+            SketchPluginManager sketchPluginManager) {
         this.pluginManager = pluginManager;
+        this.sketchPluginManager = sketchPluginManager;
     }
 
     @Override

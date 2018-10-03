@@ -92,60 +92,22 @@ public class ControlService implements Service {
                     }
 
                     // handle control plugins
-                    if (gossipRequest.getControlPluginsHash() !=
-                            this.controlPluginManager.getPluginsHash()) {
-                        // if control plugins hash != -> add all control plugins
+                    if (gossipRequest.getControlHash() !=
+                            this.controlPluginManager.hashCode()) {
                         for (Map.Entry<String, ControlPlugin> entry :
                                 this.controlPluginManager.getPluginEntrySet()) {
-                            gossipBuilder.putControlPlugins(entry.getKey(),
-                                entry.getValue().getClass().getName());
-                        }
-                    }
-
-                    // populate controlOperations
-                    for (Map.Entry<String, Integer> entry :
-                            gossipRequest.getControlOperationsHashesMap()
-                                .entrySet()) {
-                        if (!this.controlPluginManager
-                                .containsPlugin(entry.getKey())) {
-                            continue;
-                        }
-
-                        ControlPlugin controlPlugin =
-                            this.controlPluginManager.getPlugin(entry.getKey());
-
-                        if (controlPlugin.hashCode() != entry.getValue()) {
-                            gossipBuilder.putControlOperations(entry.getKey(),
-                                controlPlugin.getVariableOperations());
+                            gossipBuilder
+                                .addControlPlugins(entry.getValue().toGossip());
                         }
                     }
 
                     // handle sketch plugins
-                    if (gossipRequest.getSketchPluginsHash() !=
-                            this.sketchPluginManager.getPluginsHash()) {
-                        // if sketch plugins hash != -> add all sketch plugins
+                    if (gossipRequest.getSketchHash() !=
+                            this.sketchPluginManager.hashCode()) {
                         for (Map.Entry<String, SketchPlugin> entry :
                                 this.sketchPluginManager.getPluginEntrySet()) {
-                            gossipBuilder.putSketchPlugins(entry.getKey(),
-                                entry.getValue().getClass().getName());
-                        }
-                    }
-
-                    // populate sketchOperations
-                    for (Map.Entry<String, Integer> entry :
-                            gossipRequest.getSketchOperationsHashesMap()
-                                .entrySet()) {
-                        if (!this.sketchPluginManager
-                                .containsPlugin(entry.getKey())) {
-                            continue;
-                        }
-
-                        SketchPlugin sketchPlugin =
-                            this.sketchPluginManager.getPlugin(entry.getKey());
-
-                        if (sketchPlugin.hashCode() != entry.getValue()) {
-                            gossipBuilder.putSketchOperations(entry.getKey(),
-                                sketchPlugin.getVariableOperations());
+                            gossipBuilder
+                                .addSketchPlugins(entry.getValue().toGossip());
                         }
                     }
 
@@ -168,9 +130,9 @@ public class ControlService implements Service {
                     // add control plugin
                     Class<? extends ControlPlugin> clazz = this.pluginManager
                         .getControlPlugin(controlInitRequest.getPlugin());
-                    Constructor constructor = clazz.getConstructor();
-                    ControlPlugin controlPlugin =
-                        (ControlPlugin) constructor.newInstance();
+                    Constructor constructor = clazz.getConstructor(String.class);
+                    ControlPlugin controlPlugin = (ControlPlugin) 
+                        constructor.newInstance(controlInitRequest.getId());
 
                     this.controlPluginManager.addPlugin(controlInitRequest.getId(),
                         controlPlugin);

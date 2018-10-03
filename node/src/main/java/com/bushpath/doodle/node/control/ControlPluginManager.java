@@ -77,14 +77,16 @@ public class ControlPluginManager {
         }
     }
 
-    public int getPluginsHash() {
+    @Override
+    public int hashCode() {
         CRC32 crc32 = new CRC32();
 
         this.lock.readLock().lock();
         try {
-            // update crc32 with toString() of each node
-            for (String plugin : this.plugins.keySet()) {
-                crc32.update(plugin.getBytes());
+            for (Map.Entry<String, ControlPlugin> entry :
+                    this.plugins.entrySet()) {
+                crc32.update(entry.getKey().getBytes());
+                crc32.update(entry.getValue().hashCode());
             }
         } finally {
             this.lock.readLock().unlock();

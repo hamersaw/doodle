@@ -70,6 +70,32 @@ message ControlShowResponse {
 
 message GossipRequest {
     int32 nodesHash = 1;
+    int32 controlHash = 2;
+    int32 sketchHash = 3;
+}
+
+message GossipResponse {
+    repeated Node nodes = 1;
+    repeated ControlPluginGossip controlPlugins = 2;
+    repeated SketchPluginGossip sketchPlugins = 3;
+}
+
+message ControlPluginGossip {
+    string id = 1;
+    string classpath = 2;
+    repeated VariableOperation operations = 3;
+}
+
+message SketchPluginGossip {
+    string id = 1;
+    string classpath = 2;
+    repeated string controlPlugins = 3;
+    repeated VariableOperation operations = 4;
+}
+
+
+/*message GossipRequest {
+    int32 nodesHash = 1;
     int32 controlPluginsHash = 2;
     map<string, int32> controlOperationsHashes = 3;
     int32 sketchPluginsHash = 4;
@@ -82,7 +108,7 @@ message GossipResponse {
     map<string, VariableOperations> controlOperations = 3;
     map<string, string> sketchPlugins = 4;
     map<string, VariableOperations> sketchOperations = 5;
-}
+}*/
 
 /**
  * Node Messages
@@ -154,6 +180,7 @@ message PluginListResponse {
 message SketchInitRequest {
     string id = 1;
     string plugin = 2;
+    repeated string controlPlugins = 3;
 }
 
 message SketchInitResponse {

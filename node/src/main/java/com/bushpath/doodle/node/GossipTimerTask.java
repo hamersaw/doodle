@@ -3,12 +3,13 @@ package com.bushpath.doodle.node;
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,20 +61,8 @@ public class GossipTimerTask extends TimerTask {
         // create GossipRequest
         GossipRequest.Builder builder = GossipRequest.newBuilder()
             .setNodesHash(this.nodeManager.getNodesHash())
-            .setControlPluginsHash(this.controlPluginManager.getPluginsHash())
-            .setSketchPluginsHash(this.sketchPluginManager.getPluginsHash());
-
-        for (Map.Entry<String, ControlPlugin> entry :
-                this.controlPluginManager.getPluginEntrySet()) {
-            builder.putControlOperationsHashes(entry.getKey(),
-                entry.getValue().hashCode());
-        }
-
-        for (Map.Entry<String, SketchPlugin> entry :
-                this.sketchPluginManager.getPluginEntrySet()) {
-            builder.putSketchOperationsHashes(entry.getKey(),
-                entry.getValue().hashCode());
-        }
+            .setControlHash(this.controlPluginManager.hashCode())
+            .setSketchHash(this.sketchPluginManager.hashCode());
 
         GossipRequest request = builder.build();
 
@@ -109,83 +98,65 @@ public class GossipTimerTask extends TimerTask {
             }
         }
 
-        // handle control plugin hashes and operations
-        for (Map.Entry<String, String> pluginEntry :
-                response.getControlPluginsMap().entrySet()) {
-            // check if control plugin exists
-            if (this.controlPluginManager.containsPlugin(pluginEntry.getKey())) {
-                continue;
-            }
+        // handle control plugins
+        for (ControlPluginGossip pluginGossip : response.getControlPluginsList()) {
+            ControlPlugin plugin;
+            // handle plugin
+            if (this.controlPluginManager.containsPlugin(pluginGossip.getId())) {
+                // retrieve plugin
+                plugin = this.controlPluginManager.getPlugin(pluginGossip.getId());
+            } else {
+                // create plugin if it doesn't exit
+                try {
+                    Class<? extends ControlPlugin> clazz = this.pluginManager
+                        .getControlPlugin(pluginGossip.getClasspath());
+                    Constructor constructor = clazz.getConstructor(String.class);
+                    plugin = (ControlPlugin)
+                        constructor.newInstance(pluginGossip.getId());
 
-            // add control plugin
-            try {
-                Class<? extends ControlPlugin> clazz =
-                    this.pluginManager.getControlPlugin(pluginEntry.getValue());
-                Constructor constructor = clazz.getConstructor();
-                ControlPlugin controlPlugin =
-                    (ControlPlugin) constructor.newInstance();
-
-                this.controlPluginManager.addPlugin(pluginEntry.getKey(),
-                    controlPlugin);
-            } catch (Exception e) {
-                log.error("Failed to add ControlPlugin: {}",
-                    pluginEntry.getKey(), e);
-            }
-        }
-
-        for (Map.Entry<String, VariableOperations> entry :
-                response.getControlOperationsMap().entrySet()) {
-            try {
-                ControlPlugin controlPlugin =
-                    this.controlPluginManager.getPlugin(entry.getKey());
-
-                for (VariableOperation operation :
-                        entry.getValue().getOperationsList()) {
-                    controlPlugin.handleVariableOperation(operation);
+                    this.controlPluginManager
+                        .addPlugin(pluginGossip.getId(), plugin);
+                } catch (Exception e) {
+                    log.error("Failed to add ControlPlugin: {}",
+                        pluginGossip.getId(), e);
+                    continue;
                 }
-            } catch (Exception e) {
-                log.error("Failed to process VariableOperations "
-                    + "for ControlPlugin '{}'", entry.getKey(), e);
+            }
+
+            // handle operations
+            for (VariableOperation operation : pluginGossip.getOperationsList()) {
+                plugin.handleVariableOperation(operation);
             }
         }
  
-        // handle sketch plugin hashes and operations
-        for (Map.Entry<String, String> pluginEntry :
-                response.getSketchPluginsMap().entrySet()) {
-            // check if sketch plugin exists
-            if (this.sketchPluginManager.containsPlugin(pluginEntry.getKey())) {
-                continue;
-            }
+        // handle sketch plugins
+        for (SketchPluginGossip pluginGossip : response.getSketchPluginsList()) {
+            SketchPlugin plugin;
+            // handle plugin
+            if (this.sketchPluginManager.containsPlugin(pluginGossip.getId())) {
+                // retrieve plugin
+                plugin = this.sketchPluginManager.getPlugin(pluginGossip.getId());
+            } else {
+                // create plugin if it doesn't exit
+                try {
+                    Class<? extends SketchPlugin> clazz = this.pluginManager
+                        .getSketchPlugin(pluginGossip.getClasspath());
+                    Constructor constructor = clazz.getConstructor(String.class);
+                    plugin = (SketchPlugin)
+                        constructor.newInstance(pluginGossip.getId());
 
-            // add sketch plugin
-            try {
-                Class<? extends SketchPlugin> clazz =
-                    this.pluginManager.getSketchPlugin(pluginEntry.getValue());
-                Constructor constructor = clazz.getConstructor(String.class);
-                SketchPlugin sketchPlugin =
-                    (SketchPlugin) constructor.newInstance(pluginEntry.getKey());
-
-                this.sketchPluginManager.addPlugin(pluginEntry.getKey(),
-                    sketchPlugin);
-            } catch (Exception e) {
-                log.error("Failed to add SketchPlugin: {}",
-                    pluginEntry.getKey(), e);
-            }
-        }
-
-        for (Map.Entry<String, VariableOperations> entry :
-                response.getSketchOperationsMap().entrySet()) {
-            try {
-                SketchPlugin sketchPlugin =
-                    this.sketchPluginManager.getPlugin(entry.getKey());
-
-                for (VariableOperation operation :
-                        entry.getValue().getOperationsList()) {
-                    sketchPlugin.handleVariableOperation(operation);
+                    this.sketchPluginManager
+                        .addPlugin(pluginGossip.getId(), plugin);
+                } catch (Exception e) {
+                    log.error("Failed to add SketchPlugin: {}",
+                        pluginGossip.getId(), e);
+                    continue;
                 }
-            } catch (Exception e) {
-                log.error("Failed to process VariableOperations "
-                    + "for SketchPlugin '{}'", entry.getKey(), e);
+            }
+
+            // handle operations
+            for (VariableOperation operation : pluginGossip.getOperationsList()) {
+                plugin.handleVariableOperation(operation);
             }
         }
     }

@@ -162,7 +162,7 @@ public class Main {
             server.registerService(pipeService);
 
             SketchService sketchService = new SketchService(
-                sketchPluginManager, pluginManager);
+                pluginManager, sketchPluginManager);
             server.registerService(sketchService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);

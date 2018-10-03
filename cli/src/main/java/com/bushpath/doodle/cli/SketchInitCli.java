@@ -6,7 +6,11 @@ import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Command(name = "init",
     description = "Initialize a SketchPlugin.",
@@ -18,12 +22,17 @@ public class SketchInitCli implements Runnable {
     @Parameters(index="1", description="SketchPlugin classpath.")
     private String plugin;
 
+    @Option(names={"-c", "--control-plugins"},
+        description="ControlPlugin ID's to make available to SketchPlugin.")
+    private List<String> controlPlugins = new ArrayList();
+
     @Override
     public void run() {
         // create SketchInitRequest
         SketchInitRequest request = SketchInitRequest.newBuilder()
             .setId(this.id)
             .setPlugin(this.plugin)
+            .addAllControlPlugins(this.controlPlugins)
             .build();
         SketchInitResponse response = null;
 

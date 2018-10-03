@@ -84,10 +84,10 @@ public abstract class Transform extends Thread {
         }
     }
 
-    public abstract void process(float[] observation) throws Exception;
-    public abstract void close() throws Exception;
-
     public void shutdown() {
         this.shutdown = true;
     }
+
+    public abstract void close() throws Exception;
+    public abstract void process(float[] observation) throws Exception;
 }

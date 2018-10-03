@@ -1,6 +1,8 @@
 package com.bushpath.doodle;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import com.google.protobuf.ByteString;
 
@@ -9,10 +11,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public abstract class SketchPlugin extends Plugin {
-    protected String id;
-
     public SketchPlugin(String id) {
-        this.id = id;
+        super(id);
     }
 
     public int[] indexFeatures(List<String> list) throws Exception {
@@ -46,4 +46,16 @@ public abstract class SketchPlugin extends Plugin {
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<SketchWriteRequest> out, int bufferSize);
     public abstract void write(ByteString byteString) throws Exception;
+
+    public SketchPluginGossip toGossip() {
+        SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()
+            .setId(this.id)
+            .setClasspath(this.getClass().getName());
+
+        for (VariableOperation operation : this.operations.values()) {
+            builder.addOperations(operation);
+        }
+
+        return builder.build();
+    }
 }

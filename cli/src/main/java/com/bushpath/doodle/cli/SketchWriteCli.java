@@ -34,19 +34,24 @@ public class SketchWriteCli implements Runnable {
     @Parameters(index="1", description="CSV file to load.")
     private String filename;
 
-    @Option(names={"-p", "--pipe-count"}, description="")
+    @Option(names={"-p", "--pipe-count"},
+        description="The nubmer of nodes to initialize pipes at [default=5].")
     private int pipeCount = 5;
 
-    @Option(names={"-t", "--transform-thread-count"}, description="")
+    @Option(names={"-t", "--transform-thread-count"},
+        description="Number of transform threads at each node [default=3].")
     private int transformThreadCount = 3;
 
-    @Option(names={"-d", "--distributor-thread-count"}, description="")
+    @Option(names={"-d", "--distributor-thread-count"},
+        description="Number of distributor threads at each node [default=3].")
     private int distributorThreadCount = 3;
 
-    @Option(names={"-b", "--sketch-write-buffer-size"}, description="")
+    @Option(names={"-b", "--sketch-write-buffer-size"},
+        description="Size of SketchWriteRequest data (in bytes) [default=2000].")
     private int sketchWriteBufferSize = 2000;
 
-    @Option(names={"-s", "--pipe-write-buffer-size"}, description="")
+    @Option(names={"-s", "--pipe-write-buffer-size"},
+        description="Size of PipeWriteRequest data (in bytes) [default=2000].")
     private int pipeWriteBufferSize = 2000;
 
     @Override
