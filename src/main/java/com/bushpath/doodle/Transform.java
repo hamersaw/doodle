@@ -70,7 +70,7 @@ public abstract class Transform extends Thread {
                     this.process(observation);
                 } catch (Exception e) {
                     log.error("Failed to process observation for sketch '{}'",
-                        this.sketchId);
+                        this.sketchId, e);
                 }
             }
         }

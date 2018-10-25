@@ -45,3 +45,5 @@ Synopsis
 ## TODO
 - add control plugins to 'sketch show' command
 - implement sketch data insertion
+- hadoop doesn't work well with anamnesis because the block sizes vary between blocks
+    - when writing a file to anamensis with hdfs native client hadoop works

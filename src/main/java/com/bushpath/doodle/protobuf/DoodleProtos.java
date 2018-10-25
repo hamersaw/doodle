@@ -68,25 +68,29 @@ public final class DoodleProtos {
      */
     PLUGIN_LIST(11),
     /**
-     * <code>SKETCH_INIT = 12;</code>
+     * <code>QUERY = 12;</code>
      */
-    SKETCH_INIT(12),
+    QUERY(12),
     /**
-     * <code>SKETCH_LIST = 13;</code>
+     * <code>SKETCH_INIT = 13;</code>
      */
-    SKETCH_LIST(13),
+    SKETCH_INIT(13),
     /**
-     * <code>SKETCH_MODIFY = 14;</code>
+     * <code>SKETCH_LIST = 14;</code>
      */
-    SKETCH_MODIFY(14),
+    SKETCH_LIST(14),
     /**
-     * <code>SKETCH_SHOW = 15;</code>
+     * <code>SKETCH_MODIFY = 15;</code>
      */
-    SKETCH_SHOW(15),
+    SKETCH_MODIFY(15),
     /**
-     * <code>SKETCH_WRITE = 16;</code>
+     * <code>SKETCH_SHOW = 16;</code>
      */
-    SKETCH_WRITE(16),
+    SKETCH_SHOW(16),
+    /**
+     * <code>SKETCH_WRITE = 17;</code>
+     */
+    SKETCH_WRITE(17),
     UNRECOGNIZED(-1),
     ;
 
@@ -139,25 +143,29 @@ public final class DoodleProtos {
      */
     public static final int PLUGIN_LIST_VALUE = 11;
     /**
-     * <code>SKETCH_INIT = 12;</code>
+     * <code>QUERY = 12;</code>
      */
-    public static final int SKETCH_INIT_VALUE = 12;
+    public static final int QUERY_VALUE = 12;
     /**
-     * <code>SKETCH_LIST = 13;</code>
+     * <code>SKETCH_INIT = 13;</code>
      */
-    public static final int SKETCH_LIST_VALUE = 13;
+    public static final int SKETCH_INIT_VALUE = 13;
     /**
-     * <code>SKETCH_MODIFY = 14;</code>
+     * <code>SKETCH_LIST = 14;</code>
      */
-    public static final int SKETCH_MODIFY_VALUE = 14;
+    public static final int SKETCH_LIST_VALUE = 14;
     /**
-     * <code>SKETCH_SHOW = 15;</code>
+     * <code>SKETCH_MODIFY = 15;</code>
      */
-    public static final int SKETCH_SHOW_VALUE = 15;
+    public static final int SKETCH_MODIFY_VALUE = 15;
     /**
-     * <code>SKETCH_WRITE = 16;</code>
+     * <code>SKETCH_SHOW = 16;</code>
      */
-    public static final int SKETCH_WRITE_VALUE = 16;
+    public static final int SKETCH_SHOW_VALUE = 16;
+    /**
+     * <code>SKETCH_WRITE = 17;</code>
+     */
+    public static final int SKETCH_WRITE_VALUE = 17;
 
 
     public final int getNumber() {
@@ -190,11 +198,12 @@ public final class DoodleProtos {
         case 9: return PIPE_OPEN;
         case 10: return PIPE_WRITE;
         case 11: return PLUGIN_LIST;
-        case 12: return SKETCH_INIT;
-        case 13: return SKETCH_LIST;
-        case 14: return SKETCH_MODIFY;
-        case 15: return SKETCH_SHOW;
-        case 16: return SKETCH_WRITE;
+        case 12: return QUERY;
+        case 13: return SKETCH_INIT;
+        case 14: return SKETCH_LIST;
+        case 15: return SKETCH_MODIFY;
+        case 16: return SKETCH_SHOW;
+        case 17: return SKETCH_WRITE;
         default: return null;
       }
     }
@@ -26317,16 +26326,16 @@ public final class DoodleProtos {
       "peration\022\021\n\ttimestamp\030\001 \001(\003\022/\n\toperation" +
       "\030\002 \001(\0162\034.VariableOperation.Operation\022!\n\010" +
       "variable\030\003 \001(\0132\017.PluginVariable\" \n\tOpera" +
-      "tion\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001*\246\002\n\013MessageTyp" +
+      "tion\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001*\261\002\n\013MessageTyp" +
       "e\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n" +
       "\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007F" +
       "AILURE\020\004\022\n\n\006GOSSIP\020\005\022\r\n\tNODE_LIST\020\006\022\r\n\tN" +
       "ODE_SHOW\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIPE_OPEN\020" +
-      "\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_LIST\020\013\022\017\n\013SK" +
-      "ETCH_INIT\020\014\022\017\n\013SKETCH_LIST\020\r\022\021\n\rSKETCH_M" +
-      "ODIFY\020\016\022\017\n\013SKETCH_SHOW\020\017\022\020\n\014SKETCH_WRITE" +
-      "\020\020B/\n\034com.bushpath.doodle.protobufB\014Dood" +
-      "leProtos\240\001\001b\006proto3"
+      "\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_LIST\020\013\022\t\n\005QU" +
+      "ERY\020\014\022\017\n\013SKETCH_INIT\020\r\022\017\n\013SKETCH_LIST\020\016\022" +
+      "\021\n\rSKETCH_MODIFY\020\017\022\017\n\013SKETCH_SHOW\020\020\022\020\n\014S" +
+      "KETCH_WRITE\020\021B/\n\034com.bushpath.doodle.pro" +
+      "tobufB\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

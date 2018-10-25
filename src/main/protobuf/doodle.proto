@@ -21,11 +21,12 @@ enum MessageType {
     PIPE_OPEN = 9;
     PIPE_WRITE = 10;
     PLUGIN_LIST = 11;
-    SKETCH_INIT = 12;
-    SKETCH_LIST = 13;
-    SKETCH_MODIFY = 14;
-    SKETCH_SHOW = 15;
-    SKETCH_WRITE = 16;
+    QUERY = 12;
+    SKETCH_INIT = 13;
+    SKETCH_LIST = 14;
+    SKETCH_MODIFY = 15;
+    SKETCH_SHOW = 16;
+    SKETCH_WRITE = 17;
 }
 
 /**
@@ -154,6 +155,19 @@ message PluginListRequest {
 message PluginListResponse {
     repeated string controlPlugins = 1;
     repeated string sketchPlugins = 2;
+}
+
+/**
+ * Query Messages
+ */
+message QueryRequest {
+    bytes query = 1; 
+    double multiplier = 2;
+}
+
+message QueryResponse {
+    string pluginClass = 1;
+    bytes data = 2;
 }
 
 /**
