@@ -158,19 +158,6 @@ message PluginListResponse {
 }
 
 /**
- * Query Messages
- */
-message QueryRequest {
-    bytes query = 1; 
-    double multiplier = 2;
-}
-
-message QueryResponse {
-    string pluginClass = 1;
-    bytes data = 2;
-}
-
-/**
  * Sketch Messages
  */
 
