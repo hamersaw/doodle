@@ -17,10 +17,11 @@ import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.NodeService;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
-import com.bushpath.doodle.node.sketch.SketchPluginManager;
-import com.bushpath.doodle.node.sketch.SketchService;
 import com.bushpath.doodle.node.sketch.PipeManager;
 import com.bushpath.doodle.node.sketch.PipeService;
+import com.bushpath.doodle.node.sketch.SketchPluginManager;
+import com.bushpath.doodle.node.sketch.SketchService;
+import com.bushpath.doodle.node.sketch.QueryService;
 
 import java.io.File;
 import java.io.IOException;
@@ -160,6 +161,10 @@ public class Main {
             PipeService pipeService =
                 new PipeService(sketchPluginManager, pipeManager);
             server.registerService(pipeService);
+
+            QueryService queryService =
+                new QueryService(sketchPluginManager);
+            server.registerService(queryService);
 
             SketchService sketchService = new SketchService(
                 controlPluginManager, pluginManager, sketchPluginManager);

@@ -158,6 +158,20 @@ message PluginListResponse {
 }
 
 /**
+ * Query Messages
+ */
+
+message QueryRequest {
+    bytes query = 1;
+    int32 bufferSize = 2;
+}
+
+message QueryResponse {
+    bytes data = 1;
+    bool lastMessage = 2;
+}
+
+/**
  * Sketch Messages
  */
 

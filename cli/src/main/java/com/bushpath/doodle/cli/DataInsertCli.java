@@ -24,10 +24,10 @@ import java.io.DataOutputStream;
 import java.util.List;
 import java.util.Random;
 
-@Command(name = "write",
-    description = "Write data to a SketchPlugin.",
+@Command(name = "insert",
+    description = "Insert data to a SketchPlugin.",
     mixinStandardHelpOptions = true)
-public class SketchWriteCli implements Runnable {
+public class DataInsertCli implements Runnable {
     @Parameters(index="0", description="Id of SketchPlugin instance.")
     private String sketchId;
 

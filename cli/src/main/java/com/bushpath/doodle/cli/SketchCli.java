@@ -7,7 +7,7 @@ import picocli.CommandLine.Command;
     description = "Configure sketch plane.",
     mixinStandardHelpOptions = true,
     subcommands = {SketchInitCli.class, SketchListCli.class,
-        SketchModifyCli.class, SketchShowCli.class, SketchWriteCli.class})
+        SketchModifyCli.class, SketchShowCli.class})
 public class SketchCli implements Runnable {
     @Override
     public void run() {
