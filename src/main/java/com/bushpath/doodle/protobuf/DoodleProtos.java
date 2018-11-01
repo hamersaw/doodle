@@ -22041,25 +22041,35 @@ public final class DoodleProtos {
         getPluginBytes();
 
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>string inflatorClass = 2;</code>
+     */
+    java.lang.String getInflatorClass();
+    /**
+     * <code>string inflatorClass = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getInflatorClassBytes();
+
+    /**
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> 
         getVariablesList();
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getVariables(int index);
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     int getVariablesCount();
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
         getVariablesOrBuilderList();
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getVariablesOrBuilder(
         int index);
@@ -22078,6 +22088,7 @@ public final class DoodleProtos {
     }
     private SketchShowResponse() {
       plugin_ = "";
+      inflatorClass_ = "";
       variables_ = java.util.Collections.emptyList();
     }
 
@@ -22112,9 +22123,15 @@ public final class DoodleProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              inflatorClass_ = s;
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 variables_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               variables_.add(
                   input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.parser(), extensionRegistry));
@@ -22135,7 +22152,7 @@ public final class DoodleProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           variables_ = java.util.Collections.unmodifiableList(variables_);
         }
         this.unknownFields = unknownFields.build();
@@ -22190,35 +22207,69 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int VARIABLES_FIELD_NUMBER = 2;
+    public static final int INFLATORCLASS_FIELD_NUMBER = 2;
+    private volatile java.lang.Object inflatorClass_;
+    /**
+     * <code>string inflatorClass = 2;</code>
+     */
+    public java.lang.String getInflatorClass() {
+      java.lang.Object ref = inflatorClass_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        inflatorClass_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string inflatorClass = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getInflatorClassBytes() {
+      java.lang.Object ref = inflatorClass_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        inflatorClass_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VARIABLES_FIELD_NUMBER = 3;
     private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> variables_;
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> getVariablesList() {
       return variables_;
     }
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
         getVariablesOrBuilderList() {
       return variables_;
     }
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     public int getVariablesCount() {
       return variables_.size();
     }
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getVariables(int index) {
       return variables_.get(index);
     }
     /**
-     * <code>repeated .PluginVariable variables = 2;</code>
+     * <code>repeated .PluginVariable variables = 3;</code>
      */
     public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getVariablesOrBuilder(
         int index) {
@@ -22242,8 +22293,11 @@ public final class DoodleProtos {
       if (!getPluginBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, plugin_);
       }
+      if (!getInflatorClassBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, inflatorClass_);
+      }
       for (int i = 0; i < variables_.size(); i++) {
-        output.writeMessage(2, variables_.get(i));
+        output.writeMessage(3, variables_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -22257,9 +22311,12 @@ public final class DoodleProtos {
       if (!getPluginBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, plugin_);
       }
+      if (!getInflatorClassBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, inflatorClass_);
+      }
       for (int i = 0; i < variables_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, variables_.get(i));
+          .computeMessageSize(3, variables_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -22279,6 +22336,8 @@ public final class DoodleProtos {
       boolean result = true;
       result = result && getPlugin()
           .equals(other.getPlugin());
+      result = result && getInflatorClass()
+          .equals(other.getInflatorClass());
       result = result && getVariablesList()
           .equals(other.getVariablesList());
       result = result && unknownFields.equals(other.unknownFields);
@@ -22294,6 +22353,8 @@ public final class DoodleProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + PLUGIN_FIELD_NUMBER;
       hash = (53 * hash) + getPlugin().hashCode();
+      hash = (37 * hash) + INFLATORCLASS_FIELD_NUMBER;
+      hash = (53 * hash) + getInflatorClass().hashCode();
       if (getVariablesCount() > 0) {
         hash = (37 * hash) + VARIABLES_FIELD_NUMBER;
         hash = (53 * hash) + getVariablesList().hashCode();
@@ -22434,9 +22495,11 @@ public final class DoodleProtos {
         super.clear();
         plugin_ = "";
 
+        inflatorClass_ = "";
+
         if (variablesBuilder_ == null) {
           variables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           variablesBuilder_.clear();
         }
@@ -22469,10 +22532,11 @@ public final class DoodleProtos {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.plugin_ = plugin_;
+        result.inflatorClass_ = inflatorClass_;
         if (variablesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             variables_ = java.util.Collections.unmodifiableList(variables_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.variables_ = variables_;
         } else {
@@ -22531,11 +22595,15 @@ public final class DoodleProtos {
           plugin_ = other.plugin_;
           onChanged();
         }
+        if (!other.getInflatorClass().isEmpty()) {
+          inflatorClass_ = other.inflatorClass_;
+          onChanged();
+        }
         if (variablesBuilder_ == null) {
           if (!other.variables_.isEmpty()) {
             if (variables_.isEmpty()) {
               variables_ = other.variables_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureVariablesIsMutable();
               variables_.addAll(other.variables_);
@@ -22548,7 +22616,7 @@ public final class DoodleProtos {
               variablesBuilder_.dispose();
               variablesBuilder_ = null;
               variables_ = other.variables_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               variablesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getVariablesFieldBuilder() : null;
@@ -22656,12 +22724,81 @@ public final class DoodleProtos {
         return this;
       }
 
+      private java.lang.Object inflatorClass_ = "";
+      /**
+       * <code>string inflatorClass = 2;</code>
+       */
+      public java.lang.String getInflatorClass() {
+        java.lang.Object ref = inflatorClass_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          inflatorClass_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string inflatorClass = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getInflatorClassBytes() {
+        java.lang.Object ref = inflatorClass_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          inflatorClass_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string inflatorClass = 2;</code>
+       */
+      public Builder setInflatorClass(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        inflatorClass_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string inflatorClass = 2;</code>
+       */
+      public Builder clearInflatorClass() {
+        
+        inflatorClass_ = getDefaultInstance().getInflatorClass();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string inflatorClass = 2;</code>
+       */
+      public Builder setInflatorClassBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        inflatorClass_ = value;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> variables_ =
         java.util.Collections.emptyList();
       private void ensureVariablesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           variables_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable>(variables_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -22669,7 +22806,7 @@ public final class DoodleProtos {
           com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> variablesBuilder_;
 
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> getVariablesList() {
         if (variablesBuilder_ == null) {
@@ -22679,7 +22816,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public int getVariablesCount() {
         if (variablesBuilder_ == null) {
@@ -22689,7 +22826,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable getVariables(int index) {
         if (variablesBuilder_ == null) {
@@ -22699,7 +22836,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder setVariables(
           int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
@@ -22716,7 +22853,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder setVariables(
           int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
@@ -22730,7 +22867,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder addVariables(com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
         if (variablesBuilder_ == null) {
@@ -22746,7 +22883,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder addVariables(
           int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable value) {
@@ -22763,7 +22900,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder addVariables(
           com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
@@ -22777,7 +22914,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder addVariables(
           int index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder builderForValue) {
@@ -22791,7 +22928,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder addAllVariables(
           java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable> values) {
@@ -22806,12 +22943,12 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder clearVariables() {
         if (variablesBuilder_ == null) {
           variables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           variablesBuilder_.clear();
@@ -22819,7 +22956,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public Builder removeVariables(int index) {
         if (variablesBuilder_ == null) {
@@ -22832,14 +22969,14 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder getVariablesBuilder(
           int index) {
         return getVariablesFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder getVariablesOrBuilder(
           int index) {
@@ -22849,7 +22986,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder> 
            getVariablesOrBuilderList() {
@@ -22860,14 +22997,14 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder addVariablesBuilder() {
         return getVariablesFieldBuilder().addBuilder(
             com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance());
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder addVariablesBuilder(
           int index) {
@@ -22875,7 +23012,7 @@ public final class DoodleProtos {
             index, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.getDefaultInstance());
       }
       /**
-       * <code>repeated .PluginVariable variables = 2;</code>
+       * <code>repeated .PluginVariable variables = 3;</code>
        */
       public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder> 
            getVariablesBuilderList() {
@@ -22888,7 +23025,7 @@ public final class DoodleProtos {
           variablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable.Builder, com.bushpath.doodle.protobuf.DoodleProtos.PluginVariableOrBuilder>(
                   variables_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           variables_ = null;
@@ -27412,28 +27549,28 @@ public final class DoodleProtos {
       "SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\nopera" +
       "tions\030\002 \003(\0132\022.VariableOperation\"\026\n\024Sketc" +
       "hModifyResponse\"\037\n\021SketchShowRequest\022\n\n\002" +
-      "id\030\001 \001(\t\"H\n\022SketchShowResponse\022\016\n\006plugin" +
-      "\030\001 \001(\t\022\"\n\tvariables\030\002 \003(\0132\017.PluginVariab" +
-      "le\"D\n\022SketchWriteRequest\022\016\n\006nodeId\030\001 \001(\005" +
-      "\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023Sket" +
-      "chWriteResponse\"%\n\007Failure\022\014\n\004type\030\001 \001(\t" +
-      "\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tip" +
-      "Address\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginVar" +
-      "iable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006val" +
-      "ues\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\ttimes" +
-      "tamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.Variable" +
-      "Operation.Operation\022!\n\010variable\030\003 \001(\0132\017." +
-      "PluginVariable\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006" +
-      "DELETE\020\001*\261\002\n\013MessageType\022\020\n\014CONTROL_INIT" +
-      "\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002" +
-      "\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSI" +
-      "P\020\005\022\r\n\tNODE_LIST\020\006\022\r\n\tNODE_SHOW\020\007\022\016\n\nPIP" +
-      "E_CLOSE\020\010\022\r\n\tPIPE_OPEN\020\t\022\016\n\nPIPE_WRITE\020\n" +
-      "\022\017\n\013PLUGIN_LIST\020\013\022\t\n\005QUERY\020\014\022\017\n\013SKETCH_I" +
-      "NIT\020\r\022\017\n\013SKETCH_LIST\020\016\022\021\n\rSKETCH_MODIFY\020" +
-      "\017\022\017\n\013SKETCH_SHOW\020\020\022\020\n\014SKETCH_WRITE\020\021B/\n\034" +
-      "com.bushpath.doodle.protobufB\014DoodleProt" +
-      "os\240\001\001b\006proto3"
+      "id\030\001 \001(\t\"_\n\022SketchShowResponse\022\016\n\006plugin" +
+      "\030\001 \001(\t\022\025\n\rinflatorClass\030\002 \001(\t\022\"\n\tvariabl" +
+      "es\030\003 \003(\0132\017.PluginVariable\"D\n\022SketchWrite" +
+      "Request\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(" +
+      "\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteResponse\"%" +
+      "\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n" +
+      "\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004" +
+      "port\030\003 \001(\005\"<\n\016PluginVariable\022\014\n\004type\030\001 \001" +
+      "(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021Var" +
+      "iableOperation\022\021\n\ttimestamp\030\001 \001(\003\022/\n\tope" +
+      "ration\030\002 \001(\0162\034.VariableOperation.Operati" +
+      "on\022!\n\010variable\030\003 \001(\0132\017.PluginVariable\" \n" +
+      "\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001*\261\002\n\013Mess" +
+      "ageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTROL_LIS" +
+      "T\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL_SHOW\020" +
+      "\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\r\n\tNODE_LIST\020" +
+      "\006\022\r\n\tNODE_SHOW\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIPE" +
+      "_OPEN\020\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_LIST\020\013" +
+      "\022\t\n\005QUERY\020\014\022\017\n\013SKETCH_INIT\020\r\022\017\n\013SKETCH_L" +
+      "IST\020\016\022\021\n\rSKETCH_MODIFY\020\017\022\017\n\013SKETCH_SHOW\020" +
+      "\020\022\020\n\014SKETCH_WRITE\020\021B/\n\034com.bushpath.dood" +
+      "le.protobufB\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -27662,7 +27799,7 @@ public final class DoodleProtos {
     internal_static_SketchShowResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowResponse_descriptor,
-        new java.lang.String[] { "Plugin", "Variables", });
+        new java.lang.String[] { "Plugin", "InflatorClass", "Variables", });
     internal_static_SketchWriteRequest_descriptor =
       getDescriptor().getMessageTypes().get(34);
     internal_static_SketchWriteRequest_fieldAccessorTable = new

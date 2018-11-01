@@ -1,5 +1,6 @@
 package com.bushpath.doodle.cli;
 
+import com.bushpath.doodle.Inflator;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
@@ -21,16 +22,19 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ThreadedCursor {
-    protected List<Node> nodes;
     protected QueryRequest queryRequest;
+    protected List<Node> nodes;
+    protected Inflator inflator;
 
     protected BlockingQueue<ByteString> in;
     protected BlockingQueue<float[]> out;
     protected Worker[] workers;
 
-    public ThreadedCursor(Query query, int bufferSize,
-            List<Node> nodes, int workerCount) throws Exception {
+    public ThreadedCursor(List<Node> nodes,
+            Inflator inflator, Query query, int bufferSize,
+            int workerCount) throws Exception {
         this.nodes = nodes;
+        this.inflator = inflator;
 
         // initialize queryRequest
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
@@ -167,6 +171,7 @@ public class ThreadedCursor {
         public void run() {
             ByteString byteString = null;
             while (!in.isEmpty() || !this.shutdown) {
+                // retrieve next byteString
                 try {
                     byteString = in.poll(50, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
@@ -177,8 +182,20 @@ public class ThreadedCursor {
                     continue;
                 }
 
-                // TODO - submit byteString to Inflator
-                System.out.println("TODO - handle ByteString in ThreadedCursor.Worker");
+                // process byteString
+                List<float[]> observations = null;
+                try {
+                    observations = inflator.process(byteString);
+                } catch (Exception e) {
+                    System.err.println("failed to inflate ByteString: "
+                        + e.getMessage());
+                    continue;
+                }
+
+                // put observations in out queue
+                for (float[] observation : observations) {
+                    while (!out.offer(observation)) {}
+                }
             }
         }
     }

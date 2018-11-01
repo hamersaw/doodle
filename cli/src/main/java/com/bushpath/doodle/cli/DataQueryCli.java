@@ -1,10 +1,13 @@
 package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
+import com.bushpath.doodle.Inflator;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 
 import com.bushpath.rutils.query.Query;
 import com.bushpath.rutils.query.parser.FeatureRangeParser;
@@ -14,6 +17,13 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 
 @Command(name = "query",
@@ -26,6 +36,10 @@ public class DataQueryCli implements Runnable {
     @Option(names={"-b", "--buffer-size"},
         description="Size of buffer data (in bytes) [default=2000].")
     private int bufferSize = 2000;
+
+    @Option(names = {"-p", "--plugin-directory"},
+        description = "Directory containing Doodle plugins [default=../plugins].")
+    private String pluginDirectory = "../plugins";
 
     @Option(names = {"-q", "--query"},
         description = "Feature range query (eq. 'f0:0..10', 'f1:0..', 'f2:..10').")
@@ -48,16 +62,78 @@ public class DataQueryCli implements Runnable {
             return;
         }
 
-        // create NodeListRequest
-        NodeListRequest request = NodeListRequest.newBuilder()
-            .build();
-        NodeListResponse response = null;
+        // initialize SketchShowRequest
+        SketchShowRequest sketchShowRequest =
+            SketchShowRequest.newBuilder()
+                .setId(this.sketchId)
+                .build();
+        SketchShowResponse sketchShowResponse = null;
 
-        // send request
+        // send SketchShowRequest
         try {
-            response = (NodeListResponse) CommUtility.send(
+            sketchShowResponse = (SketchShowResponse) CommUtility.send(
+                MessageType.SKETCH_SHOW.getNumber(),
+                sketchShowRequest, Main.ipAddress, Main.port);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        // load plugins
+        URLClassLoader urlClassLoader = null;
+        try {
+            // find plugin jars
+            Object[] paths =
+                Files.walk(Paths.get(this.pluginDirectory))
+                    .filter(Files::isRegularFile)
+                    .filter(p -> !p.endsWith("jar"))
+                    .toArray();
+
+            URL[] urls = new URL[paths.length];
+            for (int i=0; i<urls.length; i++) {
+                String absoluteName = ((Path) paths[i]).toUri().toString();
+                System.out.println("LOADING JAR: '"
+                    + absoluteName + "'");
+                urls[i] = new URL(absoluteName);
+            }
+
+            // initialize new class loader as child
+            urlClassLoader =
+                new URLClassLoader(urls, Main.class.getClassLoader());
+
+            // must set ContextClassLoader of current thread
+            // it is adopted by all threads created by this
+            //Thread.currentThread().setContextClassLoader(urlClassLoader);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        // initialize Inflator
+        Inflator inflator = null;
+        try {
+            //Class c = Class.forName(sketchShowResponse.getInflatorClass());
+            Class c = urlClassLoader.loadClass(sketchShowResponse.getInflatorClass());
+            Constructor constructor = c.getConstructor(List.class);
+            inflator = (Inflator) constructor
+                .newInstance(sketchShowResponse.getVariablesList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("failed to initialize Inflator: "
+                + e.getMessage());
+            return;
+        }
+
+        // initialize NodeListRequest
+        NodeListRequest nodeListRequest =
+            NodeListRequest.newBuilder().build();
+        NodeListResponse nodeListResponse = null;
+
+        // send NodeListRequest
+        try {
+            nodeListResponse = (NodeListResponse) CommUtility.send(
                 MessageType.NODE_LIST.getNumber(),
-                request, Main.ipAddress, Main.port);
+                nodeListRequest, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
@@ -65,9 +141,9 @@ public class DataQueryCli implements Runnable {
 
         try {
             // initialize ThreadedCursor
-            ThreadedCursor cursor = new ThreadedCursor(query,
-                this.bufferSize, response.getNodesList(), 
-                this.workerCount);
+            ThreadedCursor cursor = new ThreadedCursor(
+                nodeListResponse.getNodesList(), inflator,
+                query, this.bufferSize, this.workerCount);
 
             // iterate over observations
             float[] observation = null;

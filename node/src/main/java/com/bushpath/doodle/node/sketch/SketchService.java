@@ -161,6 +161,8 @@ public class SketchService implements Service {
                         .getPlugin(sketchShowRequest.getId());
 
                     sketchShowBuilder.setPlugin(showPlugin.getClass().getName());
+                    sketchShowBuilder
+                        .setInflatorClass(showPlugin.getInflatorClass());
                     sketchShowBuilder.addAllVariables(showPlugin.getVariables());
 
                     // write to out

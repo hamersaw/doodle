@@ -205,7 +205,8 @@ message SketchShowRequest {
 
 message SketchShowResponse {
     string plugin = 1;    
-    repeated PluginVariable variables = 2;
+    string inflatorClass = 2;
+    repeated PluginVariable variables = 3;
 }
 
 message SketchWriteRequest {

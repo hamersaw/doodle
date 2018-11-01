@@ -19,6 +19,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -61,8 +63,12 @@ public class QueryService implements Service {
                     log.info("handling QueryRequest {}",
                         query.getEntity());
 
+                    // get SketchPlugin
+                    SketchPlugin sketch = this.sketchPluginManager
+                        .getPlugin(query.getEntity());
+
                     // start ResponseHandler
-                    BlockingQueue<byte[]> queue =
+                    BlockingQueue<Serializable> queue =
                         new ArrayBlockingQueue(2048);
 
                     ResponseHandler responseHandler = 
@@ -70,8 +76,10 @@ public class QueryService implements Service {
                             queryRequest.getBufferSize());
                     responseHandler.start();
 
-                    // TODO - handle
+                    // submit query to SketchPlugin
+                    sketch.query(query, queue);
 
+                    // shutdown ResponseHandler
                     responseHandler.shutdown(); 
                     responseHandler.join();
                     break;
@@ -96,40 +104,53 @@ public class QueryService implements Service {
     }
 
     protected class ResponseHandler extends Thread {
-        protected BlockingQueue<byte[]> in;
+        protected BlockingQueue<Serializable> in;
         protected DataOutputStream out;
         protected int bufferSize;
         protected ByteString.Output byteString;
+        protected ObjectOutputStream byteOut;
         protected boolean shutdown;
 
-        public ResponseHandler(BlockingQueue<byte[]> in,
-                DataOutputStream out, int bufferSize) {
+        public ResponseHandler(BlockingQueue<Serializable> in,
+                DataOutputStream out, int bufferSize) throws Exception {
             this.in = in;
             this.out = out;
             this.bufferSize = bufferSize;
             this.byteString = ByteString.newOutput();
+            this.byteOut = new ObjectOutputStream(byteString);
             this.shutdown = false;
         }
 
         @Override
         public void run() {
-            byte[] bytes = null;
+            Serializable s = null;
             while (!this.in.isEmpty() || !this.shutdown) {
                 // retrieve next "bytes" from queue
                 try {
-                    bytes = this.in.poll(50, TimeUnit.MILLISECONDS);
+                    s = this.in.poll(50, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
                     log.error("failed to poll queue", e);
                 }
 
-                if (bytes == null) {
+                if (s == null) {
                     continue;
                 }
 
                 // write bytes to ByteString
-                this.byteString.write(bytes, 0, bytes.length);
+                try {
+                    this.byteOut.writeObject(s);
+                    this.byteOut.flush();
+                } catch (IOException e) {
+                    log.warn("failed to write object", e);
+                }
 
                 if (this.byteString.size() >= this.bufferSize) {
+                    try {
+                        this.byteOut.close();
+                    } catch (IOException e) {
+                        log.warn("failed to close ObjectOutputStream", e);
+                    }
+
                     // write QueryResponse
                     QueryResponse queryResponse = 
                         QueryResponse.newBuilder()
@@ -145,7 +166,20 @@ public class QueryService implements Service {
                     }
 
                     this.byteString = ByteString.newOutput();
+
+                    try {
+                        this.byteOut = new ObjectOutputStream(this.byteString);
+                    } catch (IOException e) {
+                        log.error("failed to create ObjectOutputStream", e);
+                        return;
+                    }
                 }
+            }
+
+            try {
+                this.byteOut.close();
+            } catch (IOException e) {
+                log.warn("failed to close ObjectOutputStream", e);
             }
 
             // write QueryResponse

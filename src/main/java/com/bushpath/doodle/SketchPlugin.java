@@ -5,19 +5,25 @@ import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
+import com.bushpath.rutils.query.Query;
+
 import com.google.protobuf.ByteString;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public abstract class SketchPlugin extends Plugin {
-    List<String> controlPluginIds;
+    protected String inflatorClass;
+    protected List<String> controlPluginIds;
 
-    public SketchPlugin(String id, ControlPlugin[] controlPlugins) {
+    public SketchPlugin(String id, String inflatorClass, 
+            ControlPlugin[] controlPlugins) {
         super(id);
 
+        this.inflatorClass = inflatorClass;
         this.controlPluginIds = new ArrayList();
         for (ControlPlugin controlPlugin : controlPlugins) {
             this.controlPluginIds.add(controlPlugin.getId());
@@ -51,10 +57,16 @@ public abstract class SketchPlugin extends Plugin {
         return indices;
     }
 
+    public String getInflatorClass() {
+        return this.inflatorClass;
+    }
+
     public abstract Collection<String> getFeatures();
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<SketchWriteRequest> out, int bufferSize);
     public abstract void write(ByteString byteString) throws Exception;
+    public abstract void query(Query query,
+        BlockingQueue<Serializable> queue);
 
     public SketchPluginGossip toGossip() {
         SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()
