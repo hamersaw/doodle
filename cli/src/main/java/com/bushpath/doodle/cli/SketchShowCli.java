@@ -36,7 +36,9 @@ public class SketchShowCli implements Runnable {
 
         // handle SketchShowResponse
         System.out.println("id = \"" + this.id + "\""
-            + "\nclass = \"" + response.getPlugin() + "\"");
+            + "\nclass = \"" + response.getPlugin() + "\""
+            + "\ninflatorClass = \"" + response.getInflatorClass() + "\""
+            + "\nobservationCount = " + response.getObservationCount());
 
         for (PluginVariable variable : response.getVariablesList()) {
             System.out.print("\n[[variable]]"

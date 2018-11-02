@@ -64,9 +64,10 @@ public abstract class SketchPlugin extends Plugin {
     public abstract Collection<String> getFeatures();
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<SketchWriteRequest> out, int bufferSize);
+    public abstract long getObservationCount();
     public abstract void write(ByteString byteString) throws Exception;
     public abstract void query(Query query,
-        BlockingQueue<Serializable> queue);
+        BlockingQueue<Serializable> queue) throws Exception;
 
     public SketchPluginGossip toGossip() {
         SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()
