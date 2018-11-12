@@ -45,7 +45,7 @@
 
 
     - con mitigation
-        - checkpoints are fast require relatively little disk space (<10GB)
+        - checkpoints are fast and require relatively little disk space (<10GB)
             - frequently checkpoint data
 
         - may retain transaction log (data loaded) between checkpoints
@@ -56,12 +56,13 @@
 - change propogration
     - minimum spanning tree
 
-
-
 # api
-./doodle checkpoint list [sketchId]
-./doodle checkpoint new <sketchId> <checkpointId>
-./doodle checkpoint delete <checkpointId>
+./doodle sketch checkpoint <checkpointId>
+./doodle sketch rollback <checkpointId>
+
+./doodle checkpoint init <sketchId> <checkpointId>
+./doodle checkpoint list
+./doodle checkpoint show checkpointId
 
 # classes
 CheckpointManager.java
@@ -73,3 +74,21 @@ Checkpoint.java
     String sketchId
     Node primary
     Node[] secondaries
+
+# messages
+CheckpointInitRequest {
+    string sketchId = 1;
+    string checkpointId = 2;
+}
+
+CheckpointInitResponse {
+}
+
+CheckpointTransferRequest {
+    string checkpointId = 1;
+}
+
+CheckpointTransferResponse {
+    bytes data = 1;
+    boolean lastMessage = 2;
+}
