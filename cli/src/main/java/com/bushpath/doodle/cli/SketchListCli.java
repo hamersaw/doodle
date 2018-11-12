@@ -10,7 +10,7 @@ import picocli.CommandLine.Command;
 import java.util.Map;
 
 @Command(name = "list",
-    description = "List a SketchPlugin.",
+    description = "List all initialized SketchPlugins.",
     mixinStandardHelpOptions = true)
 public class SketchListCli implements Runnable {
     @Override

@@ -76,21 +76,29 @@ public final class DoodleProtos {
      */
     SKETCH_INIT(13),
     /**
-     * <code>SKETCH_LIST = 14;</code>
+     * <code>SKETCH_CHECKPOINT = 14;</code>
      */
-    SKETCH_LIST(14),
+    SKETCH_CHECKPOINT(14),
     /**
-     * <code>SKETCH_MODIFY = 15;</code>
+     * <code>SKETCH_LIST = 15;</code>
      */
-    SKETCH_MODIFY(15),
+    SKETCH_LIST(15),
     /**
-     * <code>SKETCH_SHOW = 16;</code>
+     * <code>SKETCH_MODIFY = 16;</code>
      */
-    SKETCH_SHOW(16),
+    SKETCH_MODIFY(16),
     /**
-     * <code>SKETCH_WRITE = 17;</code>
+     * <code>SKETCH_ROLLBACK = 17;</code>
      */
-    SKETCH_WRITE(17),
+    SKETCH_ROLLBACK(17),
+    /**
+     * <code>SKETCH_SHOW = 18;</code>
+     */
+    SKETCH_SHOW(18),
+    /**
+     * <code>SKETCH_WRITE = 19;</code>
+     */
+    SKETCH_WRITE(19),
     UNRECOGNIZED(-1),
     ;
 
@@ -151,21 +159,29 @@ public final class DoodleProtos {
      */
     public static final int SKETCH_INIT_VALUE = 13;
     /**
-     * <code>SKETCH_LIST = 14;</code>
+     * <code>SKETCH_CHECKPOINT = 14;</code>
      */
-    public static final int SKETCH_LIST_VALUE = 14;
+    public static final int SKETCH_CHECKPOINT_VALUE = 14;
     /**
-     * <code>SKETCH_MODIFY = 15;</code>
+     * <code>SKETCH_LIST = 15;</code>
      */
-    public static final int SKETCH_MODIFY_VALUE = 15;
+    public static final int SKETCH_LIST_VALUE = 15;
     /**
-     * <code>SKETCH_SHOW = 16;</code>
+     * <code>SKETCH_MODIFY = 16;</code>
      */
-    public static final int SKETCH_SHOW_VALUE = 16;
+    public static final int SKETCH_MODIFY_VALUE = 16;
     /**
-     * <code>SKETCH_WRITE = 17;</code>
+     * <code>SKETCH_ROLLBACK = 17;</code>
      */
-    public static final int SKETCH_WRITE_VALUE = 17;
+    public static final int SKETCH_ROLLBACK_VALUE = 17;
+    /**
+     * <code>SKETCH_SHOW = 18;</code>
+     */
+    public static final int SKETCH_SHOW_VALUE = 18;
+    /**
+     * <code>SKETCH_WRITE = 19;</code>
+     */
+    public static final int SKETCH_WRITE_VALUE = 19;
 
 
     public final int getNumber() {
@@ -200,10 +216,12 @@ public final class DoodleProtos {
         case 11: return PLUGIN_LIST;
         case 12: return QUERY;
         case 13: return SKETCH_INIT;
-        case 14: return SKETCH_LIST;
-        case 15: return SKETCH_MODIFY;
-        case 16: return SKETCH_SHOW;
-        case 17: return SKETCH_WRITE;
+        case 14: return SKETCH_CHECKPOINT;
+        case 15: return SKETCH_LIST;
+        case 16: return SKETCH_MODIFY;
+        case 17: return SKETCH_ROLLBACK;
+        case 18: return SKETCH_SHOW;
+        case 19: return SKETCH_WRITE;
         default: return null;
       }
     }
@@ -19008,6 +19026,1300 @@ public final class DoodleProtos {
 
   }
 
+  public interface SketchCheckpointRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SketchCheckpointRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    java.lang.String getSketchId();
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getSketchIdBytes();
+
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    java.lang.String getCheckpointId();
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCheckpointIdBytes();
+  }
+  /**
+   * Protobuf type {@code SketchCheckpointRequest}
+   */
+  public  static final class SketchCheckpointRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:SketchCheckpointRequest)
+      SketchCheckpointRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SketchCheckpointRequest.newBuilder() to construct.
+    private SketchCheckpointRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SketchCheckpointRequest() {
+      sketchId_ = "";
+      checkpointId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SketchCheckpointRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sketchId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              checkpointId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.Builder.class);
+    }
+
+    public static final int SKETCHID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sketchId_;
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    public java.lang.String getSketchId() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sketchId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSketchIdBytes() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sketchId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CHECKPOINTID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object checkpointId_;
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    public java.lang.String getCheckpointId() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        checkpointId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCheckpointIdBytes() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        checkpointId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSketchIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sketchId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, checkpointId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSketchIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sketchId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, checkpointId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest) obj;
+
+      boolean result = true;
+      result = result && getSketchId()
+          .equals(other.getSketchId());
+      result = result && getCheckpointId()
+          .equals(other.getCheckpointId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SKETCHID_FIELD_NUMBER;
+      hash = (53 * hash) + getSketchId().hashCode();
+      hash = (37 * hash) + CHECKPOINTID_FIELD_NUMBER;
+      hash = (53 * hash) + getCheckpointId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SketchCheckpointRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SketchCheckpointRequest)
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sketchId_ = "";
+
+        checkpointId_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest(this);
+        result.sketchId_ = sketchId_;
+        result.checkpointId_ = checkpointId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest.getDefaultInstance()) return this;
+        if (!other.getSketchId().isEmpty()) {
+          sketchId_ = other.sketchId_;
+          onChanged();
+        }
+        if (!other.getCheckpointId().isEmpty()) {
+          checkpointId_ = other.checkpointId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sketchId_ = "";
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public java.lang.String getSketchId() {
+        java.lang.Object ref = sketchId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sketchId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSketchIdBytes() {
+        java.lang.Object ref = sketchId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sketchId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public Builder setSketchId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public Builder clearSketchId() {
+        
+        sketchId_ = getDefaultInstance().getSketchId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public Builder setSketchIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object checkpointId_ = "";
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public java.lang.String getCheckpointId() {
+        java.lang.Object ref = checkpointId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          checkpointId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCheckpointIdBytes() {
+        java.lang.Object ref = checkpointId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          checkpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public Builder setCheckpointId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public Builder clearCheckpointId() {
+        
+        checkpointId_ = getDefaultInstance().getCheckpointId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public Builder setCheckpointIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:SketchCheckpointRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:SketchCheckpointRequest)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SketchCheckpointRequest>
+        PARSER = new com.google.protobuf.AbstractParser<SketchCheckpointRequest>() {
+      @java.lang.Override
+      public SketchCheckpointRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SketchCheckpointRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SketchCheckpointRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SketchCheckpointRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SketchCheckpointResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SketchCheckpointResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Checkpoint checkpoint = 1;</code>
+     */
+    boolean hasCheckpoint();
+    /**
+     * <code>.Checkpoint checkpoint = 1;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint getCheckpoint();
+    /**
+     * <code>.Checkpoint checkpoint = 1;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder getCheckpointOrBuilder();
+  }
+  /**
+   * Protobuf type {@code SketchCheckpointResponse}
+   */
+  public  static final class SketchCheckpointResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:SketchCheckpointResponse)
+      SketchCheckpointResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SketchCheckpointResponse.newBuilder() to construct.
+    private SketchCheckpointResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SketchCheckpointResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SketchCheckpointResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder subBuilder = null;
+              if (checkpoint_ != null) {
+                subBuilder = checkpoint_.toBuilder();
+              }
+              checkpoint_ = input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(checkpoint_);
+                checkpoint_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.Builder.class);
+    }
+
+    public static final int CHECKPOINT_FIELD_NUMBER = 1;
+    private com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint checkpoint_;
+    /**
+     * <code>.Checkpoint checkpoint = 1;</code>
+     */
+    public boolean hasCheckpoint() {
+      return checkpoint_ != null;
+    }
+    /**
+     * <code>.Checkpoint checkpoint = 1;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint getCheckpoint() {
+      return checkpoint_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.getDefaultInstance() : checkpoint_;
+    }
+    /**
+     * <code>.Checkpoint checkpoint = 1;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder getCheckpointOrBuilder() {
+      return getCheckpoint();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (checkpoint_ != null) {
+        output.writeMessage(1, getCheckpoint());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (checkpoint_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getCheckpoint());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse) obj;
+
+      boolean result = true;
+      result = result && (hasCheckpoint() == other.hasCheckpoint());
+      if (hasCheckpoint()) {
+        result = result && getCheckpoint()
+            .equals(other.getCheckpoint());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasCheckpoint()) {
+        hash = (37 * hash) + CHECKPOINT_FIELD_NUMBER;
+        hash = (53 * hash) + getCheckpoint().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SketchCheckpointResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SketchCheckpointResponse)
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (checkpointBuilder_ == null) {
+          checkpoint_ = null;
+        } else {
+          checkpoint_ = null;
+          checkpointBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchCheckpointResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse(this);
+        if (checkpointBuilder_ == null) {
+          result.checkpoint_ = checkpoint_;
+        } else {
+          result.checkpoint_ = checkpointBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse.getDefaultInstance()) return this;
+        if (other.hasCheckpoint()) {
+          mergeCheckpoint(other.getCheckpoint());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint checkpoint_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint, com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder> checkpointBuilder_;
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public boolean hasCheckpoint() {
+        return checkpointBuilder_ != null || checkpoint_ != null;
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint getCheckpoint() {
+        if (checkpointBuilder_ == null) {
+          return checkpoint_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.getDefaultInstance() : checkpoint_;
+        } else {
+          return checkpointBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public Builder setCheckpoint(com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint value) {
+        if (checkpointBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          checkpoint_ = value;
+          onChanged();
+        } else {
+          checkpointBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public Builder setCheckpoint(
+          com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder builderForValue) {
+        if (checkpointBuilder_ == null) {
+          checkpoint_ = builderForValue.build();
+          onChanged();
+        } else {
+          checkpointBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public Builder mergeCheckpoint(com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint value) {
+        if (checkpointBuilder_ == null) {
+          if (checkpoint_ != null) {
+            checkpoint_ =
+              com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.newBuilder(checkpoint_).mergeFrom(value).buildPartial();
+          } else {
+            checkpoint_ = value;
+          }
+          onChanged();
+        } else {
+          checkpointBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public Builder clearCheckpoint() {
+        if (checkpointBuilder_ == null) {
+          checkpoint_ = null;
+          onChanged();
+        } else {
+          checkpoint_ = null;
+          checkpointBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder getCheckpointBuilder() {
+        
+        onChanged();
+        return getCheckpointFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder getCheckpointOrBuilder() {
+        if (checkpointBuilder_ != null) {
+          return checkpointBuilder_.getMessageOrBuilder();
+        } else {
+          return checkpoint_ == null ?
+              com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.getDefaultInstance() : checkpoint_;
+        }
+      }
+      /**
+       * <code>.Checkpoint checkpoint = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint, com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder> 
+          getCheckpointFieldBuilder() {
+        if (checkpointBuilder_ == null) {
+          checkpointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint, com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder>(
+                  getCheckpoint(),
+                  getParentForChildren(),
+                  isClean());
+          checkpoint_ = null;
+        }
+        return checkpointBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:SketchCheckpointResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:SketchCheckpointResponse)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SketchCheckpointResponse>
+        PARSER = new com.google.protobuf.AbstractParser<SketchCheckpointResponse>() {
+      @java.lang.Override
+      public SketchCheckpointResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SketchCheckpointResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SketchCheckpointResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SketchCheckpointResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface SketchListRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:SketchListRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -21471,6 +22783,1105 @@ public final class DoodleProtos {
 
     @java.lang.Override
     public com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SketchRollbackRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SketchRollbackRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    java.lang.String getSketchId();
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getSketchIdBytes();
+
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    java.lang.String getCheckpointId();
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCheckpointIdBytes();
+  }
+  /**
+   * Protobuf type {@code SketchRollbackRequest}
+   */
+  public  static final class SketchRollbackRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:SketchRollbackRequest)
+      SketchRollbackRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SketchRollbackRequest.newBuilder() to construct.
+    private SketchRollbackRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SketchRollbackRequest() {
+      sketchId_ = "";
+      checkpointId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SketchRollbackRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sketchId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              checkpointId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.Builder.class);
+    }
+
+    public static final int SKETCHID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sketchId_;
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    public java.lang.String getSketchId() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sketchId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sketchId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSketchIdBytes() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sketchId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CHECKPOINTID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object checkpointId_;
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    public java.lang.String getCheckpointId() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        checkpointId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string checkpointId = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCheckpointIdBytes() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        checkpointId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSketchIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sketchId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, checkpointId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSketchIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sketchId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, checkpointId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest) obj;
+
+      boolean result = true;
+      result = result && getSketchId()
+          .equals(other.getSketchId());
+      result = result && getCheckpointId()
+          .equals(other.getCheckpointId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SKETCHID_FIELD_NUMBER;
+      hash = (53 * hash) + getSketchId().hashCode();
+      hash = (37 * hash) + CHECKPOINTID_FIELD_NUMBER;
+      hash = (53 * hash) + getCheckpointId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SketchRollbackRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SketchRollbackRequest)
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sketchId_ = "";
+
+        checkpointId_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest(this);
+        result.sketchId_ = sketchId_;
+        result.checkpointId_ = checkpointId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest.getDefaultInstance()) return this;
+        if (!other.getSketchId().isEmpty()) {
+          sketchId_ = other.sketchId_;
+          onChanged();
+        }
+        if (!other.getCheckpointId().isEmpty()) {
+          checkpointId_ = other.checkpointId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sketchId_ = "";
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public java.lang.String getSketchId() {
+        java.lang.Object ref = sketchId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sketchId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSketchIdBytes() {
+        java.lang.Object ref = sketchId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sketchId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public Builder setSketchId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public Builder clearSketchId() {
+        
+        sketchId_ = getDefaultInstance().getSketchId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 1;</code>
+       */
+      public Builder setSketchIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object checkpointId_ = "";
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public java.lang.String getCheckpointId() {
+        java.lang.Object ref = checkpointId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          checkpointId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCheckpointIdBytes() {
+        java.lang.Object ref = checkpointId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          checkpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public Builder setCheckpointId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public Builder clearCheckpointId() {
+        
+        checkpointId_ = getDefaultInstance().getCheckpointId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 2;</code>
+       */
+      public Builder setCheckpointIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:SketchRollbackRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:SketchRollbackRequest)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SketchRollbackRequest>
+        PARSER = new com.google.protobuf.AbstractParser<SketchRollbackRequest>() {
+      @java.lang.Override
+      public SketchRollbackRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SketchRollbackRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SketchRollbackRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SketchRollbackRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SketchRollbackResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SketchRollbackResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code SketchRollbackResponse}
+   */
+  public  static final class SketchRollbackResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:SketchRollbackResponse)
+      SketchRollbackResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SketchRollbackResponse.newBuilder() to construct.
+    private SketchRollbackResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SketchRollbackResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SketchRollbackResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SketchRollbackResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SketchRollbackResponse)
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_SketchRollbackResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:SketchRollbackResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:SketchRollbackResponse)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SketchRollbackResponse>
+        PARSER = new com.google.protobuf.AbstractParser<SketchRollbackResponse>() {
+      @java.lang.Override
+      public SketchRollbackResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SketchRollbackResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SketchRollbackResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SketchRollbackResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -24235,6 +26646,2108 @@ public final class DoodleProtos {
 
     @java.lang.Override
     public com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CheckpointEntryOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CheckpointEntry)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Node primaryReplica = 1;</code>
+     */
+    boolean hasPrimaryReplica();
+    /**
+     * <code>.Node primaryReplica = 1;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.Node getPrimaryReplica();
+    /**
+     * <code>.Node primaryReplica = 1;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getPrimaryReplicaOrBuilder();
+
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> 
+        getSecondaryRepicasList();
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.Node getSecondaryRepicas(int index);
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    int getSecondaryRepicasCount();
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
+        getSecondaryRepicasOrBuilderList();
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getSecondaryRepicasOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code CheckpointEntry}
+   */
+  public  static final class CheckpointEntry extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CheckpointEntry)
+      CheckpointEntryOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CheckpointEntry.newBuilder() to construct.
+    private CheckpointEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CheckpointEntry() {
+      secondaryRepicas_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CheckpointEntry(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder subBuilder = null;
+              if (primaryReplica_ != null) {
+                subBuilder = primaryReplica_.toBuilder();
+              }
+              primaryReplica_ = input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.Node.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(primaryReplica_);
+                primaryReplica_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                secondaryRepicas_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.Node>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              secondaryRepicas_.add(
+                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.Node.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          secondaryRepicas_ = java.util.Collections.unmodifiableList(secondaryRepicas_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_CheckpointEntry_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_CheckpointEntry_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.class, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int PRIMARYREPLICA_FIELD_NUMBER = 1;
+    private com.bushpath.doodle.protobuf.DoodleProtos.Node primaryReplica_;
+    /**
+     * <code>.Node primaryReplica = 1;</code>
+     */
+    public boolean hasPrimaryReplica() {
+      return primaryReplica_ != null;
+    }
+    /**
+     * <code>.Node primaryReplica = 1;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.Node getPrimaryReplica() {
+      return primaryReplica_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance() : primaryReplica_;
+    }
+    /**
+     * <code>.Node primaryReplica = 1;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getPrimaryReplicaOrBuilder() {
+      return getPrimaryReplica();
+    }
+
+    public static final int SECONDARYREPICAS_FIELD_NUMBER = 2;
+    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> secondaryRepicas_;
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> getSecondaryRepicasList() {
+      return secondaryRepicas_;
+    }
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
+        getSecondaryRepicasOrBuilderList() {
+      return secondaryRepicas_;
+    }
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    public int getSecondaryRepicasCount() {
+      return secondaryRepicas_.size();
+    }
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.Node getSecondaryRepicas(int index) {
+      return secondaryRepicas_.get(index);
+    }
+    /**
+     * <code>repeated .Node secondaryRepicas = 2;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getSecondaryRepicasOrBuilder(
+        int index) {
+      return secondaryRepicas_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (primaryReplica_ != null) {
+        output.writeMessage(1, getPrimaryReplica());
+      }
+      for (int i = 0; i < secondaryRepicas_.size(); i++) {
+        output.writeMessage(2, secondaryRepicas_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (primaryReplica_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getPrimaryReplica());
+      }
+      for (int i = 0; i < secondaryRepicas_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, secondaryRepicas_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry other = (com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry) obj;
+
+      boolean result = true;
+      result = result && (hasPrimaryReplica() == other.hasPrimaryReplica());
+      if (hasPrimaryReplica()) {
+        result = result && getPrimaryReplica()
+            .equals(other.getPrimaryReplica());
+      }
+      result = result && getSecondaryRepicasList()
+          .equals(other.getSecondaryRepicasList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasPrimaryReplica()) {
+        hash = (37 * hash) + PRIMARYREPLICA_FIELD_NUMBER;
+        hash = (53 * hash) + getPrimaryReplica().hashCode();
+      }
+      if (getSecondaryRepicasCount() > 0) {
+        hash = (37 * hash) + SECONDARYREPICAS_FIELD_NUMBER;
+        hash = (53 * hash) + getSecondaryRepicasList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CheckpointEntry}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CheckpointEntry)
+        com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_CheckpointEntry_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_CheckpointEntry_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.class, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getSecondaryRepicasFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (primaryReplicaBuilder_ == null) {
+          primaryReplica_ = null;
+        } else {
+          primaryReplica_ = null;
+          primaryReplicaBuilder_ = null;
+        }
+        if (secondaryRepicasBuilder_ == null) {
+          secondaryRepicas_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          secondaryRepicasBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_CheckpointEntry_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry result = new com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (primaryReplicaBuilder_ == null) {
+          result.primaryReplica_ = primaryReplica_;
+        } else {
+          result.primaryReplica_ = primaryReplicaBuilder_.build();
+        }
+        if (secondaryRepicasBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            secondaryRepicas_ = java.util.Collections.unmodifiableList(secondaryRepicas_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.secondaryRepicas_ = secondaryRepicas_;
+        } else {
+          result.secondaryRepicas_ = secondaryRepicasBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.getDefaultInstance()) return this;
+        if (other.hasPrimaryReplica()) {
+          mergePrimaryReplica(other.getPrimaryReplica());
+        }
+        if (secondaryRepicasBuilder_ == null) {
+          if (!other.secondaryRepicas_.isEmpty()) {
+            if (secondaryRepicas_.isEmpty()) {
+              secondaryRepicas_ = other.secondaryRepicas_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureSecondaryRepicasIsMutable();
+              secondaryRepicas_.addAll(other.secondaryRepicas_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.secondaryRepicas_.isEmpty()) {
+            if (secondaryRepicasBuilder_.isEmpty()) {
+              secondaryRepicasBuilder_.dispose();
+              secondaryRepicasBuilder_ = null;
+              secondaryRepicas_ = other.secondaryRepicas_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              secondaryRepicasBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getSecondaryRepicasFieldBuilder() : null;
+            } else {
+              secondaryRepicasBuilder_.addAllMessages(other.secondaryRepicas_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.bushpath.doodle.protobuf.DoodleProtos.Node primaryReplica_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> primaryReplicaBuilder_;
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public boolean hasPrimaryReplica() {
+        return primaryReplicaBuilder_ != null || primaryReplica_ != null;
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Node getPrimaryReplica() {
+        if (primaryReplicaBuilder_ == null) {
+          return primaryReplica_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance() : primaryReplica_;
+        } else {
+          return primaryReplicaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public Builder setPrimaryReplica(com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
+        if (primaryReplicaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          primaryReplica_ = value;
+          onChanged();
+        } else {
+          primaryReplicaBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public Builder setPrimaryReplica(
+          com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
+        if (primaryReplicaBuilder_ == null) {
+          primaryReplica_ = builderForValue.build();
+          onChanged();
+        } else {
+          primaryReplicaBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public Builder mergePrimaryReplica(com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
+        if (primaryReplicaBuilder_ == null) {
+          if (primaryReplica_ != null) {
+            primaryReplica_ =
+              com.bushpath.doodle.protobuf.DoodleProtos.Node.newBuilder(primaryReplica_).mergeFrom(value).buildPartial();
+          } else {
+            primaryReplica_ = value;
+          }
+          onChanged();
+        } else {
+          primaryReplicaBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public Builder clearPrimaryReplica() {
+        if (primaryReplicaBuilder_ == null) {
+          primaryReplica_ = null;
+          onChanged();
+        } else {
+          primaryReplica_ = null;
+          primaryReplicaBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder getPrimaryReplicaBuilder() {
+        
+        onChanged();
+        return getPrimaryReplicaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getPrimaryReplicaOrBuilder() {
+        if (primaryReplicaBuilder_ != null) {
+          return primaryReplicaBuilder_.getMessageOrBuilder();
+        } else {
+          return primaryReplica_ == null ?
+              com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance() : primaryReplica_;
+        }
+      }
+      /**
+       * <code>.Node primaryReplica = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
+          getPrimaryReplicaFieldBuilder() {
+        if (primaryReplicaBuilder_ == null) {
+          primaryReplicaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder>(
+                  getPrimaryReplica(),
+                  getParentForChildren(),
+                  isClean());
+          primaryReplica_ = null;
+        }
+        return primaryReplicaBuilder_;
+      }
+
+      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> secondaryRepicas_ =
+        java.util.Collections.emptyList();
+      private void ensureSecondaryRepicasIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          secondaryRepicas_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.Node>(secondaryRepicas_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> secondaryRepicasBuilder_;
+
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> getSecondaryRepicasList() {
+        if (secondaryRepicasBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(secondaryRepicas_);
+        } else {
+          return secondaryRepicasBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public int getSecondaryRepicasCount() {
+        if (secondaryRepicasBuilder_ == null) {
+          return secondaryRepicas_.size();
+        } else {
+          return secondaryRepicasBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Node getSecondaryRepicas(int index) {
+        if (secondaryRepicasBuilder_ == null) {
+          return secondaryRepicas_.get(index);
+        } else {
+          return secondaryRepicasBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder setSecondaryRepicas(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
+        if (secondaryRepicasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.set(index, value);
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder setSecondaryRepicas(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
+        if (secondaryRepicasBuilder_ == null) {
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder addSecondaryRepicas(com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
+        if (secondaryRepicasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.add(value);
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder addSecondaryRepicas(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
+        if (secondaryRepicasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.add(index, value);
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder addSecondaryRepicas(
+          com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
+        if (secondaryRepicasBuilder_ == null) {
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.add(builderForValue.build());
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder addSecondaryRepicas(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
+        if (secondaryRepicasBuilder_ == null) {
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder addAllSecondaryRepicas(
+          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.Node> values) {
+        if (secondaryRepicasBuilder_ == null) {
+          ensureSecondaryRepicasIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, secondaryRepicas_);
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder clearSecondaryRepicas() {
+        if (secondaryRepicasBuilder_ == null) {
+          secondaryRepicas_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public Builder removeSecondaryRepicas(int index) {
+        if (secondaryRepicasBuilder_ == null) {
+          ensureSecondaryRepicasIsMutable();
+          secondaryRepicas_.remove(index);
+          onChanged();
+        } else {
+          secondaryRepicasBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder getSecondaryRepicasBuilder(
+          int index) {
+        return getSecondaryRepicasFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getSecondaryRepicasOrBuilder(
+          int index) {
+        if (secondaryRepicasBuilder_ == null) {
+          return secondaryRepicas_.get(index);  } else {
+          return secondaryRepicasBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
+           getSecondaryRepicasOrBuilderList() {
+        if (secondaryRepicasBuilder_ != null) {
+          return secondaryRepicasBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(secondaryRepicas_);
+        }
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder addSecondaryRepicasBuilder() {
+        return getSecondaryRepicasFieldBuilder().addBuilder(
+            com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder addSecondaryRepicasBuilder(
+          int index) {
+        return getSecondaryRepicasFieldBuilder().addBuilder(
+            index, com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Node secondaryRepicas = 2;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder> 
+           getSecondaryRepicasBuilderList() {
+        return getSecondaryRepicasFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
+          getSecondaryRepicasFieldBuilder() {
+        if (secondaryRepicasBuilder_ == null) {
+          secondaryRepicasBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder>(
+                  secondaryRepicas_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          secondaryRepicas_ = null;
+        }
+        return secondaryRepicasBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CheckpointEntry)
+    }
+
+    // @@protoc_insertion_point(class_scope:CheckpointEntry)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CheckpointEntry>
+        PARSER = new com.google.protobuf.AbstractParser<CheckpointEntry>() {
+      @java.lang.Override
+      public CheckpointEntry parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CheckpointEntry(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CheckpointEntry> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CheckpointEntry> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CheckpointOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Checkpoint)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    long getTimestamp();
+
+    /**
+     * <code>string sketchId = 2;</code>
+     */
+    java.lang.String getSketchId();
+    /**
+     * <code>string sketchId = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getSketchIdBytes();
+
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    java.lang.String getCheckpointId();
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getCheckpointIdBytes();
+
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry> 
+        getCheckpointEntriesList();
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry getCheckpointEntries(int index);
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    int getCheckpointEntriesCount();
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder> 
+        getCheckpointEntriesOrBuilderList();
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder getCheckpointEntriesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code Checkpoint}
+   */
+  public  static final class Checkpoint extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Checkpoint)
+      CheckpointOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Checkpoint.newBuilder() to construct.
+    private Checkpoint(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Checkpoint() {
+      timestamp_ = 0L;
+      sketchId_ = "";
+      checkpointId_ = "";
+      checkpointEntries_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Checkpoint(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              timestamp_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sketchId_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              checkpointId_ = s;
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                checkpointEntries_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              checkpointEntries_.add(
+                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          checkpointEntries_ = java.util.Collections.unmodifiableList(checkpointEntries_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_Checkpoint_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_Checkpoint_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.class, com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_;
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    public long getTimestamp() {
+      return timestamp_;
+    }
+
+    public static final int SKETCHID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object sketchId_;
+    /**
+     * <code>string sketchId = 2;</code>
+     */
+    public java.lang.String getSketchId() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sketchId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sketchId = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSketchIdBytes() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sketchId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CHECKPOINTID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object checkpointId_;
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    public java.lang.String getCheckpointId() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        checkpointId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCheckpointIdBytes() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        checkpointId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CHECKPOINTENTRIES_FIELD_NUMBER = 4;
+    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry> checkpointEntries_;
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry> getCheckpointEntriesList() {
+      return checkpointEntries_;
+    }
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder> 
+        getCheckpointEntriesOrBuilderList() {
+      return checkpointEntries_;
+    }
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    public int getCheckpointEntriesCount() {
+      return checkpointEntries_.size();
+    }
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry getCheckpointEntries(int index) {
+      return checkpointEntries_.get(index);
+    }
+    /**
+     * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder getCheckpointEntriesOrBuilder(
+        int index) {
+      return checkpointEntries_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
+      }
+      if (!getSketchIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, sketchId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, checkpointId_);
+      }
+      for (int i = 0; i < checkpointEntries_.size(); i++) {
+        output.writeMessage(4, checkpointEntries_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (timestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, timestamp_);
+      }
+      if (!getSketchIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, sketchId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, checkpointId_);
+      }
+      for (int i = 0; i < checkpointEntries_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, checkpointEntries_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint other = (com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint) obj;
+
+      boolean result = true;
+      result = result && (getTimestamp()
+          == other.getTimestamp());
+      result = result && getSketchId()
+          .equals(other.getSketchId());
+      result = result && getCheckpointId()
+          .equals(other.getCheckpointId());
+      result = result && getCheckpointEntriesList()
+          .equals(other.getCheckpointEntriesList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
+      hash = (37 * hash) + SKETCHID_FIELD_NUMBER;
+      hash = (53 * hash) + getSketchId().hashCode();
+      hash = (37 * hash) + CHECKPOINTID_FIELD_NUMBER;
+      hash = (53 * hash) + getCheckpointId().hashCode();
+      if (getCheckpointEntriesCount() > 0) {
+        hash = (37 * hash) + CHECKPOINTENTRIES_FIELD_NUMBER;
+        hash = (53 * hash) + getCheckpointEntriesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Checkpoint}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Checkpoint)
+        com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_Checkpoint_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_Checkpoint_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.class, com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getCheckpointEntriesFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        timestamp_ = 0L;
+
+        sketchId_ = "";
+
+        checkpointId_ = "";
+
+        if (checkpointEntriesBuilder_ == null) {
+          checkpointEntries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          checkpointEntriesBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_Checkpoint_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint result = new com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.timestamp_ = timestamp_;
+        result.sketchId_ = sketchId_;
+        result.checkpointId_ = checkpointId_;
+        if (checkpointEntriesBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            checkpointEntries_ = java.util.Collections.unmodifiableList(checkpointEntries_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.checkpointEntries_ = checkpointEntries_;
+        } else {
+          result.checkpointEntries_ = checkpointEntriesBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.getDefaultInstance()) return this;
+        if (other.getTimestamp() != 0L) {
+          setTimestamp(other.getTimestamp());
+        }
+        if (!other.getSketchId().isEmpty()) {
+          sketchId_ = other.sketchId_;
+          onChanged();
+        }
+        if (!other.getCheckpointId().isEmpty()) {
+          checkpointId_ = other.checkpointId_;
+          onChanged();
+        }
+        if (checkpointEntriesBuilder_ == null) {
+          if (!other.checkpointEntries_.isEmpty()) {
+            if (checkpointEntries_.isEmpty()) {
+              checkpointEntries_ = other.checkpointEntries_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureCheckpointEntriesIsMutable();
+              checkpointEntries_.addAll(other.checkpointEntries_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.checkpointEntries_.isEmpty()) {
+            if (checkpointEntriesBuilder_.isEmpty()) {
+              checkpointEntriesBuilder_.dispose();
+              checkpointEntriesBuilder_ = null;
+              checkpointEntries_ = other.checkpointEntries_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              checkpointEntriesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getCheckpointEntriesFieldBuilder() : null;
+            } else {
+              checkpointEntriesBuilder_.addAllMessages(other.checkpointEntries_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private long timestamp_ ;
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder setTimestamp(long value) {
+        
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        
+        timestamp_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object sketchId_ = "";
+      /**
+       * <code>string sketchId = 2;</code>
+       */
+      public java.lang.String getSketchId() {
+        java.lang.Object ref = sketchId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sketchId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSketchIdBytes() {
+        java.lang.Object ref = sketchId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sketchId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 2;</code>
+       */
+      public Builder setSketchId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 2;</code>
+       */
+      public Builder clearSketchId() {
+        
+        sketchId_ = getDefaultInstance().getSketchId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 2;</code>
+       */
+      public Builder setSketchIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object checkpointId_ = "";
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public java.lang.String getCheckpointId() {
+        java.lang.Object ref = checkpointId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          checkpointId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCheckpointIdBytes() {
+        java.lang.Object ref = checkpointId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          checkpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public Builder setCheckpointId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public Builder clearCheckpointId() {
+        
+        checkpointId_ = getDefaultInstance().getCheckpointId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public Builder setCheckpointIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry> checkpointEntries_ =
+        java.util.Collections.emptyList();
+      private void ensureCheckpointEntriesIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          checkpointEntries_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry>(checkpointEntries_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder> checkpointEntriesBuilder_;
+
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry> getCheckpointEntriesList() {
+        if (checkpointEntriesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(checkpointEntries_);
+        } else {
+          return checkpointEntriesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public int getCheckpointEntriesCount() {
+        if (checkpointEntriesBuilder_ == null) {
+          return checkpointEntries_.size();
+        } else {
+          return checkpointEntriesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry getCheckpointEntries(int index) {
+        if (checkpointEntriesBuilder_ == null) {
+          return checkpointEntries_.get(index);
+        } else {
+          return checkpointEntriesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder setCheckpointEntries(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry value) {
+        if (checkpointEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.set(index, value);
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder setCheckpointEntries(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder builderForValue) {
+        if (checkpointEntriesBuilder_ == null) {
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder addCheckpointEntries(com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry value) {
+        if (checkpointEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.add(value);
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder addCheckpointEntries(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry value) {
+        if (checkpointEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.add(index, value);
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder addCheckpointEntries(
+          com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder builderForValue) {
+        if (checkpointEntriesBuilder_ == null) {
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.add(builderForValue.build());
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder addCheckpointEntries(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder builderForValue) {
+        if (checkpointEntriesBuilder_ == null) {
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder addAllCheckpointEntries(
+          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry> values) {
+        if (checkpointEntriesBuilder_ == null) {
+          ensureCheckpointEntriesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, checkpointEntries_);
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder clearCheckpointEntries() {
+        if (checkpointEntriesBuilder_ == null) {
+          checkpointEntries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public Builder removeCheckpointEntries(int index) {
+        if (checkpointEntriesBuilder_ == null) {
+          ensureCheckpointEntriesIsMutable();
+          checkpointEntries_.remove(index);
+          onChanged();
+        } else {
+          checkpointEntriesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder getCheckpointEntriesBuilder(
+          int index) {
+        return getCheckpointEntriesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder getCheckpointEntriesOrBuilder(
+          int index) {
+        if (checkpointEntriesBuilder_ == null) {
+          return checkpointEntries_.get(index);  } else {
+          return checkpointEntriesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder> 
+           getCheckpointEntriesOrBuilderList() {
+        if (checkpointEntriesBuilder_ != null) {
+          return checkpointEntriesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(checkpointEntries_);
+        }
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder addCheckpointEntriesBuilder() {
+        return getCheckpointEntriesFieldBuilder().addBuilder(
+            com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder addCheckpointEntriesBuilder(
+          int index) {
+        return getCheckpointEntriesFieldBuilder().addBuilder(
+            index, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .CheckpointEntry checkpointEntries = 4;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder> 
+           getCheckpointEntriesBuilderList() {
+        return getCheckpointEntriesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder> 
+          getCheckpointEntriesFieldBuilder() {
+        if (checkpointEntriesBuilder_ == null) {
+          checkpointEntriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry.Builder, com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntryOrBuilder>(
+                  checkpointEntries_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          checkpointEntries_ = null;
+        }
+        return checkpointEntriesBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Checkpoint)
+    }
+
+    // @@protoc_insertion_point(class_scope:Checkpoint)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Checkpoint>
+        PARSER = new com.google.protobuf.AbstractParser<Checkpoint>() {
+      @java.lang.Override
+      public Checkpoint parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Checkpoint(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Checkpoint> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Checkpoint> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -27493,6 +32006,16 @@ public final class DoodleProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SketchInitResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SketchCheckpointRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_SketchCheckpointRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SketchCheckpointResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_SketchCheckpointResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_SketchListRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -27518,6 +32041,16 @@ public final class DoodleProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SketchModifyResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SketchRollbackRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_SketchRollbackRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SketchRollbackResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_SketchRollbackResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_SketchShowRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -27537,6 +32070,16 @@ public final class DoodleProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SketchWriteResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CheckpointEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CheckpointEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Checkpoint_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Checkpoint_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Failure_descriptor;
   private static final 
@@ -27606,36 +32149,48 @@ public final class DoodleProtos {
       "onse\022\014\n\004data\030\001 \001(\014\022\023\n\013lastMessage\030\002 \001(\010\"" +
       "G\n\021SketchInitRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006plug" +
       "in\030\002 \001(\t\022\026\n\016controlPlugins\030\003 \003(\t\"\024\n\022Sket" +
-      "chInitResponse\"\023\n\021SketchListRequest\"w\n\022S" +
-      "ketchListResponse\0221\n\007plugins\030\001 \003(\0132 .Ske" +
-      "tchListResponse.PluginsEntry\032.\n\014PluginsE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\023" +
-      "SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\nopera" +
-      "tions\030\002 \003(\0132\022.VariableOperation\"\026\n\024Sketc" +
-      "hModifyResponse\"\037\n\021SketchShowRequest\022\n\n\002" +
-      "id\030\001 \001(\t\"y\n\022SketchShowResponse\022\016\n\006plugin" +
-      "\030\001 \001(\t\022\025\n\rinflatorClass\030\002 \001(\t\022\030\n\020observa" +
-      "tionCount\030\003 \001(\003\022\"\n\tvariables\030\004 \003(\0132\017.Plu" +
-      "ginVariable\"D\n\022SketchWriteRequest\022\016\n\006nod" +
-      "eId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(" +
-      "\014\"\025\n\023SketchWriteResponse\"%\n\007Failure\022\014\n\004t" +
-      "ype\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 " +
-      "\001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016" +
-      "PluginVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001" +
-      "(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021VariableOperation" +
-      "\022\021\n\ttimestamp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034" +
-      ".VariableOperation.Operation\022!\n\010variable" +
-      "\030\003 \001(\0132\017.PluginVariable\" \n\tOperation\022\007\n\003" +
-      "ADD\020\000\022\n\n\006DELETE\020\001*\261\002\n\013MessageType\022\020\n\014CON" +
-      "TROL_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n\016CONTROL" +
-      "_MODIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007FAILURE\020\004" +
-      "\022\n\n\006GOSSIP\020\005\022\r\n\tNODE_LIST\020\006\022\r\n\tNODE_SHOW" +
-      "\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r\n\tPIPE_OPEN\020\t\022\016\n\nPIP" +
-      "E_WRITE\020\n\022\017\n\013PLUGIN_LIST\020\013\022\t\n\005QUERY\020\014\022\017\n" +
-      "\013SKETCH_INIT\020\r\022\017\n\013SKETCH_LIST\020\016\022\021\n\rSKETC" +
-      "H_MODIFY\020\017\022\017\n\013SKETCH_SHOW\020\020\022\020\n\014SKETCH_WR" +
-      "ITE\020\021B/\n\034com.bushpath.doodle.protobufB\014D" +
-      "oodleProtos\240\001\001b\006proto3"
+      "chInitResponse\"A\n\027SketchCheckpointReques" +
+      "t\022\020\n\010sketchId\030\001 \001(\t\022\024\n\014checkpointId\030\002 \001(" +
+      "\t\";\n\030SketchCheckpointResponse\022\037\n\ncheckpo" +
+      "int\030\001 \001(\0132\013.Checkpoint\"\023\n\021SketchListRequ" +
+      "est\"w\n\022SketchListResponse\0221\n\007plugins\030\001 \003" +
+      "(\0132 .SketchListResponse.PluginsEntry\032.\n\014" +
+      "PluginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
+      ":\0028\001\"I\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022" +
+      "&\n\noperations\030\002 \003(\0132\022.VariableOperation\"" +
+      "\026\n\024SketchModifyResponse\"?\n\025SketchRollbac" +
+      "kRequest\022\020\n\010sketchId\030\001 \001(\t\022\024\n\014checkpoint" +
+      "Id\030\002 \001(\t\"\030\n\026SketchRollbackResponse\"\037\n\021Sk" +
+      "etchShowRequest\022\n\n\002id\030\001 \001(\t\"y\n\022SketchSho" +
+      "wResponse\022\016\n\006plugin\030\001 \001(\t\022\025\n\rinflatorCla" +
+      "ss\030\002 \001(\t\022\030\n\020observationCount\030\003 \001(\003\022\"\n\tva" +
+      "riables\030\004 \003(\0132\017.PluginVariable\"D\n\022Sketch" +
+      "WriteRequest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId" +
+      "\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteRespo" +
+      "nse\"Q\n\017CheckpointEntry\022\035\n\016primaryReplica" +
+      "\030\001 \001(\0132\005.Node\022\037\n\020secondaryRepicas\030\002 \003(\0132" +
+      "\005.Node\"t\n\nCheckpoint\022\021\n\ttimestamp\030\001 \001(\003\022" +
+      "\020\n\010sketchId\030\002 \001(\t\022\024\n\014checkpointId\030\003 \001(\t\022" +
+      "+\n\021checkpointEntries\030\004 \003(\0132\020.CheckpointE" +
+      "ntry\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 " +
+      "\001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001" +
+      "(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginVariable\022\014\n\004ty" +
+      "pe\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234" +
+      "\001\n\021VariableOperation\022\021\n\ttimestamp\030\001 \001(\003\022" +
+      "/\n\toperation\030\002 \001(\0162\034.VariableOperation.O" +
+      "peration\022!\n\010variable\030\003 \001(\0132\017.PluginVaria" +
+      "ble\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001*\335\002" +
+      "\n\013MessageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTR" +
+      "OL_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL" +
+      "_SHOW\020\003\022\013\n\007FAILURE\020\004\022\n\n\006GOSSIP\020\005\022\r\n\tNODE" +
+      "_LIST\020\006\022\r\n\tNODE_SHOW\020\007\022\016\n\nPIPE_CLOSE\020\010\022\r" +
+      "\n\tPIPE_OPEN\020\t\022\016\n\nPIPE_WRITE\020\n\022\017\n\013PLUGIN_" +
+      "LIST\020\013\022\t\n\005QUERY\020\014\022\017\n\013SKETCH_INIT\020\r\022\025\n\021SK" +
+      "ETCH_CHECKPOINT\020\016\022\017\n\013SKETCH_LIST\020\017\022\021\n\rSK" +
+      "ETCH_MODIFY\020\020\022\023\n\017SKETCH_ROLLBACK\020\021\022\017\n\013SK" +
+      "ETCH_SHOW\020\022\022\020\n\014SKETCH_WRITE\020\023B/\n\034com.bus" +
+      "hpath.doodle.protobufB\014DoodleProtos\240\001\001b\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -27823,14 +32378,26 @@ public final class DoodleProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchInitResponse_descriptor,
         new java.lang.String[] { });
-    internal_static_SketchListRequest_descriptor =
+    internal_static_SketchCheckpointRequest_descriptor =
       getDescriptor().getMessageTypes().get(28);
+    internal_static_SketchCheckpointRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_SketchCheckpointRequest_descriptor,
+        new java.lang.String[] { "SketchId", "CheckpointId", });
+    internal_static_SketchCheckpointResponse_descriptor =
+      getDescriptor().getMessageTypes().get(29);
+    internal_static_SketchCheckpointResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_SketchCheckpointResponse_descriptor,
+        new java.lang.String[] { "Checkpoint", });
+    internal_static_SketchListRequest_descriptor =
+      getDescriptor().getMessageTypes().get(30);
     internal_static_SketchListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchListRequest_descriptor,
         new java.lang.String[] { });
     internal_static_SketchListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_SketchListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchListResponse_descriptor,
@@ -27842,61 +32409,85 @@ public final class DoodleProtos {
         internal_static_SketchListResponse_PluginsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_SketchModifyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_SketchModifyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchModifyRequest_descriptor,
         new java.lang.String[] { "Id", "Operations", });
     internal_static_SketchModifyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_SketchModifyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchModifyResponse_descriptor,
         new java.lang.String[] { });
+    internal_static_SketchRollbackRequest_descriptor =
+      getDescriptor().getMessageTypes().get(34);
+    internal_static_SketchRollbackRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_SketchRollbackRequest_descriptor,
+        new java.lang.String[] { "SketchId", "CheckpointId", });
+    internal_static_SketchRollbackResponse_descriptor =
+      getDescriptor().getMessageTypes().get(35);
+    internal_static_SketchRollbackResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_SketchRollbackResponse_descriptor,
+        new java.lang.String[] { });
     internal_static_SketchShowRequest_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_SketchShowRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowRequest_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_SketchShowResponse_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_SketchShowResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowResponse_descriptor,
         new java.lang.String[] { "Plugin", "InflatorClass", "ObservationCount", "Variables", });
     internal_static_SketchWriteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_SketchWriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchWriteRequest_descriptor,
         new java.lang.String[] { "NodeId", "SketchId", "Data", });
     internal_static_SketchWriteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_SketchWriteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchWriteResponse_descriptor,
         new java.lang.String[] { });
+    internal_static_CheckpointEntry_descriptor =
+      getDescriptor().getMessageTypes().get(40);
+    internal_static_CheckpointEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CheckpointEntry_descriptor,
+        new java.lang.String[] { "PrimaryReplica", "SecondaryRepicas", });
+    internal_static_Checkpoint_descriptor =
+      getDescriptor().getMessageTypes().get(41);
+    internal_static_Checkpoint_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Checkpoint_descriptor,
+        new java.lang.String[] { "Timestamp", "SketchId", "CheckpointId", "CheckpointEntries", });
     internal_static_Failure_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_Failure_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Failure_descriptor,
         new java.lang.String[] { "Type", "Text", });
     internal_static_Node_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_Node_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Node_descriptor,
         new java.lang.String[] { "Id", "IpAddress", "Port", });
     internal_static_PluginVariable_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_PluginVariable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginVariable_descriptor,
         new java.lang.String[] { "Type", "Name", "Values", });
     internal_static_VariableOperation_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(45);
     internal_static_VariableOperation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_VariableOperation_descriptor,

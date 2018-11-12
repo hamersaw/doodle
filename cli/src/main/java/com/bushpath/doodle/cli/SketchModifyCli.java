@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Command(name = "modify",
-    description = "Modifyialize a SketchPlugin.",
+    description = "Add/delete variables from a SketchPlugin.",
     mixinStandardHelpOptions = true)
 public class SketchModifyCli implements Runnable {
     @Parameters(index="0", description="Id of SketchPlugin instance.")

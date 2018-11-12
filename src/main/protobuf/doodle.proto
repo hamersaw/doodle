@@ -23,10 +23,12 @@ enum MessageType {
     PLUGIN_LIST = 11;
     QUERY = 12;
     SKETCH_INIT = 13;
-    SKETCH_LIST = 14;
-    SKETCH_MODIFY = 15;
-    SKETCH_SHOW = 16;
-    SKETCH_WRITE = 17;
+    SKETCH_CHECKPOINT = 14;
+    SKETCH_LIST = 15;
+    SKETCH_MODIFY = 16;
+    SKETCH_ROLLBACK = 17;
+    SKETCH_SHOW = 18;
+    SKETCH_WRITE = 19;
 }
 
 /**
@@ -184,6 +186,15 @@ message SketchInitRequest {
 message SketchInitResponse {
 }
 
+message SketchCheckpointRequest {
+    string sketchId = 1;
+    string checkpointId = 2;
+}
+
+message SketchCheckpointResponse {
+    Checkpoint checkpoint = 1;
+}
+
 message SketchListRequest {
 }
 
@@ -197,6 +208,14 @@ message SketchModifyRequest {
 }
 
 message SketchModifyResponse {
+}
+
+message SketchRollbackRequest {
+    string sketchId = 1;
+    string checkpointId = 2;
+}
+
+message SketchRollbackResponse {
 }
 
 message SketchShowRequest {
@@ -222,6 +241,18 @@ message SketchWriteResponse {
 /**
  * Miscellaneous Messages
  */
+
+message CheckpointEntry {
+    Node primaryReplica = 1;
+    repeated Node secondaryRepicas = 2;
+}
+
+message Checkpoint {
+    int64 timestamp = 1;
+    string sketchId = 2;
+    string checkpointId = 3;
+    repeated CheckpointEntry checkpointEntries = 4;
+}
 
 message Failure {
     string type = 1;
