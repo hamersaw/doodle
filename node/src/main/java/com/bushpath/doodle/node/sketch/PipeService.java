@@ -22,12 +22,12 @@ public class PipeService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(PipeService.class);
 
-    protected SketchPluginManager sketchPluginManager;
+    protected SketchManager sketchManager;
     protected PipeManager pipeManager;
 
-    public PipeService(SketchPluginManager sketchPluginManager,
+    public PipeService(SketchManager sketchManager,
             PipeManager pipeManager) {
-        this.sketchPluginManager = sketchPluginManager;
+        this.sketchManager = sketchManager;
         this.pipeManager = pipeManager;
     }
 
@@ -79,8 +79,8 @@ public class PipeService implements Service {
                         PipeOpenResponse.newBuilder();
 
                     // handle
-                    SketchPlugin sketch = this.sketchPluginManager
-                        .getPlugin(pipeOpenRequest.getSketchId());
+                    SketchPlugin sketch = this.sketchManager
+                        .getSketch(pipeOpenRequest.getSketchId());
 
                     int[] featureIndexes =
                         sketch.indexFeatures(pipeOpenRequest.getFeaturesList());

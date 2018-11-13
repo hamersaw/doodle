@@ -18,7 +18,7 @@ import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.plugin.PluginManager;
-import com.bushpath.doodle.node.sketch.SketchPluginManager;
+import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.util.TimerTask;
 
@@ -38,15 +38,15 @@ public class GossipTimerTask extends TimerTask {
     protected ControlPluginManager controlPluginManager;
     protected NodeManager nodeManager;
     protected PluginManager pluginManager;
-    protected SketchPluginManager sketchPluginManager;
+    protected SketchManager sketchManager;
 
     public GossipTimerTask(ControlPluginManager controlPluginManager,
             NodeManager nodeManager, PluginManager pluginManager, 
-            SketchPluginManager sketchPluginManager) {
+            SketchManager sketchManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
-        this.sketchPluginManager = sketchPluginManager;
+        this.sketchManager = sketchManager;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GossipTimerTask extends TimerTask {
         GossipRequest.Builder builder = GossipRequest.newBuilder()
             .setNodesHash(this.nodeManager.getNodesHash())
             .setControlHash(this.controlPluginManager.hashCode())
-            .setSketchHash(this.sketchPluginManager.hashCode());
+            .setSketchHash(this.sketchManager.hashCode());
 
         GossipRequest request = builder.build();
 
@@ -132,13 +132,13 @@ public class GossipTimerTask extends TimerTask {
  
         // handle sketch plugins
         for (SketchPluginGossip pluginGossip : response.getSketchPluginsList()) {
-            SketchPlugin plugin;
-            // handle plugin
-            if (this.sketchPluginManager.containsPlugin(pluginGossip.getId())) {
-                // retrieve plugin
-                plugin = this.sketchPluginManager.getPlugin(pluginGossip.getId());
+            SketchPlugin sketch;
+            // handle sketch
+            if (this.sketchManager.containsSketch(pluginGossip.getId())) {
+                // retrieve sketch
+                sketch = this.sketchManager.getSketch(pluginGossip.getId());
             } else {
-                // create plugin if it doesn't exit
+                // create sketch if it doesn't exit
                 try {
                     List<String> list = pluginGossip.getControlPluginsList();
                     ControlPlugin[] controlPlugins = new ControlPlugin[list.size()];
@@ -151,13 +151,13 @@ public class GossipTimerTask extends TimerTask {
                         .getSketchPlugin(pluginGossip.getClasspath());
                     Constructor constructor = 
                         clazz.getConstructor(String.class, ControlPlugin[].class);
-                    plugin = (SketchPlugin) constructor
+                    sketch = (SketchPlugin) constructor
                         .newInstance(pluginGossip.getId(), controlPlugins);
 
-                    this.sketchPluginManager
-                        .addPlugin(pluginGossip.getId(), plugin);
+                    this.sketchManager
+                        .addSketch(pluginGossip.getId(), sketch);
                 } catch (Exception e) {
-                    log.error("Failed to add SketchPlugin: {}",
+                    log.error("Failed to add Sketch: {}",
                         pluginGossip.getId(), e);
                     continue;
                 }
@@ -165,7 +165,7 @@ public class GossipTimerTask extends TimerTask {
 
             // handle operations
             for (VariableOperation operation : pluginGossip.getOperationsList()) {
-                plugin.handleVariableOperation(operation);
+                sketch.handleVariableOperation(operation);
             }
         }
     }

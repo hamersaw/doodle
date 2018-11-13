@@ -29,10 +29,10 @@ public class QueryService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(QueryService.class);
 
-    protected SketchPluginManager sketchPluginManager;
+    protected SketchManager sketchManager;
 
-    public QueryService(SketchPluginManager sketchPluginManager) {
-        this.sketchPluginManager = sketchPluginManager;
+    public QueryService(SketchManager sketchManager) {
+        this.sketchManager = sketchManager;
     }
 
     @Override
@@ -64,8 +64,8 @@ public class QueryService implements Service {
                         query.getEntity());
 
                     // get SketchPlugin
-                    SketchPlugin sketch = this.sketchPluginManager
-                        .getPlugin(query.getEntity());
+                    SketchPlugin sketch = this.sketchManager
+                        .getSketch(query.getEntity());
 
                     // start ResponseHandler
                     BlockingQueue<Serializable> queue =

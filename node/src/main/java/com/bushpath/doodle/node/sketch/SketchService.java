@@ -40,13 +40,13 @@ public class SketchService implements Service {
 
     protected ControlPluginManager controlPluginManager;
     protected PluginManager pluginManager;
-    protected SketchPluginManager sketchPluginManager;
+    protected SketchManager sketchManager;
 
     public SketchService(ControlPluginManager controlPluginManager,
-            PluginManager pluginManager, SketchPluginManager sketchPluginManager) {
+            PluginManager pluginManager, SketchManager sketchManager) {
         this.controlPluginManager = controlPluginManager;
         this.pluginManager = pluginManager;
-        this.sketchPluginManager = sketchPluginManager;
+        this.sketchManager = sketchManager;
     }
 
     @Override
@@ -112,11 +112,11 @@ public class SketchService implements Service {
                         .getSketchPlugin(sketchInitRequest.getPlugin());
                     Constructor constructor =
                         clazz.getConstructor(String.class, ControlPlugin[].class);
-                    SketchPlugin sketchPlugin = (SketchPlugin) constructor
+                    SketchPlugin sketch = (SketchPlugin) constructor
                         .newInstance(sketchInitRequest.getId(), controlPlugins);
 
-                    this.sketchPluginManager.addPlugin(sketchInitRequest.getId(),
-                        sketchPlugin);
+                    this.sketchManager.addSketch(sketchInitRequest.getId(),
+                        sketch);
 
                     // write to out
                     out.writeInt(messageType);
@@ -135,7 +135,7 @@ public class SketchService implements Service {
 
                     // add plugins
                     for (Map.Entry<String, SketchPlugin> entry :
-                            this.sketchPluginManager.getPluginEntrySet()) {
+                            this.sketchManager.getSketchesEntrySet()) {
                         sketchListBuilder.putPlugins(entry.getKey(),
                             entry.getValue().getClass().getName());
                     }
@@ -157,12 +157,12 @@ public class SketchService implements Service {
                         SketchModifyResponse.newBuilder();
 
                     // handle operations
-                    SketchPlugin modifyPlugin = this.sketchPluginManager
-                        .getPlugin(sketchModifyRequest.getId());
+                    SketchPlugin modifySketch = this.sketchManager
+                        .getSketch(sketchModifyRequest.getId());
 
                     for (VariableOperation operation :
                             sketchModifyRequest.getOperationsList()) {
-                        modifyPlugin.handleVariableOperation(operation);
+                        modifySketch.handleVariableOperation(operation);
                     }
 
                     // write to out
@@ -201,14 +201,14 @@ public class SketchService implements Service {
                         SketchShowResponse.newBuilder();
 
                     // handle operations
-                    SketchPlugin showPlugin = this.sketchPluginManager
-                        .getPlugin(sketchShowRequest.getId());
+                    SketchPlugin showSketch = this.sketchManager
+                        .getSketch(sketchShowRequest.getId());
 
-                    sketchShowBuilder.setPlugin(showPlugin.getClass().getName());
+                    sketchShowBuilder.setPlugin(showSketch.getClass().getName());
                     sketchShowBuilder
-                        .setInflatorClass(showPlugin.getInflatorClass());
-                    sketchShowBuilder.setObservationCount(showPlugin.getObservationCount());
-                    sketchShowBuilder.addAllVariables(showPlugin.getVariables());
+                        .setInflatorClass(showSketch.getInflatorClass());
+                    sketchShowBuilder.setObservationCount(showSketch.getObservationCount());
+                    sketchShowBuilder.addAllVariables(showSketch.getVariables());
 
                     // write to out
                     out.writeInt(messageType);
@@ -227,10 +227,10 @@ public class SketchService implements Service {
                         SketchWriteResponse.newBuilder();
 
                     // handle
-                    SketchPlugin writePlugin = this.sketchPluginManager
-                        .getPlugin(sketchWriteRequest.getSketchId());
+                    SketchPlugin writeSketch = this.sketchManager
+                        .getSketch(sketchWriteRequest.getSketchId());
 
-                    writePlugin.write(sketchWriteRequest.getData());
+                    writeSketch.write(sketchWriteRequest.getData());
 
                     // write to out
                     out.writeInt(messageType);

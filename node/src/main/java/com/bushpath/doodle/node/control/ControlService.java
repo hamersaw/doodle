@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.plugin.PluginManager;
-import com.bushpath.doodle.node.sketch.SketchPluginManager;
+import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -36,15 +36,15 @@ public class ControlService implements Service {
     protected ControlPluginManager controlPluginManager;
     protected NodeManager nodeManager;
     protected PluginManager pluginManager;
-    protected SketchPluginManager sketchPluginManager;
+    protected SketchManager sketchManager;
 
     public ControlService(ControlPluginManager controlPluginManager,
             NodeManager nodeManager, PluginManager pluginManager,
-            SketchPluginManager sketchPluginManager) {
+            SketchManager sketchManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
-        this.sketchPluginManager = sketchPluginManager;
+        this.sketchManager = sketchManager;
     }
 
     @Override
@@ -103,9 +103,9 @@ public class ControlService implements Service {
 
                     // handle sketch plugins
                     if (gossipRequest.getSketchHash() !=
-                            this.sketchPluginManager.hashCode()) {
+                            this.sketchManager.hashCode()) {
                         for (Map.Entry<String, SketchPlugin> entry :
-                                this.sketchPluginManager.getPluginEntrySet()) {
+                                this.sketchManager.getSketchesEntrySet()) {
                             gossipBuilder
                                 .addSketchPlugins(entry.getValue().toGossip());
                         }

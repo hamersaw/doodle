@@ -19,7 +19,7 @@ import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 import com.bushpath.doodle.node.sketch.PipeManager;
 import com.bushpath.doodle.node.sketch.PipeService;
-import com.bushpath.doodle.node.sketch.SketchPluginManager;
+import com.bushpath.doodle.node.sketch.SketchManager;
 import com.bushpath.doodle.node.sketch.SketchService;
 import com.bushpath.doodle.node.sketch.QueryService;
 
@@ -136,9 +136,9 @@ public class Main {
         // initailize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
 
-        // initialize SketchPluginManager
-        SketchPluginManager sketchPluginManager =
-            new SketchPluginManager();
+        // initialize SketchManager
+        SketchManager sketchManager =
+            new SketchManager();
  
         // initialize Server
         Server server = new Server(
@@ -149,7 +149,7 @@ public class Main {
         // register Services
         try {
             ControlService controlService = new ControlService(controlPluginManager,
-                nodeManager, pluginManager, sketchPluginManager);
+                nodeManager, pluginManager, sketchManager);
             server.registerService(controlService);
 
             NodeService nodeService = new NodeService(nodeManager);
@@ -159,15 +159,15 @@ public class Main {
             server.registerService(pluginService);
 
             PipeService pipeService =
-                new PipeService(sketchPluginManager, pipeManager);
+                new PipeService(sketchManager, pipeManager);
             server.registerService(pipeService);
 
             QueryService queryService =
-                new QueryService(sketchPluginManager);
+                new QueryService(sketchManager);
             server.registerService(queryService);
 
             SketchService sketchService = new SketchService(
-                controlPluginManager, pluginManager, sketchPluginManager);
+                controlPluginManager, pluginManager, sketchManager);
             server.registerService(sketchService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
@@ -182,7 +182,7 @@ public class Main {
             Timer timer = new Timer();
             GossipTimerTask gossipTimerTask =
                 new GossipTimerTask(controlPluginManager, nodeManager,
-                    pluginManager, sketchPluginManager);
+                    pluginManager, sketchManager);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
 

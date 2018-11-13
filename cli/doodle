@@ -3,7 +3,7 @@ APPLICATION="doodle"
 VERSION="0.1-SNAPSHOT"
 MAIN_CLASS="com.bushpath.doodle.cli.Main"
 
-JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info"
+JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny"
 
 CLASSPATH=""
 BASEDIR=$(dirname $0)
