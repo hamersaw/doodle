@@ -16,9 +16,11 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 
@@ -87,12 +89,16 @@ public class CommUtility {
                 return PipeWriteResponse.parseDelimitedFrom(in);
             case PLUGIN_LIST:
                 return PluginListResponse.parseDelimitedFrom(in);
+            case SKETCH_CHECKPOINT:
+                return SketchCheckpointResponse.parseDelimitedFrom(in);
             case SKETCH_INIT:
                 return SketchInitResponse.parseDelimitedFrom(in);
             case SKETCH_LIST:
                 return SketchListResponse.parseDelimitedFrom(in);
             case SKETCH_MODIFY:
                 return SketchModifyResponse.parseDelimitedFrom(in);
+            case SKETCH_ROLLBACK:
+                return SketchRollbackResponse.parseDelimitedFrom(in);
             case SKETCH_SHOW:
                 return SketchShowResponse.parseDelimitedFrom(in);
             case SKETCH_WRITE:
