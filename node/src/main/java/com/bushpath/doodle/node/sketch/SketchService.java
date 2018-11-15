@@ -169,6 +169,14 @@ public class SketchService implements Service {
                     sketchShowBuilder.setObservationCount(showSketch.getObservationCount());
                     sketchShowBuilder.addAllVariables(showSketch.getVariables());
 
+                    // handle checkpoints
+                    for (CheckpointMetadata checkpoint :
+                            this.checkpointManager.getSketchCheckpoints(
+                                sketchShowRequest.getId())) {
+                        sketchShowBuilder
+                            .addCheckpoints(checkpoint.toProtobuf());
+                    }
+
                     // write to out
                     out.writeInt(messageType);
                     sketchShowBuilder.build().writeDelimitedTo(out);

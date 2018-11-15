@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -105,6 +104,25 @@ public class CheckpointManager {
         } finally {
             this.lock.readLock().unlock();
         }
+    }
+
+    public Set<CheckpointMetadata> getSketchCheckpoints(String sketchId) {
+        Set<CheckpointMetadata> checkpoints = new HashSet();
+
+        this.lock.readLock().lock();
+        try {
+            // iterate over checkpoints and grab all for sketchId
+            for (CheckpointMetadata checkpoint :
+                    this.checkpoints.values()) {
+                if (checkpoint.getSketchId().equals(sketchId)) {
+                    checkpoints.add(checkpoint);
+                }
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
+        return checkpoints;
     }
 
     @Override
