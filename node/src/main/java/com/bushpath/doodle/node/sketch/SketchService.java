@@ -34,12 +34,15 @@ public class SketchService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(SketchService.class);
 
+    protected CheckpointManager checkpointManager;
     protected ControlPluginManager controlPluginManager;
     protected PluginManager pluginManager;
     protected SketchManager sketchManager;
 
-    public SketchService(ControlPluginManager controlPluginManager,
+    public SketchService(CheckpointManager checkpointManager,
+            ControlPluginManager controlPluginManager,
             PluginManager pluginManager, SketchManager sketchManager) {
+        this.checkpointManager = checkpointManager;
         this.controlPluginManager = controlPluginManager;
         this.pluginManager = pluginManager;
         this.sketchManager = sketchManager;

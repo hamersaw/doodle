@@ -2,7 +2,7 @@ package com.bushpath.doodle.node.sketch;
 
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointEntry;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ public class CheckpointMetadata {
     protected long timestamp;
     protected String sketchId;
     protected String checkpointId;
-    protected Map<Integer, Replica> replicas;
+    protected Map<Integer, ReplicaMetadata> replicas;
 
     public CheckpointMetadata(long timestamp, String sketchId, 
             String checkpointId) {
@@ -25,7 +25,19 @@ public class CheckpointMetadata {
     public void addReplica(NodeMetadata primaryReplica,
             NodeMetadata[] secondaryReplicas) {
         this.replicas.put(primaryReplica.getId(),
-            new Replica(primaryReplica, secondaryReplicas));
+            new ReplicaMetadata(primaryReplica, secondaryReplicas));
+    }
+
+    public long getTimestamp() {
+        return this.timestamp;
+    }
+
+    public String getSketchId() {
+        return this.sketchId;
+    }
+
+    public String getCheckpointId() {
+        return this.checkpointId;
     }
     
     public Checkpoint toProtobuf() {
@@ -36,26 +48,26 @@ public class CheckpointMetadata {
             .setCheckpointId(this.checkpointId);
 
         // add replicas
-        for (Replica replica : this.replicas.values()) {
-            CheckpointEntry.Builder entryBuilder =
-                CheckpointEntry.newBuilder()
+        for (ReplicaMetadata replica : this.replicas.values()) {
+            Replica.Builder replicaBuilder =
+                Replica.newBuilder()
                     .setPrimaryReplica(replica.primaryReplica.toProtobuf());
 
             for (NodeMetadata nodeMetadata : replica.secondaryReplicas) {
-                entryBuilder.addSecondaryReplicas(nodeMetadata.toProtobuf());
+                replicaBuilder.addSecondaryReplicas(nodeMetadata.toProtobuf());
             }
 
-            builder.addCheckpointEntries(entryBuilder.build());
+            builder.addReplicas(replicaBuilder.build());
         }
 
         return builder.build();
     }
 
-    protected class Replica {
+    protected class ReplicaMetadata {
         public NodeMetadata primaryReplica;
         public NodeMetadata[] secondaryReplicas;
 
-        public Replica(NodeMetadata primaryReplica,
+        public ReplicaMetadata(NodeMetadata primaryReplica,
                 NodeMetadata[] secondaryReplicas) {
             this.primaryReplica = primaryReplica;
             this.secondaryReplicas = secondaryReplicas;

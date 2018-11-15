@@ -177,7 +177,8 @@ public class Main {
             server.registerService(queryService);
 
             SketchService sketchService = new SketchService(
-                controlPluginManager, pluginManager, sketchManager);
+                checkpointManager, controlPluginManager, 
+                pluginManager, sketchManager);
             server.registerService(sketchService);
 
             GossipService gossipService = new GossipService(

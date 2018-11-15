@@ -236,6 +236,7 @@ message SketchShowResponse {
     string inflatorClass = 2;
     int64 observationCount = 3;
     repeated PluginVariable variables = 4;
+    repeated Checkpoint checkpoints = 5;
 }
 
 message SketchWriteRequest {
@@ -251,7 +252,7 @@ message SketchWriteResponse {
  * Miscellaneous Messages
  */
 
-message CheckpointEntry {
+message Replica {
     Node primaryReplica = 1;
     repeated Node secondaryReplicas = 2;
 }
@@ -260,7 +261,7 @@ message Checkpoint {
     int64 timestamp = 1;
     string sketchId = 2;
     string checkpointId = 3;
-    repeated CheckpointEntry checkpointEntries = 4;
+    repeated Replica replicas = 4;
 }
 
 message Failure {

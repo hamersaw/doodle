@@ -29,13 +29,38 @@ public class CheckpointManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
+    public void addCheckpoint(CheckpointMetadata checkpoint) {
+        this.lock.writeLock().lock();
+        try {
+            if (this.checkpoints.containsKey(checkpoint.getCheckpointId())) {
+                throw new RuntimeException("checkpoint '"
+                    + checkpoint.getCheckpointId() + "' already exists");
+            }
+
+            this.checkpoints.put(checkpoint.getCheckpointId(), checkpoint);
+            log.info("Added checkpoint '" + checkpoint.getCheckpointId()
+                + "' for sketch '" + checkpoint.getSketchId() + "'");
+        } finally {
+            this.lock.writeLock().unlock();
+        }
+    }
+
+    public boolean containsCheckpoint(String checkpointId) {
+        this.lock.readLock().lock();
+        try {
+            return this.checkpoints.containsKey(checkpointId);
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
     public void create(String sketchId, String checkpointId)
             throws Exception {
         this.lock.readLock().lock();
         try {
             if (this.checkpoints.containsKey(checkpointId)) {
-                throw new RuntimeException("checkpoint '" + sketchId
-                    + "." + checkpointId + "' already exists");
+                throw new RuntimeException("checkpoint '"
+                    + checkpointId + "' already exists");
             }
         } finally {
             this.lock.readLock().unlock();
@@ -66,6 +91,8 @@ public class CheckpointManager {
 
             // add checkpoint to checkpointIds
             this.checkpoints.put(checkpointId, checkpoint);
+            log.info("Created checkpoint '" + checkpointId
+                + "' for sketch '" + sketchId + "'");
         } finally {
             this.lock.writeLock().unlock();
         }

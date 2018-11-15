@@ -5,12 +5,13 @@ import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
-import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
@@ -211,12 +212,50 @@ public class GossipService implements Service {
                         }
                     }
 
-                    // TODO - handle checkpoints
+                    // handle checkpoints
                     for (Checkpoint checkpoint :
                             gossipUpdateRequest.getCheckpointsList()) {
-                        System.out.println("TODO - handle checkpoint "
-                            + checkpoint.getSketchId() + "."
-                            + checkpoint.getCheckpointId());
+                        if (this.checkpointManager.containsCheckpoint(
+                                checkpoint.getCheckpointId())) {
+                            continue;
+                        }
+
+                        CheckpointMetadata checkpointMetadata =
+                            new CheckpointMetadata(
+                                    checkpoint.getTimestamp(),
+                                    checkpoint.getSketchId(),
+                                    checkpoint.getCheckpointId()
+                                );
+
+                        // add replicas
+                        for (Replica replica :
+                                checkpoint.getReplicasList()) {
+                            // get primary node
+                            Node primaryNode = replica.getPrimaryReplica();
+                            NodeMetadata primaryReplica =
+                                this.nodeManager.getNode(primaryNode.getId());
+
+                            // get secondary nodes
+                            NodeMetadata[] secondaryReplicas =
+                                new NodeMetadata[
+                                    replica.getSecondaryReplicasCount()];
+                            int index = 0;
+                            for (Node secondaryReplica :
+                                    replica.getSecondaryReplicasList()) {
+                                secondaryReplicas[index++] =
+                                    this.nodeManager.getNode(
+                                        secondaryReplica.getId());
+                            }
+
+                            // add replica
+                            checkpointMetadata.addReplica(
+                                    primaryReplica,
+                                    secondaryReplicas
+                                );
+                        }
+
+                        this.checkpointManager
+                            .addCheckpoint(checkpointMetadata);
                     }
 
                     // write to out
