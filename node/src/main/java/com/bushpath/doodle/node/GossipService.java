@@ -1,0 +1,245 @@
+package com.bushpath.doodle.node;
+
+import com.bushpath.doodle.ControlPlugin;
+import com.bushpath.doodle.SketchPlugin;
+import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
+import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
+import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
+import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
+import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
+
+import com.google.protobuf.ByteString;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.control.ControlPluginManager;
+import com.bushpath.doodle.node.control.NodeManager;
+import com.bushpath.doodle.node.control.NodeMetadata;
+import com.bushpath.doodle.node.plugin.PluginManager;
+import com.bushpath.doodle.node.sketch.CheckpointManager;
+import com.bushpath.doodle.node.sketch.CheckpointMetadata;
+import com.bushpath.doodle.node.sketch.SketchManager;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.lang.reflect.Constructor;
+import java.util.List;
+import java.util.Map;
+
+public class GossipService implements Service {
+    protected static final Logger log =
+        LoggerFactory.getLogger(GossipService.class);
+
+    protected CheckpointManager checkpointManager;
+    protected ControlPluginManager controlPluginManager;
+    protected PluginManager pluginManager;
+    protected NodeManager nodeManager;
+    protected SketchManager sketchManager;
+
+    public GossipService(CheckpointManager checkpointManager,
+            ControlPluginManager controlPluginManager,
+            PluginManager pluginManager, NodeManager nodeManager,
+            SketchManager sketchManager) {
+        this.checkpointManager = checkpointManager;
+        this.controlPluginManager = controlPluginManager;
+        this.pluginManager = pluginManager;
+        this.nodeManager = nodeManager;
+        this.sketchManager = sketchManager;
+    }
+
+    @Override
+    public int[] getMessageTypes() {
+        return new int[]{
+                MessageType.GOSSIP_HASH.getNumber(),
+                MessageType.GOSSIP_UPDATE.getNumber()
+            };
+    }
+
+    @Override
+    public void handleMessage(int messageType,
+        DataInputStream in, DataOutputStream out) throws Exception  {
+
+        // handle message
+        try {
+            switch (MessageType.forNumber(messageType)) {
+                case GOSSIP_HASH:
+                    // parse request
+                    GossipHashRequest gossipHashRequest =
+                        GossipHashRequest.parseDelimitedFrom(in);
+
+                    log.trace("handling GossipHashRequest");
+
+                    // init response
+                    GossipHashResponse.Builder gossipHashBuilder =
+                        GossipHashResponse.newBuilder()
+                        .setNodesHash(this.nodeManager.getNodesHash())
+                        .setControlHash(this.controlPluginManager.hashCode())
+                        .setSketchHash(this.sketchManager.hashCode())
+                        .setCheckpointHash(this.checkpointManager.hashCode());
+
+
+                    // write to out
+                    out.writeInt(messageType);
+                    gossipHashBuilder.build().writeDelimitedTo(out);
+                    break;
+                case GOSSIP_UPDATE:
+                    // parse request
+                    GossipUpdateRequest gossipUpdateRequest =
+                        GossipUpdateRequest.parseDelimitedFrom(in);
+
+                    log.trace("handling GossipUpdateRequest");
+
+                    // init response
+                    GossipUpdateResponse.Builder gossipUpdateBuilder =
+                        GossipUpdateResponse.newBuilder();
+
+                    // handle response
+                    for (Node nodeProto : gossipUpdateRequest.getNodesList()) {
+                        // check if node exists
+                        if (this.nodeManager
+                                .containsNode(nodeProto.getId())) {
+                            continue;
+                        }
+
+                        // add node
+                        NodeMetadata nodeMetadata = new NodeMetadata(
+                                nodeProto.getId(),
+                                nodeProto.getIpAddress(),
+                                (short) nodeProto.getPort()
+                            );
+
+                        try {
+                            this.nodeManager.addNode(nodeMetadata);
+                        } catch (Exception e) {
+                            log.error("Failed to add node {}",
+                                nodeMetadata, e);
+                        }
+                    }
+
+                    // handle control plugins
+                    for (ControlPluginGossip pluginGossip :
+                            gossipUpdateRequest.getControlPluginsList()) {
+                        ControlPlugin plugin;
+                        // handle plugin
+                        if (this.controlPluginManager
+                                .containsPlugin(pluginGossip.getId())) {
+                            // retrieve plugin
+                            plugin = this.controlPluginManager
+                                .getPlugin(pluginGossip.getId());
+                        } else {
+                            // create plugin if it doesn't exit
+                            try {
+                                Class<? extends ControlPlugin> clazz =
+                                    this.pluginManager.getControlPlugin(
+                                        pluginGossip.getClasspath());
+                                Constructor constructor = 
+                                    clazz.getConstructor(String.class);
+                                plugin = (ControlPlugin) constructor
+                                    .newInstance(pluginGossip.getId());
+
+                                this.controlPluginManager.addPlugin(
+                                    pluginGossip.getId(), plugin);
+                            } catch (Exception e) {
+                                log.error("Failed to add ControlPlugin: {}",
+                                    pluginGossip.getId(), e);
+                                continue;
+                            }
+                        }
+
+                        // handle operations
+                        for (VariableOperation operation :
+                                pluginGossip.getOperationsList()) {
+                            plugin.handleVariableOperation(operation);
+                        }
+                    }
+             
+                    // handle sketch plugins
+                    for (SketchPluginGossip pluginGossip :
+                            gossipUpdateRequest.getSketchPluginsList()) {
+                        SketchPlugin sketch;
+                        // handle sketch
+                        if (this.sketchManager
+                                .containsSketch(pluginGossip.getId())) {
+                            // retrieve sketch
+                            sketch = this.sketchManager
+                                .getSketch(pluginGossip.getId());
+                        } else {
+                            // create sketch if it doesn't exit
+                            try {
+                                List<String> list = pluginGossip
+                                    .getControlPluginsList();
+                                ControlPlugin[] controlPlugins = 
+                                    new ControlPlugin[list.size()];
+
+                                for (int i=0; i<controlPlugins.length; i++) {
+                                    controlPlugins[i] = 
+                                        this.controlPluginManager
+                                            .getPlugin(list.get(i));
+                                }
+
+                                Class<? extends SketchPlugin> clazz =
+                                    this.pluginManager.getSketchPlugin(
+                                        pluginGossip.getClasspath());
+                                Constructor constructor = 
+                                    clazz.getConstructor(String.class, 
+                                        ControlPlugin[].class);
+                                sketch = (SketchPlugin) constructor
+                                    .newInstance(pluginGossip.getId(),
+                                        controlPlugins);
+
+                                this.sketchManager.addSketch(
+                                    pluginGossip.getId(), sketch);
+                            } catch (Exception e) {
+                                log.error("Failed to add Sketch: {}",
+                                    pluginGossip.getId(), e);
+                                continue;
+                            }
+                        }
+
+                        // handle operations
+                        for (VariableOperation operation :
+                                pluginGossip.getOperationsList()) {
+                            sketch.handleVariableOperation(operation);
+                        }
+                    }
+
+                    // TODO - handle checkpoints
+                    for (Checkpoint checkpoint :
+                            gossipUpdateRequest.getCheckpointsList()) {
+                        System.out.println("TODO - handle checkpoint "
+                            + checkpoint.getSketchId() + "."
+                            + checkpoint.getCheckpointId());
+                    }
+
+                    // write to out
+                    out.writeInt(messageType);
+                    gossipUpdateBuilder.build().writeDelimitedTo(out);
+                    break;
+                default:
+                    log.warn("Unreachable");
+            }
+        } catch (Exception e) {
+            log.warn("Handling exception", e);
+
+            // create Failure
+            Failure.Builder builder = Failure.newBuilder()
+                .setType(e.getClass().getName());
+
+            if (e.getMessage() != null) {
+                builder.setText(e.getMessage());
+            }
+
+            // write to out
+            out.writeInt(MessageType.FAILURE.getNumber());
+            builder.build().writeDelimitedTo(out);
+        }
+    }
+}

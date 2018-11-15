@@ -11,8 +11,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
@@ -22,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.plugin.PluginManager;
+import com.bushpath.doodle.node.sketch.CheckpointManager;
+import com.bushpath.doodle.node.sketch.CheckpointMetadata;
 import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.io.DataInputStream;
@@ -34,23 +34,17 @@ public class ControlService implements Service {
         LoggerFactory.getLogger(ControlService.class);
 
     protected ControlPluginManager controlPluginManager;
-    protected NodeManager nodeManager;
     protected PluginManager pluginManager;
-    protected SketchManager sketchManager;
 
     public ControlService(ControlPluginManager controlPluginManager,
-            NodeManager nodeManager, PluginManager pluginManager,
-            SketchManager sketchManager) {
+            PluginManager pluginManager) {
         this.controlPluginManager = controlPluginManager;
-        this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
-        this.sketchManager = sketchManager;
     }
 
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.GOSSIP.getNumber(),
                 MessageType.CONTROL_INIT.getNumber(),
                 MessageType.CONTROL_LIST.getNumber(),
                 MessageType.CONTROL_MODIFY.getNumber(),
@@ -65,56 +59,6 @@ public class ControlService implements Service {
         // handle message
         try {
             switch (MessageType.forNumber(messageType)) {
-                case GOSSIP:
-                    // parse request
-                    GossipRequest gossipRequest =
-                        GossipRequest.parseDelimitedFrom(in);
-
-                    log.trace("handling GossipRequest");
-
-                    // init response
-                    GossipResponse.Builder gossipBuilder =
-                        GossipResponse.newBuilder();
-
-                    // populate builder
-                    if (gossipRequest.getNodesHash() !=
-                            this.nodeManager.getNodesHash()) {
-                        // if node hash != -> add all nodes
-                        for (NodeMetadata node : this.nodeManager.getNodeValues()) {
-                            Node nodeProto = Node.newBuilder()
-                                .setId(node.getId())
-                                .setIpAddress(node.getIpAddress())
-                                .setPort(node.getPort())
-                                .build();
-
-                            gossipBuilder.addNodes(nodeProto);
-                        }
-                    }
-
-                    // handle control plugins
-                    if (gossipRequest.getControlHash() !=
-                            this.controlPluginManager.hashCode()) {
-                        for (Map.Entry<String, ControlPlugin> entry :
-                                this.controlPluginManager.getPluginEntrySet()) {
-                            gossipBuilder
-                                .addControlPlugins(entry.getValue().toGossip());
-                        }
-                    }
-
-                    // handle sketch plugins
-                    if (gossipRequest.getSketchHash() !=
-                            this.sketchManager.hashCode()) {
-                        for (Map.Entry<String, SketchPlugin> entry :
-                                this.sketchManager.getSketchesEntrySet()) {
-                            gossipBuilder
-                                .addSketchPlugins(entry.getValue().toGossip());
-                        }
-                    }
-
-                    // write to out
-                    out.writeInt(messageType);
-                    gossipBuilder.build().writeDelimitedTo(out);
-                    break;
                 case CONTROL_INIT:
                     // parse request
                     ControlInitRequest controlInitRequest =

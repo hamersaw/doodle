@@ -2,7 +2,7 @@
 
 # initialize DoodleDhtPlugin
 ./doodle control init dht com.bushpath.doodle.dht.DoodleDhtPlugin
-./doodle control modify dht -a "token:0:-1073741824,1073741824" -a "token:1:0,2147483647"
+./doodle control modify dht -a "token:0:0,2147483646" -a "token:1:-1431655764,715827882" -a "token:2:-715827882,1431655764"
 
 # initialize DoodleFennelPlugin sketch
 ./doodle sketch init -c dht sketch_one com.bushpath.doodle.fennel.DoodleFennelPlugin

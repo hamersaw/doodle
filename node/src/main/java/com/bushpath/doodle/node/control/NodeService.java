@@ -83,13 +83,7 @@ public class NodeService implements Service {
                     NodeMetadata nodeMetadata =
                         this.nodeManager.getNode(nodeShowRequest.getId());
 
-                    Node node = Node.newBuilder()
-                        .setId(nodeMetadata.getId())
-                        .setIpAddress(nodeMetadata.getIpAddress())
-                        .setPort(nodeMetadata.getPort())
-                        .build();
-
-                    nodeShowBuilder.setNode(node);
+                    nodeShowBuilder.setNode(nodeMetadata.toProtobuf());
 
                     // write to out
                     out.writeInt(messageType);

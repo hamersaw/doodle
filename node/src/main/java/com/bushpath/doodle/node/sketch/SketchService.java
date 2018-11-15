@@ -5,16 +5,12 @@ import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
@@ -52,11 +48,9 @@ public class SketchService implements Service {
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.SKETCH_CHECKPOINT.getNumber(),
                 MessageType.SKETCH_INIT.getNumber(),
                 MessageType.SKETCH_LIST.getNumber(),
                 MessageType.SKETCH_MODIFY.getNumber(),
-                MessageType.SKETCH_ROLLBACK.getNumber(),
                 MessageType.SKETCH_SHOW.getNumber(),
                 MessageType.SKETCH_WRITE.getNumber()
             };
@@ -69,25 +63,6 @@ public class SketchService implements Service {
         // handle message
         try {
             switch (MessageType.forNumber(messageType)) {
-                case SKETCH_CHECKPOINT:
-                    // parse request
-                    SketchCheckpointRequest sketchCheckpointRequest =
-                        SketchCheckpointRequest.parseDelimitedFrom(in);
-
-                    log.info("handling SketchCheckpointRequest {}:{}",
-                        sketchCheckpointRequest.getSketchId(),
-                        sketchCheckpointRequest.getCheckpointId());
-
-                    // init response
-                    SketchCheckpointResponse.Builder sketchCheckpointBuilder =
-                        SketchCheckpointResponse.newBuilder();
-
-                    // TODO - handle
-                    
-                    // write to out
-                    out.writeInt(messageType);
-                    sketchCheckpointBuilder.build().writeDelimitedTo(out);
-                    break;
                 case SKETCH_INIT:
                     // parse request
                     SketchInitRequest sketchInitRequest =
@@ -168,25 +143,6 @@ public class SketchService implements Service {
                     // write to out
                     out.writeInt(messageType);
                     sketchModifyBuilder.build().writeDelimitedTo(out);
-                    break;
-                case SKETCH_ROLLBACK:
-                    // parse request
-                    SketchRollbackRequest sketchRollbackRequest =
-                        SketchRollbackRequest.parseDelimitedFrom(in);
-
-                    log.info("handling SketchRollbackRequest {}:{}",
-                        sketchRollbackRequest.getSketchId(),
-                        sketchRollbackRequest.getCheckpointId());
-
-                    // init response
-                    SketchRollbackResponse.Builder sketchRollbackBuilder =
-                        SketchRollbackResponse.newBuilder();
-
-                    // TODO - handle
-                    
-                    // write to out
-                    out.writeInt(messageType);
-                    sketchRollbackBuilder.build().writeDelimitedTo(out);
                     break;
                 case SKETCH_SHOW:
                     // parse request

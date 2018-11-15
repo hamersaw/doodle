@@ -99,32 +99,58 @@ public class NodeManager {
         }
     }
 
-    public NodeMetadata getRandomNode() {
-        NodeMetadata nodeMetadata = null;
+    public int getThisNodeId() {
+        return this.nodeId;
+    }
 
+    public NodeMetadata getRandomNode(int ... excludeNodeIds) {
         this.lock.readLock().lock();
         try {
-            do {
-                if (this.nodes.size() == 1) {
-                    // if only node in 'nodes' is self return a seed node
-                    nodeMetadata = this.seedNodes.get(
-                            this.random.nextInt(this.seedNodes.size())
-                        );
-                } else {
-                    // choose random node in 'nodes'
-                    int randomIndex = this.random.nextInt(this.nodes.size());
-                    int randomNodeId = this.nodes.firstKey();
-                    for (int i=0; i<randomIndex; i++) {
-                        randomNodeId = this.nodes.higherKey(randomNodeId);
-                    }
-
-                    nodeMetadata = this.nodes.get(randomNodeId);
+            // find number of excludeNodeIds in ids
+            int invalidIdCount = 0;
+            for (int excludeNodeId : excludeNodeIds) {
+                if (this.nodes.containsKey(excludeNodeId)) {
+                    invalidIdCount += 1;
                 }
-            } while (nodeMetadata.getId() == this.nodeId);
+            }
+
+            if (invalidIdCount == this.nodes.size()) {
+                // all nodes are invalid
+                return null;
+            }
+
+            // find random node
+            NodeMetadata nodeMetadata = null;
+            while (true) {
+                // choose random node in 'nodes'
+                int randomIndex = this.random.nextInt(this.nodes.size());
+                int randomNodeId = this.nodes.firstKey();
+                for (int i=0; i<randomIndex; i++) {
+                    randomNodeId = this.nodes.higherKey(randomNodeId);
+                }
+
+                nodeMetadata = this.nodes.get(randomNodeId);
+
+                // check if node is valid
+                boolean valid = true;
+                for (int excludeNodeId : excludeNodeIds) {
+                    if (excludeNodeId == nodeMetadata.getId()) {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (valid) {
+                    return nodeMetadata;
+                }
+            }
         } finally {
             this.lock.readLock().unlock();
         }
+    }
 
-        return nodeMetadata;
+    public NodeMetadata getRandomSeed() {
+        int index = this.random.nextInt(this.seedNodes.size());
+        return this.seedNodes.get(index);
     }
 }

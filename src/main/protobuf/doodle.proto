@@ -14,21 +14,22 @@ enum MessageType {
     CONTROL_MODIFY = 2;
     CONTROL_SHOW = 3;
     FAILURE = 4;
-    GOSSIP = 5;
-    NODE_LIST = 6;
-    NODE_SHOW = 7;
-    PIPE_CLOSE = 8;
-    PIPE_OPEN = 9;
-    PIPE_WRITE = 10;
-    PLUGIN_LIST = 11;
-    QUERY = 12;
-    SKETCH_INIT = 13;
-    SKETCH_CHECKPOINT = 14;
-    SKETCH_LIST = 15;
-    SKETCH_MODIFY = 16;
-    SKETCH_ROLLBACK = 17;
-    SKETCH_SHOW = 18;
-    SKETCH_WRITE = 19;
+    GOSSIP_HASH = 5;
+    GOSSIP_UPDATE = 6;
+    NODE_LIST = 7;
+    NODE_SHOW = 8;
+    PIPE_CLOSE = 9;
+    PIPE_OPEN = 10;
+    PIPE_WRITE = 11;
+    PLUGIN_LIST = 12;
+    QUERY = 13;
+    SKETCH_INIT = 14;
+    SKETCH_CHECKPOINT = 15;
+    SKETCH_LIST = 16;
+    SKETCH_MODIFY = 17;
+    SKETCH_ROLLBACK = 18;
+    SKETCH_SHOW = 19;
+    SKETCH_WRITE = 20;
 }
 
 /**
@@ -71,16 +72,24 @@ message ControlShowResponse {
  * Gossip Messages
  */
 
-message GossipRequest {
+message GossipHashRequest {
+}
+
+message GossipHashResponse {
     int32 nodesHash = 1;
     int32 controlHash = 2;
     int32 sketchHash = 3;
+    int32 checkpointHash = 4;
 }
 
-message GossipResponse {
+message GossipUpdateRequest {
     repeated Node nodes = 1;
     repeated ControlPluginGossip controlPlugins = 2;
     repeated SketchPluginGossip sketchPlugins = 3;
+    repeated Checkpoint checkpoints = 4;
+}
+
+message GossipUpdateResponse {
 }
 
 message ControlPluginGossip {
@@ -244,7 +253,7 @@ message SketchWriteResponse {
 
 message CheckpointEntry {
     Node primaryReplica = 1;
-    repeated Node secondaryRepicas = 2;
+    repeated Node secondaryReplicas = 2;
 }
 
 message Checkpoint {

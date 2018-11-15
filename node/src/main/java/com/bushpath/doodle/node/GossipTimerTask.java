@@ -3,13 +3,12 @@ package com.bushpath.doodle.node;
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,8 @@ import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.plugin.PluginManager;
+import com.bushpath.doodle.node.sketch.CheckpointMetadata;
+import com.bushpath.doodle.node.sketch.CheckpointManager;
 import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.util.TimerTask;
@@ -25,7 +26,6 @@ import java.util.TimerTask;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.util.List;
@@ -37,16 +37,16 @@ public class GossipTimerTask extends TimerTask {
 
     protected ControlPluginManager controlPluginManager;
     protected NodeManager nodeManager;
-    protected PluginManager pluginManager;
     protected SketchManager sketchManager;
+    protected CheckpointManager checkpointManager;
 
     public GossipTimerTask(ControlPluginManager controlPluginManager,
-            NodeManager nodeManager, PluginManager pluginManager, 
-            SketchManager sketchManager) {
+            NodeManager nodeManager, SketchManager sketchManager,
+            CheckpointManager checkpointManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
-        this.pluginManager = pluginManager;
         this.sketchManager = sketchManager;
+        this.checkpointManager = checkpointManager;
     }
 
     @Override
@@ -54,119 +54,105 @@ public class GossipTimerTask extends TimerTask {
         log.trace("Executing");
 
         // retrieve random node
-        NodeMetadata node = this.nodeManager.getRandomNode();
-        if (node == null) {
+        NodeMetadata gossipNodeMetadata = this.nodeManager
+            .getRandomNode(this.nodeManager.getThisNodeId());
+
+        // check if there are other registered nodes
+        if (gossipNodeMetadata == null) {
+            gossipNodeMetadata = this.nodeManager.getRandomSeed();
+        }
+
+        // fallback to contacting a seed node
+        if (gossipNodeMetadata == null) {
             return;
         }
 
-        // create GossipRequest
-        GossipRequest.Builder builder = GossipRequest.newBuilder()
-            .setNodesHash(this.nodeManager.getNodesHash())
-            .setControlHash(this.controlPluginManager.hashCode())
-            .setSketchHash(this.sketchManager.hashCode());
+        // create GossipHashRequest
+        GossipHashRequest gossipHashRequest =
+            GossipHashRequest.newBuilder().build();
 
-        GossipRequest request = builder.build();
-
-        // send GossipRequest
-        GossipResponse response = null;
+        // send GossipHashRequest
+        GossipHashResponse gossipHashResponse = null;
         try {
-            response = (GossipResponse) CommUtility.send(
-                MessageType.GOSSIP.getNumber(), request,
-                node.getIpAddress(), (short) node.getPort());
+            gossipHashResponse = (GossipHashResponse) CommUtility.send(
+                MessageType.GOSSIP_HASH.getNumber(), gossipHashRequest,
+                gossipNodeMetadata.getIpAddress(),
+                (short) gossipNodeMetadata.getPort());
         } catch (ConnectException e) {
-            log.warn("Connection to {} unsuccessful", node.toString());
+            log.warn("Connection to {} unsuccessful",
+                gossipNodeMetadata.toString());
             return;
         } catch (Exception e) {
             log.error("Unknown communication error", e);
             return;
         }
 
-        // handle response
-        for (Node nodeProto : response.getNodesList()) {
-            // check if node exists
-            if (this.nodeManager.containsNode(nodeProto.getId())) {
-                continue;
-            }
+        // create GossipUpdateRequest
+        boolean send = false;
+        GossipUpdateRequest.Builder gossipUpdateBuilder =
+            GossipUpdateRequest.newBuilder();
 
-            // add node
-            NodeMetadata nodeMetadata = new NodeMetadata(nodeProto.getId(),
-                nodeProto.getIpAddress(), (short) nodeProto.getPort());
+        if (gossipHashResponse.getNodesHash() !=
+                this.nodeManager.getNodesHash()) {
+            // if node hash != -> add all nodes
+            for (NodeMetadata node : this.nodeManager.getNodeValues()) {
+                Node nodeProto = Node.newBuilder()
+                    .setId(node.getId())
+                    .setIpAddress(node.getIpAddress())
+                    .setPort(node.getPort())
+                    .build();
 
-            try {
-                this.nodeManager.addNode(nodeMetadata);
-            } catch (Exception e) {
-                log.error("Failed to add node {}", nodeMetadata, e);
+                gossipUpdateBuilder.addNodes(nodeProto);
             }
         }
 
         // handle control plugins
-        for (ControlPluginGossip pluginGossip : response.getControlPluginsList()) {
-            ControlPlugin plugin;
-            // handle plugin
-            if (this.controlPluginManager.containsPlugin(pluginGossip.getId())) {
-                // retrieve plugin
-                plugin = this.controlPluginManager.getPlugin(pluginGossip.getId());
-            } else {
-                // create plugin if it doesn't exit
-                try {
-                    Class<? extends ControlPlugin> clazz = this.pluginManager
-                        .getControlPlugin(pluginGossip.getClasspath());
-                    Constructor constructor = clazz.getConstructor(String.class);
-                    plugin = (ControlPlugin)
-                        constructor.newInstance(pluginGossip.getId());
-
-                    this.controlPluginManager
-                        .addPlugin(pluginGossip.getId(), plugin);
-                } catch (Exception e) {
-                    log.error("Failed to add ControlPlugin: {}",
-                        pluginGossip.getId(), e);
-                    continue;
-                }
+        if (gossipHashResponse.getControlHash() !=
+                this.controlPluginManager.hashCode()) {
+            for (Map.Entry<String, ControlPlugin> entry :
+                    this.controlPluginManager.getPluginEntrySet()) {
+                gossipUpdateBuilder
+                    .addControlPlugins(entry.getValue().toGossip());
             }
+        }
 
-            // handle operations
-            for (VariableOperation operation : pluginGossip.getOperationsList()) {
-                plugin.handleVariableOperation(operation);
+        // handle sketch plugins
+        if (gossipHashResponse.getSketchHash() !=
+                this.sketchManager.hashCode()) {
+            for (Map.Entry<String, SketchPlugin> entry :
+                    this.sketchManager.getSketchesEntrySet()) {
+                gossipUpdateBuilder
+                    .addSketchPlugins(entry.getValue().toGossip());
+            }
+        }
+
+        // handle checkpoints
+        if (gossipHashResponse.getCheckpointHash() !=
+                this.checkpointManager.hashCode()) {
+            for (Map.Entry<String, CheckpointMetadata> entry :
+                    this.checkpointManager.getCheckpointEntrySet()) {
+                gossipUpdateBuilder
+                    .addCheckpoints(entry.getValue().toProtobuf());
             }
         }
  
-        // handle sketch plugins
-        for (SketchPluginGossip pluginGossip : response.getSketchPluginsList()) {
-            SketchPlugin sketch;
-            // handle sketch
-            if (this.sketchManager.containsSketch(pluginGossip.getId())) {
-                // retrieve sketch
-                sketch = this.sketchManager.getSketch(pluginGossip.getId());
-            } else {
-                // create sketch if it doesn't exit
-                try {
-                    List<String> list = pluginGossip.getControlPluginsList();
-                    ControlPlugin[] controlPlugins = new ControlPlugin[list.size()];
-                    for (int i=0; i<controlPlugins.length; i++) {
-                        controlPlugins[i] =
-                            this.controlPluginManager.getPlugin(list.get(i));
-                    }
-
-                    Class<? extends SketchPlugin> clazz = this.pluginManager
-                        .getSketchPlugin(pluginGossip.getClasspath());
-                    Constructor constructor = 
-                        clazz.getConstructor(String.class, ControlPlugin[].class);
-                    sketch = (SketchPlugin) constructor
-                        .newInstance(pluginGossip.getId(), controlPlugins);
-
-                    this.sketchManager
-                        .addSketch(pluginGossip.getId(), sketch);
-                } catch (Exception e) {
-                    log.error("Failed to add Sketch: {}",
-                        pluginGossip.getId(), e);
-                    continue;
-                }
-            }
-
-            // handle operations
-            for (VariableOperation operation : pluginGossip.getOperationsList()) {
-                sketch.handleVariableOperation(operation);
-            }
+        // send GossipUpdateRequest
+        GossipUpdateRequest gossipUpdateRequest = gossipUpdateBuilder.build();
+        GossipUpdateResponse gossipUpdateResponse = null;
+        try {
+            gossipUpdateResponse = (GossipUpdateResponse) CommUtility.send(
+                MessageType.GOSSIP_UPDATE.getNumber(), gossipUpdateRequest,
+                gossipNodeMetadata.getIpAddress(),
+                (short) gossipNodeMetadata.getPort());
+        } catch (ConnectException e) {
+            log.warn("Connection to {} unsuccessful",
+                gossipNodeMetadata.toString());
+            return;
+        } catch (Exception e) {
+            log.error("Unknown communication error", e);
+            return;
         }
+
+        // TODO - handle GossipUpdateResponse
     }
 }

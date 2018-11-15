@@ -8,7 +8,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeShowResponse;
@@ -75,8 +76,10 @@ public class CommUtility {
                 return ControlModifyResponse.parseDelimitedFrom(in);
             case CONTROL_SHOW:
                 return ControlShowResponse.parseDelimitedFrom(in);
-            case GOSSIP:
-                return GossipResponse.parseDelimitedFrom(in);
+            case GOSSIP_HASH:
+                return GossipHashResponse.parseDelimitedFrom(in);
+            case GOSSIP_UPDATE:
+                return GossipUpdateResponse.parseDelimitedFrom(in);
             case NODE_LIST:
                 return NodeListResponse.parseDelimitedFrom(in);
             case NODE_SHOW:

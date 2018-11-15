@@ -17,6 +17,8 @@ import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.NodeService;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
+import com.bushpath.doodle.node.sketch.CheckpointManager;
+import com.bushpath.doodle.node.sketch.CheckpointService;
 import com.bushpath.doodle.node.sketch.PipeManager;
 import com.bushpath.doodle.node.sketch.PipeService;
 import com.bushpath.doodle.node.sketch.SketchManager;
@@ -133,6 +135,10 @@ public class Main {
             System.exit(2);
         }
 
+        // intialize CheckpointManager
+        CheckpointManager checkpointManager =
+            new CheckpointManager(nodeManager);
+
         // initailize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
 
@@ -148,8 +154,8 @@ public class Main {
 
         // register Services
         try {
-            ControlService controlService = new ControlService(controlPluginManager,
-                nodeManager, pluginManager, sketchManager);
+            ControlService controlService = new ControlService(
+                controlPluginManager, pluginManager);
             server.registerService(controlService);
 
             NodeService nodeService = new NodeService(nodeManager);
@@ -157,6 +163,10 @@ public class Main {
 
             PluginService pluginService = new PluginService(pluginManager);
             server.registerService(pluginService);
+
+            CheckpointService checkpointService =
+                new CheckpointService(checkpointManager, sketchManager);
+            server.registerService(checkpointService);
 
             PipeService pipeService =
                 new PipeService(sketchManager, pipeManager);
@@ -169,6 +179,12 @@ public class Main {
             SketchService sketchService = new SketchService(
                 controlPluginManager, pluginManager, sketchManager);
             server.registerService(sketchService);
+
+            GossipService gossipService = new GossipService(
+                checkpointManager, controlPluginManager, pluginManager,
+                nodeManager, sketchManager);
+            server.registerService(gossipService);
+
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
             System.exit(4);
@@ -182,7 +198,7 @@ public class Main {
             Timer timer = new Timer();
             GossipTimerTask gossipTimerTask =
                 new GossipTimerTask(controlPluginManager, nodeManager,
-                    pluginManager, sketchManager);
+                    sketchManager, checkpointManager);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
 
