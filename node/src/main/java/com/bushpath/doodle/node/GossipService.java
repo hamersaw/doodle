@@ -231,31 +231,31 @@ public class GossipService implements Service {
                         for (Replica replica :
                                 checkpoint.getReplicasList()) {
                             // get primary node
-                            Node primaryNode = replica.getPrimaryReplica();
-                            NodeMetadata primaryReplica =
-                                this.nodeManager.getNode(primaryNode.getId());
+                            int primaryNodeId = replica.getPrimaryNodeId();
 
                             // get secondary nodes
-                            NodeMetadata[] secondaryReplicas =
-                                new NodeMetadata[
-                                    replica.getSecondaryReplicasCount()];
+                            int[] secondaryNodeIds =
+                                new int[replica.getSecondaryNodeIdsCount()];
                             int index = 0;
-                            for (Node secondaryReplica :
-                                    replica.getSecondaryReplicasList()) {
-                                secondaryReplicas[index++] =
-                                    this.nodeManager.getNode(
-                                        secondaryReplica.getId());
+                            for (Integer secondaryNodeId :
+                                    replica.getSecondaryNodeIdsList()) {
+                                secondaryNodeIds[index++] = secondaryNodeId;
                             }
 
                             // add replica
                             checkpointMetadata.addReplica(
-                                    primaryReplica,
-                                    secondaryReplicas
+                                    primaryNodeId,
+                                    secondaryNodeIds
                                 );
                         }
 
-                        this.checkpointManager
-                            .addCheckpoint(checkpointMetadata);
+                        // TODO - checkpointSketch.serialize();
+
+                        // add Checkpoint
+                        SketchPlugin checkpointSketch = this.sketchManager
+                            .getSketch(checkpointMetadata.getSketchId());
+                        this.checkpointManager.addCheckpoint(
+                             checkpointMetadata);
                     }
 
                     // write to out

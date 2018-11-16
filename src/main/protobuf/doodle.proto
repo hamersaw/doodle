@@ -253,8 +253,8 @@ message SketchWriteResponse {
  */
 
 message Replica {
-    Node primaryReplica = 1;
-    repeated Node secondaryReplicas = 2;
+    int32 primaryNodeId = 1;
+    repeated int32 secondaryNodeIds = 2;
 }
 
 message Checkpoint {

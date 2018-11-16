@@ -63,18 +63,17 @@ public class SketchShowCli implements Runnable {
                 + "\ncheckpointId = \"" + checkpoint.getCheckpointId() + "\"");
 
             for (Replica replica : checkpoint.getReplicasList()) {
-                Node primaryReplica = replica.getPrimaryReplica();
-                System.out.print("\n[[checkpoint.replica.primaryReplica]]"
-                    + "\nnodeId = " + primaryReplica.getId() + "\""
-                    + "\nipAddress = " + primaryReplica.getIpAddress() + "\""
-                    + "\nport = " + primaryReplica.getPort() + "\"");
+                System.out.print("\n[[checkpoint.replica]]"
+                    + "\nprimaryNodeId = \"" 
+                    + replica.getPrimaryNodeId() + "\""
+                    + "\nsecondaryNodeIds = [");
 
-                for (Node secondaryReplica : replica.getSecondaryReplicasList()) {
-                    System.out.print("\n[[checkpoint.replica.secondaryReplica]]"
-                        + "\nnodeId = " + secondaryReplica.getId() + "\""
-                        + "\nipAddress = " + secondaryReplica.getIpAddress() + "\""
-                        + "\nport = " + secondaryReplica.getPort() + "\"");
+                for (int i=0; i<replica.getSecondaryNodeIdsCount(); i++) {
+                    System.out.print((i!=0 ? ", " : "")
+                        + "\"" + replica.getSecondaryNodeIds(i) + "\"");
                 }
+
+                System.out.print("]");
             }
 
             System.out.println();

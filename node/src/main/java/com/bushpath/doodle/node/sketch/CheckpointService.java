@@ -63,12 +63,16 @@ public class CheckpointService implements Service {
                         .getSketch(sketchCheckpointRequest.getSketchId());
 
                     // create checkpoint
-                    this.checkpointManager.create(
+                    CheckpointMetadata checkpoint =
+                        this.checkpointManager.createCheckpoint(
                             sketchCheckpointRequest.getSketchId(),
                             sketchCheckpointRequest.getCheckpointId()
                         );
 
-                    // TODO - initialize checkpoint
+                    // TODO - checkpointSketch.serialize();
+
+                    // add checkpoint
+                    this.checkpointManager.addCheckpoint(checkpoint);
                     
                     // write to out
                     out.writeInt(messageType);

@@ -28286,41 +28286,22 @@ public final class DoodleProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Node primaryReplica = 1;</code>
+     * <code>int32 primaryNodeId = 1;</code>
      */
-    boolean hasPrimaryReplica();
-    /**
-     * <code>.Node primaryReplica = 1;</code>
-     */
-    com.bushpath.doodle.protobuf.DoodleProtos.Node getPrimaryReplica();
-    /**
-     * <code>.Node primaryReplica = 1;</code>
-     */
-    com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getPrimaryReplicaOrBuilder();
+    int getPrimaryNodeId();
 
     /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
+     * <code>repeated int32 secondaryNodeIds = 2;</code>
      */
-    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> 
-        getSecondaryReplicasList();
+    java.util.List<java.lang.Integer> getSecondaryNodeIdsList();
     /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
+     * <code>repeated int32 secondaryNodeIds = 2;</code>
      */
-    com.bushpath.doodle.protobuf.DoodleProtos.Node getSecondaryReplicas(int index);
+    int getSecondaryNodeIdsCount();
     /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
+     * <code>repeated int32 secondaryNodeIds = 2;</code>
      */
-    int getSecondaryReplicasCount();
-    /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
-     */
-    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
-        getSecondaryReplicasOrBuilderList();
-    /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
-     */
-    com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getSecondaryReplicasOrBuilder(
-        int index);
+    int getSecondaryNodeIds(int index);
   }
   /**
    * Protobuf type {@code Replica}
@@ -28335,7 +28316,8 @@ public final class DoodleProtos {
       super(builder);
     }
     private Replica() {
-      secondaryReplicas_ = java.util.Collections.emptyList();
+      primaryNodeId_ = 0;
+      secondaryNodeIds_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -28362,26 +28344,30 @@ public final class DoodleProtos {
             case 0:
               done = true;
               break;
-            case 10: {
-              com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder subBuilder = null;
-              if (primaryReplica_ != null) {
-                subBuilder = primaryReplica_.toBuilder();
-              }
-              primaryReplica_ = input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.Node.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(primaryReplica_);
-                primaryReplica_ = subBuilder.buildPartial();
-              }
+            case 8: {
 
+              primaryNodeId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                secondaryNodeIds_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              secondaryNodeIds_.add(input.readInt32());
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                secondaryReplicas_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.Node>();
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                secondaryNodeIds_ = new java.util.ArrayList<java.lang.Integer>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              secondaryReplicas_.add(
-                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.Node.parser(), extensionRegistry));
+              while (input.getBytesUntilLimit() > 0) {
+                secondaryNodeIds_.add(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
             default: {
@@ -28400,7 +28386,7 @@ public final class DoodleProtos {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          secondaryReplicas_ = java.util.Collections.unmodifiableList(secondaryReplicas_);
+          secondaryNodeIds_ = java.util.Collections.unmodifiableList(secondaryNodeIds_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -28420,61 +28406,37 @@ public final class DoodleProtos {
     }
 
     private int bitField0_;
-    public static final int PRIMARYREPLICA_FIELD_NUMBER = 1;
-    private com.bushpath.doodle.protobuf.DoodleProtos.Node primaryReplica_;
+    public static final int PRIMARYNODEID_FIELD_NUMBER = 1;
+    private int primaryNodeId_;
     /**
-     * <code>.Node primaryReplica = 1;</code>
+     * <code>int32 primaryNodeId = 1;</code>
      */
-    public boolean hasPrimaryReplica() {
-      return primaryReplica_ != null;
-    }
-    /**
-     * <code>.Node primaryReplica = 1;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.Node getPrimaryReplica() {
-      return primaryReplica_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance() : primaryReplica_;
-    }
-    /**
-     * <code>.Node primaryReplica = 1;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getPrimaryReplicaOrBuilder() {
-      return getPrimaryReplica();
+    public int getPrimaryNodeId() {
+      return primaryNodeId_;
     }
 
-    public static final int SECONDARYREPLICAS_FIELD_NUMBER = 2;
-    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> secondaryReplicas_;
+    public static final int SECONDARYNODEIDS_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> secondaryNodeIds_;
     /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
+     * <code>repeated int32 secondaryNodeIds = 2;</code>
      */
-    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> getSecondaryReplicasList() {
-      return secondaryReplicas_;
+    public java.util.List<java.lang.Integer>
+        getSecondaryNodeIdsList() {
+      return secondaryNodeIds_;
     }
     /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
+     * <code>repeated int32 secondaryNodeIds = 2;</code>
      */
-    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
-        getSecondaryReplicasOrBuilderList() {
-      return secondaryReplicas_;
+    public int getSecondaryNodeIdsCount() {
+      return secondaryNodeIds_.size();
     }
     /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
+     * <code>repeated int32 secondaryNodeIds = 2;</code>
      */
-    public int getSecondaryReplicasCount() {
-      return secondaryReplicas_.size();
+    public int getSecondaryNodeIds(int index) {
+      return secondaryNodeIds_.get(index);
     }
-    /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.Node getSecondaryReplicas(int index) {
-      return secondaryReplicas_.get(index);
-    }
-    /**
-     * <code>repeated .Node secondaryReplicas = 2;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getSecondaryReplicasOrBuilder(
-        int index) {
-      return secondaryReplicas_.get(index);
-    }
+    private int secondaryNodeIdsMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
@@ -28490,11 +28452,16 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (primaryReplica_ != null) {
-        output.writeMessage(1, getPrimaryReplica());
+      getSerializedSize();
+      if (primaryNodeId_ != 0) {
+        output.writeInt32(1, primaryNodeId_);
       }
-      for (int i = 0; i < secondaryReplicas_.size(); i++) {
-        output.writeMessage(2, secondaryReplicas_.get(i));
+      if (getSecondaryNodeIdsList().size() > 0) {
+        output.writeUInt32NoTag(18);
+        output.writeUInt32NoTag(secondaryNodeIdsMemoizedSerializedSize);
+      }
+      for (int i = 0; i < secondaryNodeIds_.size(); i++) {
+        output.writeInt32NoTag(secondaryNodeIds_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -28505,13 +28472,23 @@ public final class DoodleProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (primaryReplica_ != null) {
+      if (primaryNodeId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getPrimaryReplica());
+          .computeInt32Size(1, primaryNodeId_);
       }
-      for (int i = 0; i < secondaryReplicas_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, secondaryReplicas_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < secondaryNodeIds_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(secondaryNodeIds_.get(i));
+        }
+        size += dataSize;
+        if (!getSecondaryNodeIdsList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        secondaryNodeIdsMemoizedSerializedSize = dataSize;
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -28529,13 +28506,10 @@ public final class DoodleProtos {
       com.bushpath.doodle.protobuf.DoodleProtos.Replica other = (com.bushpath.doodle.protobuf.DoodleProtos.Replica) obj;
 
       boolean result = true;
-      result = result && (hasPrimaryReplica() == other.hasPrimaryReplica());
-      if (hasPrimaryReplica()) {
-        result = result && getPrimaryReplica()
-            .equals(other.getPrimaryReplica());
-      }
-      result = result && getSecondaryReplicasList()
-          .equals(other.getSecondaryReplicasList());
+      result = result && (getPrimaryNodeId()
+          == other.getPrimaryNodeId());
+      result = result && getSecondaryNodeIdsList()
+          .equals(other.getSecondaryNodeIdsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -28547,13 +28521,11 @@ public final class DoodleProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasPrimaryReplica()) {
-        hash = (37 * hash) + PRIMARYREPLICA_FIELD_NUMBER;
-        hash = (53 * hash) + getPrimaryReplica().hashCode();
-      }
-      if (getSecondaryReplicasCount() > 0) {
-        hash = (37 * hash) + SECONDARYREPLICAS_FIELD_NUMBER;
-        hash = (53 * hash) + getSecondaryReplicasList().hashCode();
+      hash = (37 * hash) + PRIMARYNODEID_FIELD_NUMBER;
+      hash = (53 * hash) + getPrimaryNodeId();
+      if (getSecondaryNodeIdsCount() > 0) {
+        hash = (37 * hash) + SECONDARYNODEIDS_FIELD_NUMBER;
+        hash = (53 * hash) + getSecondaryNodeIdsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -28683,24 +28655,15 @@ public final class DoodleProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getSecondaryReplicasFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (primaryReplicaBuilder_ == null) {
-          primaryReplica_ = null;
-        } else {
-          primaryReplica_ = null;
-          primaryReplicaBuilder_ = null;
-        }
-        if (secondaryReplicasBuilder_ == null) {
-          secondaryReplicas_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          secondaryReplicasBuilder_.clear();
-        }
+        primaryNodeId_ = 0;
+
+        secondaryNodeIds_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -28729,20 +28692,12 @@ public final class DoodleProtos {
         com.bushpath.doodle.protobuf.DoodleProtos.Replica result = new com.bushpath.doodle.protobuf.DoodleProtos.Replica(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (primaryReplicaBuilder_ == null) {
-          result.primaryReplica_ = primaryReplica_;
-        } else {
-          result.primaryReplica_ = primaryReplicaBuilder_.build();
+        result.primaryNodeId_ = primaryNodeId_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          secondaryNodeIds_ = java.util.Collections.unmodifiableList(secondaryNodeIds_);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
-        if (secondaryReplicasBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            secondaryReplicas_ = java.util.Collections.unmodifiableList(secondaryReplicas_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.secondaryReplicas_ = secondaryReplicas_;
-        } else {
-          result.secondaryReplicas_ = secondaryReplicasBuilder_.build();
-        }
+        result.secondaryNodeIds_ = secondaryNodeIds_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -28792,34 +28747,18 @@ public final class DoodleProtos {
 
       public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.Replica other) {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.Replica.getDefaultInstance()) return this;
-        if (other.hasPrimaryReplica()) {
-          mergePrimaryReplica(other.getPrimaryReplica());
+        if (other.getPrimaryNodeId() != 0) {
+          setPrimaryNodeId(other.getPrimaryNodeId());
         }
-        if (secondaryReplicasBuilder_ == null) {
-          if (!other.secondaryReplicas_.isEmpty()) {
-            if (secondaryReplicas_.isEmpty()) {
-              secondaryReplicas_ = other.secondaryReplicas_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureSecondaryReplicasIsMutable();
-              secondaryReplicas_.addAll(other.secondaryReplicas_);
-            }
-            onChanged();
+        if (!other.secondaryNodeIds_.isEmpty()) {
+          if (secondaryNodeIds_.isEmpty()) {
+            secondaryNodeIds_ = other.secondaryNodeIds_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureSecondaryNodeIdsIsMutable();
+            secondaryNodeIds_.addAll(other.secondaryNodeIds_);
           }
-        } else {
-          if (!other.secondaryReplicas_.isEmpty()) {
-            if (secondaryReplicasBuilder_.isEmpty()) {
-              secondaryReplicasBuilder_.dispose();
-              secondaryReplicasBuilder_ = null;
-              secondaryReplicas_ = other.secondaryReplicas_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              secondaryReplicasBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getSecondaryReplicasFieldBuilder() : null;
-            } else {
-              secondaryReplicasBuilder_.addAllMessages(other.secondaryReplicas_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -28851,361 +28790,96 @@ public final class DoodleProtos {
       }
       private int bitField0_;
 
-      private com.bushpath.doodle.protobuf.DoodleProtos.Node primaryReplica_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> primaryReplicaBuilder_;
+      private int primaryNodeId_ ;
       /**
-       * <code>.Node primaryReplica = 1;</code>
+       * <code>int32 primaryNodeId = 1;</code>
        */
-      public boolean hasPrimaryReplica() {
-        return primaryReplicaBuilder_ != null || primaryReplica_ != null;
+      public int getPrimaryNodeId() {
+        return primaryNodeId_;
       }
       /**
-       * <code>.Node primaryReplica = 1;</code>
+       * <code>int32 primaryNodeId = 1;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.Node getPrimaryReplica() {
-        if (primaryReplicaBuilder_ == null) {
-          return primaryReplica_ == null ? com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance() : primaryReplica_;
-        } else {
-          return primaryReplicaBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.Node primaryReplica = 1;</code>
-       */
-      public Builder setPrimaryReplica(com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
-        if (primaryReplicaBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          primaryReplica_ = value;
-          onChanged();
-        } else {
-          primaryReplicaBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Node primaryReplica = 1;</code>
-       */
-      public Builder setPrimaryReplica(
-          com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
-        if (primaryReplicaBuilder_ == null) {
-          primaryReplica_ = builderForValue.build();
-          onChanged();
-        } else {
-          primaryReplicaBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Node primaryReplica = 1;</code>
-       */
-      public Builder mergePrimaryReplica(com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
-        if (primaryReplicaBuilder_ == null) {
-          if (primaryReplica_ != null) {
-            primaryReplica_ =
-              com.bushpath.doodle.protobuf.DoodleProtos.Node.newBuilder(primaryReplica_).mergeFrom(value).buildPartial();
-          } else {
-            primaryReplica_ = value;
-          }
-          onChanged();
-        } else {
-          primaryReplicaBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Node primaryReplica = 1;</code>
-       */
-      public Builder clearPrimaryReplica() {
-        if (primaryReplicaBuilder_ == null) {
-          primaryReplica_ = null;
-          onChanged();
-        } else {
-          primaryReplica_ = null;
-          primaryReplicaBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Node primaryReplica = 1;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder getPrimaryReplicaBuilder() {
+      public Builder setPrimaryNodeId(int value) {
         
+        primaryNodeId_ = value;
         onChanged();
-        return getPrimaryReplicaFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>.Node primaryReplica = 1;</code>
+       * <code>int32 primaryNodeId = 1;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getPrimaryReplicaOrBuilder() {
-        if (primaryReplicaBuilder_ != null) {
-          return primaryReplicaBuilder_.getMessageOrBuilder();
-        } else {
-          return primaryReplica_ == null ?
-              com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance() : primaryReplica_;
-        }
-      }
-      /**
-       * <code>.Node primaryReplica = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
-          getPrimaryReplicaFieldBuilder() {
-        if (primaryReplicaBuilder_ == null) {
-          primaryReplicaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder>(
-                  getPrimaryReplica(),
-                  getParentForChildren(),
-                  isClean());
-          primaryReplica_ = null;
-        }
-        return primaryReplicaBuilder_;
+      public Builder clearPrimaryNodeId() {
+        
+        primaryNodeId_ = 0;
+        onChanged();
+        return this;
       }
 
-      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> secondaryReplicas_ =
-        java.util.Collections.emptyList();
-      private void ensureSecondaryReplicasIsMutable() {
+      private java.util.List<java.lang.Integer> secondaryNodeIds_ = java.util.Collections.emptyList();
+      private void ensureSecondaryNodeIdsIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          secondaryReplicas_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.Node>(secondaryReplicas_);
+          secondaryNodeIds_ = new java.util.ArrayList<java.lang.Integer>(secondaryNodeIds_);
           bitField0_ |= 0x00000002;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> secondaryReplicasBuilder_;
-
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node> getSecondaryReplicasList() {
-        if (secondaryReplicasBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(secondaryReplicas_);
-        } else {
-          return secondaryReplicasBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.Integer>
+          getSecondaryNodeIdsList() {
+        return java.util.Collections.unmodifiableList(secondaryNodeIds_);
       }
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public int getSecondaryReplicasCount() {
-        if (secondaryReplicasBuilder_ == null) {
-          return secondaryReplicas_.size();
-        } else {
-          return secondaryReplicasBuilder_.getCount();
-        }
+      public int getSecondaryNodeIdsCount() {
+        return secondaryNodeIds_.size();
       }
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public com.bushpath.doodle.protobuf.DoodleProtos.Node getSecondaryReplicas(int index) {
-        if (secondaryReplicasBuilder_ == null) {
-          return secondaryReplicas_.get(index);
-        } else {
-          return secondaryReplicasBuilder_.getMessage(index);
-        }
+      public int getSecondaryNodeIds(int index) {
+        return secondaryNodeIds_.get(index);
       }
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public Builder setSecondaryReplicas(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
-        if (secondaryReplicasBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.set(index, value);
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.setMessage(index, value);
-        }
+      public Builder setSecondaryNodeIds(
+          int index, int value) {
+        ensureSecondaryNodeIdsIsMutable();
+        secondaryNodeIds_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public Builder setSecondaryReplicas(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
-        if (secondaryReplicasBuilder_ == null) {
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder addSecondaryNodeIds(int value) {
+        ensureSecondaryNodeIdsIsMutable();
+        secondaryNodeIds_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public Builder addSecondaryReplicas(com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
-        if (secondaryReplicasBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.add(value);
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.addMessage(value);
-        }
+      public Builder addAllSecondaryNodeIds(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureSecondaryNodeIdsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, secondaryNodeIds_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
+       * <code>repeated int32 secondaryNodeIds = 2;</code>
        */
-      public Builder addSecondaryReplicas(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node value) {
-        if (secondaryReplicasBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.add(index, value);
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.addMessage(index, value);
-        }
+      public Builder clearSecondaryNodeIds() {
+        secondaryNodeIds_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public Builder addSecondaryReplicas(
-          com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
-        if (secondaryReplicasBuilder_ == null) {
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.add(builderForValue.build());
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public Builder addSecondaryReplicas(
-          int index, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder builderForValue) {
-        if (secondaryReplicasBuilder_ == null) {
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public Builder addAllSecondaryReplicas(
-          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.Node> values) {
-        if (secondaryReplicasBuilder_ == null) {
-          ensureSecondaryReplicasIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, secondaryReplicas_);
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public Builder clearSecondaryReplicas() {
-        if (secondaryReplicasBuilder_ == null) {
-          secondaryReplicas_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public Builder removeSecondaryReplicas(int index) {
-        if (secondaryReplicasBuilder_ == null) {
-          ensureSecondaryReplicasIsMutable();
-          secondaryReplicas_.remove(index);
-          onChanged();
-        } else {
-          secondaryReplicasBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder getSecondaryReplicasBuilder(
-          int index) {
-        return getSecondaryReplicasFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder getSecondaryReplicasOrBuilder(
-          int index) {
-        if (secondaryReplicasBuilder_ == null) {
-          return secondaryReplicas_.get(index);  } else {
-          return secondaryReplicasBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
-           getSecondaryReplicasOrBuilderList() {
-        if (secondaryReplicasBuilder_ != null) {
-          return secondaryReplicasBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(secondaryReplicas_);
-        }
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder addSecondaryReplicasBuilder() {
-        return getSecondaryReplicasFieldBuilder().addBuilder(
-            com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder addSecondaryReplicasBuilder(
-          int index) {
-        return getSecondaryReplicasFieldBuilder().addBuilder(
-            index, com.bushpath.doodle.protobuf.DoodleProtos.Node.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Node secondaryReplicas = 2;</code>
-       */
-      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder> 
-           getSecondaryReplicasBuilderList() {
-        return getSecondaryReplicasFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder> 
-          getSecondaryReplicasFieldBuilder() {
-        if (secondaryReplicasBuilder_ == null) {
-          secondaryReplicasBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              com.bushpath.doodle.protobuf.DoodleProtos.Node, com.bushpath.doodle.protobuf.DoodleProtos.Node.Builder, com.bushpath.doodle.protobuf.DoodleProtos.NodeOrBuilder>(
-                  secondaryReplicas_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          secondaryReplicas_ = null;
-        }
-        return secondaryReplicasBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -33810,30 +33484,30 @@ public final class DoodleProtos {
       "s\030\004 \003(\0132\017.PluginVariable\022 \n\013checkpoints\030" +
       "\005 \003(\0132\013.Checkpoint\"D\n\022SketchWriteRequest" +
       "\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004da" +
-      "ta\030\003 \001(\014\"\025\n\023SketchWriteResponse\"J\n\007Repli" +
-      "ca\022\035\n\016primaryReplica\030\001 \001(\0132\005.Node\022 \n\021sec" +
-      "ondaryReplicas\030\002 \003(\0132\005.Node\"c\n\nCheckpoin" +
-      "t\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchId\030\002 \001(\t\022\024" +
-      "\n\014checkpointId\030\003 \001(\t\022\032\n\010replicas\030\004 \003(\0132\010" +
-      ".Replica\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004tex" +
-      "t\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress" +
-      "\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginVariable\022\014" +
-      "\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003" +
-      "(\t\"\234\001\n\021VariableOperation\022\021\n\ttimestamp\030\001 " +
-      "\001(\003\022/\n\toperation\030\002 \001(\0162\034.VariableOperati" +
-      "on.Operation\022!\n\010variable\030\003 \001(\0132\017.PluginV" +
-      "ariable\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE\020" +
-      "\001*\365\002\n\013MessageType\022\020\n\014CONTROL_INIT\020\000\022\020\n\014C" +
-      "ONTROL_LIST\020\001\022\022\n\016CONTROL_MODIFY\020\002\022\020\n\014CON" +
-      "TROL_SHOW\020\003\022\013\n\007FAILURE\020\004\022\017\n\013GOSSIP_HASH\020" +
-      "\005\022\021\n\rGOSSIP_UPDATE\020\006\022\r\n\tNODE_LIST\020\007\022\r\n\tN" +
-      "ODE_SHOW\020\010\022\016\n\nPIPE_CLOSE\020\t\022\r\n\tPIPE_OPEN\020" +
-      "\n\022\016\n\nPIPE_WRITE\020\013\022\017\n\013PLUGIN_LIST\020\014\022\t\n\005QU" +
-      "ERY\020\r\022\017\n\013SKETCH_INIT\020\016\022\025\n\021SKETCH_CHECKPO" +
-      "INT\020\017\022\017\n\013SKETCH_LIST\020\020\022\021\n\rSKETCH_MODIFY\020" +
-      "\021\022\023\n\017SKETCH_ROLLBACK\020\022\022\017\n\013SKETCH_SHOW\020\023\022" +
-      "\020\n\014SKETCH_WRITE\020\024B/\n\034com.bushpath.doodle" +
-      ".protobufB\014DoodleProtos\240\001\001b\006proto3"
+      "ta\030\003 \001(\014\"\025\n\023SketchWriteResponse\":\n\007Repli" +
+      "ca\022\025\n\rprimaryNodeId\030\001 \001(\005\022\030\n\020secondaryNo" +
+      "deIds\030\002 \003(\005\"c\n\nCheckpoint\022\021\n\ttimestamp\030\001" +
+      " \001(\003\022\020\n\010sketchId\030\002 \001(\t\022\024\n\014checkpointId\030\003" +
+      " \001(\t\022\032\n\010replicas\030\004 \003(\0132\010.Replica\"%\n\007Fail" +
+      "ure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022" +
+      "\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003" +
+      " \001(\005\"<\n\016PluginVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004" +
+      "name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021VariableO" +
+      "peration\022\021\n\ttimestamp\030\001 \001(\003\022/\n\toperation" +
+      "\030\002 \001(\0162\034.VariableOperation.Operation\022!\n\010" +
+      "variable\030\003 \001(\0132\017.PluginVariable\" \n\tOpera" +
+      "tion\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001*\365\002\n\013MessageTyp" +
+      "e\022\020\n\014CONTROL_INIT\020\000\022\020\n\014CONTROL_LIST\020\001\022\022\n" +
+      "\016CONTROL_MODIFY\020\002\022\020\n\014CONTROL_SHOW\020\003\022\013\n\007F" +
+      "AILURE\020\004\022\017\n\013GOSSIP_HASH\020\005\022\021\n\rGOSSIP_UPDA" +
+      "TE\020\006\022\r\n\tNODE_LIST\020\007\022\r\n\tNODE_SHOW\020\010\022\016\n\nPI" +
+      "PE_CLOSE\020\t\022\r\n\tPIPE_OPEN\020\n\022\016\n\nPIPE_WRITE\020" +
+      "\013\022\017\n\013PLUGIN_LIST\020\014\022\t\n\005QUERY\020\r\022\017\n\013SKETCH_" +
+      "INIT\020\016\022\025\n\021SKETCH_CHECKPOINT\020\017\022\017\n\013SKETCH_" +
+      "LIST\020\020\022\021\n\rSKETCH_MODIFY\020\021\022\023\n\017SKETCH_ROLL" +
+      "BACK\020\022\022\017\n\013SKETCH_SHOW\020\023\022\020\n\014SKETCH_WRITE\020" +
+      "\024B/\n\034com.bushpath.doodle.protobufB\014Doodl" +
+      "eProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -34116,7 +33790,7 @@ public final class DoodleProtos {
     internal_static_Replica_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Replica_descriptor,
-        new java.lang.String[] { "PrimaryReplica", "SecondaryReplicas", });
+        new java.lang.String[] { "PrimaryNodeId", "SecondaryNodeIds", });
     internal_static_Checkpoint_descriptor =
       getDescriptor().getMessageTypes().get(43);
     internal_static_Checkpoint_fieldAccessorTable = new

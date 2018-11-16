@@ -17,8 +17,9 @@ port = 5450
 #       
 # Sketch Plane Configuration   
 #       
-[sketch]
+[sketch.checkpoint]
 directory = "."
+transferIntervalMilliSeconds = 2000
 
 #   
 # Plugins Configuration        

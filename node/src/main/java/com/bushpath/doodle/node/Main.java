@@ -19,6 +19,7 @@ import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 import com.bushpath.doodle.node.sketch.CheckpointManager;
 import com.bushpath.doodle.node.sketch.CheckpointService;
+import com.bushpath.doodle.node.sketch.CheckpointTransferTimerTask;
 import com.bushpath.doodle.node.sketch.PipeManager;
 import com.bushpath.doodle.node.sketch.PipeService;
 import com.bushpath.doodle.node.sketch.SketchManager;
@@ -136,8 +137,13 @@ public class Main {
         }
 
         // intialize CheckpointManager
-        CheckpointManager checkpointManager =
-            new CheckpointManager(nodeManager);
+        CheckpointTransferTimerTask checkpointTransferTimerTask =
+            new CheckpointTransferTimerTask();
+        CheckpointManager checkpointManager = new CheckpointManager(
+                nodeManager, 
+                toml.getString("sketch.checkpoint.directory"),
+                checkpointTransferTimerTask
+            );
 
         // initailize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
@@ -202,6 +208,10 @@ public class Main {
                     sketchManager, checkpointManager);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
+
+            // start CheckpointTransferTimerTask
+            timer.scheduleAtFixedRate(checkpointTransferTimerTask, 0,
+                toml.getLong("sketch.checkpoint.transferIntervalMilliSeconds"));
 
             server.join();
         } catch (InterruptedException e) {

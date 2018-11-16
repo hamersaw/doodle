@@ -19,26 +19,45 @@ public class CheckpointManager {
         LoggerFactory.getLogger(PipeManager.class);
 
     protected NodeManager nodeManager;
+    protected String directory;
+    protected CheckpointTransferTimerTask checkpointTransferTimerTask;
     protected Map<String, CheckpointMetadata> checkpoints;
     protected ReadWriteLock lock;
 
-    public CheckpointManager(NodeManager nodeManager) {
+    public CheckpointManager(NodeManager nodeManager, String directory,
+            CheckpointTransferTimerTask checkpointTransferTimerTask) {
         this.nodeManager = nodeManager;
+        this.directory = directory;
+        this.checkpointTransferTimerTask = checkpointTransferTimerTask;
         this.checkpoints = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void addCheckpoint(CheckpointMetadata checkpoint) {
+    public void addCheckpoint(CheckpointMetadata checkpoint) throws Exception {
         this.lock.writeLock().lock();
         try {
+            // check if checkpoint already exists
             if (this.checkpoints.containsKey(checkpoint.getCheckpointId())) {
                 throw new RuntimeException("checkpoint '"
                     + checkpoint.getCheckpointId() + "' already exists");
             }
 
+            // add checkpoint
             this.checkpoints.put(checkpoint.getCheckpointId(), checkpoint);
             log.info("Added checkpoint '" + checkpoint.getCheckpointId()
                 + "' for sketch '" + checkpoint.getSketchId() + "'");
+
+            // add checkpoint transfers to CheckpointTransferTimerTask
+            int nodeId = this.nodeManager.getThisNodeId();
+            for (Map.Entry<Integer, Set<Integer>> entry :
+                    checkpoint.getReplicaEntrySet()) {
+                if (entry.getValue().contains(nodeId)) {
+                    NodeMetadata nodeMetadata =
+                        this.nodeManager.getNode(entry.getKey());
+                    this.checkpointTransferTimerTask.addTransfer(
+                        checkpoint.getCheckpointId(), nodeMetadata);
+                }
+            }
         } finally {
             this.lock.writeLock().unlock();
         }
@@ -53,48 +72,42 @@ public class CheckpointManager {
         }
     }
 
-    public void create(String sketchId, String checkpointId)
-            throws Exception {
-        this.lock.readLock().lock();
-        try {
-            if (this.checkpoints.containsKey(checkpointId)) {
-                throw new RuntimeException("checkpoint '"
-                    + checkpointId + "' already exists");
+    public CheckpointMetadata createCheckpoint(String sketchId,
+            String checkpointId) throws Exception {
+        // initialize checkpoint
+        long timestamp = System.currentTimeMillis();
+        CheckpointMetadata checkpoint =
+            new CheckpointMetadata(timestamp, sketchId, checkpointId);
+
+        // iterate over nodes initializing checkpoint replicas
+        for (NodeMetadata nodeMetadata :
+                this.nodeManager.getNodeValues()) {
+            int[] secondaryNodeIds = new int[2];
+
+            // get first secondary node
+            NodeMetadata secondaryNodeMetadata =
+                this.nodeManager.getRandomNode(nodeMetadata.getId());
+            if (secondaryNodeMetadata == null) {
+                throw new RuntimeException("not enough nodes to"
+                    + " satisfy checkpoint replication.");
             }
-        } finally {
-            this.lock.readLock().unlock();
-        } 
- 
-        this.lock.writeLock().lock();
-        try {
-            // initialize checkpoint
-            long timestamp = System.currentTimeMillis();
-            CheckpointMetadata checkpoint =
-                new CheckpointMetadata(timestamp, sketchId, checkpointId);
+            secondaryNodeIds[0] = secondaryNodeMetadata.getId();
 
-            // iterate over nodes initializing checkpoint replicas
-            for (NodeMetadata nodeMetadata :
-                    this.nodeManager.getNodeValues()) {
-                NodeMetadata[] secondaryReplicas = new NodeMetadata[2];
-                secondaryReplicas[0] =
-                    this.nodeManager.getRandomNode(nodeMetadata.getId());
-                secondaryReplicas[1] =  this.nodeManager.getRandomNode(
-                    nodeMetadata.getId(), secondaryReplicas[0].getId());
-
-                if (secondaryReplicas[0] == null || secondaryReplicas[1] == null) {
-                    throw new RuntimeException("not enough nodes to satisfy checkpoint replication.");
-                }
-
-                checkpoint.addReplica(nodeMetadata, secondaryReplicas);
+            // get second secondary node
+            secondaryNodeMetadata = this.nodeManager
+                .getRandomNode(nodeMetadata.getId(), secondaryNodeIds[0]);
+            if (secondaryNodeMetadata == null) {
+                throw new RuntimeException("not enough nodes to"
+                    + " satisfy checkpoint replication.");
             }
+            secondaryNodeIds[1] = secondaryNodeMetadata.getId();
 
-            // add checkpoint to checkpointIds
-            this.checkpoints.put(checkpointId, checkpoint);
-            log.info("Created checkpoint '" + checkpointId
-                + "' for sketch '" + sketchId + "'");
-        } finally {
-            this.lock.writeLock().unlock();
+            checkpoint.addReplica(nodeMetadata.getId(),
+                secondaryNodeIds);
         }
+
+        // return checkpoint
+        return checkpoint;
     }
 
     public Set<Map.Entry<String, CheckpointMetadata>> getCheckpointEntrySet() {

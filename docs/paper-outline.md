@@ -18,6 +18,39 @@
 
 
 # methodology
+## data operations
+#### insertion
+- support for diverse file formats
+- client simply sends observation buffer to cluster nodes
+- push computation expensive operations to a subset of cluster nodes
+    - eg. geohash computation (synopsis), observation binning (fennel)
+#### querying
+- simple range-based query format
+- support for SQL-like interface
+    - range constraints
+    - sketching algorithms independently handle query evaluation 
+        - relax boundaries
+#### generation of synthetic datasets
+- present in diverse file formats
+- client side inflation
+- observation count multiplier
+- note on statistical representativeness of both fennel and synopsis sketches
+
+## fault-tolerance
+- challenge: we have a unique situation where data cannot be replicated at observation level (granularity of storage)
+    - makes convergence of sketch replicas particlarily difficult after failures
+    - unable to identify which records were written to replicas
+- solution: maintain periodic checkpoints of data
+#### checkpointing algorithm
+- periodically checkpoint data (write sketch to disk)
+- asynchronous, primary site replication
+    - only primary copy may be written to
+    - secondary replicas are asychronously updated
+    - pros: fast writes, postpone replication under high stress
+    - cons: potential for reading "out of data" data, loss of data on crash
+    - mitigations: checkpointing is cheap (small data structures, fast), rollback
+- figure - secondary replica convergence duration
+
 ## extensible functionality
 - ControlPlugin's determine data placement within cluster
 - SketchPlugin's handle storage / retrieval
@@ -41,39 +74,6 @@
 - add / remove variables
     - each SketchPlugin determines how to use them
 - examples: feature bin boundaries (fennel), geohash precision (synopsis), node tokens (dht)
-
-## data operations
-#### insertion
-- support for diverse file formats
-- client simply sends observation buffer to cluster nodes
-- push computation expensive operations to a subset of cluster nodes
-    - eg. geohash computation (synopsis), observation binning (fennel)
-#### querying
-- simple range-based query format
-- support for SQL-like interface
-    - range constraints
-    - sketching algorithms independently handle query evaluation 
-        - relax boundaries
-#### generation of synthetic datasets
-- present in diverse file formats
-- client side inflation
-- observation count multiplier
-- note on statistical representativeness of both fennel and synopsis sketches
-
-## fault-tolerance
-- challenge: we have a unique situation where data cannot be replicated at observation level (granulatity of storage)
-    - makes convergence of sketch replicas particlarily difficult after failures
-    - unable to identify which records were written to replicas
-- solution: maintain periodic checkpoints of data
-#### checkpointing algorithm
-- periodically checkpoint data (write sketch to disk)
-- asynchronous, primary site replication
-    - only primary copy may be written to
-    - secondary replicas are asychronously updated
-    - pros: fast writes, postpone replication under high stress
-    - cons: potential for reading "out of data" data, loss of data on crash
-    - mitigations: checkpointing is cheap (small data structures, fast), rollback
-- figure - secondary replica convergence duration
 
 ## efficient resource utilization
 - sketching reduces dataset sizes
