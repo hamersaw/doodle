@@ -3,6 +3,8 @@ package com.bushpath.doodle;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
+import java.io.IOException;
+import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +108,21 @@ public abstract class Plugin {
 
         // add operation to processed list
         this.operations.put(variableOperation.getTimestamp(), variableOperation);
+    }
+
+    public void serializePlugin(DataOutputStream out)
+            throws IOException {
+        // write this.id
+        out.writeInt(this.id.length());
+        out.write(this.id.getBytes());
+
+        // write operations
+        out.writeInt(this.operations.size());
+        for (Map.Entry<Long, VariableOperation> entry :
+                this.operations.entrySet()) {
+            out.writeLong(entry.getKey());
+            entry.getValue().writeDelimitedTo(out);
+        }
     }
 
     @Override

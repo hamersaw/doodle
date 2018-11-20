@@ -29,6 +29,7 @@ public class CheckpointManager {
         this.nodeManager = nodeManager;
         this.directory = directory;
         this.checkpointTransferTimerTask = checkpointTransferTimerTask;
+        this.checkpointTransferTimerTask.setCheckpointManager(this);
         this.checkpoints = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
     }
@@ -117,6 +118,15 @@ public class CheckpointManager {
         } finally {
             this.lock.readLock().unlock();
         }
+    }
+
+    public String getCheckpointFile(String checkpointId) {
+        return this.getCheckpointFile(checkpointId,
+            this.nodeManager.getThisNodeId());
+    }
+
+    public String getCheckpointFile(String checkpointId, int nodeId) {
+        return this.directory + "/" + nodeId + "/" + checkpointId + ".bin";
     }
 
     public Set<CheckpointMetadata> getSketchCheckpoints(String sketchId) {

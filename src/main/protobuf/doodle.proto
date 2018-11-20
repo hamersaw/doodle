@@ -9,27 +9,59 @@ option java_generate_equals_and_hash = true;
  */ 
 
 enum MessageType {
-    CONTROL_INIT = 0;
-    CONTROL_LIST = 1;
-    CONTROL_MODIFY = 2;
-    CONTROL_SHOW = 3;
-    FAILURE = 4;
-    GOSSIP_HASH = 5;
-    GOSSIP_UPDATE = 6;
-    NODE_LIST = 7;
-    NODE_SHOW = 8;
-    PIPE_CLOSE = 9;
-    PIPE_OPEN = 10;
-    PIPE_WRITE = 11;
-    PLUGIN_LIST = 12;
-    QUERY = 13;
-    SKETCH_INIT = 14;
-    SKETCH_CHECKPOINT = 15;
-    SKETCH_LIST = 16;
-    SKETCH_MODIFY = 17;
-    SKETCH_ROLLBACK = 18;
-    SKETCH_SHOW = 19;
-    SKETCH_WRITE = 20;
+    CHECKPOINT_CREATE = 0;
+    CHECKPOINT_ROLLBACK = 1;
+    CHECKPOINT_TRANSFER = 2;
+    CONTROL_INIT = 3;
+    CONTROL_LIST = 4;
+    CONTROL_MODIFY = 5;
+    CONTROL_SHOW = 6;
+    FAILURE = 7;
+    GOSSIP_HASH = 8;
+    GOSSIP_UPDATE = 9;
+    NODE_LIST = 10;
+    NODE_SHOW = 11;
+    PIPE_CLOSE = 12;
+    PIPE_OPEN = 13;
+    PIPE_WRITE = 14;
+    PLUGIN_LIST = 15;
+    QUERY = 16;
+    SKETCH_INIT = 17;
+    SKETCH_LIST = 18;
+    SKETCH_MODIFY = 19;
+    SKETCH_SHOW = 20;
+    SKETCH_WRITE = 21;
+}
+
+/**
+ * Checkpoint Messages
+ */
+
+message CheckpointCreateRequest {
+    string sketchId = 1;
+    string checkpointId = 2;
+}
+
+message CheckpointCreateResponse {
+    Checkpoint checkpoint = 1;
+}
+
+message CheckpointRollbackRequest {
+    string sketchId = 1;
+    string checkpointId = 2;
+}
+
+message CheckpointRollbackResponse {
+}
+
+message CheckpointTransferRequest {
+    string checkpointId = 1;
+    int64 offset = 2;
+}
+
+message CheckpointTransferResponse {
+    bytes data = 1;
+    bool lastMessage = 2;
 }
 
 /**
@@ -195,15 +227,6 @@ message SketchInitRequest {
 message SketchInitResponse {
 }
 
-message SketchCheckpointRequest {
-    string sketchId = 1;
-    string checkpointId = 2;
-}
-
-message SketchCheckpointResponse {
-    Checkpoint checkpoint = 1;
-}
-
 message SketchListRequest {
 }
 
@@ -217,14 +240,6 @@ message SketchModifyRequest {
 }
 
 message SketchModifyResponse {
-}
-
-message SketchRollbackRequest {
-    string sketchId = 1;
-    string checkpointId = 2;
-}
-
-message SketchRollbackResponse {
 }
 
 message SketchShowRequest {

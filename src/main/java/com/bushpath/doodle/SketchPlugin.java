@@ -9,6 +9,8 @@ import com.bushpath.rutils.query.Query;
 
 import com.google.protobuf.ByteString;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,6 +70,24 @@ public abstract class SketchPlugin extends Plugin {
     public abstract void write(ByteString byteString) throws Exception;
     public abstract void query(Query query,
         BlockingQueue<Serializable> queue) throws Exception;
+    public abstract void serialize(DataOutputStream out)
+        throws IOException;
+
+    public void serializeSketchPlugin(DataOutputStream out)
+            throws IOException {
+        this.serializePlugin(out);
+
+        // write this.inflatorClass
+        out.writeInt(this.inflatorClass.length());
+        out.write(this.inflatorClass.getBytes());
+
+        // write this.ControlPlugins
+        out.writeInt(this.controlPluginIds.size());
+        for (String controlPluginId : this.controlPluginIds) {
+            out.writeInt(controlPluginId.length());
+            out.write(controlPluginId.getBytes());
+        }
+    }
 
     public SketchPluginGossip toGossip() {
         SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()

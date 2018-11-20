@@ -1,28 +1,31 @@
 #
-# Control Plane Configuration  
+# Control Plane Configuration
 #
 [control]
-nodeId = 0                     
-ipAddress = "127.0.0.1"        
-port = 5450                    
-threadCount = 4                
-  
+nodeId = 0
+ipAddress = "127.0.0.1"
+port = 5450
+threadCount = 4
+ 
 [control.gossip]
-intervalMilliSeconds = 2500    
-          
+intervalMilliSeconds = 2500
+ 
 [[control.gossip.seed]]
 ipAddress = "127.0.0.1"
 port = 5451
-        
-#       
-# Sketch Plane Configuration   
+ 
+#
+# Sketch Plane Configuration
 #
 [sketch.checkpoint]
-directory = "."
-transferIntervalMilliSeconds = 2000
+directory = "../checkpoints/0/"
 
-#   
-# Plugins Configuration        
-# 
+[sketch.checkpoint.transfer]
+intervalMilliSeconds = 2000
+bufferSizeBytes = 8192
+
+#
+# Plugins Configuration
+#
 [plugins]
 directory = "../plugins"

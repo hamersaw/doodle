@@ -2,9 +2,9 @@
 # Control Plane Configuration
 #
 [control]
-nodeId = 2
+nodeId = 3
 ipAddress = "127.0.0.1"
-port = 5452
+port = 5453
 threadCount = 4
  
 [control.gossip]
@@ -18,7 +18,7 @@ port = 5450
 # Sketch Plane Configuration
 #
 [sketch.checkpoint]
-directory = "../checkpoints/2/"
+directory = "../checkpoints/3/"
 
 [sketch.checkpoint.transfer]
 intervalMilliSeconds = 2000

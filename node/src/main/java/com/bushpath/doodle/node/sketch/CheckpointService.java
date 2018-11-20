@@ -3,10 +3,14 @@ package com.bushpath.doodle.node.sketch;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointTransferRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointTransferResponse;
+
+import com.google.protobuf.ByteString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,9 @@ import com.bushpath.doodle.node.Service;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.util.List;
 
 public class CheckpointService implements Service {
@@ -23,18 +30,21 @@ public class CheckpointService implements Service {
 
     protected CheckpointManager checkpointManager;
     protected SketchManager sketchManager;
+    protected int transferBufferSize;
 
     public CheckpointService(CheckpointManager checkpointManager,
-            SketchManager sketchManager) {
+            SketchManager sketchManager, int transferBufferSize) {
         this.checkpointManager = checkpointManager;
         this.sketchManager = sketchManager;
+        this.transferBufferSize = transferBufferSize;
     }
 
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.SKETCH_CHECKPOINT.getNumber(),
-                MessageType.SKETCH_ROLLBACK.getNumber()
+                MessageType.CHECKPOINT_CREATE.getNumber(),
+                MessageType.CHECKPOINT_ROLLBACK.getNumber(),
+                MessageType.CHECKPOINT_TRANSFER.getNumber()
             };
     }
 
@@ -45,18 +55,18 @@ public class CheckpointService implements Service {
         // handle message
         try {
             switch (MessageType.forNumber(messageType)) {
-                case SKETCH_CHECKPOINT:
+                case CHECKPOINT_CREATE:
                     // parse request
-                    SketchCheckpointRequest sketchCheckpointRequest =
-                        SketchCheckpointRequest.parseDelimitedFrom(in);
+                    CheckpointCreateRequest sketchCheckpointRequest =
+                        CheckpointCreateRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchCheckpointRequest {}:{}",
+                    log.info("handling CheckpointCreateRequest {}:{}",
                         sketchCheckpointRequest.getSketchId(),
                         sketchCheckpointRequest.getCheckpointId());
 
                     // init response
-                    SketchCheckpointResponse.Builder sketchCheckpointBuilder =
-                        SketchCheckpointResponse.newBuilder();
+                    CheckpointCreateResponse.Builder sketchCheckpointBuilder =
+                        CheckpointCreateResponse.newBuilder();
 
                     // retrieve sketch
                     SketchPlugin checkpointSketch = this.sketchManager
@@ -69,7 +79,17 @@ public class CheckpointService implements Service {
                             sketchCheckpointRequest.getCheckpointId()
                         );
 
-                    // TODO - checkpointSketch.serialize();
+                    // serialize sketch
+                    String checkpointFile = this.checkpointManager
+                        .getCheckpointFile(checkpoint.getCheckpointId());
+                    File file = new File(checkpointFile);
+                    file.getParentFile().mkdirs();
+                    FileOutputStream fileOut = new FileOutputStream(file);
+                    DataOutputStream dataOut =
+                        new DataOutputStream(fileOut);
+                    checkpointSketch.serialize(dataOut);
+                    dataOut.close();
+                    fileOut.close();
 
                     // add checkpoint
                     this.checkpointManager.addCheckpoint(checkpoint);
@@ -78,24 +98,68 @@ public class CheckpointService implements Service {
                     out.writeInt(messageType);
                     sketchCheckpointBuilder.build().writeDelimitedTo(out);
                     break;
-                case SKETCH_ROLLBACK:
+                case CHECKPOINT_ROLLBACK:
                     // parse request
-                    SketchRollbackRequest sketchRollbackRequest =
-                        SketchRollbackRequest.parseDelimitedFrom(in);
+                    CheckpointRollbackRequest checkpointRollbackRequest =
+                        CheckpointRollbackRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchRollbackRequest {}:{}",
-                        sketchRollbackRequest.getSketchId(),
-                        sketchRollbackRequest.getCheckpointId());
+                    log.info("handling CheckpointRollbackRequest {}:{}",
+                        checkpointRollbackRequest.getSketchId(),
+                        checkpointRollbackRequest.getCheckpointId());
 
                     // init response
-                    SketchRollbackResponse.Builder sketchRollbackBuilder =
-                        SketchRollbackResponse.newBuilder();
+                    CheckpointRollbackResponse.Builder checkpointRollbackBuilder =
+                        CheckpointRollbackResponse.newBuilder();
 
                     // TODO - handle
                     
                     // write to out
                     out.writeInt(messageType);
-                    sketchRollbackBuilder.build().writeDelimitedTo(out);
+                    checkpointRollbackBuilder.build().writeDelimitedTo(out);
+                    break;
+                case CHECKPOINT_TRANSFER:
+                    // parse request
+                    CheckpointTransferRequest checkpointTransferRequest =
+                        CheckpointTransferRequest.parseDelimitedFrom(in);
+
+                    String checkpointId = checkpointTransferRequest
+                        .getCheckpointId();
+                    long offset = checkpointTransferRequest.getOffset();
+
+                    log.info("handling CheckpointTransferRequest {}:{}",
+                        checkpointId, offset);
+
+                    // init response
+                    CheckpointTransferResponse.Builder checkpointTransferBuilder =
+                        CheckpointTransferResponse.newBuilder();
+
+                    if (this.checkpointManager
+                            .containsCheckpoint(checkpointId)) {
+                        // get checkpoint data from offset
+                        String transferFile = this.checkpointManager
+                            .getCheckpointFile(checkpointId);
+                        RandomAccessFile randomAccessFile =
+                            new RandomAccessFile(transferFile, "r");
+                        randomAccessFile.seek(offset);
+                        int length = (int) Math.min(this.transferBufferSize, 
+                            randomAccessFile.length() - offset);
+                        byte[] data = new byte[length];
+                        randomAccessFile.readFully(data);
+
+                        checkpointTransferBuilder
+                            .setData(ByteString.copyFrom(data));
+                        checkpointTransferBuilder.setLastMessage(
+                            offset + length
+                                == randomAccessFile.length());
+                        randomAccessFile.close();
+                    } else {
+                        checkpointTransferBuilder.setData(ByteString.EMPTY);
+                        checkpointTransferBuilder.setLastMessage(false);
+                    }
+                    
+                    // write to out
+                    out.writeInt(messageType);
+                    checkpointTransferBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

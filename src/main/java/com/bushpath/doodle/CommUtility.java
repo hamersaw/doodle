@@ -3,6 +3,9 @@ package com.bushpath.doodle;
 import com.google.protobuf.AbstractParser;
 import com.google.protobuf.GeneratedMessageV3;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointTransferResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
@@ -17,11 +20,9 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchCheckpointResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 
@@ -68,6 +69,12 @@ public class CommUtility {
     protected static GeneratedMessageV3 parseResponse(int messageType,
             DataInputStream in) throws Exception {
         switch(MessageType.forNumber(messageType)) {
+            case CHECKPOINT_CREATE:
+                return CheckpointCreateResponse.parseDelimitedFrom(in);
+            case CHECKPOINT_ROLLBACK:
+                return CheckpointRollbackResponse.parseDelimitedFrom(in);
+            case CHECKPOINT_TRANSFER:
+                return CheckpointTransferResponse.parseDelimitedFrom(in);
             case CONTROL_INIT:
                 return ControlInitResponse.parseDelimitedFrom(in);
             case CONTROL_LIST:
@@ -92,16 +99,12 @@ public class CommUtility {
                 return PipeWriteResponse.parseDelimitedFrom(in);
             case PLUGIN_LIST:
                 return PluginListResponse.parseDelimitedFrom(in);
-            case SKETCH_CHECKPOINT:
-                return SketchCheckpointResponse.parseDelimitedFrom(in);
             case SKETCH_INIT:
                 return SketchInitResponse.parseDelimitedFrom(in);
             case SKETCH_LIST:
                 return SketchListResponse.parseDelimitedFrom(in);
             case SKETCH_MODIFY:
                 return SketchModifyResponse.parseDelimitedFrom(in);
-            case SKETCH_ROLLBACK:
-                return SketchRollbackResponse.parseDelimitedFrom(in);
             case SKETCH_SHOW:
                 return SketchShowResponse.parseDelimitedFrom(in);
             case SKETCH_WRITE:

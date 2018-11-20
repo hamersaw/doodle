@@ -31,6 +31,8 @@ import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
@@ -249,11 +251,23 @@ public class GossipService implements Service {
                                 );
                         }
 
-                        // TODO - checkpointSketch.serialize();
-
                         // add Checkpoint
                         SketchPlugin checkpointSketch = this.sketchManager
                             .getSketch(checkpointMetadata.getSketchId());
+ 
+                        // serialize sketch
+                        String checkpointFile = this.checkpointManager
+                            .getCheckpointFile(
+                                checkpointMetadata.getCheckpointId());
+                        File file = new File(checkpointFile);
+                        file.getParentFile().mkdirs();
+                        FileOutputStream fileOut = new FileOutputStream(file);
+                        DataOutputStream dataOut =
+                            new DataOutputStream(fileOut);
+                        checkpointSketch.serialize(dataOut);
+                        dataOut.close();
+                        fileOut.close();
+
                         this.checkpointManager.addCheckpoint(
                              checkpointMetadata);
                     }

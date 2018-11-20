@@ -171,7 +171,9 @@ public class Main {
             server.registerService(pluginService);
 
             CheckpointService checkpointService =
-                new CheckpointService(checkpointManager, sketchManager);
+                new CheckpointService(checkpointManager, sketchManager,
+                    toml.getLong("sketch.checkpoint.transfer.bufferSizeBytes")
+                        .intValue());
             server.registerService(checkpointService);
 
             PipeService pipeService =
@@ -191,7 +193,6 @@ public class Main {
                 checkpointManager, controlPluginManager, pluginManager,
                 nodeManager, sketchManager);
             server.registerService(gossipService);
-
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
             System.exit(4);
@@ -211,7 +212,7 @@ public class Main {
 
             // start CheckpointTransferTimerTask
             timer.scheduleAtFixedRate(checkpointTransferTimerTask, 0,
-                toml.getLong("sketch.checkpoint.transferIntervalMilliSeconds"));
+                toml.getLong("sketch.checkpoint.transfer.intervalMilliSeconds"));
 
             server.join();
         } catch (InterruptedException e) {

@@ -25,7 +25,7 @@ public class NodeManager {
         this.nodeId = nodeId;
         this.seedNodes = seedNodes;
         this.nodes = new TreeMap();
-        this.random = new Random(System.currentTimeMillis());
+        this.random = new Random(System.nanoTime());
         this.lock = new ReentrantReadWriteLock();
     }
 

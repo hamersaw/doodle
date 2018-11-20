@@ -1,9 +1,9 @@
 package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchRollbackResponse;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,23 +24,23 @@ public class SketchRollbackCli implements Runnable {
 
     @Override
     public void run() {
-        // create SketchRollbackRequest
-        SketchRollbackRequest request = SketchRollbackRequest.newBuilder()
+        // create CheckpointRollbackRequest
+        CheckpointRollbackRequest request = CheckpointRollbackRequest.newBuilder()
             .setSketchId(this.sketchId)
             .setCheckpointId(this.checkpointId)
             .build();
-        SketchRollbackResponse response = null;
+        CheckpointRollbackResponse response = null;
 
         // send request
         try {
-            response = (SketchRollbackResponse) CommUtility.send(
-                MessageType.SKETCH_ROLLBACK.getNumber(),
+            response = (CheckpointRollbackResponse) CommUtility.send(
+                MessageType.CHECKPOINT_ROLLBACK.getNumber(),
                 request, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle SketchRollbackResponse
+        // TODO - handle CheckpointRollbackResponse
     }
 }
