@@ -85,6 +85,9 @@
 - integration with YARN
 
 ## analytics
+#### cli / java / python api
+- download datasets based on queries
+- integration queries into application
 #### hdfs compatability
 - anamnesis / tachyon / ... ?
 
