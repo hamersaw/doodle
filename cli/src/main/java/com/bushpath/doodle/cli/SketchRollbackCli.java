@@ -4,6 +4,9 @@ import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.NodeListRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,23 +27,42 @@ public class SketchRollbackCli implements Runnable {
 
     @Override
     public void run() {
-        // create CheckpointRollbackRequest
-        CheckpointRollbackRequest request = CheckpointRollbackRequest.newBuilder()
-            .setSketchId(this.sketchId)
-            .setCheckpointId(this.checkpointId)
+        // create NodeListRequest
+        NodeListRequest nlRequest = NodeListRequest.newBuilder()
             .build();
-        CheckpointRollbackResponse response = null;
+        NodeListResponse nlResponse = null;
 
         // send request
         try {
-            response = (CheckpointRollbackResponse) CommUtility.send(
-                MessageType.CHECKPOINT_ROLLBACK.getNumber(),
-                request, Main.ipAddress, Main.port);
+            nlResponse = (NodeListResponse) CommUtility.send(
+                MessageType.NODE_LIST.getNumber(),
+                nlRequest, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
+ 
+        // create CheckpointRollbackRequest
+        CheckpointRollbackRequest crRequest =
+            CheckpointRollbackRequest.newBuilder()
+                .setSketchId(this.sketchId)
+                .setCheckpointId(this.checkpointId)
+                .build();
+        CheckpointRollbackResponse crResponse = null;
 
-        // TODO - handle CheckpointRollbackResponse
+        // handle NodeListResponse
+        for (Node node : nlResponse.getNodesList()) {
+            // send request
+            try {
+                crResponse = (CheckpointRollbackResponse) CommUtility.send(
+                    MessageType.CHECKPOINT_ROLLBACK.getNumber(),
+                    crRequest, node.getIpAddress(), (short) node.getPort());
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                return;
+            }
+
+            // TODO - handle CheckpointRollbackResponse
+        }
     }
 }

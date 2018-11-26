@@ -177,6 +177,16 @@ public class GossipService implements Service {
                         } else {
                             // create sketch if it doesn't exit
                             try {
+                                // create SketchPlugin
+                                Class<? extends SketchPlugin> clazz =
+                                    this.pluginManager.getSketchPlugin(
+                                        pluginGossip.getClasspath());
+                                Constructor constructor = 
+                                    clazz.getConstructor(String.class);
+                                sketch = (SketchPlugin) constructor
+                                    .newInstance(pluginGossip.getId());
+                                
+                                // initControlPlugins
                                 List<String> list = pluginGossip
                                     .getControlPluginsList();
                                 ControlPlugin[] controlPlugins = 
@@ -188,16 +198,9 @@ public class GossipService implements Service {
                                             .getPlugin(list.get(i));
                                 }
 
-                                Class<? extends SketchPlugin> clazz =
-                                    this.pluginManager.getSketchPlugin(
-                                        pluginGossip.getClasspath());
-                                Constructor constructor = 
-                                    clazz.getConstructor(String.class, 
-                                        ControlPlugin[].class);
-                                sketch = (SketchPlugin) constructor
-                                    .newInstance(pluginGossip.getId(),
-                                        controlPlugins);
+                                sketch.initControlPlugins(controlPlugins);
 
+                                // add sketch
                                 this.sketchManager.addSketch(
                                     pluginGossip.getId(), sketch);
                             } catch (Exception e) {

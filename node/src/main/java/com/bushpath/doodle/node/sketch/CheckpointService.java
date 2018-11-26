@@ -1,5 +1,6 @@
 package com.bushpath.doodle.node.sketch;
 
+import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -16,25 +17,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.control.ControlPluginManager;
+import com.bushpath.doodle.node.plugin.PluginManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.util.Set;
 
 public class CheckpointService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(CheckpointService.class);
 
     protected CheckpointManager checkpointManager;
+    protected ControlPluginManager controlPluginManager;
+    protected PluginManager pluginManager;
     protected SketchManager sketchManager;
     protected int transferBufferSize;
 
     public CheckpointService(CheckpointManager checkpointManager,
-            SketchManager sketchManager, int transferBufferSize) {
+            ControlPluginManager controlPluginManager,
+            PluginManager pluginManager, SketchManager sketchManager,
+            int transferBufferSize) {
         this.checkpointManager = checkpointManager;
+        this.controlPluginManager = controlPluginManager;
+        this.pluginManager = pluginManager;
         this.sketchManager = sketchManager;
         this.transferBufferSize = transferBufferSize;
     }
@@ -57,12 +68,15 @@ public class CheckpointService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case CHECKPOINT_CREATE:
                     // parse request
-                    CheckpointCreateRequest sketchCheckpointRequest =
+                    CheckpointCreateRequest checkpointCreateRequest =
                         CheckpointCreateRequest.parseDelimitedFrom(in);
 
+                    String ccSketchId =
+                        checkpointCreateRequest.getSketchId();
+                    String ccCheckpointId =
+                        checkpointCreateRequest.getCheckpointId();
                     log.info("handling CheckpointCreateRequest {}:{}",
-                        sketchCheckpointRequest.getSketchId(),
-                        sketchCheckpointRequest.getCheckpointId());
+                        ccSketchId, ccCheckpointId);
 
                     // init response
                     CheckpointCreateResponse.Builder sketchCheckpointBuilder =
@@ -70,19 +84,17 @@ public class CheckpointService implements Service {
 
                     // retrieve sketch
                     SketchPlugin checkpointSketch = this.sketchManager
-                        .getSketch(sketchCheckpointRequest.getSketchId());
+                        .getSketch(ccSketchId);
 
                     // create checkpoint
                     CheckpointMetadata checkpoint =
                         this.checkpointManager.createCheckpoint(
-                            sketchCheckpointRequest.getSketchId(),
-                            sketchCheckpointRequest.getCheckpointId()
-                        );
+                            ccSketchId, ccCheckpointId);
 
                     // serialize sketch
-                    String checkpointFile = this.checkpointManager
-                        .getCheckpointFile(checkpoint.getCheckpointId());
-                    File file = new File(checkpointFile);
+                    String ccCheckpointFile = this.checkpointManager
+                        .getCheckpointFile(ccCheckpointId);
+                    File file = new File(ccCheckpointFile);
                     file.getParentFile().mkdirs();
                     FileOutputStream fileOut = new FileOutputStream(file);
                     DataOutputStream dataOut =
@@ -103,15 +115,64 @@ public class CheckpointService implements Service {
                     CheckpointRollbackRequest checkpointRollbackRequest =
                         CheckpointRollbackRequest.parseDelimitedFrom(in);
 
+                    String crSketchId =
+                        checkpointRollbackRequest.getSketchId();
+                    String crCheckpointId =
+                        checkpointRollbackRequest.getCheckpointId();
                     log.info("handling CheckpointRollbackRequest {}:{}",
-                        checkpointRollbackRequest.getSketchId(),
-                        checkpointRollbackRequest.getCheckpointId());
+                        crSketchId, crCheckpointId);
 
                     // init response
-                    CheckpointRollbackResponse.Builder checkpointRollbackBuilder =
-                        CheckpointRollbackResponse.newBuilder();
+                    CheckpointRollbackResponse.Builder
+                        checkpointRollbackBuilder =
+                            CheckpointRollbackResponse.newBuilder();
 
-                    // TODO - handle
+                    // remove sketch (if exists)
+                    this.sketchManager.removeSketch(crSketchId);
+
+                    // open DataInputStream on checkpoint
+                    String crCheckpointFile = this.checkpointManager
+                        .getCheckpointFile(crCheckpointId);
+                    FileInputStream fileIn =
+                        new FileInputStream(crCheckpointFile);
+                    DataInputStream dataIn =
+                        new DataInputStream(fileIn);
+
+                    // read classpath
+                    int classpathLength = dataIn.readInt(); 
+                    byte[] classpathBytes = new byte[classpathLength];
+                    dataIn.readFully(classpathBytes);
+                    String classpath = new String(classpathBytes);
+
+                    // initialize sketch
+                    Class<? extends SketchPlugin> clazz = this.pluginManager
+                        .getSketchPlugin(classpath);
+                    Constructor constructor =
+                        clazz.getConstructor(DataInputStream.class);
+                    SketchPlugin rollbackSketch = 
+                        (SketchPlugin) constructor.newInstance(dataIn);
+
+                    rollbackSketch.replayVariableOperations();
+                    rollbackSketch.loadData(dataIn);
+                    
+                    dataIn.close();
+                    fileIn.close();
+
+                    // initControlPlugin
+                    Set<String> controlPluginIds = 
+                        rollbackSketch.getControlPluginIds();
+                    ControlPlugin[] controlPlugins = 
+                        new ControlPlugin[controlPluginIds.size()];
+                    int index=0;
+                    for (String controlPluginId : controlPluginIds) {
+                        controlPlugins[index++] = this.controlPluginManager
+                            .getPlugin(controlPluginId);
+                    }
+
+                    rollbackSketch.initControlPlugins(controlPlugins);
+
+                    // add new sketch
+                    this.sketchManager.addSketch(crSketchId, rollbackSketch);
                     
                     // write to out
                     out.writeInt(messageType);
@@ -122,22 +183,22 @@ public class CheckpointService implements Service {
                     CheckpointTransferRequest checkpointTransferRequest =
                         CheckpointTransferRequest.parseDelimitedFrom(in);
 
-                    String checkpointId = checkpointTransferRequest
+                    String ctCheckpointId = checkpointTransferRequest
                         .getCheckpointId();
                     long offset = checkpointTransferRequest.getOffset();
 
                     log.info("handling CheckpointTransferRequest {}:{}",
-                        checkpointId, offset);
+                        ctCheckpointId, offset);
 
                     // init response
                     CheckpointTransferResponse.Builder checkpointTransferBuilder =
                         CheckpointTransferResponse.newBuilder();
 
                     if (this.checkpointManager
-                            .containsCheckpoint(checkpointId)) {
+                            .containsCheckpoint(ctCheckpointId)) {
                         // get checkpoint data from offset
                         String transferFile = this.checkpointManager
-                            .getCheckpointFile(checkpointId);
+                            .getCheckpointFile(ctCheckpointId);
                         RandomAccessFile randomAccessFile =
                             new RandomAccessFile(transferFile, "r");
                         randomAccessFile.seek(offset);

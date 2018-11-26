@@ -78,21 +78,27 @@ public class SketchService implements Service {
                     SketchInitResponse.Builder sketchInitBuilder =
                         SketchInitResponse.newBuilder();
 
-                    // add sketch plugin
-                    List<String> list = sketchInitRequest.getControlPluginsList();
-                    ControlPlugin[] controlPlugins = new ControlPlugin[list.size()];
+                    // create SketchPlugin
+                    Class<? extends SketchPlugin> clazz = this.pluginManager
+                        .getSketchPlugin(sketchInitRequest.getPlugin());
+                    Constructor constructor =
+                        clazz.getConstructor(String.class);
+                    SketchPlugin sketch = (SketchPlugin) constructor
+                        .newInstance(sketchInitRequest.getId());
+
+                    // initialize ControlPlugin's
+                    List<String> list = 
+                        sketchInitRequest.getControlPluginsList();
+                    ControlPlugin[] controlPlugins = 
+                        new ControlPlugin[list.size()];
                     for (int i=0; i<controlPlugins.length; i++) {
                         controlPlugins[i] =
                             this.controlPluginManager.getPlugin(list.get(i));
                     }
 
-                    Class<? extends SketchPlugin> clazz = this.pluginManager
-                        .getSketchPlugin(sketchInitRequest.getPlugin());
-                    Constructor constructor =
-                        clazz.getConstructor(String.class, ControlPlugin[].class);
-                    SketchPlugin sketch = (SketchPlugin) constructor
-                        .newInstance(sketchInitRequest.getId(), controlPlugins);
+                    sketch.initControlPlugins(controlPlugins);
 
+                    // add sketch
                     this.sketchManager.addSketch(sketchInitRequest.getId(),
                         sketch);
 

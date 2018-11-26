@@ -30,7 +30,8 @@ public class SketchManager {
         this.lock.readLock().lock();
         try {
             if (this.sketches.containsKey(id)) {
-                throw new RuntimeException("sketch '" + id + "' already exists");
+                throw new RuntimeException("sketch '" + id
+                    + "' already exists");
             }
         } finally {
             this.lock.readLock().unlock();
@@ -59,7 +60,8 @@ public class SketchManager {
         this.lock.readLock().lock();
         try {
             if (!this.sketches.containsKey(id)) {
-                throw new RuntimeException("sketch '" + id + "' does not exist");
+                throw new RuntimeException("sketch '" + id
+                    + "' does not exist");
             }
 
             return this.sketches.get(id);
@@ -74,6 +76,15 @@ public class SketchManager {
             return this.sketches.entrySet();
         } finally {
             this.lock.readLock().unlock();
+        }
+    }
+
+    public void removeSketch(String id) {
+        this.lock.writeLock().lock();
+        try {
+            this.sketches.remove(id);
+        } finally {
+            this.lock.writeLock().unlock();            
         }
     }
 

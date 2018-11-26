@@ -3,8 +3,9 @@ package com.bushpath.doodle;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
-import java.io.IOException;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,28 @@ public abstract class Plugin {
     public Plugin(String id) {
         this.id = id;
         this.operations = new TreeMap();
+        this.variables = new TreeMap();
+    }
+
+    public Plugin(DataInputStream in) throws IOException {
+        // read id
+        int idLength = in.readInt();
+        byte[] idBytes = new byte[idLength];
+        in.readFully(idBytes);
+        this.id = new String(idBytes);
+ 
+        // read operations
+        int operationsCount = in.readInt();
+        this.operations = new TreeMap();
+        for (int i=0; i<operationsCount; i++) {
+            long key = in.readLong();
+            VariableOperation variableOperation =
+                VariableOperation.parseDelimitedFrom(in);
+
+            this.operations.put(key, variableOperation);
+        }
+
+        // initialize variables
         this.variables = new TreeMap();
     }
 
@@ -108,6 +131,15 @@ public abstract class Plugin {
 
         // add operation to processed list
         this.operations.put(variableOperation.getTimestamp(), variableOperation);
+    }
+
+    public void replayVariableOperations() {
+        Map<Long, VariableOperation> operations = this.operations;
+        this.operations = new TreeMap();
+
+        for (VariableOperation operation : operations.values()) {
+            this.handleVariableOperation(operation);
+        }
     }
 
     public void serializePlugin(DataOutputStream out)

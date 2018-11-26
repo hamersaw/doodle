@@ -171,7 +171,8 @@ public class Main {
             server.registerService(pluginService);
 
             CheckpointService checkpointService =
-                new CheckpointService(checkpointManager, sketchManager,
+                new CheckpointService(checkpointManager, 
+                    controlPluginManager, pluginManager, sketchManager,
                     toml.getLong("sketch.checkpoint.transfer.bufferSizeBytes")
                         .intValue());
             server.registerService(checkpointService);
