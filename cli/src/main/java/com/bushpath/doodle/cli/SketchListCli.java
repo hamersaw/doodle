@@ -34,7 +34,7 @@ public class SketchListCli implements Runnable {
         int i=0;
         for (Map.Entry<String, String> entry :
                 response.getPluginsMap().entrySet()) {
-            System.out.println((i != 0 ? "\n" : "") + "[[control.plugin]]"
+            System.out.println((i != 0 ? "\n" : "") + "[[sketch.plugin]]"
                 + "\nid = \"" + entry.getKey() + "\""
                 + "\nclass = \"" + entry.getValue() + "\"");
 

@@ -94,13 +94,13 @@ public abstract class SketchPlugin extends Plugin {
         }
     }
 
+    protected abstract void addControlPlugin(
+        ControlPlugin controlPlugin) throws Exception;
     public abstract Collection<String> getFeatures();
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<SketchWriteRequest> out, int bufferSize);
     public abstract long getObservationCount();
-    protected abstract void 
-        addControlPlugin(ControlPlugin controlPlugin) throws Exception;
-    public abstract void loadData(DataInputStream in) throws IOException;
+    public abstract void loadData(DataInputStream in) throws Exception;
     public abstract void write(ByteString byteString) throws Exception;
     public abstract void query(Query query,
         BlockingQueue<Serializable> queue) throws Exception;
