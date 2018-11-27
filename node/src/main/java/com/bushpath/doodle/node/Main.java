@@ -71,7 +71,7 @@ public class Main {
             for (int i=0; i<urls.length; i++) {
                 String absoluteName = ((Path) paths[i]).toUri().toString();
 
-                log.info("Loading JAR file '{}'", absoluteName);
+                log.debug("Loading JAR file '{}'", absoluteName);
                 urls[i] = new URL(absoluteName);
             }
 

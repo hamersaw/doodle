@@ -46,7 +46,7 @@ public class NodeService implements Service {
                     NodeListRequest nodeListRequest =
                         NodeListRequest.parseDelimitedFrom(in);
 
-                    log.info("handling NodeListRequest");
+                    log.trace("handling NodeListRequest");
 
                     // init response
                     NodeListResponse.Builder nodeListBuilder =
@@ -73,7 +73,7 @@ public class NodeService implements Service {
                     NodeShowRequest nodeShowRequest =
                         NodeShowRequest.parseDelimitedFrom(in);
 
-                    log.info("handling NodeShowRequest '{}'",
+                    log.trace("handling NodeShowRequest '{}'",
                         nodeShowRequest.getId());
 
                     // init response

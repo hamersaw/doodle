@@ -41,7 +41,7 @@ public class PluginService implements Service {
                     PluginListRequest pluginListRequest =
                         PluginListRequest.parseDelimitedFrom(in);
 
-                    log.info("handling PluginListRequest");
+                    log.trace("handling PluginListRequest");
 
                     // init response
                     PluginListResponse.Builder pluginListBuilder =

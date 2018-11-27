@@ -75,7 +75,7 @@ public class CheckpointService implements Service {
                         checkpointCreateRequest.getSketchId();
                     String ccCheckpointId =
                         checkpointCreateRequest.getCheckpointId();
-                    log.info("handling CheckpointCreateRequest {}:{}",
+                    log.trace("handling CheckpointCreateRequest {}:{}",
                         ccSketchId, ccCheckpointId);
 
                     // init response
@@ -119,7 +119,7 @@ public class CheckpointService implements Service {
                         checkpointRollbackRequest.getSketchId();
                     String crCheckpointId =
                         checkpointRollbackRequest.getCheckpointId();
-                    log.info("handling CheckpointRollbackRequest {}:{}",
+                    log.trace("handling CheckpointRollbackRequest {}:{}",
                         crSketchId, crCheckpointId);
 
                     // init response
@@ -187,7 +187,7 @@ public class CheckpointService implements Service {
                         .getCheckpointId();
                     long offset = checkpointTransferRequest.getOffset();
 
-                    log.info("handling CheckpointTransferRequest {}:{}",
+                    log.trace("handling CheckpointTransferRequest {}:{}",
                         ctCheckpointId, offset);
 
                     // init response

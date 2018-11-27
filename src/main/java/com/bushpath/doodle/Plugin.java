@@ -3,6 +3,9 @@ package com.bushpath.doodle;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,6 +18,9 @@ import java.util.TreeSet;
 import java.util.zip.CRC32;
 
 public abstract class Plugin {
+    protected static final Logger log =
+        LoggerFactory.getLogger(Plugin.class);
+
     protected String id;
     protected Map<Long, VariableOperation> operations;
     protected Map<String, Map<String, Set<String>>> variables;
@@ -97,6 +103,7 @@ public abstract class Plugin {
             nameMap.put(variable.getName(), valueSet);
         }
 
+
         switch(variableOperation.getOperation()) {
             case ADD:
                 for (String value : variable.getValuesList()) {
@@ -107,6 +114,11 @@ public abstract class Plugin {
 
                     valueSet.add(value);
                 }
+
+                log.info("'{}': added {} value(s) to variable '{}:{}'",
+                    this.id, variable.getValuesCount(),
+                    variable.getType(), variable.getName());
+
                 break;
             case DELETE:
                 for (String value : variable.getValuesList()) {
@@ -117,6 +129,11 @@ public abstract class Plugin {
 
                     valueSet.remove(value);
                 }
+
+                log.info("'{}': deleted {} value(s) from variable '{}:{}'",
+                    this.id, variable.getValuesCount(),
+                    variable.getType(), variable.getName());
+
                 break;
         }
 

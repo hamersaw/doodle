@@ -64,7 +64,7 @@ public class ControlService implements Service {
                     ControlInitRequest controlInitRequest =
                         ControlInitRequest.parseDelimitedFrom(in);
 
-                    log.info("handling ControlInitRequest {}:{}",
+                    log.trace("handling ControlInitRequest {}:{}",
                         controlInitRequest.getId(), controlInitRequest.getPlugin());
 
                     // init response
@@ -90,7 +90,7 @@ public class ControlService implements Service {
                     ControlListRequest controlListRequest =
                         ControlListRequest.parseDelimitedFrom(in);
 
-                    log.info("handling ControlListRequest");
+                    log.trace("handling ControlListRequest");
 
                     // init response
                     ControlListResponse.Builder controlListBuilder =
@@ -112,7 +112,7 @@ public class ControlService implements Service {
                     ControlModifyRequest controlModifyRequest =
                         ControlModifyRequest.parseDelimitedFrom(in);
 
-                    log.info("handling ControlModifyRequest '{}'",
+                    log.trace("handling ControlModifyRequest '{}'",
                         controlModifyRequest.getId());
 
                     // init response
@@ -137,7 +137,7 @@ public class ControlService implements Service {
                     ControlShowRequest controlShowRequest =
                         ControlShowRequest.parseDelimitedFrom(in);
 
-                    log.info("handling ControlShowRequest '{}'",
+                    log.trace("handling ControlShowRequest '{}'",
                         controlShowRequest.getId());
 
                     // init response

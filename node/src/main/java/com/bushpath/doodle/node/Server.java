@@ -51,12 +51,12 @@ public class Server extends Thread {
             this.services.put(messageType, service);
         }
 
-        log.info("Registered Service '{}'", service.getClass().getName());
+        log.debug("Registered Service '{}'", service.getClass().getName());
     }
 
     @Override
     public void run() {
-        log.info("Starting");
+        log.debug("Starting");
 
         // open server socket
         try {
@@ -65,7 +65,7 @@ public class Server extends Thread {
             log.error("Failed to open ServerSocket", e);
         }
 
-        log.info("ServerSocket listening on port {}", this.port);
+        log.debug("ServerSocket listening on port {}", this.port);
  
         // start workers
         for (int i=0; i<this.workers.length; i++) {

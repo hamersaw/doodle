@@ -52,7 +52,7 @@ public class PipeService implements Service {
                     PipeCloseRequest pipeCloseRequest =
                         PipeCloseRequest.parseDelimitedFrom(in);
 
-                    log.info("handling PipeCloseRequest {}",
+                    log.trace("handling PipeCloseRequest {}",
                         pipeCloseRequest.getId());
 
                     // init response
@@ -71,7 +71,7 @@ public class PipeService implements Service {
                     PipeOpenRequest pipeOpenRequest =
                         PipeOpenRequest.parseDelimitedFrom(in);
 
-                    log.info("handling PipeOpenRequest {}",
+                    log.trace("handling PipeOpenRequest {}",
                         pipeOpenRequest.getSketchId());
 
                     // init response
@@ -105,7 +105,7 @@ public class PipeService implements Service {
                     PipeWriteRequest pipeWriteRequest =
                         PipeWriteRequest.parseDelimitedFrom(in);
 
-                    log.info("handling PipeWriteRequest {}",
+                    log.trace("handling PipeWriteRequest {}",
                         pipeWriteRequest.getId());
 
                     // init response

@@ -71,7 +71,7 @@ public class SketchService implements Service {
                     SketchInitRequest sketchInitRequest =
                         SketchInitRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchInitRequest {}:{}",
+                    log.trace("handling SketchInitRequest {}:{}",
                         sketchInitRequest.getId(), sketchInitRequest.getPlugin());
 
                     // init response
@@ -111,7 +111,7 @@ public class SketchService implements Service {
                     SketchListRequest sketchListRequest =
                         SketchListRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchListRequest");
+                    log.trace("handling SketchListRequest");
 
                     // init response
                     SketchListResponse.Builder sketchListBuilder =
@@ -133,7 +133,7 @@ public class SketchService implements Service {
                     SketchModifyRequest sketchModifyRequest =
                         SketchModifyRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchModifyRequest '{}'",
+                    log.trace("handling SketchModifyRequest '{}'",
                         sketchModifyRequest.getId());
 
                     // init response
@@ -158,7 +158,7 @@ public class SketchService implements Service {
                     SketchShowRequest sketchShowRequest =
                         SketchShowRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchShowRequest '{}'",
+                    log.trace("handling SketchShowRequest '{}'",
                         sketchShowRequest.getId());
 
                     // init response
@@ -192,7 +192,7 @@ public class SketchService implements Service {
                     SketchWriteRequest sketchWriteRequest =
                         SketchWriteRequest.parseDelimitedFrom(in);
 
-                    log.info("handling SketchWriteRequest '{}'",
+                    log.trace("handling SketchWriteRequest '{}'",
                         sketchWriteRequest.getSketchId());
 
                     // init response

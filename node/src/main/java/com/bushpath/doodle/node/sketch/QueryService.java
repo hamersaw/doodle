@@ -60,7 +60,7 @@ public class QueryService implements Service {
                     Query query = (Query) objectIn.readObject();
                     objectIn.close();
 
-                    log.info("handling QueryRequest {}",
+                    log.trace("handling QueryRequest {}",
                         query.getEntity());
 
                     // get SketchPlugin

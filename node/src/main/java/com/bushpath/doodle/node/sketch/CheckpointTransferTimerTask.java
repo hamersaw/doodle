@@ -63,7 +63,11 @@ public class CheckpointTransferTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        this.lock.writeLock().lock();
+        boolean locked = this.lock.writeLock().tryLock();
+        if (!locked) {
+            return;
+        }
+
         try {
             // iterate over transfers
             for (String checkpointId : this.transfers.keySet()) {
@@ -75,7 +79,7 @@ public class CheckpointTransferTimerTask extends TimerTask {
                     try {
                         this.transferCheckpoint(checkpointId, nodeMetadata);
                         successfulTransfers.add(nodeMetadata);
-                        log.info("transfered checkpoint '{}' from node '{}'",
+                        log.debug("transfered checkpoint '{}' from node '{}'",
                             checkpointId, nodeMetadata.getId());
                     } catch (NoSuchElementException e) {
                     } catch (Exception e) {
