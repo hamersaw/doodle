@@ -78,6 +78,19 @@ public class CheckpointService implements Service {
                     log.trace("handling CheckpointCreateRequest {}:{}",
                         ccSketchId, ccCheckpointId);
 
+                    // check if checkpointId and sketchId are valid
+                    if (this.checkpointManager
+                            .containsCheckpoint(ccCheckpointId)) {
+                        throw new RuntimeException("checkpoint '"
+                            + ccCheckpointId + "' already exists");
+                    }
+
+                    if (!this.sketchManager
+                            .containsSketch(ccSketchId)) {
+                        throw new RuntimeException("sketch '"
+                            + ccSketchId + "' does not exist");
+                    }
+
                     // init response
                     CheckpointCreateResponse.Builder sketchCheckpointBuilder =
                         CheckpointCreateResponse.newBuilder();
@@ -121,6 +134,19 @@ public class CheckpointService implements Service {
                         checkpointRollbackRequest.getCheckpointId();
                     log.trace("handling CheckpointRollbackRequest {}:{}",
                         crSketchId, crCheckpointId);
+ 
+                    // check if checkpointId and sketchId are valid
+                    if (!this.checkpointManager
+                            .containsCheckpoint(crCheckpointId)) {
+                        throw new RuntimeException("checkpoint '"
+                            + crCheckpointId + "' does not exist");
+                    }
+
+                    if (!this.sketchManager
+                            .containsSketch(crSketchId)) {
+                        throw new RuntimeException("sketch '"
+                            + crSketchId + "' does not exist");
+                    }
 
                     // init response
                     CheckpointRollbackResponse.Builder
