@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -28,10 +29,12 @@ public class CheckpointTransferTimerTask extends TimerTask {
 
     protected Map<String, Set<NodeMetadata>> transfers;
     protected CheckpointManager checkpointManager;
+    protected AtomicBoolean isRunning;
     protected ReadWriteLock lock;
 
     public CheckpointTransferTimerTask() {
         this.transfers = new HashMap();
+        this.isRunning = new AtomicBoolean();
         this.lock = new ReentrantReadWriteLock();
     }
 
@@ -63,11 +66,12 @@ public class CheckpointTransferTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        boolean locked = this.lock.writeLock().tryLock();
-        if (!locked) {
+        if (this.isRunning.get()) {
             return;
         }
+        this.isRunning.set(true);
 
+        this.lock.writeLock().lock();
         try {
             // iterate over transfers
             for (String checkpointId : this.transfers.keySet()) {
@@ -97,6 +101,7 @@ public class CheckpointTransferTimerTask extends TimerTask {
             }
         } finally {
             this.lock.writeLock().unlock();
+            this.isRunning.set(false);
         }
     }
 
