@@ -99,6 +99,7 @@ public class SketchService implements Service {
                     for (int i=0; i<controlPlugins.length; i++) {
                         controlPlugins[i] =
                             this.controlPluginManager.get(list.get(i));
+                        controlPlugins[i].freeze();
                     }
 
                     sketch.initControlPlugins(controlPlugins);
@@ -144,14 +145,16 @@ public class SketchService implements Service {
                     // check if sketch exists
                     this.sketchManager.checkExists(smId);
 
+                    SketchPlugin modifySketch =
+                        this.sketchManager.get(smId);
+
+                    modifySketch.checkFrozen();
+
                     // init response
                     SketchModifyResponse.Builder smBuilder =
                         SketchModifyResponse.newBuilder();
 
                     // handle operations
-                    SketchPlugin modifySketch =
-                        this.sketchManager.get(smId);
-
                     for (VariableOperation operation :
                             smRequest.getOperationsList()) {
                         modifySketch.handleVariableOperation(operation);
@@ -181,6 +184,7 @@ public class SketchService implements Service {
                         this.sketchManager.get(ssId);
 
                     ssBuilder.setPlugin(showSketch.getClass().getName());
+                    ssBuilder.setFrozen(showSketch.frozen());
                     ssBuilder
                         .setInflatorClass(showSketch.getInflatorClass());
                     ssBuilder.setObservationCount(showSketch.getObservationCount());
@@ -209,14 +213,16 @@ public class SketchService implements Service {
                     // check if sketch exists
                     this.sketchManager.checkExists(swId);
 
+                    SketchPlugin writeSketch = 
+                        this.sketchManager.get(swId);
+
+                    writeSketch.freeze();
+
                     // init response
                     SketchWriteResponse.Builder swBuilder =
                         SketchWriteResponse.newBuilder();
 
                     // handle
-                    SketchPlugin writeSketch = 
-                        this.sketchManager.get(swId);
-
                     writeSketch.write(swRequest.getData());
 
                     // write to out

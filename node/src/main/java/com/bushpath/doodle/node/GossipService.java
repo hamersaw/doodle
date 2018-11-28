@@ -196,6 +196,7 @@ public class GossipService implements Service {
                                     controlPlugins[i] = 
                                         this.controlPluginManager
                                             .get(list.get(i));
+                                    controlPlugins[i].freeze();
                                 }
 
                                 sketch.initControlPlugins(controlPlugins);

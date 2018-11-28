@@ -36,6 +36,7 @@ public class ControlShowCli implements Runnable {
 
         // handle ControlShowResponse
         System.out.println("id = \"" + this.id + "\""
+            + "\nfrozen = \"" + response.getFrozen() + "\""
             + "\nclass = \"" + response.getPlugin() + "\"");
 
         for (PluginVariable variable : response.getVariablesList()) {

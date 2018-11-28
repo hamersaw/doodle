@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.CRC32;
 
 public abstract class Plugin {
@@ -22,11 +23,13 @@ public abstract class Plugin {
         LoggerFactory.getLogger(Plugin.class);
 
     protected String id;
+    protected AtomicBoolean frozen;
     protected Map<Long, VariableOperation> operations;
     protected Map<String, Map<String, Set<String>>> variables;
 
     public Plugin(String id) {
         this.id = id;
+        this.frozen = new AtomicBoolean(false);
         this.operations = new TreeMap();
         this.variables = new TreeMap();
     }
@@ -53,11 +56,23 @@ public abstract class Plugin {
         this.variables = new TreeMap();
     }
 
-    public abstract void addVariable(String type, String name, String value);
-    public abstract void deleteVariable(String type, String name, String value);
+    public void checkFrozen() throws Exception {
+        if (this.frozen.get()) {
+            throw new RuntimeException("Unable to support operation"
+                + ", plugin '" + this.id + "' is frozen");
+        }
+    }
 
     public String getId() {
         return this.id;
+    }
+
+    public void freeze() {
+        this.frozen.set(true);
+    }
+
+    public boolean frozen() {
+        return this.frozen.get();
     }
 
     public List<PluginVariable> getVariables() {
@@ -173,6 +188,9 @@ public abstract class Plugin {
             entry.getValue().writeDelimitedTo(out);
         }
     }
+
+    public abstract void addVariable(String type, String name, String value);
+    public abstract void deleteVariable(String type, String name, String value);
 
     @Override
     public int hashCode() {

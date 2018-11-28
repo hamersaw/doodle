@@ -2,8 +2,8 @@ package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointInitRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointInitResponse;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,23 +24,23 @@ public class SketchCheckpointCli implements Runnable {
 
     @Override
     public void run() {
-        // create CheckpointCreateRequest
-        CheckpointCreateRequest request = CheckpointCreateRequest.newBuilder()
+        // create CheckpointInitRequest
+        CheckpointInitRequest request = CheckpointInitRequest.newBuilder()
             .setSketchId(this.sketchId)
             .setCheckpointId(this.checkpointId)
             .build();
-        CheckpointCreateResponse response = null;
+        CheckpointInitResponse response = null;
 
         // send request
         try {
-            response = (CheckpointCreateResponse) CommUtility.send(
-                MessageType.CHECKPOINT_CREATE.getNumber(),
+            response = (CheckpointInitResponse) CommUtility.send(
+                MessageType.CHECKPOINT_INIT.getNumber(),
                 request, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle CheckpointCreateResponse
+        // TODO - handle CheckpointInitResponse
     }
 }

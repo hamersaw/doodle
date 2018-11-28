@@ -97,7 +97,8 @@ message ControlShowRequest {
 
 message ControlShowResponse {
     string plugin = 1;    
-    repeated PluginVariable variables = 2;
+    bool frozen = 2;
+    repeated PluginVariable variables = 3;
 }
 
 /**
@@ -248,10 +249,11 @@ message SketchShowRequest {
 
 message SketchShowResponse {
     string plugin = 1;    
-    string inflatorClass = 2;
-    int64 observationCount = 3;
-    repeated PluginVariable variables = 4;
-    repeated Checkpoint checkpoints = 5;
+    bool frozen = 2;
+    string inflatorClass = 3;
+    int64 observationCount = 4;
+    repeated PluginVariable variables = 5;
+    repeated Checkpoint checkpoints = 6;
 }
 
 message SketchWriteRequest {

@@ -124,13 +124,15 @@ public class ControlService implements Service {
                     // check if control plugin exists
                     this.controlPluginManager.checkExists(cmId);
 
+                    ControlPlugin modifyPlugin =
+                        this.controlPluginManager.get(cmId);
+                    modifyPlugin.checkFrozen();
+
                     // init response
                     ControlModifyResponse.Builder cmBuilder =
                         ControlModifyResponse.newBuilder();
 
                     // handle operations
-                    ControlPlugin modifyPlugin =
-                        this.controlPluginManager.get(cmId);
 
                     for (VariableOperation operation :
                             cmRequest.getOperationsList()) {
@@ -161,6 +163,7 @@ public class ControlService implements Service {
                         this.controlPluginManager.get(csId);
 
                     csBuilder.setPlugin(showPlugin.getClass().getName());
+                    csBuilder.setFrozen(showPlugin.frozen());
                     csBuilder.addAllVariables(showPlugin.getVariables());
 
                     // write to out
