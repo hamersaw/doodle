@@ -68,146 +68,160 @@ public class SketchService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case SKETCH_INIT:
                     // parse request
-                    SketchInitRequest sketchInitRequest =
+                    SketchInitRequest siRequest =
                         SketchInitRequest.parseDelimitedFrom(in);
 
+                    String siId = siRequest.getId();
+                    String siPlugin = siRequest.getPlugin();
                     log.trace("handling SketchInitRequest {}:{}",
-                        sketchInitRequest.getId(), sketchInitRequest.getPlugin());
+                        siId, siPlugin);
+
+                    // check if sketch exists
+                    this.sketchManager.checkNotExists(siId);
 
                     // init response
-                    SketchInitResponse.Builder sketchInitBuilder =
+                    SketchInitResponse.Builder siBuilder =
                         SketchInitResponse.newBuilder();
 
                     // create SketchPlugin
-                    Class<? extends SketchPlugin> clazz = this.pluginManager
-                        .getSketchPlugin(sketchInitRequest.getPlugin());
+                    Class<? extends SketchPlugin> clazz =
+                        this.pluginManager.getSketchPlugin(siPlugin);
                     Constructor constructor =
                         clazz.getConstructor(String.class);
                     SketchPlugin sketch = (SketchPlugin) constructor
-                        .newInstance(sketchInitRequest.getId());
+                        .newInstance(siId);
 
                     // initialize ControlPlugin's
-                    List<String> list = 
-                        sketchInitRequest.getControlPluginsList();
+                    List<String> list =
+                        siRequest.getControlPluginsList();
                     ControlPlugin[] controlPlugins = 
                         new ControlPlugin[list.size()];
                     for (int i=0; i<controlPlugins.length; i++) {
                         controlPlugins[i] =
-                            this.controlPluginManager.getPlugin(list.get(i));
+                            this.controlPluginManager.get(list.get(i));
                     }
 
                     sketch.initControlPlugins(controlPlugins);
 
                     // add sketch
-                    this.sketchManager.addSketch(sketchInitRequest.getId(),
-                        sketch);
+                    this.sketchManager.add(siId, sketch);
 
                     // write to out
                     out.writeInt(messageType);
-                    sketchInitBuilder.build().writeDelimitedTo(out);
+                    siBuilder.build().writeDelimitedTo(out);
                     break;
                 case SKETCH_LIST:
                     // parse request
-                    SketchListRequest sketchListRequest =
+                    SketchListRequest slRequest =
                         SketchListRequest.parseDelimitedFrom(in);
 
                     log.trace("handling SketchListRequest");
 
                     // init response
-                    SketchListResponse.Builder sketchListBuilder =
+                    SketchListResponse.Builder slBuilder =
                         SketchListResponse.newBuilder();
 
                     // add plugins
                     for (Map.Entry<String, SketchPlugin> entry :
-                            this.sketchManager.getSketchesEntrySet()) {
-                        sketchListBuilder.putPlugins(entry.getKey(),
+                            this.sketchManager.getEntrySet()) {
+                        slBuilder.putPlugins(entry.getKey(),
                             entry.getValue().getClass().getName());
                     }
                     
                     // write to out
                     out.writeInt(messageType);
-                    sketchListBuilder.build().writeDelimitedTo(out);
+                    slBuilder.build().writeDelimitedTo(out);
                     break;
                 case SKETCH_MODIFY:
                     // parse request
-                    SketchModifyRequest sketchModifyRequest =
+                    SketchModifyRequest smRequest =
                         SketchModifyRequest.parseDelimitedFrom(in);
 
+                    String smId = smRequest.getId();
                     log.trace("handling SketchModifyRequest '{}'",
-                        sketchModifyRequest.getId());
+                        smId);
+
+                    // check if sketch exists
+                    this.sketchManager.checkExists(smId);
 
                     // init response
-                    SketchModifyResponse.Builder sketchModifyBuilder =
+                    SketchModifyResponse.Builder smBuilder =
                         SketchModifyResponse.newBuilder();
 
                     // handle operations
-                    SketchPlugin modifySketch = this.sketchManager
-                        .getSketch(sketchModifyRequest.getId());
+                    SketchPlugin modifySketch =
+                        this.sketchManager.get(smId);
 
                     for (VariableOperation operation :
-                            sketchModifyRequest.getOperationsList()) {
+                            smRequest.getOperationsList()) {
                         modifySketch.handleVariableOperation(operation);
                     }
 
                     // write to out
                     out.writeInt(messageType);
-                    sketchModifyBuilder.build().writeDelimitedTo(out);
+                    smBuilder.build().writeDelimitedTo(out);
                     break;
                 case SKETCH_SHOW:
                     // parse request
-                    SketchShowRequest sketchShowRequest =
+                    SketchShowRequest ssRequest =
                         SketchShowRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling SketchShowRequest '{}'",
-                        sketchShowRequest.getId());
+                    String ssId = ssRequest.getId();
+                    log.trace("handling SketchShowRequest '{}'", ssId);
+
+                    // check if sketch exists
+                    this.sketchManager.checkExists(ssId);
 
                     // init response
-                    SketchShowResponse.Builder sketchShowBuilder =
+                    SketchShowResponse.Builder ssBuilder =
                         SketchShowResponse.newBuilder();
 
                     // handle operations
-                    SketchPlugin showSketch = this.sketchManager
-                        .getSketch(sketchShowRequest.getId());
+                    SketchPlugin showSketch =
+                        this.sketchManager.get(ssId);
 
-                    sketchShowBuilder.setPlugin(showSketch.getClass().getName());
-                    sketchShowBuilder
+                    ssBuilder.setPlugin(showSketch.getClass().getName());
+                    ssBuilder
                         .setInflatorClass(showSketch.getInflatorClass());
-                    sketchShowBuilder.setObservationCount(showSketch.getObservationCount());
-                    sketchShowBuilder.addAllVariables(showSketch.getVariables());
+                    ssBuilder.setObservationCount(showSketch.getObservationCount());
+                    ssBuilder.addAllVariables(showSketch.getVariables());
 
                     // handle checkpoints
                     for (CheckpointMetadata checkpoint :
                             this.checkpointManager.getSketchCheckpoints(
-                                sketchShowRequest.getId())) {
-                        sketchShowBuilder
+                                ssId)) {
+                        ssBuilder
                             .addCheckpoints(checkpoint.toProtobuf());
                     }
 
                     // write to out
                     out.writeInt(messageType);
-                    sketchShowBuilder.build().writeDelimitedTo(out);
+                    ssBuilder.build().writeDelimitedTo(out);
                     break;
                 case SKETCH_WRITE:
                     // parse request
-                    SketchWriteRequest sketchWriteRequest =
+                    SketchWriteRequest swRequest =
                         SketchWriteRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling SketchWriteRequest '{}'",
-                        sketchWriteRequest.getSketchId());
+                    String swId = swRequest.getSketchId();
+                    log.trace("handling SketchWriteRequest '{}'", swId);
+
+                    // check if sketch exists
+                    this.sketchManager.checkExists(swId);
 
                     // init response
-                    SketchWriteResponse.Builder sketchWriteBuilder =
+                    SketchWriteResponse.Builder swBuilder =
                         SketchWriteResponse.newBuilder();
 
                     // handle
-                    SketchPlugin writeSketch = this.sketchManager
-                        .getSketch(sketchWriteRequest.getSketchId());
+                    SketchPlugin writeSketch = 
+                        this.sketchManager.get(swId);
 
-                    writeSketch.write(sketchWriteRequest.getData());
+                    writeSketch.write(swRequest.getData());
 
                     // write to out
                     out.writeInt(messageType);
-                    sketchWriteBuilder.build().writeDelimitedTo(out);
+                    swBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

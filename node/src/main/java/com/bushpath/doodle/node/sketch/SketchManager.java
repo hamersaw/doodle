@@ -24,20 +24,8 @@ public class SketchManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void addSketch(String id,
+    public void add(String id,
             SketchPlugin sketch) throws Exception {
-        // check if sketch already exists
-        this.lock.readLock().lock();
-        try {
-            if (this.sketches.containsKey(id)) {
-                throw new RuntimeException("sketch '" + id
-                    + "' already exists");
-            }
-        } finally {
-            this.lock.readLock().unlock();
-        }
-
-        // add plugin
         this.lock.writeLock().lock();
         try {
             this.sketches.put(id, sketch);
@@ -47,7 +35,31 @@ public class SketchManager {
         }
     }
 
-    public boolean containsSketch(String id) {
+    public void checkExists(String id) {
+        this.lock.readLock().lock();
+        try {
+            if (!this.sketches.containsKey(id)) {
+                throw new RuntimeException("Sketch '"
+                    + id + "' does not exist");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public void checkNotExists(String id) {
+        this.lock.readLock().lock();
+        try {
+            if (this.sketches.containsKey(id)) {
+                throw new RuntimeException("Sketch '"
+                    + id + "' already exists");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public boolean contains(String id) {
         this.lock.readLock().lock();
         try {
             return this.sketches.containsKey(id);
@@ -56,21 +68,16 @@ public class SketchManager {
         }
     }
 
-    public SketchPlugin getSketch(String id) {
+    public SketchPlugin get(String id) {
         this.lock.readLock().lock();
         try {
-            if (!this.sketches.containsKey(id)) {
-                throw new RuntimeException("sketch '" + id
-                    + "' does not exist");
-            }
-
             return this.sketches.get(id);
         } finally {
             this.lock.readLock().unlock();
         }
     }
 
-    public Set<Map.Entry<String, SketchPlugin>> getSketchesEntrySet() {
+    public Set<Map.Entry<String, SketchPlugin>> getEntrySet() {
         this.lock.readLock().lock();
         try {
             return this.sketches.entrySet();
@@ -79,7 +86,7 @@ public class SketchManager {
         }
     }
 
-    public void removeSketch(String id) {
+    public void remove(String id) {
         this.lock.writeLock().lock();
         try {
             this.sketches.remove(id);

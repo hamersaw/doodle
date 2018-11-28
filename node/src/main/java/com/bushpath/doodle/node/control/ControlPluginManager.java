@@ -24,19 +24,7 @@ public class ControlPluginManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void addPlugin(String id,
-            ControlPlugin plugin) throws Exception {
-        // check if plugin already exists
-        this.lock.readLock().lock();
-        try {
-            if (this.plugins.containsKey(id)) {
-                throw new RuntimeException("plugin '" + id + "' already exists");
-            }
-        } finally {
-            this.lock.readLock().unlock();
-        }
-
-        // add plugin
+    public void add(String id, ControlPlugin plugin) throws Exception {
         this.lock.writeLock().lock();
         try {
             this.plugins.put(id, plugin);
@@ -46,7 +34,31 @@ public class ControlPluginManager {
         }
     }
 
-    public boolean containsPlugin(String id) {
+    public void checkExists(String id) {
+        this.lock.readLock().lock();
+        try {
+            if (!this.plugins.containsKey(id)) {
+                throw new RuntimeException("ControlPlugin '"
+                    + id + "' does not exist");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public void checkNotExists(String id) {
+        this.lock.readLock().lock();
+        try {
+            if (this.plugins.containsKey(id)) {
+                throw new RuntimeException("ControlPlugin '"
+                    + id + "' already exists");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public boolean contains(String id) {
         this.lock.readLock().lock();
         try {
             return this.plugins.containsKey(id);
@@ -55,20 +67,16 @@ public class ControlPluginManager {
         }
     }
 
-    public ControlPlugin getPlugin(String id) {
+    public ControlPlugin get(String id) {
         this.lock.readLock().lock();
         try {
-            if (!this.plugins.containsKey(id)) {
-                throw new RuntimeException("plugin '" + id + "' does not exist");
-            }
-
             return this.plugins.get(id);
         } finally {
             this.lock.readLock().unlock();
         }
     }
 
-    public Set<Map.Entry<String, ControlPlugin>> getPluginEntrySet() {
+    public Set<Map.Entry<String, ControlPlugin>> getEntrySet() {
         this.lock.readLock().lock();
         try {
             return this.plugins.entrySet();

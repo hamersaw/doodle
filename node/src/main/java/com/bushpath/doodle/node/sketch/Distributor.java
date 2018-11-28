@@ -33,25 +33,25 @@ public class Distributor extends Thread {
     public void run() {
         this.shutdown = false;
         while (!this.shutdown) {
-            SketchWriteRequest sketchWriteRequest = null;
+            SketchWriteRequest swRequest = null;
             try {
-                sketchWriteRequest = this.queue.poll(50, TimeUnit.MILLISECONDS);
+                swRequest = this.queue.poll(50, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
             }
 
-            if (sketchWriteRequest == null) {
+            if (swRequest == null) {
                 continue;
             }
 
             // handle sketchWriteRequest
             try {
                 NodeMetadata nodeMetadata =
-                    this.nodeManager.getNode(sketchWriteRequest.getNodeId());
+                    this.nodeManager.get(swRequest.getNodeId());
 
-                SketchWriteResponse response = (SketchWriteResponse)
+                SketchWriteResponse swResponse = (SketchWriteResponse)
                     CommUtility.send(
                         MessageType.SKETCH_WRITE.getNumber(),
-                        sketchWriteRequest, nodeMetadata.getIpAddress(),
+                        swRequest, nodeMetadata.getIpAddress(),
                         nodeMetadata.getPort());
             } catch (Exception e) {
                 log.error("Failed to send SketchWriteRequest", e);

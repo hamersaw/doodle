@@ -83,7 +83,7 @@ public class GossipService implements Service {
                     // init response
                     GossipHashResponse.Builder gossipHashBuilder =
                         GossipHashResponse.newBuilder()
-                        .setNodesHash(this.nodeManager.getNodesHash())
+                        .setNodesHash(this.nodeManager.hashCode())
                         .setControlHash(this.controlPluginManager.hashCode())
                         .setSketchHash(this.sketchManager.hashCode())
                         .setCheckpointHash(this.checkpointManager.hashCode());
@@ -108,7 +108,7 @@ public class GossipService implements Service {
                     for (Node nodeProto : gossipUpdateRequest.getNodesList()) {
                         // check if node exists
                         if (this.nodeManager
-                                .containsNode(nodeProto.getId())) {
+                                .contains(nodeProto.getId())) {
                             continue;
                         }
 
@@ -120,7 +120,7 @@ public class GossipService implements Service {
                             );
 
                         try {
-                            this.nodeManager.addNode(nodeMetadata);
+                            this.nodeManager.add(nodeMetadata);
                         } catch (Exception e) {
                             log.error("Failed to add node {}",
                                 nodeMetadata, e);
@@ -133,10 +133,10 @@ public class GossipService implements Service {
                         ControlPlugin plugin;
                         // handle plugin
                         if (this.controlPluginManager
-                                .containsPlugin(pluginGossip.getId())) {
+                                .contains(pluginGossip.getId())) {
                             // retrieve plugin
                             plugin = this.controlPluginManager
-                                .getPlugin(pluginGossip.getId());
+                                .get(pluginGossip.getId());
                         } else {
                             // create plugin if it doesn't exit
                             try {
@@ -148,7 +148,7 @@ public class GossipService implements Service {
                                 plugin = (ControlPlugin) constructor
                                     .newInstance(pluginGossip.getId());
 
-                                this.controlPluginManager.addPlugin(
+                                this.controlPluginManager.add(
                                     pluginGossip.getId(), plugin);
                             } catch (Exception e) {
                                 log.error("Failed to add ControlPlugin: {}",
@@ -170,10 +170,10 @@ public class GossipService implements Service {
                         SketchPlugin sketch;
                         // handle sketch
                         if (this.sketchManager
-                                .containsSketch(pluginGossip.getId())) {
+                                .contains(pluginGossip.getId())) {
                             // retrieve sketch
                             sketch = this.sketchManager
-                                .getSketch(pluginGossip.getId());
+                                .get(pluginGossip.getId());
                         } else {
                             // create sketch if it doesn't exit
                             try {
@@ -195,13 +195,13 @@ public class GossipService implements Service {
                                 for (int i=0; i<controlPlugins.length; i++) {
                                     controlPlugins[i] = 
                                         this.controlPluginManager
-                                            .getPlugin(list.get(i));
+                                            .get(list.get(i));
                                 }
 
                                 sketch.initControlPlugins(controlPlugins);
 
                                 // add sketch
-                                this.sketchManager.addSketch(
+                                this.sketchManager.add(
                                     pluginGossip.getId(), sketch);
                             } catch (Exception e) {
                                 log.error("Failed to add Sketch: {}",
@@ -220,7 +220,7 @@ public class GossipService implements Service {
                     // handle checkpoints
                     for (Checkpoint checkpoint :
                             gossipUpdateRequest.getCheckpointsList()) {
-                        if (this.checkpointManager.containsCheckpoint(
+                        if (this.checkpointManager.contains(
                                 checkpoint.getCheckpointId())) {
                             continue;
                         }
@@ -256,7 +256,7 @@ public class GossipService implements Service {
 
                         // add Checkpoint
                         SketchPlugin checkpointSketch = this.sketchManager
-                            .getSketch(checkpointMetadata.getSketchId());
+                            .get(checkpointMetadata.getSketchId());
  
                         // serialize sketch
                         String checkpointFile = this.checkpointManager
@@ -271,8 +271,7 @@ public class GossipService implements Service {
                         dataOut.close();
                         fileOut.close();
 
-                        this.checkpointManager.addCheckpoint(
-                             checkpointMetadata);
+                        this.checkpointManager.add(checkpointMetadata);
                     }
 
                     // write to out

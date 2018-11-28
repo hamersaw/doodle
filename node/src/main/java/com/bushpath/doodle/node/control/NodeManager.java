@@ -29,7 +29,7 @@ public class NodeManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void addNode(NodeMetadata node) throws Exception {
+    public void add(NodeMetadata node) throws Exception {
         // check if node already exists
         this.lock.readLock().lock();
         try {
@@ -51,7 +51,31 @@ public class NodeManager {
         }
     }
 
-    public boolean containsNode(int id) {
+    public void checkExists(int id) {
+        this.lock.readLock().lock();
+        try {
+            if (!this.nodes.containsKey(id)) {
+                throw new RuntimeException("Node '"
+                    + id + "' does not exist");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public void checkNotExists(int id) {
+        this.lock.readLock().lock();
+        try {
+            if (this.nodes.containsKey(id)) {
+                throw new RuntimeException("Node '"
+                    + id + "' already exists");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public boolean contains(int id) {
         this.lock.readLock().lock();
         try {
             return this.nodes.containsKey(id);
@@ -60,7 +84,7 @@ public class NodeManager {
         }
     }
 
-    public NodeMetadata getNode(int id) throws Exception {
+    public NodeMetadata get(int id) throws Exception {
         this.lock.readLock().lock();
         try {
             // check if node exists
@@ -74,23 +98,7 @@ public class NodeManager {
         }
     }
 
-    public int getNodesHash() {
-        CRC32 crc32 = new CRC32();
-
-        this.lock.readLock().lock();
-        try {
-            // update crc32 with toString() of each node
-            for (NodeMetadata nodeMetadata : this.nodes.values()) {
-                crc32.update(nodeMetadata.toString().getBytes());
-            }
-        } finally {
-            this.lock.readLock().unlock();
-        }
-
-        return (int) crc32.getValue();
-    }
-
-    public Collection<NodeMetadata> getNodeValues() {
+    public Collection<NodeMetadata> getValues() {
         this.lock.readLock().lock();
         try {
             return this.nodes.values();
@@ -152,5 +160,22 @@ public class NodeManager {
     public NodeMetadata getRandomSeed() {
         int index = this.random.nextInt(this.seedNodes.size());
         return this.seedNodes.get(index);
+    }
+
+    @Override
+    public int hashCode() {
+        CRC32 crc32 = new CRC32();
+
+        this.lock.readLock().lock();
+        try {
+            // update crc32 with toString() of each node
+            for (NodeMetadata nodeMetadata : this.nodes.values()) {
+                crc32.update(nodeMetadata.toString().getBytes());
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
+        return (int) crc32.getValue();
     }
 }

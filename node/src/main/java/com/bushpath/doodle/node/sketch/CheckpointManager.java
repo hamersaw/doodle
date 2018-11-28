@@ -34,15 +34,9 @@ public class CheckpointManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void addCheckpoint(CheckpointMetadata checkpoint) throws Exception {
+    public void add(CheckpointMetadata checkpoint) throws Exception {
         this.lock.writeLock().lock();
         try {
-            // check if checkpoint already exists
-            if (this.checkpoints.containsKey(checkpoint.getCheckpointId())) {
-                throw new RuntimeException("checkpoint '"
-                    + checkpoint.getCheckpointId() + "' already exists");
-            }
-
             // add checkpoint
             this.checkpoints.put(checkpoint.getCheckpointId(), checkpoint);
             log.info("Added checkpoint '" + checkpoint.getCheckpointId()
@@ -54,7 +48,7 @@ public class CheckpointManager {
                     checkpoint.getReplicaEntrySet()) {
                 if (entry.getValue().contains(nodeId)) {
                     NodeMetadata nodeMetadata =
-                        this.nodeManager.getNode(entry.getKey());
+                        this.nodeManager.get(entry.getKey());
                     this.checkpointTransferTimerTask.addTransfer(
                         checkpoint.getCheckpointId(), nodeMetadata);
                 }
@@ -64,7 +58,31 @@ public class CheckpointManager {
         }
     }
 
-    public boolean containsCheckpoint(String checkpointId) {
+    public void checkExists(String checkpointId) {
+        this.lock.readLock().lock();
+        try {
+            if (!this.checkpoints.containsKey(checkpointId)) {
+                throw new RuntimeException("Checkpoint '"
+                    + checkpointId + "' does not exist");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public void checkNotExists(String checkpointId) {
+        this.lock.readLock().lock();
+        try {
+            if (this.checkpoints.containsKey(checkpointId)) {
+                throw new RuntimeException("Checkpoint '"
+                    + checkpointId + "' already exists");
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public boolean contains(String checkpointId) {
         this.lock.readLock().lock();
         try {
             return this.checkpoints.containsKey(checkpointId);
@@ -73,7 +91,7 @@ public class CheckpointManager {
         }
     }
 
-    public CheckpointMetadata createCheckpoint(String sketchId,
+    public CheckpointMetadata initCheckpoint(String sketchId,
             String checkpointId) throws Exception {
         // initialize checkpoint
         long timestamp = System.currentTimeMillis();
@@ -81,8 +99,7 @@ public class CheckpointManager {
             new CheckpointMetadata(timestamp, sketchId, checkpointId);
 
         // iterate over nodes initializing checkpoint replicas
-        for (NodeMetadata nodeMetadata :
-                this.nodeManager.getNodeValues()) {
+        for (NodeMetadata nodeMetadata : this.nodeManager.getValues()) {
             int[] secondaryNodeIds = new int[2];
 
             // get first secondary node
@@ -111,7 +128,7 @@ public class CheckpointManager {
         return checkpoint;
     }
 
-    public Set<Map.Entry<String, CheckpointMetadata>> getCheckpointEntrySet() {
+    public Set<Map.Entry<String, CheckpointMetadata>> getEntrySet() {
         this.lock.readLock().lock();
         try {
             return checkpoints.entrySet();

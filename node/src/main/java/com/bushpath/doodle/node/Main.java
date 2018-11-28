@@ -130,7 +130,7 @@ public class Main {
                     toml.getLong("control.port").shortValue()
                 );
 
-            nodeManager.addNode(nodeMetadata);
+            nodeManager.add(nodeMetadata);
         } catch (Exception e) {
             log.error("Failed to initialize NodeManager", e);
             System.exit(2);

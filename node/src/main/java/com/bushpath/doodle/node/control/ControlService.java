@@ -61,99 +61,111 @@ public class ControlService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case CONTROL_INIT:
                     // parse request
-                    ControlInitRequest controlInitRequest =
+                    ControlInitRequest ciRequest =
                         ControlInitRequest.parseDelimitedFrom(in);
 
+                    String ciId = ciRequest.getId();
+                    String ciPlugin = ciRequest.getPlugin();
                     log.trace("handling ControlInitRequest {}:{}",
-                        controlInitRequest.getId(), controlInitRequest.getPlugin());
+                        ciId, ciPlugin);
+
+                    // check if control plugin already exists
+                    this.controlPluginManager.checkNotExists(ciId);
 
                     // init response
-                    ControlInitResponse.Builder controlInitBuilder =
+                    ControlInitResponse.Builder ciBuilder =
                         ControlInitResponse.newBuilder();
 
                     // add control plugin
-                    Class<? extends ControlPlugin> clazz = this.pluginManager
-                        .getControlPlugin(controlInitRequest.getPlugin());
-                    Constructor constructor = clazz.getConstructor(String.class);
+                    Class<? extends ControlPlugin> clazz = 
+                        this.pluginManager.getControlPlugin(ciPlugin);
+                    Constructor constructor = 
+                        clazz.getConstructor(String.class);
                     ControlPlugin controlPlugin = (ControlPlugin) 
-                        constructor.newInstance(controlInitRequest.getId());
+                        constructor.newInstance(ciId);
 
-                    this.controlPluginManager.addPlugin(controlInitRequest.getId(),
-                        controlPlugin);
+                    this.controlPluginManager.add(ciId, controlPlugin);
 
                     // write to out
                     out.writeInt(messageType);
-                    controlInitBuilder.build().writeDelimitedTo(out);
+                    ciBuilder.build().writeDelimitedTo(out);
                     break;
                 case CONTROL_LIST:
                     // parse request
-                    ControlListRequest controlListRequest =
+                    ControlListRequest clRequest =
                         ControlListRequest.parseDelimitedFrom(in);
 
                     log.trace("handling ControlListRequest");
 
                     // init response
-                    ControlListResponse.Builder controlListBuilder =
+                    ControlListResponse.Builder clBuilder =
                         ControlListResponse.newBuilder();
 
                     // add plugins
                     for (Map.Entry<String, ControlPlugin> entry :
-                            this.controlPluginManager.getPluginEntrySet()) {
-                        controlListBuilder.putPlugins(entry.getKey(),
+                            this.controlPluginManager.getEntrySet()) {
+                        clBuilder.putPlugins(entry.getKey(),
                             entry.getValue().getClass().getName());
                     }
                     
                     // write to out
                     out.writeInt(messageType);
-                    controlListBuilder.build().writeDelimitedTo(out);
+                    clBuilder.build().writeDelimitedTo(out);
                     break;
                 case CONTROL_MODIFY:
                     // parse request
-                    ControlModifyRequest controlModifyRequest =
+                    ControlModifyRequest cmRequest =
                         ControlModifyRequest.parseDelimitedFrom(in);
 
+                    String cmId = cmRequest.getId();
                     log.trace("handling ControlModifyRequest '{}'",
-                        controlModifyRequest.getId());
+                        cmId);
+
+                    // check if control plugin exists
+                    this.controlPluginManager.checkExists(cmId);
 
                     // init response
-                    ControlModifyResponse.Builder controlModifyBuilder =
+                    ControlModifyResponse.Builder cmBuilder =
                         ControlModifyResponse.newBuilder();
 
                     // handle operations
-                    ControlPlugin modifyPlugin = this.controlPluginManager
-                        .getPlugin(controlModifyRequest.getId());
+                    ControlPlugin modifyPlugin =
+                        this.controlPluginManager.get(cmId);
 
                     for (VariableOperation operation :
-                            controlModifyRequest.getOperationsList()) {
+                            cmRequest.getOperationsList()) {
                         modifyPlugin.handleVariableOperation(operation);
                     }
 
                     // write to out
                     out.writeInt(messageType);
-                    controlModifyBuilder.build().writeDelimitedTo(out);
+                    cmBuilder.build().writeDelimitedTo(out);
                     break;
                 case CONTROL_SHOW:
                     // parse request
-                    ControlShowRequest controlShowRequest =
+                    ControlShowRequest csRequest =
                         ControlShowRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling ControlShowRequest '{}'",
-                        controlShowRequest.getId());
+                    String csId = csRequest.getId();
+                    log.trace("handling ControlShowRequest '{}'", csId);
+
+                    // check if control plugin exists
+                    this.controlPluginManager.checkExists(csId);
 
                     // init response
-                    ControlShowResponse.Builder controlShowBuilder =
+                    ControlShowResponse.Builder csBuilder =
                         ControlShowResponse.newBuilder();
 
                     // handle operations
-                    ControlPlugin showPlugin = this.controlPluginManager
-                        .getPlugin(controlShowRequest.getId());
+                    ControlPlugin showPlugin = 
+                        this.controlPluginManager.get(csId);
 
-                    controlShowBuilder.setPlugin(showPlugin.getClass().getName());
-                    controlShowBuilder.addAllVariables(showPlugin.getVariables());
+                    csBuilder.setPlugin(showPlugin.getClass().getName());
+                    csBuilder.addAllVariables(showPlugin.getVariables());
 
                     // write to out
                     out.writeInt(messageType);
-                    controlShowBuilder.build().writeDelimitedTo(out);
+                    csBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

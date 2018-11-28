@@ -51,21 +51,24 @@ public class QueryService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case QUERY:
                     // parse request
-                    QueryRequest queryRequest =
+                    QueryRequest qRequest =
                         QueryRequest.parseDelimitedFrom(in);
 
-                    ByteString data = queryRequest.getQuery();
+                    ByteString data = qRequest.getQuery();
                     ObjectInputStream objectIn =
                         new ObjectInputStream(data.newInput());
                     Query query = (Query) objectIn.readObject();
                     objectIn.close();
 
-                    log.trace("handling QueryRequest {}",
-                        query.getEntity());
+                    String qEntity = query.getEntity();
+                    log.trace("handling QueryRequest {}", qEntity);
+
+                    // check if sketch exists
+                    this.sketchManager.checkExists(qEntity);
 
                     // get SketchPlugin
-                    SketchPlugin sketch = this.sketchManager
-                        .getSketch(query.getEntity());
+                    SketchPlugin sketch =
+                        this.sketchManager.get(qEntity);
 
                     // start ResponseHandler
                     BlockingQueue<Serializable> queue =
@@ -73,7 +76,7 @@ public class QueryService implements Service {
 
                     ResponseHandler responseHandler = 
                         new ResponseHandler(queue, out, 
-                            queryRequest.getBufferSize());
+                            qRequest.getBufferSize());
                     responseHandler.start();
 
                     // submit query to SketchPlugin

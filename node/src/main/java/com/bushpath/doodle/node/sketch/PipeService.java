@@ -17,6 +17,7 @@ import com.bushpath.doodle.node.Service;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.util.List;
 
 public class PipeService implements Service {
     protected static final Logger log =
@@ -49,76 +50,79 @@ public class PipeService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case PIPE_CLOSE:
                     // parse request
-                    PipeCloseRequest pipeCloseRequest =
+                    PipeCloseRequest pcRequest =
                         PipeCloseRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling PipeCloseRequest {}",
-                        pipeCloseRequest.getId());
+                    int pcId = pcRequest.getId();
+                    log.trace("handling PipeCloseRequest {}", pcId);
 
                     // init response
-                    PipeCloseResponse.Builder pipeCloseBuilder =
+                    PipeCloseResponse.Builder pcBuilder =
                         PipeCloseResponse.newBuilder();
 
                     // handle
-                    this.pipeManager.closePipe(pipeCloseRequest.getId());
+                    this.pipeManager.close(pcId);
 
                     // write to out
                     out.writeInt(messageType);
-                    pipeCloseBuilder.build().writeDelimitedTo(out);
+                    pcBuilder.build().writeDelimitedTo(out);
                     break;
                 case PIPE_OPEN:
                     // parse request
-                    PipeOpenRequest pipeOpenRequest =
+                    PipeOpenRequest poRequest =
                         PipeOpenRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling PipeOpenRequest {}",
-                        pipeOpenRequest.getSketchId());
+                    String poSketchId = poRequest.getSketchId();
+                    List<String> poFeatures = poRequest.getFeaturesList();
+                    log.trace("handling PipeOpenRequest {}", poSketchId);
+
+                    // check if sketch exists
+                    this.sketchManager.checkExists(poSketchId);
 
                     // init response
-                    PipeOpenResponse.Builder pipeOpenBuilder =
+                    PipeOpenResponse.Builder poBuilder =
                         PipeOpenResponse.newBuilder();
 
                     // handle
-                    SketchPlugin sketch = this.sketchManager
-                        .getSketch(pipeOpenRequest.getSketchId());
+                    SketchPlugin sketch = 
+                        this.sketchManager.get(poSketchId);
 
                     int[] featureIndexes =
-                        sketch.indexFeatures(pipeOpenRequest.getFeaturesList());
+                        sketch.indexFeatures(poFeatures);
 
                     for (int featureIndex : featureIndexes) {
-                        pipeOpenBuilder.addFeatureIndexes(featureIndex);
+                        poBuilder.addFeatureIndexes(featureIndex);
                     }
 
-                    int id = this.pipeManager.openPipe(sketch,
-                        pipeOpenRequest.getTransformThreadCount(),
-                        pipeOpenRequest.getDistributorThreadCount(),
-                        pipeOpenRequest.getBufferSize());
+                    int id = this.pipeManager.open(sketch,
+                        poRequest.getTransformThreadCount(),
+                        poRequest.getDistributorThreadCount(),
+                        poRequest.getBufferSize());
 
-                    pipeOpenBuilder.setId(id);
+                    poBuilder.setId(id);
 
                     // write to out
                     out.writeInt(messageType);
-                    pipeOpenBuilder.build().writeDelimitedTo(out);
+                    poBuilder.build().writeDelimitedTo(out);
                     break;
                 case PIPE_WRITE:
                     // parse request
-                    PipeWriteRequest pipeWriteRequest =
+                    PipeWriteRequest pwRequest =
                         PipeWriteRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling PipeWriteRequest {}",
-                        pipeWriteRequest.getId());
+                    int pwId = pwRequest.getId();
+                    log.trace("handling PipeWriteRequest {}", pwId);
 
                     // init response
-                    PipeWriteResponse.Builder pipeWriteBuilder =
+                    PipeWriteResponse.Builder pwBuilder =
                         PipeWriteResponse.newBuilder();
 
                     // handle
-                    this.pipeManager.writePipe(pipeWriteRequest.getId(),
-                        pipeWriteRequest.getData());
+                    this.pipeManager.write(pwId, pwRequest.getData());
 
                     // write to out
                     out.writeInt(messageType);
-                    pipeWriteBuilder.build().writeDelimitedTo(out);
+                    pwBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

@@ -3,7 +3,7 @@ package com.bushpath.doodle;
 import com.google.protobuf.AbstractParser;
 import com.google.protobuf.GeneratedMessageV3;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointTransferResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
@@ -69,8 +69,8 @@ public class CommUtility {
     protected static GeneratedMessageV3 parseResponse(int messageType,
             DataInputStream in) throws Exception {
         switch(MessageType.forNumber(messageType)) {
-            case CHECKPOINT_CREATE:
-                return CheckpointCreateResponse.parseDelimitedFrom(in);
+            case CHECKPOINT_INIT:
+                return CheckpointInitResponse.parseDelimitedFrom(in);
             case CHECKPOINT_ROLLBACK:
                 return CheckpointRollbackResponse.parseDelimitedFrom(in);
             case CHECKPOINT_TRANSFER:

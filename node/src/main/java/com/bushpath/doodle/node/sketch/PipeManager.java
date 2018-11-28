@@ -40,7 +40,7 @@ public class PipeManager {
         this.random = new Random(System.currentTimeMillis());
     }
 
-    public void closePipe(int id) throws Exception {
+    public void close(int id) throws Exception {
         this.lock.writeLock().lock();
         try {
             // check if pipe exists
@@ -73,7 +73,7 @@ public class PipeManager {
         }
     }
 
-    public int openPipe(SketchPlugin sketch, int transformThreadCount,
+    public int open(SketchPlugin sketch, int transformThreadCount,
             int distributorThreadCount, int bufferSize) throws Exception {
         this.lock.writeLock().lock();
         try {
@@ -113,7 +113,7 @@ public class PipeManager {
         }
     }
 
-    public void writePipe(int id, ByteString byteString) {
+    public void write(int id, ByteString byteString) {
         this.lock.readLock().lock();
         try {
             // check if pipe exists

@@ -4,8 +4,8 @@ import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointCreateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointInitRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointTransferRequest;
@@ -53,7 +53,7 @@ public class CheckpointService implements Service {
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.CHECKPOINT_CREATE.getNumber(),
+                MessageType.CHECKPOINT_INIT.getNumber(),
                 MessageType.CHECKPOINT_ROLLBACK.getNumber(),
                 MessageType.CHECKPOINT_TRANSFER.getNumber()
             };
@@ -66,95 +66,73 @@ public class CheckpointService implements Service {
         // handle message
         try {
             switch (MessageType.forNumber(messageType)) {
-                case CHECKPOINT_CREATE:
+                case CHECKPOINT_INIT:
                     // parse request
-                    CheckpointCreateRequest checkpointCreateRequest =
-                        CheckpointCreateRequest.parseDelimitedFrom(in);
+                    CheckpointInitRequest ciRequest =
+                        CheckpointInitRequest.parseDelimitedFrom(in);
 
-                    String ccSketchId =
-                        checkpointCreateRequest.getSketchId();
-                    String ccCheckpointId =
-                        checkpointCreateRequest.getCheckpointId();
-                    log.trace("handling CheckpointCreateRequest {}:{}",
-                        ccSketchId, ccCheckpointId);
+                    String ciSketchId = ciRequest.getSketchId();
+                    String ciCheckpointId = ciRequest.getCheckpointId();
+                    log.trace("handling CheckpointInitRequest {}:{}",
+                        ciSketchId, ciCheckpointId);
 
                     // check if checkpointId and sketchId are valid
-                    if (this.checkpointManager
-                            .containsCheckpoint(ccCheckpointId)) {
-                        throw new RuntimeException("checkpoint '"
-                            + ccCheckpointId + "' already exists");
-                    }
-
-                    if (!this.sketchManager
-                            .containsSketch(ccSketchId)) {
-                        throw new RuntimeException("sketch '"
-                            + ccSketchId + "' does not exist");
-                    }
+                    this.checkpointManager
+                        .checkNotExists(ciCheckpointId);
+                    this.sketchManager.checkExists(ciSketchId);
 
                     // init response
-                    CheckpointCreateResponse.Builder sketchCheckpointBuilder =
-                        CheckpointCreateResponse.newBuilder();
+                    CheckpointInitResponse.Builder ciBuilder =
+                        CheckpointInitResponse.newBuilder();
 
                     // retrieve sketch
-                    SketchPlugin checkpointSketch = this.sketchManager
-                        .getSketch(ccSketchId);
+                    SketchPlugin initSketch = this.sketchManager
+                        .get(ciSketchId);
 
                     // create checkpoint
                     CheckpointMetadata checkpoint =
-                        this.checkpointManager.createCheckpoint(
-                            ccSketchId, ccCheckpointId);
+                        this.checkpointManager.initCheckpoint(
+                            ciSketchId, ciCheckpointId);
 
                     // serialize sketch
-                    String ccCheckpointFile = this.checkpointManager
-                        .getCheckpointFile(ccCheckpointId);
-                    File file = new File(ccCheckpointFile);
+                    String ciCheckpointFile = this.checkpointManager
+                        .getCheckpointFile(ciCheckpointId);
+                    File file = new File(ciCheckpointFile);
                     file.getParentFile().mkdirs();
                     FileOutputStream fileOut = new FileOutputStream(file);
                     DataOutputStream dataOut =
                         new DataOutputStream(fileOut);
-                    checkpointSketch.serialize(dataOut);
+                    initSketch.serialize(dataOut);
                     dataOut.close();
                     fileOut.close();
 
                     // add checkpoint
-                    this.checkpointManager.addCheckpoint(checkpoint);
+                    this.checkpointManager.add(checkpoint);
                     
                     // write to out
                     out.writeInt(messageType);
-                    sketchCheckpointBuilder.build().writeDelimitedTo(out);
+                    ciBuilder.build().writeDelimitedTo(out);
                     break;
                 case CHECKPOINT_ROLLBACK:
                     // parse request
-                    CheckpointRollbackRequest checkpointRollbackRequest =
+                    CheckpointRollbackRequest crRequest =
                         CheckpointRollbackRequest.parseDelimitedFrom(in);
 
-                    String crSketchId =
-                        checkpointRollbackRequest.getSketchId();
-                    String crCheckpointId =
-                        checkpointRollbackRequest.getCheckpointId();
+                    String crSketchId = crRequest.getSketchId();
+                    String crCheckpointId = crRequest.getCheckpointId();
                     log.trace("handling CheckpointRollbackRequest {}:{}",
                         crSketchId, crCheckpointId);
  
                     // check if checkpointId and sketchId are valid
-                    if (!this.checkpointManager
-                            .containsCheckpoint(crCheckpointId)) {
-                        throw new RuntimeException("checkpoint '"
-                            + crCheckpointId + "' does not exist");
-                    }
-
-                    if (!this.sketchManager
-                            .containsSketch(crSketchId)) {
-                        throw new RuntimeException("sketch '"
-                            + crSketchId + "' does not exist");
-                    }
+                    this.checkpointManager.checkExists(crCheckpointId);
+                    this.sketchManager.checkExists(crSketchId);
 
                     // init response
-                    CheckpointRollbackResponse.Builder
-                        checkpointRollbackBuilder =
-                            CheckpointRollbackResponse.newBuilder();
+                    CheckpointRollbackResponse.Builder crBuilder =
+                        CheckpointRollbackResponse.newBuilder();
 
-                    // remove sketch (if exists)
-                    this.sketchManager.removeSketch(crSketchId);
+                    // remove sketch
+                    this.sketchManager.remove(crSketchId);
 
                     // open DataInputStream on checkpoint
                     String crCheckpointFile = this.checkpointManager
@@ -171,8 +149,8 @@ public class CheckpointService implements Service {
                     String classpath = new String(classpathBytes);
 
                     // initialize sketch
-                    Class<? extends SketchPlugin> clazz = this.pluginManager
-                        .getSketchPlugin(classpath);
+                    Class<? extends SketchPlugin> clazz =
+                        this.pluginManager.getSketchPlugin(classpath);
                     Constructor constructor =
                         clazz.getConstructor(DataInputStream.class);
                     SketchPlugin rollbackSketch = 
@@ -180,73 +158,69 @@ public class CheckpointService implements Service {
 
                     rollbackSketch.replayVariableOperations();
                     rollbackSketch.loadData(dataIn);
-                    
+ 
                     dataIn.close();
                     fileIn.close();
 
                     // initControlPlugin
-                    Set<String> controlPluginIds = 
+                    Set<String> controlPluginIds =
                         rollbackSketch.getControlPluginIds();
                     ControlPlugin[] controlPlugins = 
                         new ControlPlugin[controlPluginIds.size()];
                     int index=0;
                     for (String controlPluginId : controlPluginIds) {
-                        controlPlugins[index++] = this.controlPluginManager
-                            .getPlugin(controlPluginId);
+                        controlPlugins[index++] = 
+                            this.controlPluginManager.get(controlPluginId);
                     }
 
                     rollbackSketch.initControlPlugins(controlPlugins);
 
                     // add new sketch
-                    this.sketchManager.addSketch(crSketchId, rollbackSketch);
+                    this.sketchManager.add(crSketchId, rollbackSketch);
                     
                     // write to out
                     out.writeInt(messageType);
-                    checkpointRollbackBuilder.build().writeDelimitedTo(out);
+                    crBuilder.build().writeDelimitedTo(out);
                     break;
                 case CHECKPOINT_TRANSFER:
                     // parse request
-                    CheckpointTransferRequest checkpointTransferRequest =
+                    CheckpointTransferRequest ctRequest =
                         CheckpointTransferRequest.parseDelimitedFrom(in);
 
-                    String ctCheckpointId = checkpointTransferRequest
-                        .getCheckpointId();
-                    long offset = checkpointTransferRequest.getOffset();
-
+                    String ctCheckpointId = ctRequest.getCheckpointId();
+                    long ctOffset = ctRequest.getOffset();
                     log.trace("handling CheckpointTransferRequest {}:{}",
-                        ctCheckpointId, offset);
+                        ctCheckpointId, ctOffset);
 
                     // init response
-                    CheckpointTransferResponse.Builder checkpointTransferBuilder =
+                    CheckpointTransferResponse.Builder ctBuilder =
                         CheckpointTransferResponse.newBuilder();
 
                     if (this.checkpointManager
-                            .containsCheckpoint(ctCheckpointId)) {
+                            .contains(ctCheckpointId)) {
                         // get checkpoint data from offset
                         String transferFile = this.checkpointManager
                             .getCheckpointFile(ctCheckpointId);
                         RandomAccessFile randomAccessFile =
                             new RandomAccessFile(transferFile, "r");
-                        randomAccessFile.seek(offset);
+                        randomAccessFile.seek(ctOffset);
                         int length = (int) Math.min(this.transferBufferSize, 
-                            randomAccessFile.length() - offset);
+                            randomAccessFile.length() - ctOffset);
                         byte[] data = new byte[length];
                         randomAccessFile.readFully(data);
 
-                        checkpointTransferBuilder
-                            .setData(ByteString.copyFrom(data));
-                        checkpointTransferBuilder.setLastMessage(
-                            offset + length
-                                == randomAccessFile.length());
+                        ctBuilder.setData(ByteString.copyFrom(data));
+                        ctBuilder.setLastMessage(ctOffset + length
+                            == randomAccessFile.length());
                         randomAccessFile.close();
                     } else {
-                        checkpointTransferBuilder.setData(ByteString.EMPTY);
-                        checkpointTransferBuilder.setLastMessage(false);
+                        ctBuilder.setData(ByteString.EMPTY);
+                        ctBuilder.setLastMessage(false);
                     }
                     
                     // write to out
                     out.writeInt(messageType);
-                    checkpointTransferBuilder.build().writeDelimitedTo(out);
+                    ctBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

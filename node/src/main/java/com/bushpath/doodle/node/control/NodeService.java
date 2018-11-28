@@ -43,51 +43,49 @@ public class NodeService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case NODE_LIST:
                     // parse request
-                    NodeListRequest nodeListRequest =
+                    NodeListRequest nlRequest =
                         NodeListRequest.parseDelimitedFrom(in);
 
                     log.trace("handling NodeListRequest");
 
                     // init response
-                    NodeListResponse.Builder nodeListBuilder =
+                    NodeListResponse.Builder nlBuilder =
                         NodeListResponse.newBuilder();
 
                     // add nodes
                     for (NodeMetadata nodeMetadata :
-                            this.nodeManager.getNodeValues()) {
-                        Node node = Node.newBuilder()
-                            .setId(nodeMetadata.getId())
-                            .setIpAddress(nodeMetadata.getIpAddress())
-                            .setPort(nodeMetadata.getPort())
-                            .build();
-
-                        nodeListBuilder.addNodes(node);
+                            this.nodeManager.getValues()) {
+                        nlBuilder
+                            .addNodes(nodeMetadata.toProtobuf());
                     }
                     
                     // write to out
                     out.writeInt(messageType);
-                    nodeListBuilder.build().writeDelimitedTo(out);
+                    nlBuilder.build().writeDelimitedTo(out);
                     break;
                 case NODE_SHOW:
                     // parse request
-                    NodeShowRequest nodeShowRequest =
+                    NodeShowRequest nsRequest =
                         NodeShowRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling NodeShowRequest '{}'",
-                        nodeShowRequest.getId());
+                    int nsId = nsRequest.getId();
+                    log.trace("handling NodeShowRequest '{}'", nsId);
+                    
+                    // check if node exists
+                    this.nodeManager.checkExists(nsId);
 
                     // init response
-                    NodeShowResponse.Builder nodeShowBuilder =
+                    NodeShowResponse.Builder nsBuilder =
                         NodeShowResponse.newBuilder();
 
                     NodeMetadata nodeMetadata =
-                        this.nodeManager.getNode(nodeShowRequest.getId());
+                        this.nodeManager.get(nsId);
 
-                    nodeShowBuilder.setNode(nodeMetadata.toProtobuf());
+                    nsBuilder.setNode(nodeMetadata.toProtobuf());
 
                     // write to out
                     out.writeInt(messageType);
-                    nodeShowBuilder.build().writeDelimitedTo(out);
+                    nsBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

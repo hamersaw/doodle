@@ -38,27 +38,29 @@ public class PluginService implements Service {
             switch (MessageType.forNumber(messageType)) {
                 case PLUGIN_LIST:
                     // parse request
-                    PluginListRequest pluginListRequest =
+                    PluginListRequest plRequest =
                         PluginListRequest.parseDelimitedFrom(in);
 
                     log.trace("handling PluginListRequest");
 
                     // init response
-                    PluginListResponse.Builder pluginListBuilder =
+                    PluginListResponse.Builder plBuilder =
                         PluginListResponse.newBuilder();
 
                     // populate builder
-                    for (String controlPlugin : pluginManager.getControlPlugins()) {
-                        pluginListBuilder.addControlPlugins(controlPlugin);
+                    for (String controlPlugin :
+                            pluginManager.getControlPlugins()) {
+                        plBuilder.addControlPlugins(controlPlugin);
                     }
 
-                    for (String sketchPlugin : pluginManager.getSketchPlugins()) {
-                        pluginListBuilder.addSketchPlugins(sketchPlugin);
+                    for (String sketchPlugin :
+                            pluginManager.getSketchPlugins()) {
+                        plBuilder.addSketchPlugins(sketchPlugin);
                     }
 
                     // write to out
                     out.writeInt(messageType);
-                    pluginListBuilder.build().writeDelimitedTo(out);
+                    plBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

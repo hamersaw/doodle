@@ -93,16 +93,10 @@ public class GossipTimerTask extends TimerTask {
             GossipUpdateRequest.newBuilder();
 
         if (gossipHashResponse.getNodesHash() !=
-                this.nodeManager.getNodesHash()) {
+                this.nodeManager.hashCode()) {
             // if node hash != -> add all nodes
-            for (NodeMetadata node : this.nodeManager.getNodeValues()) {
-                Node nodeProto = Node.newBuilder()
-                    .setId(node.getId())
-                    .setIpAddress(node.getIpAddress())
-                    .setPort(node.getPort())
-                    .build();
-
-                gossipUpdateBuilder.addNodes(nodeProto);
+            for (NodeMetadata node : this.nodeManager.getValues()) {
+                gossipUpdateBuilder.addNodes(node.toProtobuf());
             }
         }
 
@@ -110,7 +104,7 @@ public class GossipTimerTask extends TimerTask {
         if (gossipHashResponse.getControlHash() !=
                 this.controlPluginManager.hashCode()) {
             for (Map.Entry<String, ControlPlugin> entry :
-                    this.controlPluginManager.getPluginEntrySet()) {
+                    this.controlPluginManager.getEntrySet()) {
                 gossipUpdateBuilder
                     .addControlPlugins(entry.getValue().toGossip());
             }
@@ -120,7 +114,7 @@ public class GossipTimerTask extends TimerTask {
         if (gossipHashResponse.getSketchHash() !=
                 this.sketchManager.hashCode()) {
             for (Map.Entry<String, SketchPlugin> entry :
-                    this.sketchManager.getSketchesEntrySet()) {
+                    this.sketchManager.getEntrySet()) {
                 gossipUpdateBuilder
                     .addSketchPlugins(entry.getValue().toGossip());
             }
@@ -130,7 +124,7 @@ public class GossipTimerTask extends TimerTask {
         if (gossipHashResponse.getCheckpointHash() !=
                 this.checkpointManager.hashCode()) {
             for (Map.Entry<String, CheckpointMetadata> entry :
-                    this.checkpointManager.getCheckpointEntrySet()) {
+                    this.checkpointManager.getEntrySet()) {
                 gossipUpdateBuilder
                     .addCheckpoints(entry.getValue().toProtobuf());
             }

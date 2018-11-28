@@ -9,7 +9,7 @@ option java_generate_equals_and_hash = true;
  */ 
 
 enum MessageType {
-    CHECKPOINT_CREATE = 0;
+    CHECKPOINT_INIT = 0;
     CHECKPOINT_ROLLBACK = 1;
     CHECKPOINT_TRANSFER = 2;
     CONTROL_INIT = 3;
@@ -37,12 +37,12 @@ enum MessageType {
  * Checkpoint Messages
  */
 
-message CheckpointCreateRequest {
+message CheckpointInitRequest {
     string sketchId = 1;
     string checkpointId = 2;
 }
 
-message CheckpointCreateResponse {
+message CheckpointInitResponse {
     Checkpoint checkpoint = 1;
 }
 
