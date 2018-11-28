@@ -96,6 +96,7 @@ public class CheckpointTransferTimerTask extends TimerTask {
                 // remove successful transfers
                 primaryNodes.removeAll(successfulTransfers);
                 if (primaryNodes.isEmpty()) {
+                    // TODO - this is the issue!!!
                     this.transfers.remove(checkpointId);
                 }
             }

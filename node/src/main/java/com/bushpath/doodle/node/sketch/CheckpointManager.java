@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +56,43 @@ public class CheckpointManager {
                         checkpoint.getCheckpointId(), nodeMetadata);
                 }
             }
+
+            // write to config file
+            File file = new File(this.directory + "/config.toml");
+            file.getParentFile().mkdirs();
+            FileWriter fileOut = new FileWriter(file, true);
+            BufferedWriter bufOut = new BufferedWriter(fileOut);
+
+            if (file.length() > 0) {
+                bufOut.newLine();
+            }
+
+            bufOut.write("[[checkpoint]]"
+                + "\ntimestamp = " + checkpoint.getTimestamp()
+                + "\nsketchId = \"" + checkpoint.getSketchId() + "\""
+                + "\ncheckpointId = \"" 
+                + checkpoint.getCheckpointId() + "\"");
+
+            for (Map.Entry<Integer, Set<Integer>> entry :
+                    checkpoint.getReplicaEntrySet()) {
+                bufOut.write("\n[[checkpoint.replica]]"
+                    + "\nprimaryNodeId = " + entry.getKey()
+                    + "\nsecondaryNodeIds = [");
+
+                int index = 0;
+                for (Integer secondaryNodeId : entry.getValue()) {
+                    bufOut.write((index != 0 ? ", " : "")
+                        + secondaryNodeId);
+                    index += 1;
+                }
+
+                bufOut.write("]");
+            }
+
+            bufOut.newLine();
+
+            bufOut.close();
+            fileOut.close();
         } finally {
             this.lock.writeLock().unlock();
         }
