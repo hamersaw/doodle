@@ -74,6 +74,7 @@ public class CheckpointTransferTimerTask extends TimerTask {
         this.lock.writeLock().lock();
         try {
             // iterate over transfers
+            Set<String> completedCheckpoints = new HashSet();
             for (String checkpointId : this.transfers.keySet()) {
                 Set<NodeMetadata> primaryNodes = 
                     this.transfers.get(checkpointId);;
@@ -96,9 +97,13 @@ public class CheckpointTransferTimerTask extends TimerTask {
                 // remove successful transfers
                 primaryNodes.removeAll(successfulTransfers);
                 if (primaryNodes.isEmpty()) {
-                    // TODO - this is the issue!!!
-                    this.transfers.remove(checkpointId);
+                    completedCheckpoints.add(checkpointId);
                 }
+            }
+
+            // remove completed checkpoints
+            for (String checkpointId : completedCheckpoints) {
+                this.transfers.remove(checkpointId);
             }
         } finally {
             this.lock.writeLock().unlock();
