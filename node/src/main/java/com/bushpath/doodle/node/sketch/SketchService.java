@@ -187,7 +187,6 @@ public class SketchService implements Service {
                     ssBuilder.setFrozen(showSketch.frozen());
                     ssBuilder
                         .setInflatorClass(showSketch.getInflatorClass());
-                    ssBuilder.setObservationCount(showSketch.getObservationCount());
                     ssBuilder.addAllVariables(showSketch.getVariables());
 
                     // handle checkpoints

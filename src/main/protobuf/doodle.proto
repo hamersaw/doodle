@@ -251,9 +251,8 @@ message SketchShowResponse {
     string plugin = 1;    
     bool frozen = 2;
     string inflatorClass = 3;
-    int64 observationCount = 4;
-    repeated PluginVariable variables = 5;
-    repeated Checkpoint checkpoints = 6;
+    repeated PluginVariable variables = 4;
+    repeated Checkpoint checkpoints = 5;
 }
 
 message SketchWriteRequest {
