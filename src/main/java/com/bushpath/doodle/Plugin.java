@@ -40,6 +40,9 @@ public abstract class Plugin {
         byte[] idBytes = new byte[idLength];
         in.readFully(idBytes);
         this.id = new String(idBytes);
+
+        // read frozen
+        this.frozen = new AtomicBoolean(in.readBoolean());
  
         // read operations
         int operationsCount = in.readInt();
@@ -179,6 +182,9 @@ public abstract class Plugin {
         // write this.id
         out.writeInt(this.id.length());
         out.write(this.id.getBytes());
+
+        // write frozen
+        out.writeBoolean(this.frozen.get());
 
         // write operations
         out.writeInt(this.operations.size());

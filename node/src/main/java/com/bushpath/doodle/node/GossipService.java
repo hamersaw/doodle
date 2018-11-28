@@ -272,7 +272,8 @@ public class GossipService implements Service {
                         dataOut.close();
                         fileOut.close();
 
-                        this.checkpointManager.add(checkpointMetadata);
+                        this.checkpointManager
+                            .add(checkpointMetadata, true);
                     }
 
                     // write to out

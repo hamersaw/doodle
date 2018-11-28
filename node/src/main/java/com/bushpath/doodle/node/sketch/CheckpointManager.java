@@ -19,7 +19,7 @@ import java.util.zip.CRC32;
 
 public class CheckpointManager {
     protected static final Logger log =
-        LoggerFactory.getLogger(PipeManager.class);
+        LoggerFactory.getLogger(CheckpointManager.class);
 
     protected NodeManager nodeManager;
     protected String directory;
@@ -37,13 +37,21 @@ public class CheckpointManager {
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void add(CheckpointMetadata checkpoint) throws Exception {
+    public void add(CheckpointMetadata checkpoint, boolean process)
+            throws Exception {
         this.lock.writeLock().lock();
         try {
             // add checkpoint
             this.checkpoints.put(checkpoint.getCheckpointId(), checkpoint);
+
             log.info("Added checkpoint '" + checkpoint.getCheckpointId()
                 + "' for sketch '" + checkpoint.getSketchId() + "'");
+
+            if (!process) {
+                // if we don't want to process -> don't add to
+                // transfer task and write to config file
+                return;
+            }
 
             // add checkpoint transfers to CheckpointTransferTimerTask
             int nodeId = this.nodeManager.getThisNodeId();
@@ -58,7 +66,7 @@ public class CheckpointManager {
             }
 
             // write to config file
-            File file = new File(this.directory + "/config.toml");
+            File file = new File(this.getConfigurationFile());
             file.getParentFile().mkdirs();
             FileWriter fileOut = new FileWriter(file, true);
             BufferedWriter bufOut = new BufferedWriter(fileOut);
@@ -184,6 +192,10 @@ public class CheckpointManager {
 
     public String getCheckpointFile(String checkpointId, int nodeId) {
         return this.directory + "/" + nodeId + "/" + checkpointId + ".bin";
+    }
+
+    public String getConfigurationFile() {
+        return this.directory + "/config.toml";
     }
 
     public Set<CheckpointMetadata> getSketchCheckpoints(String sketchId) {

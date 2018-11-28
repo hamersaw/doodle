@@ -107,7 +107,7 @@ public class CheckpointService implements Service {
                     fileOut.close();
 
                     // add checkpoint
-                    this.checkpointManager.add(checkpoint);
+                    this.checkpointManager.add(checkpoint, true);
                     
                     // write to out
                     out.writeInt(messageType);

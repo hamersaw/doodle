@@ -18,6 +18,7 @@ import com.bushpath.doodle.node.control.NodeService;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 import com.bushpath.doodle.node.sketch.CheckpointManager;
+import com.bushpath.doodle.node.sketch.CheckpointMetadata;
 import com.bushpath.doodle.node.sketch.CheckpointService;
 import com.bushpath.doodle.node.sketch.CheckpointTransferTimerTask;
 import com.bushpath.doodle.node.sketch.PipeManager;
@@ -26,15 +27,20 @@ import com.bushpath.doodle.node.sketch.SketchManager;
 import com.bushpath.doodle.node.sketch.SketchService;
 import com.bushpath.doodle.node.sketch.QueryService;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -145,12 +151,127 @@ public class Main {
                 checkpointTransferTimerTask
             );
 
+        // add previous checkpoints to CheckpointManager
+        try {
+            File checkpointConfigurationFile =
+                new File(checkpointManager.getConfigurationFile());
+
+            if (checkpointConfigurationFile.exists()) {
+                // parse checkpoint toml
+                Toml configurationToml = new Toml();
+                configurationToml.read(checkpointConfigurationFile);
+
+                for (Toml checkpointToml : 
+                        configurationToml.getTables("checkpoint")) {
+                    // create CheckpointMetadata
+                    CheckpointMetadata checkpointMetadata =
+                        new CheckpointMetadata(
+                                checkpointToml.getLong("timestamp"),
+                                checkpointToml.getString("sketchId"),
+                                checkpointToml.getString("checkpointId")
+                            );
+
+                    // add replicas
+                    for (Toml replicaToml :
+                            checkpointToml.getTables("replica")) {
+
+
+                        List<Long> secondaryNodeIds = replicaToml.getList("secondaryNodeIds");
+                        checkpointMetadata.addReplica(
+                            replicaToml.getLong("primaryNodeId").intValue(),
+                            secondaryNodeIds.get(0).intValue(),
+                            secondaryNodeIds.get(1).intValue());
+                    }
+
+                    // add to CheckpointManager
+                    checkpointManager.add(checkpointMetadata, false);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to parse checkpoint configuration file", e);
+            System.exit(3);
+        }
+
         // initailize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
 
         // initialize SketchManager
         SketchManager sketchManager =
             new SketchManager();
+
+        // load most recent version of each sketch checkpoint
+        try {
+            Map<String, CheckpointMetadata> sketchCheckpoints
+                = new HashMap();;
+
+            // find latest checkpoint for each sketch
+            for (Map.Entry<String, CheckpointMetadata> entry :
+                    checkpointManager.getEntrySet()) {
+                CheckpointMetadata checkpointMetadata =
+                    entry.getValue();
+
+                String sketchId = checkpointMetadata.getSketchId();
+                if (!sketchCheckpoints.containsKey(sketchId) ||
+                        sketchCheckpoints.get(sketchId).getTimestamp() 
+                        < checkpointMetadata.getTimestamp()) {
+                    sketchCheckpoints.put(sketchId, checkpointMetadata);
+                }
+            }
+
+            // load sketch checkpoints
+            for (CheckpointMetadata checkpoint :
+                    sketchCheckpoints.values()) {
+                String sketchId = checkpoint.getSketchId();
+                String checkpointId = checkpoint.getCheckpointId();
+
+                // open DataInputStream on checkpoint
+                String checkpointFile = checkpointManager
+                    .getCheckpointFile(checkpointId);
+                FileInputStream fileIn =
+                    new FileInputStream(checkpointFile);
+                DataInputStream dataIn =
+                    new DataInputStream(fileIn);
+
+                // read classpath
+                int classpathLength = dataIn.readInt(); 
+                byte[] classpathBytes = new byte[classpathLength];
+                dataIn.readFully(classpathBytes);
+                String classpath = new String(classpathBytes);
+
+                // initialize sketch
+                Class<? extends SketchPlugin> clazz =
+                    pluginManager.getSketchPlugin(classpath);
+                Constructor constructor =
+                    clazz.getConstructor(DataInputStream.class);
+                SketchPlugin sketch = 
+                    (SketchPlugin) constructor.newInstance(dataIn);
+
+                sketch.replayVariableOperations();
+                sketch.loadData(dataIn);
+
+                dataIn.close();
+                fileIn.close();
+
+                /*// initControlPlugin
+                Set<String> controlPluginIds =
+                    rollbackSketch.getControlPluginIds();
+                ControlPlugin[] controlPlugins = 
+                    new ControlPlugin[controlPluginIds.size()];
+                int index=0;
+                for (String controlPluginId : controlPluginIds) {
+                    controlPlugins[index++] = 
+                        this.controlPluginManager.get(controlPluginId);
+                }
+
+                rollbackSketch.initControlPlugins(controlPlugins);*/
+
+                // add new sketch
+                sketchManager.add(sketchId, sketch);
+            }
+        } catch (Exception e) {
+            log.error("Failed to load sketch checkpoints", e);
+            System.exit(4);
+        }
  
         // initialize Server
         Server server = new Server(
@@ -196,7 +317,7 @@ public class Main {
             server.registerService(gossipService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
-            System.exit(4);
+            System.exit(5);
         }
 
         try {
