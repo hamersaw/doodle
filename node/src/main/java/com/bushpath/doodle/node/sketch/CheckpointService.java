@@ -106,6 +106,29 @@ public class CheckpointService implements Service {
                     dataOut.close();
                     fileOut.close();
 
+                    // handle ControlPlugins
+                    for (String cpId :
+                            initSketch.getControlPluginIds()) {
+                        File cpFile = new File(this.checkpointManager
+                            .getControlPluginFile(cpId));
+                        ControlPlugin controlPlugin =
+                            this.controlPluginManager.get(cpId);
+
+                        if (!cpFile.exists()) {
+                            // serialize ControlPlugin
+                            cpFile.getParentFile().mkdirs();
+                            FileOutputStream cpFileOut = 
+                                new FileOutputStream(cpFile);
+                            DataOutputStream cpDataOut =
+                                new DataOutputStream (cpFileOut);
+
+                            controlPlugin.serialize(cpDataOut);
+
+                            cpDataOut.close();
+                            cpFileOut.close();
+                        }
+                    }
+
                     // add checkpoint
                     this.checkpointManager.add(checkpoint, true);
                     

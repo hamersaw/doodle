@@ -104,8 +104,6 @@ public abstract class SketchPlugin extends Plugin {
     public abstract void write(ByteString byteString) throws Exception;
     public abstract void query(Query query,
         BlockingQueue<Serializable> queue) throws Exception;
-    public abstract void serialize(DataOutputStream out)
-        throws IOException;
 
     public void serializeSketchPlugin(DataOutputStream out)
             throws IOException {

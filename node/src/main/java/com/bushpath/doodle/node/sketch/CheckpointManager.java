@@ -198,6 +198,10 @@ public class CheckpointManager {
         return this.directory + "/config.toml";
     }
 
+    public String getControlPluginFile(String controlPluginId) {
+        return this.directory + "/" + controlPluginId + ".bin";
+    }
+
     public Set<CheckpointMetadata> getSketchCheckpoints(String sketchId) {
         Set<CheckpointMetadata> checkpoints = new HashSet();
 

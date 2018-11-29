@@ -197,6 +197,8 @@ public abstract class Plugin {
 
     public abstract void addVariable(String type, String name, String value);
     public abstract void deleteVariable(String type, String name, String value);
+    public abstract void serialize(DataOutputStream out)
+        throws IOException;
 
     @Override
     public int hashCode() {

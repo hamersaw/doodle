@@ -271,6 +271,29 @@ public class GossipService implements Service {
                         checkpointSketch.serialize(dataOut);
                         dataOut.close();
                         fileOut.close();
+ 
+                        // handle ControlPlugins
+                        for (String cpId :
+                                checkpointSketch.getControlPluginIds()) {
+                            File cpFile = new File(this.checkpointManager
+                                .getControlPluginFile(cpId));
+                            ControlPlugin controlPlugin =
+                                this.controlPluginManager.get(cpId);
+
+                            if (!cpFile.exists()) {
+                                // serialize ControlPlugin
+                                cpFile.getParentFile().mkdirs();
+                                FileOutputStream cpFileOut = 
+                                    new FileOutputStream(cpFile);
+                                DataOutputStream cpDataOut =
+                                    new DataOutputStream (cpFileOut);
+
+                                controlPlugin.serialize(cpDataOut);
+
+                                cpDataOut.close();
+                                cpFileOut.close();
+                            }
+                        }
 
                         this.checkpointManager
                             .add(checkpointMetadata, true);

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -252,18 +253,54 @@ public class Main {
                 dataIn.close();
                 fileIn.close();
 
-                /*// initControlPlugin
+                // read plugins
                 Set<String> controlPluginIds =
-                    rollbackSketch.getControlPluginIds();
+                    sketch.getControlPluginIds();
                 ControlPlugin[] controlPlugins = 
                     new ControlPlugin[controlPluginIds.size()];
                 int index=0;
-                for (String controlPluginId : controlPluginIds) {
-                    controlPlugins[index++] = 
-                        this.controlPluginManager.get(controlPluginId);
+                for (String cpId : controlPluginIds) {
+                    if (controlPluginManager.contains(cpId)) {
+                        controlPlugins[index++] = 
+                            controlPluginManager.get(cpId);
+                    } else {
+                        // open DataInputStream on control plugin
+                        String cpFile = checkpointManager
+                            .getControlPluginFile(cpId);
+                        FileInputStream cpFileIn =
+                            new FileInputStream(cpFile);
+                        DataInputStream cpDataIn =
+                            new DataInputStream(cpFileIn);
+
+                        // read classpath
+                        int cpClasspathLength = cpDataIn.readInt(); 
+                        byte[] cpClasspathBytes =
+                            new byte[cpClasspathLength];
+                        cpDataIn.readFully(cpClasspathBytes);
+                        String cpClasspath =
+                            new String(cpClasspathBytes);
+
+                        // initialize sketch
+                        Class<? extends ControlPlugin> cpClazz =
+                            pluginManager.getControlPlugin(cpClasspath);
+                        Constructor cpConstructor =
+                            cpClazz.getConstructor(DataInputStream.class);
+                        ControlPlugin controlPlugin = (ControlPlugin) 
+                            cpConstructor.newInstance(cpDataIn);
+
+                        controlPlugin.replayVariableOperations();
+
+                        cpDataIn.close();
+                        cpFileIn.close();
+
+                        // add ControlPlugin to ControlPluginManager
+                        controlPluginManager.add(cpId, controlPlugin);
+
+                        controlPlugins[index++] = controlPlugin;
+                    }
                 }
 
-                rollbackSketch.initControlPlugins(controlPlugins);*/
+                sketch.initControlPlugins(controlPlugins);
 
                 // add new sketch
                 sketchManager.add(sketchId, sketch);
