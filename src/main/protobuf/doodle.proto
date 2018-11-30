@@ -207,7 +207,8 @@ message PluginListResponse {
 
 message QueryRequest {
     bytes query = 1;
-    int32 bufferSize = 2;
+    int32 nodeId = 2;
+    int32 bufferSize = 4;
 }
 
 message QueryResponse {

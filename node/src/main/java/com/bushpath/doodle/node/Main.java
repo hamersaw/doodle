@@ -339,8 +339,8 @@ public class Main {
                 new PipeService(sketchManager, pipeManager);
             server.registerService(pipeService);
 
-            QueryService queryService =
-                new QueryService(sketchManager);
+            QueryService queryService = new QueryService(nodeManager,
+                pluginManager, checkpointManager, sketchManager);
             server.registerService(queryService);
 
             SketchService sketchService = new SketchService(

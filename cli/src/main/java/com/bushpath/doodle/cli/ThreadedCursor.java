@@ -17,24 +17,30 @@ import java.io.DataOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ThreadedCursor {
-    protected QueryRequest queryRequest;
-    protected List<Node> nodes;
+    protected Map<Integer, List<Integer>> replicas;
+    protected Map<Integer, Node> nodeLookup;
     protected Inflator inflator;
+    protected ByteString queryByteString;
+    protected int bufferSize;
 
     protected BlockingQueue<ByteString> in;
     protected BlockingQueue<float[]> out;
     protected Worker[] workers;
 
-    public ThreadedCursor(List<Node> nodes,
-            Inflator inflator, Query query, int bufferSize,
-            int workerCount) throws Exception {
-        this.nodes = nodes;
+    public ThreadedCursor(Map<Integer, List<Integer>> replicas, 
+            Map<Integer, Node> nodeLookup, Inflator inflator, 
+            Query query, int bufferSize, int workerCount) 
+            throws Exception {
+        this.replicas = replicas;
+        this.nodeLookup = nodeLookup;
         this.inflator = inflator;
+        this.bufferSize = bufferSize;
 
         // initialize queryRequest
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
@@ -43,13 +49,8 @@ public class ThreadedCursor {
         objectOut.close();
         byteOut.close();
 
-        ByteString queryByteString =
+        this.queryByteString =
             ByteString.copyFrom(byteOut.toByteArray());
-
-        this.queryRequest = QueryRequest.newBuilder()
-            .setQuery(queryByteString)
-            .setBufferSize(bufferSize)
-            .build();
 
         // initialize instance variables
         this.in = new ArrayBlockingQueue(4096);
@@ -97,13 +98,31 @@ public class ThreadedCursor {
     protected class Dispatcher extends Thread {
         @Override
         public void run() {
-            // process all nodes
-            for (Node node : nodes) {
+            // process all replicas
+            for (Map.Entry<Integer, List<Integer>> replica :
+                    replicas.entrySet()) {
+                // attempt primary node
                 try {
-                    this.submitQuery(node.getIpAddress(),
-                        node.getPort());
+                    Node node = nodeLookup.get(replica.getKey());
+                    this.submitQuery(replica.getKey(),
+                        node.getIpAddress(), node.getPort());
+
+                    continue; // success
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
+                }
+
+                // attempt secondary nodes
+                for (Integer secondaryNodeId : replica.getValue()) {
+                    try {
+                        Node node = nodeLookup.get(secondaryNodeId);
+                        this.submitQuery(replica.getKey(),
+                            node.getIpAddress(), node.getPort());
+
+                        break; // success
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
             }
 
@@ -113,8 +132,15 @@ public class ThreadedCursor {
             }
         }
 
-        protected void submitQuery(String ipAddress,
+        protected void submitQuery(int nodeId, String ipAddress,
                 int port) throws Exception {
+            // initialize QueryRequest
+            QueryRequest queryRequest = QueryRequest.newBuilder()
+                .setQuery(queryByteString)
+                .setNodeId(nodeId)
+                .setBufferSize(bufferSize)
+                .build();
+
             // send request
             Socket socket = new Socket(ipAddress, port);
 

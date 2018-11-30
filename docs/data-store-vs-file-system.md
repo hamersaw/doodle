@@ -3,6 +3,7 @@
 ## commands
     ./doodle sketch init 
     ./doodle sketch modify
+    ...
 
 # file system
 - supports hierarchichal file names

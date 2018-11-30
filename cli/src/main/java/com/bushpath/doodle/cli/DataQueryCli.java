@@ -2,10 +2,12 @@ package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.Inflator;
+import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 
@@ -23,6 +25,8 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +83,26 @@ public class DataQueryCli implements Runnable {
             return;
         }
 
+        // intialize most recent checkpoint replication data
+        Checkpoint mostRecentCheckpoint = null;
+        for (Checkpoint checkpoint :
+                sketchShowResponse.getCheckpointsList()) {
+            if (mostRecentCheckpoint == null || 
+                    checkpoint.getTimestamp() > 
+                    mostRecentCheckpoint.getTimestamp()) {
+                mostRecentCheckpoint = checkpoint;
+            }
+        }
+
+        Map<Integer, List<Integer>> replicas = new HashMap();
+        if (mostRecentCheckpoint != null) {
+            for (Replica replica : 
+                    mostRecentCheckpoint.getReplicasList()) {
+                replicas.put(replica.getPrimaryNodeId(),
+                    replica.getSecondaryNodeIdsList());
+            }
+        }
+
         // load plugins
         URLClassLoader urlClassLoader = null;
         try {
@@ -112,8 +136,8 @@ public class DataQueryCli implements Runnable {
         // initialize Inflator
         Inflator inflator = null;
         try {
-            //Class c = Class.forName(sketchShowResponse.getInflatorClass());
-            Class c = urlClassLoader.loadClass(sketchShowResponse.getInflatorClass());
+            Class c = urlClassLoader
+                .loadClass(sketchShowResponse.getInflatorClass());
             Constructor constructor = c.getConstructor(List.class);
             inflator = (Inflator) constructor
                 .newInstance(sketchShowResponse.getVariablesList());
@@ -139,21 +163,38 @@ public class DataQueryCli implements Runnable {
             return;
         }
 
+        // initialize checkpoint and node lookup variables
+        Map<Integer, Node> nodeLookup = new HashMap();
+        for (Node node : nodeListResponse.getNodesList()) {
+            nodeLookup.put(node.getId(), node);
+        }
+
+        if (replicas.isEmpty()) {
+            for (Integer nodeId : nodeLookup.keySet()) {
+                replicas.put(nodeId, new ArrayList());
+            }
+        }
+
         try {
             // initialize ThreadedCursor
             ThreadedCursor cursor = new ThreadedCursor(
-                nodeListResponse.getNodesList(), inflator,
+                replicas, nodeLookup, inflator,
                 query, this.bufferSize, this.workerCount);
 
             // iterate over observations
+            long count = 0;
             float[] observation = null;
             while ((observation = cursor.next()) != null) {
-                for (int i=0; i<observation.length; i++) {
+                // TODO - TMP don't print observations
+                /*for (int i=0; i<observation.length; i++) {
                     System.out.print((i == 0 ? "" : ",")
                         + observation[i]);
                 }
-                System.out.println("");
+                System.out.println("");*/
+                count += 1;
             }
+
+            System.out.println("generated " + count + " record(s)");
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;

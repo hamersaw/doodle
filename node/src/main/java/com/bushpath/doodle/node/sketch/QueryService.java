@@ -14,13 +14,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.control.NodeManager;
+import com.bushpath.doodle.node.plugin.PluginManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -29,9 +33,18 @@ public class QueryService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(QueryService.class);
 
+    protected NodeManager nodeManager;
+    protected PluginManager pluginManager;
+    protected CheckpointManager checkpointManager;
     protected SketchManager sketchManager;
 
-    public QueryService(SketchManager sketchManager) {
+    public QueryService(NodeManager nodeManager,
+            PluginManager pluginManager,
+            CheckpointManager checkpointManager, 
+            SketchManager sketchManager) {
+        this.nodeManager = nodeManager;
+        this.pluginManager = pluginManager;
+        this.checkpointManager = checkpointManager;
         this.sketchManager = sketchManager;
     }
 
@@ -60,31 +73,101 @@ public class QueryService implements Service {
                     Query query = (Query) objectIn.readObject();
                     objectIn.close();
 
+                    int nodeId = qRequest.getNodeId();
                     String qEntity = query.getEntity();
-                    log.trace("handling QueryRequest {}", qEntity);
+                    log.trace("handling QueryRequest {}:{}",
+                        nodeId, qEntity);
 
-                    // check if sketch exists
-                    this.sketchManager.checkExists(qEntity);
+                    // check if nodeId == thisNodeId;
+                    if (nodeId == this.nodeManager.getThisNodeId()) {
+                        // check if sketch exists
+                        this.sketchManager.checkExists(qEntity);
 
-                    // get SketchPlugin
-                    SketchPlugin sketch =
-                        this.sketchManager.get(qEntity);
+                        // get SketchPlugin
+                        SketchPlugin sketch =
+                            this.sketchManager.get(qEntity);
 
-                    // start ResponseHandler
-                    BlockingQueue<Serializable> queue =
-                        new ArrayBlockingQueue(2048);
+                        // start ResponseHandler
+                        BlockingQueue<Serializable> queue =
+                            new ArrayBlockingQueue(2048);
 
-                    ResponseHandler responseHandler = 
-                        new ResponseHandler(queue, out, 
-                            qRequest.getBufferSize());
-                    responseHandler.start();
+                        ResponseHandler responseHandler = 
+                            new ResponseHandler(queue, out, 
+                                qRequest.getBufferSize());
+                        responseHandler.start();
 
-                    // submit query to SketchPlugin
-                    sketch.query(query, queue);
+                        // submit query to SketchPlugin
+                        sketch.query(query, queue);
 
-                    // shutdown ResponseHandler
-                    responseHandler.shutdown(); 
-                    responseHandler.join();
+                        // shutdown ResponseHandler
+                        responseHandler.shutdown(); 
+                        responseHandler.join();
+                    } else {
+                        // need to read from checkpoint replica
+                        // get most recent checkpoint for sketch
+                        CheckpointMetadata checkpointMetadata = null;
+                        for (CheckpointMetadata checkpoint :
+                                this.checkpointManager
+                                .getSketchCheckpoints(qEntity)) {
+                            if (checkpointMetadata == null || 
+                                    checkpointMetadata.getTimestamp() <
+                                    checkpoint.getTimestamp()) {
+                                checkpointMetadata = checkpoint;
+                            }
+                        }
+
+                        if (checkpointMetadata == null) {
+                            // no checkpoints for this sketch -> error
+                            throw new RuntimeException("unable to find valid checkpoint replica for sketch '" + qEntity + "'");
+                        }
+ 
+                        // open DataInputStream on checkpoint
+                        String qCheckpointId =
+                            checkpointMetadata.getCheckpointId();
+                        String qCheckpointFile = this.checkpointManager
+                            .getCheckpointFile(qCheckpointId, nodeId);
+                        FileInputStream fileIn =
+                            new FileInputStream(qCheckpointFile);
+                        DataInputStream dataIn =
+                            new DataInputStream(fileIn);
+
+                        // read classpath
+                        int classpathLength = dataIn.readInt(); 
+                        byte[] classpathBytes = new byte[classpathLength];
+                        dataIn.readFully(classpathBytes);
+                        String classpath = new String(classpathBytes);
+
+                        // initialize sketch
+                        Class<? extends SketchPlugin> clazz =
+                            this.pluginManager.getSketchPlugin(classpath);
+                        Constructor constructor =
+                            clazz.getConstructor(DataInputStream.class);
+                        SketchPlugin sketch = 
+                            (SketchPlugin) constructor.newInstance(dataIn);
+
+                        sketch.replayVariableOperations();
+ 
+                        // start ResponseHandler
+                        BlockingQueue<Serializable> queue =
+                            new ArrayBlockingQueue(2048);
+
+                        ResponseHandler responseHandler = 
+                            new ResponseHandler(queue, out, 
+                                qRequest.getBufferSize());
+                        responseHandler.start();
+
+                        // submit query to SketchPlugin
+                        sketch.query(query, dataIn, queue);
+
+                        // shutdown ResponseHandler
+                        responseHandler.shutdown(); 
+                        responseHandler.join();
+     
+                        // close checkpoint replica input streams
+                        dataIn.close();
+                        fileIn.close();
+                    }
+
                     break;
                 default:
                     log.warn("Unreachable");

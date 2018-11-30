@@ -21544,7 +21544,22 @@ public final class DoodleProtos {
     com.google.protobuf.ByteString getQuery();
 
     /**
-     * <code>int32 bufferSize = 2;</code>
+     * <code>int32 nodeId = 2;</code>
+     */
+    int getNodeId();
+
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    java.lang.String getCheckpointId();
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getCheckpointIdBytes();
+
+    /**
+     * <code>int32 bufferSize = 4;</code>
      */
     int getBufferSize();
   }
@@ -21562,6 +21577,8 @@ public final class DoodleProtos {
     }
     private QueryRequest() {
       query_ = com.google.protobuf.ByteString.EMPTY;
+      nodeId_ = 0;
+      checkpointId_ = "";
       bufferSize_ = 0;
     }
 
@@ -21595,6 +21612,17 @@ public final class DoodleProtos {
               break;
             }
             case 16: {
+
+              nodeId_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              checkpointId_ = s;
+              break;
+            }
+            case 32: {
 
               bufferSize_ = input.readInt32();
               break;
@@ -21640,10 +21668,53 @@ public final class DoodleProtos {
       return query_;
     }
 
-    public static final int BUFFERSIZE_FIELD_NUMBER = 2;
+    public static final int NODEID_FIELD_NUMBER = 2;
+    private int nodeId_;
+    /**
+     * <code>int32 nodeId = 2;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
+    public static final int CHECKPOINTID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object checkpointId_;
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    public java.lang.String getCheckpointId() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        checkpointId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string checkpointId = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCheckpointIdBytes() {
+      java.lang.Object ref = checkpointId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        checkpointId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int BUFFERSIZE_FIELD_NUMBER = 4;
     private int bufferSize_;
     /**
-     * <code>int32 bufferSize = 2;</code>
+     * <code>int32 bufferSize = 4;</code>
      */
     public int getBufferSize() {
       return bufferSize_;
@@ -21666,8 +21737,14 @@ public final class DoodleProtos {
       if (!query_.isEmpty()) {
         output.writeBytes(1, query_);
       }
+      if (nodeId_ != 0) {
+        output.writeInt32(2, nodeId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, checkpointId_);
+      }
       if (bufferSize_ != 0) {
-        output.writeInt32(2, bufferSize_);
+        output.writeInt32(4, bufferSize_);
       }
       unknownFields.writeTo(output);
     }
@@ -21682,9 +21759,16 @@ public final class DoodleProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, query_);
       }
+      if (nodeId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, nodeId_);
+      }
+      if (!getCheckpointIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, checkpointId_);
+      }
       if (bufferSize_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, bufferSize_);
+          .computeInt32Size(4, bufferSize_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -21704,6 +21788,10 @@ public final class DoodleProtos {
       boolean result = true;
       result = result && getQuery()
           .equals(other.getQuery());
+      result = result && (getNodeId()
+          == other.getNodeId());
+      result = result && getCheckpointId()
+          .equals(other.getCheckpointId());
       result = result && (getBufferSize()
           == other.getBufferSize());
       result = result && unknownFields.equals(other.unknownFields);
@@ -21719,6 +21807,10 @@ public final class DoodleProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + QUERY_FIELD_NUMBER;
       hash = (53 * hash) + getQuery().hashCode();
+      hash = (37 * hash) + NODEID_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeId();
+      hash = (37 * hash) + CHECKPOINTID_FIELD_NUMBER;
+      hash = (53 * hash) + getCheckpointId().hashCode();
       hash = (37 * hash) + BUFFERSIZE_FIELD_NUMBER;
       hash = (53 * hash) + getBufferSize();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -21856,6 +21948,10 @@ public final class DoodleProtos {
         super.clear();
         query_ = com.google.protobuf.ByteString.EMPTY;
 
+        nodeId_ = 0;
+
+        checkpointId_ = "";
+
         bufferSize_ = 0;
 
         return this;
@@ -21885,6 +21981,8 @@ public final class DoodleProtos {
       public com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest(this);
         result.query_ = query_;
+        result.nodeId_ = nodeId_;
+        result.checkpointId_ = checkpointId_;
         result.bufferSize_ = bufferSize_;
         onBuilt();
         return result;
@@ -21936,6 +22034,13 @@ public final class DoodleProtos {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest.getDefaultInstance()) return this;
         if (other.getQuery() != com.google.protobuf.ByteString.EMPTY) {
           setQuery(other.getQuery());
+        }
+        if (other.getNodeId() != 0) {
+          setNodeId(other.getNodeId());
+        }
+        if (!other.getCheckpointId().isEmpty()) {
+          checkpointId_ = other.checkpointId_;
+          onChanged();
         }
         if (other.getBufferSize() != 0) {
           setBufferSize(other.getBufferSize());
@@ -21998,15 +22103,110 @@ public final class DoodleProtos {
         return this;
       }
 
+      private int nodeId_ ;
+      /**
+       * <code>int32 nodeId = 2;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>int32 nodeId = 2;</code>
+       */
+      public Builder setNodeId(int value) {
+        
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 nodeId = 2;</code>
+       */
+      public Builder clearNodeId() {
+        
+        nodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object checkpointId_ = "";
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public java.lang.String getCheckpointId() {
+        java.lang.Object ref = checkpointId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          checkpointId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCheckpointIdBytes() {
+        java.lang.Object ref = checkpointId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          checkpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public Builder setCheckpointId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public Builder clearCheckpointId() {
+        
+        checkpointId_ = getDefaultInstance().getCheckpointId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string checkpointId = 3;</code>
+       */
+      public Builder setCheckpointIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        checkpointId_ = value;
+        onChanged();
+        return this;
+      }
+
       private int bufferSize_ ;
       /**
-       * <code>int32 bufferSize = 2;</code>
+       * <code>int32 bufferSize = 4;</code>
        */
       public int getBufferSize() {
         return bufferSize_;
       }
       /**
-       * <code>int32 bufferSize = 2;</code>
+       * <code>int32 bufferSize = 4;</code>
        */
       public Builder setBufferSize(int value) {
         
@@ -22015,7 +22215,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>int32 bufferSize = 2;</code>
+       * <code>int32 bufferSize = 4;</code>
        */
       public Builder clearBufferSize() {
         
@@ -34710,48 +34910,49 @@ public final class DoodleProtos {
       "est\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n\021PipeWri" +
       "teResponse\"\023\n\021PluginListRequest\"C\n\022Plugi" +
       "nListResponse\022\026\n\016controlPlugins\030\001 \003(\t\022\025\n" +
-      "\rsketchPlugins\030\002 \003(\t\"1\n\014QueryRequest\022\r\n\005" +
-      "query\030\001 \001(\014\022\022\n\nbufferSize\030\002 \001(\005\"2\n\rQuery" +
-      "Response\022\014\n\004data\030\001 \001(\014\022\023\n\013lastMessage\030\002 " +
-      "\001(\010\"G\n\021SketchInitRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006" +
-      "plugin\030\002 \001(\t\022\026\n\016controlPlugins\030\003 \003(\t\"\024\n\022" +
-      "SketchInitResponse\"\023\n\021SketchListRequest\"" +
-      "w\n\022SketchListResponse\0221\n\007plugins\030\001 \003(\0132 " +
-      ".SketchListResponse.PluginsEntry\032.\n\014Plug" +
-      "insEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
-      "\"I\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\no" +
-      "perations\030\002 \003(\0132\022.VariableOperation\"\026\n\024S" +
-      "ketchModifyResponse\"\037\n\021SketchShowRequest" +
-      "\022\n\n\002id\030\001 \001(\t\"\221\001\n\022SketchShowResponse\022\016\n\006p" +
-      "lugin\030\001 \001(\t\022\016\n\006frozen\030\002 \001(\010\022\025\n\rinflatorC" +
-      "lass\030\003 \001(\t\022\"\n\tvariables\030\004 \003(\0132\017.PluginVa" +
-      "riable\022 \n\013checkpoints\030\005 \003(\0132\013.Checkpoint" +
-      "\"D\n\022SketchWriteRequest\022\016\n\006nodeId\030\001 \001(\005\022\020" +
-      "\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023Sketch" +
-      "WriteResponse\":\n\007Replica\022\025\n\rprimaryNodeI" +
-      "d\030\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 \003(\005\"c\n\nChe" +
-      "ckpoint\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchId\030\002" +
-      " \001(\t\022\024\n\014checkpointId\030\003 \001(\t\022\032\n\010replicas\030\004" +
-      " \003(\0132\010.Replica\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022" +
-      "\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipA" +
-      "ddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginVari" +
-      "able\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006valu" +
-      "es\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\ttimest" +
-      "amp\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.VariableO" +
-      "peration.Operation\022!\n\010variable\030\003 \001(\0132\017.P" +
-      "luginVariable\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006D" +
-      "ELETE\020\001*\220\003\n\013MessageType\022\023\n\017CHECKPOINT_IN" +
-      "IT\020\000\022\027\n\023CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPO" +
-      "INT_TRANSFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONT" +
-      "ROL_LIST\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTRO" +
-      "L_SHOW\020\006\022\013\n\007FAILURE\020\007\022\017\n\013GOSSIP_HASH\020\010\022\021" +
-      "\n\rGOSSIP_UPDATE\020\t\022\r\n\tNODE_LIST\020\n\022\r\n\tNODE" +
-      "_SHOW\020\013\022\016\n\nPIPE_CLOSE\020\014\022\r\n\tPIPE_OPEN\020\r\022\016" +
-      "\n\nPIPE_WRITE\020\016\022\017\n\013PLUGIN_LIST\020\017\022\t\n\005QUERY" +
-      "\020\020\022\017\n\013SKETCH_INIT\020\021\022\017\n\013SKETCH_LIST\020\022\022\021\n\r" +
-      "SKETCH_MODIFY\020\023\022\017\n\013SKETCH_SHOW\020\024\022\020\n\014SKET" +
-      "CH_WRITE\020\025B/\n\034com.bushpath.doodle.protob" +
-      "ufB\014DoodleProtos\240\001\001b\006proto3"
+      "\rsketchPlugins\030\002 \003(\t\"W\n\014QueryRequest\022\r\n\005" +
+      "query\030\001 \001(\014\022\016\n\006nodeId\030\002 \001(\005\022\024\n\014checkpoin" +
+      "tId\030\003 \001(\t\022\022\n\nbufferSize\030\004 \001(\005\"2\n\rQueryRe" +
+      "sponse\022\014\n\004data\030\001 \001(\014\022\023\n\013lastMessage\030\002 \001(" +
+      "\010\"G\n\021SketchInitRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006pl" +
+      "ugin\030\002 \001(\t\022\026\n\016controlPlugins\030\003 \003(\t\"\024\n\022Sk" +
+      "etchInitResponse\"\023\n\021SketchListRequest\"w\n" +
+      "\022SketchListResponse\0221\n\007plugins\030\001 \003(\0132 .S" +
+      "ketchListResponse.PluginsEntry\032.\n\014Plugin" +
+      "sEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I" +
+      "\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\nope" +
+      "rations\030\002 \003(\0132\022.VariableOperation\"\026\n\024Ske" +
+      "tchModifyResponse\"\037\n\021SketchShowRequest\022\n" +
+      "\n\002id\030\001 \001(\t\"\221\001\n\022SketchShowResponse\022\016\n\006plu" +
+      "gin\030\001 \001(\t\022\016\n\006frozen\030\002 \001(\010\022\025\n\rinflatorCla" +
+      "ss\030\003 \001(\t\022\"\n\tvariables\030\004 \003(\0132\017.PluginVari" +
+      "able\022 \n\013checkpoints\030\005 \003(\0132\013.Checkpoint\"D" +
+      "\n\022SketchWriteRequest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010" +
+      "sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWr" +
+      "iteResponse\":\n\007Replica\022\025\n\rprimaryNodeId\030" +
+      "\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 \003(\005\"c\n\nCheck" +
+      "point\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchId\030\002 \001" +
+      "(\t\022\024\n\014checkpointId\030\003 \001(\t\022\032\n\010replicas\030\004 \003" +
+      "(\0132\010.Replica\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n" +
+      "\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAdd" +
+      "ress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginVariab" +
+      "le\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values" +
+      "\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\ttimestam" +
+      "p\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.VariableOpe" +
+      "ration.Operation\022!\n\010variable\030\003 \001(\0132\017.Plu" +
+      "ginVariable\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DEL" +
+      "ETE\020\001*\220\003\n\013MessageType\022\023\n\017CHECKPOINT_INIT" +
+      "\020\000\022\027\n\023CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPOIN" +
+      "T_TRANSFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONTRO" +
+      "L_LIST\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTROL_" +
+      "SHOW\020\006\022\013\n\007FAILURE\020\007\022\017\n\013GOSSIP_HASH\020\010\022\021\n\r" +
+      "GOSSIP_UPDATE\020\t\022\r\n\tNODE_LIST\020\n\022\r\n\tNODE_S" +
+      "HOW\020\013\022\016\n\nPIPE_CLOSE\020\014\022\r\n\tPIPE_OPEN\020\r\022\016\n\n" +
+      "PIPE_WRITE\020\016\022\017\n\013PLUGIN_LIST\020\017\022\t\n\005QUERY\020\020" +
+      "\022\017\n\013SKETCH_INIT\020\021\022\017\n\013SKETCH_LIST\020\022\022\021\n\rSK" +
+      "ETCH_MODIFY\020\023\022\017\n\013SKETCH_SHOW\020\024\022\020\n\014SKETCH" +
+      "_WRITE\020\025B/\n\034com.bushpath.doodle.protobuf" +
+      "B\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -34968,7 +35169,7 @@ public final class DoodleProtos {
     internal_static_QueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_QueryRequest_descriptor,
-        new java.lang.String[] { "Query", "BufferSize", });
+        new java.lang.String[] { "Query", "NodeId", "CheckpointId", "BufferSize", });
     internal_static_QueryResponse_descriptor =
       getDescriptor().getMessageTypes().get(33);
     internal_static_QueryResponse_fieldAccessorTable = new
