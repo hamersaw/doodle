@@ -99,7 +99,6 @@ public abstract class SketchPlugin extends Plugin {
     public abstract Collection<String> getFeatures();
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<SketchWriteRequest> out, int bufferSize);
-    public abstract long getObservationCount();
     public abstract void loadData(DataInputStream in) throws Exception;
     public abstract void write(ByteString byteString) throws Exception;
     public abstract void query(Query query,
