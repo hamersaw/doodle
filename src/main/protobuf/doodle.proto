@@ -17,20 +17,23 @@ enum MessageType {
     CONTROL_MODIFY = 5;
     CONTROL_SHOW = 6;
     FAILURE = 7;
-    GOSSIP_HASH = 8;
-    GOSSIP_UPDATE = 9;
-    NODE_LIST = 10;
-    NODE_SHOW = 11;
-    PIPE_CLOSE = 12;
-    PIPE_OPEN = 13;
-    PIPE_WRITE = 14;
-    PLUGIN_LIST = 15;
-    QUERY = 16;
-    SKETCH_INIT = 17;
-    SKETCH_LIST = 18;
-    SKETCH_MODIFY = 19;
-    SKETCH_SHOW = 20;
-    SKETCH_WRITE = 21;
+    FILE_ADD = 8;
+    FILE_DELETE = 9;
+    FILE_LIST = 10;
+    GOSSIP_HASH = 11;
+    GOSSIP_UPDATE = 12;
+    NODE_LIST = 13;
+    NODE_SHOW = 14;
+    PIPE_CLOSE = 15;
+    PIPE_OPEN = 16;
+    PIPE_WRITE = 17;
+    PLUGIN_LIST = 18;
+    QUERY = 19;
+    SKETCH_INIT = 20;
+    SKETCH_LIST = 21;
+    SKETCH_MODIFY = 22;
+    SKETCH_SHOW = 23;
+    SKETCH_WRITE = 24;
 }
 
 /**
@@ -99,6 +102,28 @@ message ControlShowResponse {
     string plugin = 1;    
     bool frozen = 2;
     repeated PluginVariable variables = 3;
+}
+
+/**
+ * File Messages
+ */
+
+message FileAddRequest {
+}
+
+message FileAddResponse {
+}
+
+message FileDeleteRequest {
+}
+
+message FileDeleteResponse {
+}
+
+message FileListRequest {
+}
+
+message FileListResponse {
 }
 
 /**

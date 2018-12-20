@@ -10,6 +10,8 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.node.analytics.AnalyticsService;
+import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.ControlService;
 import com.bushpath.doodle.node.control.NodeManager;
@@ -107,6 +109,9 @@ public class Main {
             log.error("Unknown plugin loading failure", e);
             System.exit(3);
         }
+
+        // initialize FileManager
+        FileManager fileManager = new FileManager();
 
         // initialize ControlPluginManager
         ControlPluginManager controlPluginManager =
@@ -318,6 +323,10 @@ public class Main {
 
         // register Services
         try {
+            AnalyticsService analyticsService =
+                new AnalyticsService(fileManager);
+            server.registerService(analyticsService);
+
             ControlService controlService = new ControlService(
                 controlPluginManager, pluginManager);
             server.registerService(controlService);

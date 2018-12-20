@@ -52,61 +52,73 @@ public final class DoodleProtos {
      */
     FAILURE(7),
     /**
-     * <code>GOSSIP_HASH = 8;</code>
+     * <code>FILE_ADD = 8;</code>
      */
-    GOSSIP_HASH(8),
+    FILE_ADD(8),
     /**
-     * <code>GOSSIP_UPDATE = 9;</code>
+     * <code>FILE_DELETE = 9;</code>
      */
-    GOSSIP_UPDATE(9),
+    FILE_DELETE(9),
     /**
-     * <code>NODE_LIST = 10;</code>
+     * <code>FILE_LIST = 10;</code>
      */
-    NODE_LIST(10),
+    FILE_LIST(10),
     /**
-     * <code>NODE_SHOW = 11;</code>
+     * <code>GOSSIP_HASH = 11;</code>
      */
-    NODE_SHOW(11),
+    GOSSIP_HASH(11),
     /**
-     * <code>PIPE_CLOSE = 12;</code>
+     * <code>GOSSIP_UPDATE = 12;</code>
      */
-    PIPE_CLOSE(12),
+    GOSSIP_UPDATE(12),
     /**
-     * <code>PIPE_OPEN = 13;</code>
+     * <code>NODE_LIST = 13;</code>
      */
-    PIPE_OPEN(13),
+    NODE_LIST(13),
     /**
-     * <code>PIPE_WRITE = 14;</code>
+     * <code>NODE_SHOW = 14;</code>
      */
-    PIPE_WRITE(14),
+    NODE_SHOW(14),
     /**
-     * <code>PLUGIN_LIST = 15;</code>
+     * <code>PIPE_CLOSE = 15;</code>
      */
-    PLUGIN_LIST(15),
+    PIPE_CLOSE(15),
     /**
-     * <code>QUERY = 16;</code>
+     * <code>PIPE_OPEN = 16;</code>
      */
-    QUERY(16),
+    PIPE_OPEN(16),
     /**
-     * <code>SKETCH_INIT = 17;</code>
+     * <code>PIPE_WRITE = 17;</code>
      */
-    SKETCH_INIT(17),
+    PIPE_WRITE(17),
     /**
-     * <code>SKETCH_LIST = 18;</code>
+     * <code>PLUGIN_LIST = 18;</code>
      */
-    SKETCH_LIST(18),
+    PLUGIN_LIST(18),
     /**
-     * <code>SKETCH_MODIFY = 19;</code>
+     * <code>QUERY = 19;</code>
      */
-    SKETCH_MODIFY(19),
+    QUERY(19),
     /**
-     * <code>SKETCH_SHOW = 20;</code>
+     * <code>SKETCH_INIT = 20;</code>
      */
-    SKETCH_SHOW(20),
+    SKETCH_INIT(20),
     /**
-     * <code>SKETCH_WRITE = 21;</code>
+     * <code>SKETCH_LIST = 21;</code>
      */
-    SKETCH_WRITE(21),
+    SKETCH_LIST(21),
+    /**
+     * <code>SKETCH_MODIFY = 22;</code>
+     */
+    SKETCH_MODIFY(22),
+    /**
+     * <code>SKETCH_SHOW = 23;</code>
+     */
+    SKETCH_SHOW(23),
+    /**
+     * <code>SKETCH_WRITE = 24;</code>
+     */
+    SKETCH_WRITE(24),
     UNRECOGNIZED(-1),
     ;
 
@@ -143,61 +155,73 @@ public final class DoodleProtos {
      */
     public static final int FAILURE_VALUE = 7;
     /**
-     * <code>GOSSIP_HASH = 8;</code>
+     * <code>FILE_ADD = 8;</code>
      */
-    public static final int GOSSIP_HASH_VALUE = 8;
+    public static final int FILE_ADD_VALUE = 8;
     /**
-     * <code>GOSSIP_UPDATE = 9;</code>
+     * <code>FILE_DELETE = 9;</code>
      */
-    public static final int GOSSIP_UPDATE_VALUE = 9;
+    public static final int FILE_DELETE_VALUE = 9;
     /**
-     * <code>NODE_LIST = 10;</code>
+     * <code>FILE_LIST = 10;</code>
      */
-    public static final int NODE_LIST_VALUE = 10;
+    public static final int FILE_LIST_VALUE = 10;
     /**
-     * <code>NODE_SHOW = 11;</code>
+     * <code>GOSSIP_HASH = 11;</code>
      */
-    public static final int NODE_SHOW_VALUE = 11;
+    public static final int GOSSIP_HASH_VALUE = 11;
     /**
-     * <code>PIPE_CLOSE = 12;</code>
+     * <code>GOSSIP_UPDATE = 12;</code>
      */
-    public static final int PIPE_CLOSE_VALUE = 12;
+    public static final int GOSSIP_UPDATE_VALUE = 12;
     /**
-     * <code>PIPE_OPEN = 13;</code>
+     * <code>NODE_LIST = 13;</code>
      */
-    public static final int PIPE_OPEN_VALUE = 13;
+    public static final int NODE_LIST_VALUE = 13;
     /**
-     * <code>PIPE_WRITE = 14;</code>
+     * <code>NODE_SHOW = 14;</code>
      */
-    public static final int PIPE_WRITE_VALUE = 14;
+    public static final int NODE_SHOW_VALUE = 14;
     /**
-     * <code>PLUGIN_LIST = 15;</code>
+     * <code>PIPE_CLOSE = 15;</code>
      */
-    public static final int PLUGIN_LIST_VALUE = 15;
+    public static final int PIPE_CLOSE_VALUE = 15;
     /**
-     * <code>QUERY = 16;</code>
+     * <code>PIPE_OPEN = 16;</code>
      */
-    public static final int QUERY_VALUE = 16;
+    public static final int PIPE_OPEN_VALUE = 16;
     /**
-     * <code>SKETCH_INIT = 17;</code>
+     * <code>PIPE_WRITE = 17;</code>
      */
-    public static final int SKETCH_INIT_VALUE = 17;
+    public static final int PIPE_WRITE_VALUE = 17;
     /**
-     * <code>SKETCH_LIST = 18;</code>
+     * <code>PLUGIN_LIST = 18;</code>
      */
-    public static final int SKETCH_LIST_VALUE = 18;
+    public static final int PLUGIN_LIST_VALUE = 18;
     /**
-     * <code>SKETCH_MODIFY = 19;</code>
+     * <code>QUERY = 19;</code>
      */
-    public static final int SKETCH_MODIFY_VALUE = 19;
+    public static final int QUERY_VALUE = 19;
     /**
-     * <code>SKETCH_SHOW = 20;</code>
+     * <code>SKETCH_INIT = 20;</code>
      */
-    public static final int SKETCH_SHOW_VALUE = 20;
+    public static final int SKETCH_INIT_VALUE = 20;
     /**
-     * <code>SKETCH_WRITE = 21;</code>
+     * <code>SKETCH_LIST = 21;</code>
      */
-    public static final int SKETCH_WRITE_VALUE = 21;
+    public static final int SKETCH_LIST_VALUE = 21;
+    /**
+     * <code>SKETCH_MODIFY = 22;</code>
+     */
+    public static final int SKETCH_MODIFY_VALUE = 22;
+    /**
+     * <code>SKETCH_SHOW = 23;</code>
+     */
+    public static final int SKETCH_SHOW_VALUE = 23;
+    /**
+     * <code>SKETCH_WRITE = 24;</code>
+     */
+    public static final int SKETCH_WRITE_VALUE = 24;
 
 
     public final int getNumber() {
@@ -226,20 +250,23 @@ public final class DoodleProtos {
         case 5: return CONTROL_MODIFY;
         case 6: return CONTROL_SHOW;
         case 7: return FAILURE;
-        case 8: return GOSSIP_HASH;
-        case 9: return GOSSIP_UPDATE;
-        case 10: return NODE_LIST;
-        case 11: return NODE_SHOW;
-        case 12: return PIPE_CLOSE;
-        case 13: return PIPE_OPEN;
-        case 14: return PIPE_WRITE;
-        case 15: return PLUGIN_LIST;
-        case 16: return QUERY;
-        case 17: return SKETCH_INIT;
-        case 18: return SKETCH_LIST;
-        case 19: return SKETCH_MODIFY;
-        case 20: return SKETCH_SHOW;
-        case 21: return SKETCH_WRITE;
+        case 8: return FILE_ADD;
+        case 9: return FILE_DELETE;
+        case 10: return FILE_LIST;
+        case 11: return GOSSIP_HASH;
+        case 12: return GOSSIP_UPDATE;
+        case 13: return NODE_LIST;
+        case 14: return NODE_SHOW;
+        case 15: return PIPE_CLOSE;
+        case 16: return PIPE_OPEN;
+        case 17: return PIPE_WRITE;
+        case 18: return PLUGIN_LIST;
+        case 19: return QUERY;
+        case 20: return SKETCH_INIT;
+        case 21: return SKETCH_LIST;
+        case 22: return SKETCH_MODIFY;
+        case 23: return SKETCH_SHOW;
+        case 24: return SKETCH_WRITE;
         default: return null;
       }
     }
@@ -8940,6 +8967,2478 @@ public final class DoodleProtos {
 
     @java.lang.Override
     public com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileAddRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FileAddRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FileAddRequest}
+   */
+  public  static final class FileAddRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FileAddRequest)
+      FileAddRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FileAddRequest.newBuilder() to construct.
+    private FileAddRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileAddRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FileAddRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FileAddRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FileAddRequest)
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FileAddRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FileAddRequest)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileAddRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FileAddRequest>() {
+      @java.lang.Override
+      public FileAddRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FileAddRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileAddRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileAddRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileAddResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FileAddResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FileAddResponse}
+   */
+  public  static final class FileAddResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FileAddResponse)
+      FileAddResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FileAddResponse.newBuilder() to construct.
+    private FileAddResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileAddResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FileAddResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FileAddResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FileAddResponse)
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileAddResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FileAddResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:FileAddResponse)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileAddResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FileAddResponse>() {
+      @java.lang.Override
+      public FileAddResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FileAddResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileAddResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileAddResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileDeleteRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FileDeleteRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FileDeleteRequest}
+   */
+  public  static final class FileDeleteRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FileDeleteRequest)
+      FileDeleteRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FileDeleteRequest.newBuilder() to construct.
+    private FileDeleteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileDeleteRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FileDeleteRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FileDeleteRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FileDeleteRequest)
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FileDeleteRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FileDeleteRequest)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileDeleteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FileDeleteRequest>() {
+      @java.lang.Override
+      public FileDeleteRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FileDeleteRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileDeleteRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileDeleteRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileDeleteResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FileDeleteResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FileDeleteResponse}
+   */
+  public  static final class FileDeleteResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FileDeleteResponse)
+      FileDeleteResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FileDeleteResponse.newBuilder() to construct.
+    private FileDeleteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileDeleteResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FileDeleteResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FileDeleteResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FileDeleteResponse)
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileDeleteResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FileDeleteResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:FileDeleteResponse)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileDeleteResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FileDeleteResponse>() {
+      @java.lang.Override
+      public FileDeleteResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FileDeleteResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileDeleteResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileDeleteResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileListRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FileListRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FileListRequest}
+   */
+  public  static final class FileListRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FileListRequest)
+      FileListRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FileListRequest.newBuilder() to construct.
+    private FileListRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileListRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FileListRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FileListRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FileListRequest)
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FileListRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FileListRequest)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileListRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FileListRequest>() {
+      @java.lang.Override
+      public FileListRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FileListRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileListRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileListRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileListResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FileListResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FileListResponse}
+   */
+  public  static final class FileListResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FileListResponse)
+      FileListResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FileListResponse.newBuilder() to construct.
+    private FileListResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileListResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FileListResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse)) {
+        return super.equals(obj);
+      }
+      com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse other = (com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FileListResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FileListResponse)
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.class, com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.Builder.class);
+      }
+
+      // Construct using com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.internal_static_FileListResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse getDefaultInstanceForType() {
+        return com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse build() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse buildPartial() {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse result = new com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse) {
+          return mergeFrom((com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse other) {
+        if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FileListResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:FileListResponse)
+    private static final com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse();
+    }
+
+    public static com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileListResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FileListResponse>() {
+      @java.lang.Override
+      public FileListResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FileListResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileListResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileListResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -21549,16 +24048,6 @@ public final class DoodleProtos {
     int getNodeId();
 
     /**
-     * <code>string checkpointId = 3;</code>
-     */
-    java.lang.String getCheckpointId();
-    /**
-     * <code>string checkpointId = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getCheckpointIdBytes();
-
-    /**
      * <code>int32 bufferSize = 4;</code>
      */
     int getBufferSize();
@@ -21578,7 +24067,6 @@ public final class DoodleProtos {
     private QueryRequest() {
       query_ = com.google.protobuf.ByteString.EMPTY;
       nodeId_ = 0;
-      checkpointId_ = "";
       bufferSize_ = 0;
     }
 
@@ -21614,12 +24102,6 @@ public final class DoodleProtos {
             case 16: {
 
               nodeId_ = input.readInt32();
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              checkpointId_ = s;
               break;
             }
             case 32: {
@@ -21677,40 +24159,6 @@ public final class DoodleProtos {
       return nodeId_;
     }
 
-    public static final int CHECKPOINTID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object checkpointId_;
-    /**
-     * <code>string checkpointId = 3;</code>
-     */
-    public java.lang.String getCheckpointId() {
-      java.lang.Object ref = checkpointId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        checkpointId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string checkpointId = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getCheckpointIdBytes() {
-      java.lang.Object ref = checkpointId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        checkpointId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     public static final int BUFFERSIZE_FIELD_NUMBER = 4;
     private int bufferSize_;
     /**
@@ -21740,9 +24188,6 @@ public final class DoodleProtos {
       if (nodeId_ != 0) {
         output.writeInt32(2, nodeId_);
       }
-      if (!getCheckpointIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, checkpointId_);
-      }
       if (bufferSize_ != 0) {
         output.writeInt32(4, bufferSize_);
       }
@@ -21762,9 +24207,6 @@ public final class DoodleProtos {
       if (nodeId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, nodeId_);
-      }
-      if (!getCheckpointIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, checkpointId_);
       }
       if (bufferSize_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -21790,8 +24232,6 @@ public final class DoodleProtos {
           .equals(other.getQuery());
       result = result && (getNodeId()
           == other.getNodeId());
-      result = result && getCheckpointId()
-          .equals(other.getCheckpointId());
       result = result && (getBufferSize()
           == other.getBufferSize());
       result = result && unknownFields.equals(other.unknownFields);
@@ -21809,8 +24249,6 @@ public final class DoodleProtos {
       hash = (53 * hash) + getQuery().hashCode();
       hash = (37 * hash) + NODEID_FIELD_NUMBER;
       hash = (53 * hash) + getNodeId();
-      hash = (37 * hash) + CHECKPOINTID_FIELD_NUMBER;
-      hash = (53 * hash) + getCheckpointId().hashCode();
       hash = (37 * hash) + BUFFERSIZE_FIELD_NUMBER;
       hash = (53 * hash) + getBufferSize();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -21950,8 +24388,6 @@ public final class DoodleProtos {
 
         nodeId_ = 0;
 
-        checkpointId_ = "";
-
         bufferSize_ = 0;
 
         return this;
@@ -21982,7 +24418,6 @@ public final class DoodleProtos {
         com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest(this);
         result.query_ = query_;
         result.nodeId_ = nodeId_;
-        result.checkpointId_ = checkpointId_;
         result.bufferSize_ = bufferSize_;
         onBuilt();
         return result;
@@ -22037,10 +24472,6 @@ public final class DoodleProtos {
         }
         if (other.getNodeId() != 0) {
           setNodeId(other.getNodeId());
-        }
-        if (!other.getCheckpointId().isEmpty()) {
-          checkpointId_ = other.checkpointId_;
-          onChanged();
         }
         if (other.getBufferSize() != 0) {
           setBufferSize(other.getBufferSize());
@@ -22125,75 +24556,6 @@ public final class DoodleProtos {
       public Builder clearNodeId() {
         
         nodeId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object checkpointId_ = "";
-      /**
-       * <code>string checkpointId = 3;</code>
-       */
-      public java.lang.String getCheckpointId() {
-        java.lang.Object ref = checkpointId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          checkpointId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string checkpointId = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getCheckpointIdBytes() {
-        java.lang.Object ref = checkpointId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          checkpointId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string checkpointId = 3;</code>
-       */
-      public Builder setCheckpointId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        checkpointId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string checkpointId = 3;</code>
-       */
-      public Builder clearCheckpointId() {
-        
-        checkpointId_ = getDefaultInstance().getCheckpointId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string checkpointId = 3;</code>
-       */
-      public Builder setCheckpointIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        checkpointId_ = value;
         onChanged();
         return this;
       }
@@ -34670,6 +37032,36 @@ public final class DoodleProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ControlShowResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FileAddRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FileAddRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FileAddResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FileAddResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FileDeleteRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FileDeleteRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FileDeleteResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FileDeleteResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FileListRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FileListRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FileListResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FileListResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GossipHashRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -34883,76 +37275,80 @@ public final class DoodleProtos {
       "n\"\027\n\025ControlModifyResponse\" \n\022ControlSho" +
       "wRequest\022\n\n\002id\030\001 \001(\t\"Y\n\023ControlShowRespo" +
       "nse\022\016\n\006plugin\030\001 \001(\t\022\016\n\006frozen\030\002 \001(\010\022\"\n\tv" +
-      "ariables\030\003 \003(\0132\017.PluginVariable\"\023\n\021Gossi" +
-      "pHashRequest\"h\n\022GossipHashResponse\022\021\n\tno" +
-      "desHash\030\001 \001(\005\022\023\n\013controlHash\030\002 \001(\005\022\022\n\nsk" +
-      "etchHash\030\003 \001(\005\022\026\n\016checkpointHash\030\004 \001(\005\"\247" +
-      "\001\n\023GossipUpdateRequest\022\024\n\005nodes\030\001 \003(\0132\005." +
-      "Node\022,\n\016controlPlugins\030\002 \003(\0132\024.ControlPl" +
-      "uginGossip\022*\n\rsketchPlugins\030\003 \003(\0132\023.Sket" +
-      "chPluginGossip\022 \n\013checkpoints\030\004 \003(\0132\013.Ch" +
-      "eckpoint\"\026\n\024GossipUpdateResponse\"\\\n\023Cont" +
-      "rolPluginGossip\022\n\n\002id\030\001 \001(\t\022\021\n\tclasspath" +
-      "\030\002 \001(\t\022&\n\noperations\030\003 \003(\0132\022.VariableOpe" +
-      "ration\"s\n\022SketchPluginGossip\022\n\n\002id\030\001 \001(\t" +
-      "\022\021\n\tclasspath\030\002 \001(\t\022\026\n\016controlPlugins\030\003 " +
-      "\003(\t\022&\n\noperations\030\004 \003(\0132\022.VariableOperat" +
-      "ion\"\021\n\017NodeListRequest\"(\n\020NodeListRespon" +
-      "se\022\024\n\005nodes\030\001 \003(\0132\005.Node\"\035\n\017NodeShowRequ" +
-      "est\022\n\n\002id\030\001 \001(\005\"\'\n\020NodeShowResponse\022\023\n\004n" +
-      "ode\030\001 \001(\0132\005.Node\"\036\n\020PipeCloseRequest\022\n\n\002" +
-      "id\030\001 \001(\005\"\023\n\021PipeCloseResponse\"\207\001\n\017PipeOp" +
-      "enRequest\022\020\n\010sketchId\030\001 \001(\t\022\020\n\010features\030" +
-      "\002 \003(\t\022\034\n\024transformThreadCount\030\003 \001(\005\022\036\n\026d" +
-      "istributorThreadCount\030\004 \001(\005\022\022\n\nbufferSiz" +
-      "e\030\005 \001(\005\"6\n\020PipeOpenResponse\022\n\n\002id\030\001 \001(\005\022" +
-      "\026\n\016featureIndexes\030\002 \003(\005\",\n\020PipeWriteRequ" +
-      "est\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n\021PipeWri" +
-      "teResponse\"\023\n\021PluginListRequest\"C\n\022Plugi" +
-      "nListResponse\022\026\n\016controlPlugins\030\001 \003(\t\022\025\n" +
-      "\rsketchPlugins\030\002 \003(\t\"W\n\014QueryRequest\022\r\n\005" +
-      "query\030\001 \001(\014\022\016\n\006nodeId\030\002 \001(\005\022\024\n\014checkpoin" +
-      "tId\030\003 \001(\t\022\022\n\nbufferSize\030\004 \001(\005\"2\n\rQueryRe" +
-      "sponse\022\014\n\004data\030\001 \001(\014\022\023\n\013lastMessage\030\002 \001(" +
-      "\010\"G\n\021SketchInitRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006pl" +
-      "ugin\030\002 \001(\t\022\026\n\016controlPlugins\030\003 \003(\t\"\024\n\022Sk" +
-      "etchInitResponse\"\023\n\021SketchListRequest\"w\n" +
-      "\022SketchListResponse\0221\n\007plugins\030\001 \003(\0132 .S" +
-      "ketchListResponse.PluginsEntry\032.\n\014Plugin" +
-      "sEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I" +
-      "\n\023SketchModifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\nope" +
-      "rations\030\002 \003(\0132\022.VariableOperation\"\026\n\024Ske" +
-      "tchModifyResponse\"\037\n\021SketchShowRequest\022\n" +
-      "\n\002id\030\001 \001(\t\"\221\001\n\022SketchShowResponse\022\016\n\006plu" +
-      "gin\030\001 \001(\t\022\016\n\006frozen\030\002 \001(\010\022\025\n\rinflatorCla" +
-      "ss\030\003 \001(\t\022\"\n\tvariables\030\004 \003(\0132\017.PluginVari" +
-      "able\022 \n\013checkpoints\030\005 \003(\0132\013.Checkpoint\"D" +
-      "\n\022SketchWriteRequest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010" +
-      "sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWr" +
-      "iteResponse\":\n\007Replica\022\025\n\rprimaryNodeId\030" +
-      "\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 \003(\005\"c\n\nCheck" +
-      "point\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchId\030\002 \001" +
-      "(\t\022\024\n\014checkpointId\030\003 \001(\t\022\032\n\010replicas\030\004 \003" +
-      "(\0132\010.Replica\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n" +
-      "\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAdd" +
-      "ress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"<\n\016PluginVariab" +
-      "le\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values" +
-      "\030\003 \003(\t\"\234\001\n\021VariableOperation\022\021\n\ttimestam" +
-      "p\030\001 \001(\003\022/\n\toperation\030\002 \001(\0162\034.VariableOpe" +
-      "ration.Operation\022!\n\010variable\030\003 \001(\0132\017.Plu" +
-      "ginVariable\" \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DEL" +
-      "ETE\020\001*\220\003\n\013MessageType\022\023\n\017CHECKPOINT_INIT" +
-      "\020\000\022\027\n\023CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPOIN" +
-      "T_TRANSFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONTRO" +
-      "L_LIST\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTROL_" +
-      "SHOW\020\006\022\013\n\007FAILURE\020\007\022\017\n\013GOSSIP_HASH\020\010\022\021\n\r" +
-      "GOSSIP_UPDATE\020\t\022\r\n\tNODE_LIST\020\n\022\r\n\tNODE_S" +
-      "HOW\020\013\022\016\n\nPIPE_CLOSE\020\014\022\r\n\tPIPE_OPEN\020\r\022\016\n\n" +
-      "PIPE_WRITE\020\016\022\017\n\013PLUGIN_LIST\020\017\022\t\n\005QUERY\020\020" +
-      "\022\017\n\013SKETCH_INIT\020\021\022\017\n\013SKETCH_LIST\020\022\022\021\n\rSK" +
-      "ETCH_MODIFY\020\023\022\017\n\013SKETCH_SHOW\020\024\022\020\n\014SKETCH" +
-      "_WRITE\020\025B/\n\034com.bushpath.doodle.protobuf" +
-      "B\014DoodleProtos\240\001\001b\006proto3"
+      "ariables\030\003 \003(\0132\017.PluginVariable\"\020\n\016FileA" +
+      "ddRequest\"\021\n\017FileAddResponse\"\023\n\021FileDele" +
+      "teRequest\"\024\n\022FileDeleteResponse\"\021\n\017FileL" +
+      "istRequest\"\022\n\020FileListResponse\"\023\n\021Gossip" +
+      "HashRequest\"h\n\022GossipHashResponse\022\021\n\tnod" +
+      "esHash\030\001 \001(\005\022\023\n\013controlHash\030\002 \001(\005\022\022\n\nske" +
+      "tchHash\030\003 \001(\005\022\026\n\016checkpointHash\030\004 \001(\005\"\247\001" +
+      "\n\023GossipUpdateRequest\022\024\n\005nodes\030\001 \003(\0132\005.N" +
+      "ode\022,\n\016controlPlugins\030\002 \003(\0132\024.ControlPlu" +
+      "ginGossip\022*\n\rsketchPlugins\030\003 \003(\0132\023.Sketc" +
+      "hPluginGossip\022 \n\013checkpoints\030\004 \003(\0132\013.Che" +
+      "ckpoint\"\026\n\024GossipUpdateResponse\"\\\n\023Contr" +
+      "olPluginGossip\022\n\n\002id\030\001 \001(\t\022\021\n\tclasspath\030" +
+      "\002 \001(\t\022&\n\noperations\030\003 \003(\0132\022.VariableOper" +
+      "ation\"s\n\022SketchPluginGossip\022\n\n\002id\030\001 \001(\t\022" +
+      "\021\n\tclasspath\030\002 \001(\t\022\026\n\016controlPlugins\030\003 \003" +
+      "(\t\022&\n\noperations\030\004 \003(\0132\022.VariableOperati" +
+      "on\"\021\n\017NodeListRequest\"(\n\020NodeListRespons" +
+      "e\022\024\n\005nodes\030\001 \003(\0132\005.Node\"\035\n\017NodeShowReque" +
+      "st\022\n\n\002id\030\001 \001(\005\"\'\n\020NodeShowResponse\022\023\n\004no" +
+      "de\030\001 \001(\0132\005.Node\"\036\n\020PipeCloseRequest\022\n\n\002i" +
+      "d\030\001 \001(\005\"\023\n\021PipeCloseResponse\"\207\001\n\017PipeOpe" +
+      "nRequest\022\020\n\010sketchId\030\001 \001(\t\022\020\n\010features\030\002" +
+      " \003(\t\022\034\n\024transformThreadCount\030\003 \001(\005\022\036\n\026di" +
+      "stributorThreadCount\030\004 \001(\005\022\022\n\nbufferSize" +
+      "\030\005 \001(\005\"6\n\020PipeOpenResponse\022\n\n\002id\030\001 \001(\005\022\026" +
+      "\n\016featureIndexes\030\002 \003(\005\",\n\020PipeWriteReque" +
+      "st\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n\021PipeWrit" +
+      "eResponse\"\023\n\021PluginListRequest\"C\n\022Plugin" +
+      "ListResponse\022\026\n\016controlPlugins\030\001 \003(\t\022\025\n\r" +
+      "sketchPlugins\030\002 \003(\t\"A\n\014QueryRequest\022\r\n\005q" +
+      "uery\030\001 \001(\014\022\016\n\006nodeId\030\002 \001(\005\022\022\n\nbufferSize" +
+      "\030\004 \001(\005\"2\n\rQueryResponse\022\014\n\004data\030\001 \001(\014\022\023\n" +
+      "\013lastMessage\030\002 \001(\010\"G\n\021SketchInitRequest\022" +
+      "\n\n\002id\030\001 \001(\t\022\016\n\006plugin\030\002 \001(\t\022\026\n\016controlPl" +
+      "ugins\030\003 \003(\t\"\024\n\022SketchInitResponse\"\023\n\021Ske" +
+      "tchListRequest\"w\n\022SketchListResponse\0221\n\007" +
+      "plugins\030\001 \003(\0132 .SketchListResponse.Plugi" +
+      "nsEntry\032.\n\014PluginsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\t:\0028\001\"I\n\023SketchModifyRequest\022\n" +
+      "\n\002id\030\001 \001(\t\022&\n\noperations\030\002 \003(\0132\022.Variabl" +
+      "eOperation\"\026\n\024SketchModifyResponse\"\037\n\021Sk" +
+      "etchShowRequest\022\n\n\002id\030\001 \001(\t\"\221\001\n\022SketchSh" +
+      "owResponse\022\016\n\006plugin\030\001 \001(\t\022\016\n\006frozen\030\002 \001" +
+      "(\010\022\025\n\rinflatorClass\030\003 \001(\t\022\"\n\tvariables\030\004" +
+      " \003(\0132\017.PluginVariable\022 \n\013checkpoints\030\005 \003" +
+      "(\0132\013.Checkpoint\"D\n\022SketchWriteRequest\022\016\n" +
+      "\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030" +
+      "\003 \001(\014\"\025\n\023SketchWriteResponse\":\n\007Replica\022" +
+      "\025\n\rprimaryNodeId\030\001 \001(\005\022\030\n\020secondaryNodeI" +
+      "ds\030\002 \003(\005\"c\n\nCheckpoint\022\021\n\ttimestamp\030\001 \001(" +
+      "\003\022\020\n\010sketchId\030\002 \001(\t\022\024\n\014checkpointId\030\003 \001(" +
+      "\t\022\032\n\010replicas\030\004 \003(\0132\010.Replica\"%\n\007Failure" +
+      "\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002" +
+      "id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(" +
+      "\005\"<\n\016PluginVariable\022\014\n\004type\030\001 \001(\t\022\014\n\004nam" +
+      "e\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"\234\001\n\021VariableOper" +
+      "ation\022\021\n\ttimestamp\030\001 \001(\003\022/\n\toperation\030\002 " +
+      "\001(\0162\034.VariableOperation.Operation\022!\n\010var" +
+      "iable\030\003 \001(\0132\017.PluginVariable\" \n\tOperatio" +
+      "n\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001*\276\003\n\013MessageType\022\023" +
+      "\n\017CHECKPOINT_INIT\020\000\022\027\n\023CHECKPOINT_ROLLBA" +
+      "CK\020\001\022\027\n\023CHECKPOINT_TRANSFER\020\002\022\020\n\014CONTROL" +
+      "_INIT\020\003\022\020\n\014CONTROL_LIST\020\004\022\022\n\016CONTROL_MOD" +
+      "IFY\020\005\022\020\n\014CONTROL_SHOW\020\006\022\013\n\007FAILURE\020\007\022\014\n\010" +
+      "FILE_ADD\020\010\022\017\n\013FILE_DELETE\020\t\022\r\n\tFILE_LIST" +
+      "\020\n\022\017\n\013GOSSIP_HASH\020\013\022\021\n\rGOSSIP_UPDATE\020\014\022\r" +
+      "\n\tNODE_LIST\020\r\022\r\n\tNODE_SHOW\020\016\022\016\n\nPIPE_CLO" +
+      "SE\020\017\022\r\n\tPIPE_OPEN\020\020\022\016\n\nPIPE_WRITE\020\021\022\017\n\013P" +
+      "LUGIN_LIST\020\022\022\t\n\005QUERY\020\023\022\017\n\013SKETCH_INIT\020\024" +
+      "\022\017\n\013SKETCH_LIST\020\025\022\021\n\rSKETCH_MODIFY\020\026\022\017\n\013" +
+      "SKETCH_SHOW\020\027\022\020\n\014SKETCH_WRITE\020\030B/\n\034com.b" +
+      "ushpath.doodle.protobufB\014DoodleProtos\240\001\001" +
+      "b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -35056,146 +37452,182 @@ public final class DoodleProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ControlShowResponse_descriptor,
         new java.lang.String[] { "Plugin", "Frozen", "Variables", });
-    internal_static_GossipHashRequest_descriptor =
+    internal_static_FileAddRequest_descriptor =
       getDescriptor().getMessageTypes().get(14);
+    internal_static_FileAddRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FileAddRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_FileAddResponse_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_FileAddResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FileAddResponse_descriptor,
+        new java.lang.String[] { });
+    internal_static_FileDeleteRequest_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_FileDeleteRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FileDeleteRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_FileDeleteResponse_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_FileDeleteResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FileDeleteResponse_descriptor,
+        new java.lang.String[] { });
+    internal_static_FileListRequest_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_FileListRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FileListRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_FileListResponse_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_FileListResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FileListResponse_descriptor,
+        new java.lang.String[] { });
+    internal_static_GossipHashRequest_descriptor =
+      getDescriptor().getMessageTypes().get(20);
     internal_static_GossipHashRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GossipHashRequest_descriptor,
         new java.lang.String[] { });
     internal_static_GossipHashResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_GossipHashResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GossipHashResponse_descriptor,
         new java.lang.String[] { "NodesHash", "ControlHash", "SketchHash", "CheckpointHash", });
     internal_static_GossipUpdateRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_GossipUpdateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GossipUpdateRequest_descriptor,
         new java.lang.String[] { "Nodes", "ControlPlugins", "SketchPlugins", "Checkpoints", });
     internal_static_GossipUpdateResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_GossipUpdateResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GossipUpdateResponse_descriptor,
         new java.lang.String[] { });
     internal_static_ControlPluginGossip_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_ControlPluginGossip_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ControlPluginGossip_descriptor,
         new java.lang.String[] { "Id", "Classpath", "Operations", });
     internal_static_SketchPluginGossip_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_SketchPluginGossip_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchPluginGossip_descriptor,
         new java.lang.String[] { "Id", "Classpath", "ControlPlugins", "Operations", });
     internal_static_NodeListRequest_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_NodeListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NodeListRequest_descriptor,
         new java.lang.String[] { });
     internal_static_NodeListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_NodeListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NodeListResponse_descriptor,
         new java.lang.String[] { "Nodes", });
     internal_static_NodeShowRequest_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_NodeShowRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NodeShowRequest_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_NodeShowResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_NodeShowResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NodeShowResponse_descriptor,
         new java.lang.String[] { "Node", });
     internal_static_PipeCloseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_PipeCloseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeCloseRequest_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_PipeCloseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_PipeCloseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeCloseResponse_descriptor,
         new java.lang.String[] { });
     internal_static_PipeOpenRequest_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_PipeOpenRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeOpenRequest_descriptor,
         new java.lang.String[] { "SketchId", "Features", "TransformThreadCount", "DistributorThreadCount", "BufferSize", });
     internal_static_PipeOpenResponse_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_PipeOpenResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeOpenResponse_descriptor,
         new java.lang.String[] { "Id", "FeatureIndexes", });
     internal_static_PipeWriteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_PipeWriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeWriteRequest_descriptor,
         new java.lang.String[] { "Id", "Data", });
     internal_static_PipeWriteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_PipeWriteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PipeWriteResponse_descriptor,
         new java.lang.String[] { });
     internal_static_PluginListRequest_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_PluginListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginListRequest_descriptor,
         new java.lang.String[] { });
     internal_static_PluginListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_PluginListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginListResponse_descriptor,
         new java.lang.String[] { "ControlPlugins", "SketchPlugins", });
     internal_static_QueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_QueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_QueryRequest_descriptor,
-        new java.lang.String[] { "Query", "NodeId", "CheckpointId", "BufferSize", });
+        new java.lang.String[] { "Query", "NodeId", "BufferSize", });
     internal_static_QueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_QueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_QueryResponse_descriptor,
         new java.lang.String[] { "Data", "LastMessage", });
     internal_static_SketchInitRequest_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_SketchInitRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchInitRequest_descriptor,
         new java.lang.String[] { "Id", "Plugin", "ControlPlugins", });
     internal_static_SketchInitResponse_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_SketchInitResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchInitResponse_descriptor,
         new java.lang.String[] { });
     internal_static_SketchListRequest_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_SketchListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchListRequest_descriptor,
         new java.lang.String[] { });
     internal_static_SketchListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_SketchListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchListResponse_descriptor,
@@ -35207,73 +37639,73 @@ public final class DoodleProtos {
         internal_static_SketchListResponse_PluginsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_SketchModifyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_SketchModifyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchModifyRequest_descriptor,
         new java.lang.String[] { "Id", "Operations", });
     internal_static_SketchModifyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(45);
     internal_static_SketchModifyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchModifyResponse_descriptor,
         new java.lang.String[] { });
     internal_static_SketchShowRequest_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(46);
     internal_static_SketchShowRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowRequest_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_SketchShowResponse_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(47);
     internal_static_SketchShowResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchShowResponse_descriptor,
         new java.lang.String[] { "Plugin", "Frozen", "InflatorClass", "Variables", "Checkpoints", });
     internal_static_SketchWriteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(48);
     internal_static_SketchWriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchWriteRequest_descriptor,
         new java.lang.String[] { "NodeId", "SketchId", "Data", });
     internal_static_SketchWriteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(43);
+      getDescriptor().getMessageTypes().get(49);
     internal_static_SketchWriteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SketchWriteResponse_descriptor,
         new java.lang.String[] { });
     internal_static_Replica_descriptor =
-      getDescriptor().getMessageTypes().get(44);
+      getDescriptor().getMessageTypes().get(50);
     internal_static_Replica_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Replica_descriptor,
         new java.lang.String[] { "PrimaryNodeId", "SecondaryNodeIds", });
     internal_static_Checkpoint_descriptor =
-      getDescriptor().getMessageTypes().get(45);
+      getDescriptor().getMessageTypes().get(51);
     internal_static_Checkpoint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Checkpoint_descriptor,
         new java.lang.String[] { "Timestamp", "SketchId", "CheckpointId", "Replicas", });
     internal_static_Failure_descriptor =
-      getDescriptor().getMessageTypes().get(46);
+      getDescriptor().getMessageTypes().get(52);
     internal_static_Failure_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Failure_descriptor,
         new java.lang.String[] { "Type", "Text", });
     internal_static_Node_descriptor =
-      getDescriptor().getMessageTypes().get(47);
+      getDescriptor().getMessageTypes().get(53);
     internal_static_Node_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Node_descriptor,
         new java.lang.String[] { "Id", "IpAddress", "Port", });
     internal_static_PluginVariable_descriptor =
-      getDescriptor().getMessageTypes().get(48);
+      getDescriptor().getMessageTypes().get(54);
     internal_static_PluginVariable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PluginVariable_descriptor,
         new java.lang.String[] { "Type", "Name", "Values", });
     internal_static_VariableOperation_descriptor =
-      getDescriptor().getMessageTypes().get(49);
+      getDescriptor().getMessageTypes().get(55);
     internal_static_VariableOperation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_VariableOperation_descriptor,
