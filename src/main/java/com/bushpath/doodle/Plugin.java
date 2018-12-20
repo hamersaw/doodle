@@ -1,6 +1,6 @@
 package com.bushpath.doodle;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
+import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import org.slf4j.Logger;
@@ -78,11 +78,11 @@ public abstract class Plugin {
         return this.frozen.get();
     }
 
-    public List<PluginVariable> getVariables() {
-        List<PluginVariable> pluginVariables = new ArrayList();
+    public List<Variable> getVariables() {
+        List<Variable> variables = new ArrayList();
         for (String type : this.variables.keySet()) {
             for (String name : this.variables.get(type).keySet()) {
-                PluginVariable.Builder builder = PluginVariable.newBuilder()
+                Variable.Builder builder = Variable.newBuilder()
                     .setType(type)
                     .setName(name);
 
@@ -90,11 +90,11 @@ public abstract class Plugin {
                     builder.addValues(value);
                 }
 
-                pluginVariables.add(builder.build());
+                variables.add(builder.build());
             }
         }
 
-        return pluginVariables;
+        return variables;
     }
 
     public void handleVariableOperation(VariableOperation variableOperation) {
@@ -104,7 +104,7 @@ public abstract class Plugin {
         }
 
         // process operation
-        PluginVariable variable = variableOperation.getVariable();
+        Variable variable = variableOperation.getVariable();
         Map<String, Set<String>> nameMap = null;
         if (this.variables.containsKey(variable.getType())) {
             nameMap = this.variables.get(variable.getType());

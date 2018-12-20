@@ -101,7 +101,7 @@ message ControlShowRequest {
 message ControlShowResponse {
     string plugin = 1;    
     bool frozen = 2;
-    repeated PluginVariable variables = 3;
+    repeated Variable variables = 3;
 }
 
 /**
@@ -109,21 +109,32 @@ message ControlShowResponse {
  */
 
 message FileAddRequest {
+    string user = 1;
+    string group = 2;
+    string path = 3;
+    FileType fileType = 4;
 }
 
 message FileAddResponse {
 }
 
 message FileDeleteRequest {
+    string user = 1;
+    string group = 2;
+    string path = 3;
 }
 
 message FileDeleteResponse {
 }
 
 message FileListRequest {
+    string user = 1;
+    string group = 2;
+    string path = 3;
 }
 
 message FileListResponse {
+    repeated File files = 1;
 }
 
 /**
@@ -277,7 +288,7 @@ message SketchShowResponse {
     string plugin = 1;    
     bool frozen = 2;
     string inflatorClass = 3;
-    repeated PluginVariable variables = 4;
+    repeated Variable variables = 4;
     repeated Checkpoint checkpoints = 5;
 }
 
@@ -294,9 +305,27 @@ message SketchWriteResponse {
  * Miscellaneous Messages
  */
 
-message Replica {
-    int32 primaryNodeId = 1;
-    repeated int32 secondaryNodeIds = 2;
+message File {
+    int32 inode = 1;
+    FileType fileType = 2;
+    string user = 3;
+    string group = 4;
+    string name = 5;
+    map<int32, int64> observations = 6;
+}
+
+enum FileType {
+    DIRECTORY = 0;
+    REGULAR = 1;
+}
+
+message FileOperation {
+    int64 timestamp = 1; 
+    FileType fileType = 2;
+    string user = 3;
+    string group = 4;
+    string path = 5;
+    Operation operation = 6;
 }
 
 message Checkpoint {
@@ -317,7 +346,17 @@ message Node {
     int32 port = 3;
 }
 
-message PluginVariable {
+enum Operation {
+    ADD = 0;
+    DELETE = 1;
+}
+
+message Replica {
+    int32 primaryNodeId = 1;
+    repeated int32 secondaryNodeIds = 2;
+}
+
+message Variable {
     string type = 1;
     string name = 2;
     repeated string values = 3;
@@ -326,10 +365,5 @@ message PluginVariable {
 message VariableOperation {
     int64 timestamp = 1;
     Operation operation = 2;
-    PluginVariable variable = 3;
-
-    enum Operation {
-        ADD = 0;
-        DELETE = 1;
-    }
+    Variable variable = 3;
 }
