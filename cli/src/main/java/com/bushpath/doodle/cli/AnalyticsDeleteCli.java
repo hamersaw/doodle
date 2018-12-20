@@ -6,6 +6,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 import java.util.Map;
 
@@ -13,10 +14,19 @@ import java.util.Map;
     description = "Delete a file to the analytics plane.",
     mixinStandardHelpOptions = true)
 public class AnalyticsDeleteCli implements Runnable {
+    @Parameters(index="0", description="Path of file.")
+    private String path;
+
     @Override
     public void run() {
+        String user = System.getProperty("user.name");
+        String group = user;
+
         // create FileDeleteRequest
         FileDeleteRequest request = FileDeleteRequest.newBuilder()
+            .setUser(user)
+            .setGroup(group)
+            .setPath(this.path)
             .build();
         FileDeleteResponse response = null;
 

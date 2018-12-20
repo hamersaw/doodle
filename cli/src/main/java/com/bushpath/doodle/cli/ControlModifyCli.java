@@ -4,7 +4,8 @@ import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
+import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
+import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import picocli.CommandLine.Command;
@@ -38,8 +39,8 @@ public class ControlModifyCli implements Runnable {
         // parse variables into VariableOperations
         try {
             for (String variable : this.addVariables) {
-                builder.addOperations(this.parseArgument(variable,
-                        VariableOperation.Operation.ADD));
+                builder.addOperations(
+                    this.parseArgument(variable, Operation.ADD));
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -48,8 +49,8 @@ public class ControlModifyCli implements Runnable {
 
         try {
             for (String variable : this.deleteVariables) {
-                builder.addOperations(this.parseArgument(variable,
-                        VariableOperation.Operation.DELETE));
+                builder.addOperations(
+                    this.parseArgument(variable, Operation.DELETE));
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -73,7 +74,7 @@ public class ControlModifyCli implements Runnable {
     }
 
     protected VariableOperation parseArgument(String arg,
-            VariableOperation.Operation operation) throws Exception {
+            Operation operation) throws Exception {
         String[] fields = arg.split(":");
         if (fields.length != 3) {
             throw new RuntimeException("Failed to parse variable fields '" +
@@ -86,7 +87,7 @@ public class ControlModifyCli implements Runnable {
                 fields[2] + "'");
         }
 
-        PluginVariable.Builder builder = PluginVariable.newBuilder()
+        Variable.Builder builder = Variable.newBuilder()
             .setType(fields[0])
             .setName(fields[1]);
 

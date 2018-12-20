@@ -9173,43 +9173,43 @@ public final class DoodleProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string user = 1;</code>
+     * <code>.FileType fileType = 1;</code>
+     */
+    int getFileTypeValue();
+    /**
+     * <code>.FileType fileType = 1;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType();
+
+    /**
+     * <code>string user = 2;</code>
      */
     java.lang.String getUser();
     /**
-     * <code>string user = 1;</code>
+     * <code>string user = 2;</code>
      */
     com.google.protobuf.ByteString
         getUserBytes();
 
     /**
-     * <code>string group = 2;</code>
+     * <code>string group = 3;</code>
      */
     java.lang.String getGroup();
     /**
-     * <code>string group = 2;</code>
+     * <code>string group = 3;</code>
      */
     com.google.protobuf.ByteString
         getGroupBytes();
 
     /**
-     * <code>string path = 3;</code>
+     * <code>string path = 4;</code>
      */
     java.lang.String getPath();
     /**
-     * <code>string path = 3;</code>
+     * <code>string path = 4;</code>
      */
     com.google.protobuf.ByteString
         getPathBytes();
-
-    /**
-     * <code>.FileType fileType = 4;</code>
-     */
-    int getFileTypeValue();
-    /**
-     * <code>.FileType fileType = 4;</code>
-     */
-    com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType();
   }
   /**
    * Protobuf type {@code FileAddRequest}
@@ -9224,10 +9224,10 @@ public final class DoodleProtos {
       super(builder);
     }
     private FileAddRequest() {
+      fileType_ = 0;
       user_ = "";
       group_ = "";
       path_ = "";
-      fileType_ = 0;
     }
 
     @java.lang.Override
@@ -9254,28 +9254,28 @@ public final class DoodleProtos {
             case 0:
               done = true;
               break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 8: {
+              int rawValue = input.readEnum();
 
-              user_ = s;
+              fileType_ = rawValue;
               break;
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              group_ = s;
+              user_ = s;
               break;
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              path_ = s;
+              group_ = s;
               break;
             }
-            case 32: {
-              int rawValue = input.readEnum();
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              fileType_ = rawValue;
+              path_ = s;
               break;
             }
             default: {
@@ -9310,10 +9310,27 @@ public final class DoodleProtos {
               com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.class, com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.Builder.class);
     }
 
-    public static final int USER_FIELD_NUMBER = 1;
+    public static final int FILETYPE_FIELD_NUMBER = 1;
+    private int fileType_;
+    /**
+     * <code>.FileType fileType = 1;</code>
+     */
+    public int getFileTypeValue() {
+      return fileType_;
+    }
+    /**
+     * <code>.FileType fileType = 1;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType() {
+      @SuppressWarnings("deprecation")
+      com.bushpath.doodle.protobuf.DoodleProtos.FileType result = com.bushpath.doodle.protobuf.DoodleProtos.FileType.valueOf(fileType_);
+      return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.FileType.UNRECOGNIZED : result;
+    }
+
+    public static final int USER_FIELD_NUMBER = 2;
     private volatile java.lang.Object user_;
     /**
-     * <code>string user = 1;</code>
+     * <code>string user = 2;</code>
      */
     public java.lang.String getUser() {
       java.lang.Object ref = user_;
@@ -9328,7 +9345,7 @@ public final class DoodleProtos {
       }
     }
     /**
-     * <code>string user = 1;</code>
+     * <code>string user = 2;</code>
      */
     public com.google.protobuf.ByteString
         getUserBytes() {
@@ -9344,10 +9361,10 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int GROUP_FIELD_NUMBER = 2;
+    public static final int GROUP_FIELD_NUMBER = 3;
     private volatile java.lang.Object group_;
     /**
-     * <code>string group = 2;</code>
+     * <code>string group = 3;</code>
      */
     public java.lang.String getGroup() {
       java.lang.Object ref = group_;
@@ -9362,7 +9379,7 @@ public final class DoodleProtos {
       }
     }
     /**
-     * <code>string group = 2;</code>
+     * <code>string group = 3;</code>
      */
     public com.google.protobuf.ByteString
         getGroupBytes() {
@@ -9378,10 +9395,10 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int PATH_FIELD_NUMBER = 3;
+    public static final int PATH_FIELD_NUMBER = 4;
     private volatile java.lang.Object path_;
     /**
-     * <code>string path = 3;</code>
+     * <code>string path = 4;</code>
      */
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
@@ -9396,7 +9413,7 @@ public final class DoodleProtos {
       }
     }
     /**
-     * <code>string path = 3;</code>
+     * <code>string path = 4;</code>
      */
     public com.google.protobuf.ByteString
         getPathBytes() {
@@ -9410,23 +9427,6 @@ public final class DoodleProtos {
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
-    }
-
-    public static final int FILETYPE_FIELD_NUMBER = 4;
-    private int fileType_;
-    /**
-     * <code>.FileType fileType = 4;</code>
-     */
-    public int getFileTypeValue() {
-      return fileType_;
-    }
-    /**
-     * <code>.FileType fileType = 4;</code>
-     */
-    public com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType() {
-      @SuppressWarnings("deprecation")
-      com.bushpath.doodle.protobuf.DoodleProtos.FileType result = com.bushpath.doodle.protobuf.DoodleProtos.FileType.valueOf(fileType_);
-      return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.FileType.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -9443,17 +9443,17 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (fileType_ != com.bushpath.doodle.protobuf.DoodleProtos.FileType.DIRECTORY.getNumber()) {
+        output.writeEnum(1, fileType_);
+      }
       if (!getUserBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, user_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, user_);
       }
       if (!getGroupBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, group_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, group_);
       }
       if (!getPathBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, path_);
-      }
-      if (fileType_ != com.bushpath.doodle.protobuf.DoodleProtos.FileType.DIRECTORY.getNumber()) {
-        output.writeEnum(4, fileType_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, path_);
       }
       unknownFields.writeTo(output);
     }
@@ -9464,18 +9464,18 @@ public final class DoodleProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getUserBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, user_);
-      }
-      if (!getGroupBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, group_);
-      }
-      if (!getPathBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, path_);
-      }
       if (fileType_ != com.bushpath.doodle.protobuf.DoodleProtos.FileType.DIRECTORY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(4, fileType_);
+          .computeEnumSize(1, fileType_);
+      }
+      if (!getUserBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, user_);
+      }
+      if (!getGroupBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, group_);
+      }
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, path_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9493,13 +9493,13 @@ public final class DoodleProtos {
       com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest other = (com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest) obj;
 
       boolean result = true;
+      result = result && fileType_ == other.fileType_;
       result = result && getUser()
           .equals(other.getUser());
       result = result && getGroup()
           .equals(other.getGroup());
       result = result && getPath()
           .equals(other.getPath());
-      result = result && fileType_ == other.fileType_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -9511,14 +9511,14 @@ public final class DoodleProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FILETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + fileType_;
       hash = (37 * hash) + USER_FIELD_NUMBER;
       hash = (53 * hash) + getUser().hashCode();
       hash = (37 * hash) + GROUP_FIELD_NUMBER;
       hash = (53 * hash) + getGroup().hashCode();
       hash = (37 * hash) + PATH_FIELD_NUMBER;
       hash = (53 * hash) + getPath().hashCode();
-      hash = (37 * hash) + FILETYPE_FIELD_NUMBER;
-      hash = (53 * hash) + fileType_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9652,13 +9652,13 @@ public final class DoodleProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        fileType_ = 0;
+
         user_ = "";
 
         group_ = "";
 
         path_ = "";
-
-        fileType_ = 0;
 
         return this;
       }
@@ -9686,10 +9686,10 @@ public final class DoodleProtos {
       @java.lang.Override
       public com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest buildPartial() {
         com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest result = new com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest(this);
+        result.fileType_ = fileType_;
         result.user_ = user_;
         result.group_ = group_;
         result.path_ = path_;
-        result.fileType_ = fileType_;
         onBuilt();
         return result;
       }
@@ -9738,6 +9738,9 @@ public final class DoodleProtos {
 
       public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest other) {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest.getDefaultInstance()) return this;
+        if (other.fileType_ != 0) {
+          setFileTypeValue(other.getFileTypeValue());
+        }
         if (!other.getUser().isEmpty()) {
           user_ = other.user_;
           onChanged();
@@ -9749,9 +9752,6 @@ public final class DoodleProtos {
         if (!other.getPath().isEmpty()) {
           path_ = other.path_;
           onChanged();
-        }
-        if (other.fileType_ != 0) {
-          setFileTypeValue(other.getFileTypeValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9782,9 +9782,54 @@ public final class DoodleProtos {
         return this;
       }
 
+      private int fileType_ = 0;
+      /**
+       * <code>.FileType fileType = 1;</code>
+       */
+      public int getFileTypeValue() {
+        return fileType_;
+      }
+      /**
+       * <code>.FileType fileType = 1;</code>
+       */
+      public Builder setFileTypeValue(int value) {
+        fileType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.FileType fileType = 1;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType() {
+        @SuppressWarnings("deprecation")
+        com.bushpath.doodle.protobuf.DoodleProtos.FileType result = com.bushpath.doodle.protobuf.DoodleProtos.FileType.valueOf(fileType_);
+        return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.FileType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.FileType fileType = 1;</code>
+       */
+      public Builder setFileType(com.bushpath.doodle.protobuf.DoodleProtos.FileType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        fileType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.FileType fileType = 1;</code>
+       */
+      public Builder clearFileType() {
+        
+        fileType_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object user_ = "";
       /**
-       * <code>string user = 1;</code>
+       * <code>string user = 2;</code>
        */
       public java.lang.String getUser() {
         java.lang.Object ref = user_;
@@ -9799,7 +9844,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string user = 1;</code>
+       * <code>string user = 2;</code>
        */
       public com.google.protobuf.ByteString
           getUserBytes() {
@@ -9815,7 +9860,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string user = 1;</code>
+       * <code>string user = 2;</code>
        */
       public Builder setUser(
           java.lang.String value) {
@@ -9828,7 +9873,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string user = 1;</code>
+       * <code>string user = 2;</code>
        */
       public Builder clearUser() {
         
@@ -9837,7 +9882,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string user = 1;</code>
+       * <code>string user = 2;</code>
        */
       public Builder setUserBytes(
           com.google.protobuf.ByteString value) {
@@ -9853,7 +9898,7 @@ public final class DoodleProtos {
 
       private java.lang.Object group_ = "";
       /**
-       * <code>string group = 2;</code>
+       * <code>string group = 3;</code>
        */
       public java.lang.String getGroup() {
         java.lang.Object ref = group_;
@@ -9868,7 +9913,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string group = 2;</code>
+       * <code>string group = 3;</code>
        */
       public com.google.protobuf.ByteString
           getGroupBytes() {
@@ -9884,7 +9929,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string group = 2;</code>
+       * <code>string group = 3;</code>
        */
       public Builder setGroup(
           java.lang.String value) {
@@ -9897,7 +9942,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string group = 2;</code>
+       * <code>string group = 3;</code>
        */
       public Builder clearGroup() {
         
@@ -9906,7 +9951,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string group = 2;</code>
+       * <code>string group = 3;</code>
        */
       public Builder setGroupBytes(
           com.google.protobuf.ByteString value) {
@@ -9922,7 +9967,7 @@ public final class DoodleProtos {
 
       private java.lang.Object path_ = "";
       /**
-       * <code>string path = 3;</code>
+       * <code>string path = 4;</code>
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -9937,7 +9982,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string path = 3;</code>
+       * <code>string path = 4;</code>
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -9953,7 +9998,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string path = 3;</code>
+       * <code>string path = 4;</code>
        */
       public Builder setPath(
           java.lang.String value) {
@@ -9966,7 +10011,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string path = 3;</code>
+       * <code>string path = 4;</code>
        */
       public Builder clearPath() {
         
@@ -9975,7 +10020,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string path = 3;</code>
+       * <code>string path = 4;</code>
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -9985,51 +10030,6 @@ public final class DoodleProtos {
   checkByteStringIsUtf8(value);
         
         path_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int fileType_ = 0;
-      /**
-       * <code>.FileType fileType = 4;</code>
-       */
-      public int getFileTypeValue() {
-        return fileType_;
-      }
-      /**
-       * <code>.FileType fileType = 4;</code>
-       */
-      public Builder setFileTypeValue(int value) {
-        fileType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.FileType fileType = 4;</code>
-       */
-      public com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType() {
-        @SuppressWarnings("deprecation")
-        com.bushpath.doodle.protobuf.DoodleProtos.FileType result = com.bushpath.doodle.protobuf.DoodleProtos.FileType.valueOf(fileType_);
-        return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.FileType.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.FileType fileType = 4;</code>
-       */
-      public Builder setFileType(com.bushpath.doodle.protobuf.DoodleProtos.FileType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        fileType_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.FileType fileType = 4;</code>
-       */
-      public Builder clearFileType() {
-        
-        fileType_ = 0;
         onChanged();
         return this;
       }
@@ -33974,50 +33974,55 @@ public final class DoodleProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.FileType fileType = 1;</code>
+     * <code>int32 inode = 1;</code>
+     */
+    int getInode();
+
+    /**
+     * <code>.FileType fileType = 2;</code>
      */
     int getFileTypeValue();
     /**
-     * <code>.FileType fileType = 1;</code>
+     * <code>.FileType fileType = 2;</code>
      */
     com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType();
 
     /**
-     * <code>string user = 2;</code>
+     * <code>string user = 3;</code>
      */
     java.lang.String getUser();
     /**
-     * <code>string user = 2;</code>
+     * <code>string user = 3;</code>
      */
     com.google.protobuf.ByteString
         getUserBytes();
 
     /**
-     * <code>string group = 3;</code>
+     * <code>string group = 4;</code>
      */
     java.lang.String getGroup();
     /**
-     * <code>string group = 3;</code>
+     * <code>string group = 4;</code>
      */
     com.google.protobuf.ByteString
         getGroupBytes();
 
     /**
-     * <code>string name = 4;</code>
+     * <code>string name = 5;</code>
      */
     java.lang.String getName();
     /**
-     * <code>string name = 4;</code>
+     * <code>string name = 5;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
     int getObservationsCount();
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
     boolean containsObservations(
         int key);
@@ -34028,19 +34033,19 @@ public final class DoodleProtos {
     java.util.Map<java.lang.Integer, java.lang.Long>
     getObservations();
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
     java.util.Map<java.lang.Integer, java.lang.Long>
     getObservationsMap();
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
 
     long getObservationsOrDefault(
         int key,
         long defaultValue);
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
 
     long getObservationsOrThrow(
@@ -34059,6 +34064,7 @@ public final class DoodleProtos {
       super(builder);
     }
     private File() {
+      inode_ = 0;
       fileType_ = 0;
       user_ = "";
       group_ = "";
@@ -34090,34 +34096,39 @@ public final class DoodleProtos {
               done = true;
               break;
             case 8: {
+
+              inode_ = input.readInt32();
+              break;
+            }
+            case 16: {
               int rawValue = input.readEnum();
 
               fileType_ = rawValue;
               break;
             }
-            case 18: {
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               user_ = s;
               break;
             }
-            case 26: {
+            case 34: {
               java.lang.String s = input.readStringRequireUtf8();
 
               group_ = s;
               break;
             }
-            case 34: {
+            case 42: {
               java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
               break;
             }
-            case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 observations_ = com.google.protobuf.MapField.newMapField(
                     ObservationsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000020;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Long>
               observations__ = input.readMessage(
@@ -34155,7 +34166,7 @@ public final class DoodleProtos {
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 5:
+        case 6:
           return internalGetObservations();
         default:
           throw new RuntimeException(
@@ -34171,16 +34182,25 @@ public final class DoodleProtos {
     }
 
     private int bitField0_;
-    public static final int FILETYPE_FIELD_NUMBER = 1;
+    public static final int INODE_FIELD_NUMBER = 1;
+    private int inode_;
+    /**
+     * <code>int32 inode = 1;</code>
+     */
+    public int getInode() {
+      return inode_;
+    }
+
+    public static final int FILETYPE_FIELD_NUMBER = 2;
     private int fileType_;
     /**
-     * <code>.FileType fileType = 1;</code>
+     * <code>.FileType fileType = 2;</code>
      */
     public int getFileTypeValue() {
       return fileType_;
     }
     /**
-     * <code>.FileType fileType = 1;</code>
+     * <code>.FileType fileType = 2;</code>
      */
     public com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType() {
       @SuppressWarnings("deprecation")
@@ -34188,10 +34208,10 @@ public final class DoodleProtos {
       return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.FileType.UNRECOGNIZED : result;
     }
 
-    public static final int USER_FIELD_NUMBER = 2;
+    public static final int USER_FIELD_NUMBER = 3;
     private volatile java.lang.Object user_;
     /**
-     * <code>string user = 2;</code>
+     * <code>string user = 3;</code>
      */
     public java.lang.String getUser() {
       java.lang.Object ref = user_;
@@ -34206,7 +34226,7 @@ public final class DoodleProtos {
       }
     }
     /**
-     * <code>string user = 2;</code>
+     * <code>string user = 3;</code>
      */
     public com.google.protobuf.ByteString
         getUserBytes() {
@@ -34222,10 +34242,10 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int GROUP_FIELD_NUMBER = 3;
+    public static final int GROUP_FIELD_NUMBER = 4;
     private volatile java.lang.Object group_;
     /**
-     * <code>string group = 3;</code>
+     * <code>string group = 4;</code>
      */
     public java.lang.String getGroup() {
       java.lang.Object ref = group_;
@@ -34240,7 +34260,7 @@ public final class DoodleProtos {
       }
     }
     /**
-     * <code>string group = 3;</code>
+     * <code>string group = 4;</code>
      */
     public com.google.protobuf.ByteString
         getGroupBytes() {
@@ -34256,10 +34276,10 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int NAME_FIELD_NUMBER = 4;
+    public static final int NAME_FIELD_NUMBER = 5;
     private volatile java.lang.Object name_;
     /**
-     * <code>string name = 4;</code>
+     * <code>string name = 5;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -34274,7 +34294,7 @@ public final class DoodleProtos {
       }
     }
     /**
-     * <code>string name = 4;</code>
+     * <code>string name = 5;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -34290,7 +34310,7 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int OBSERVATIONS_FIELD_NUMBER = 5;
+    public static final int OBSERVATIONS_FIELD_NUMBER = 6;
     private static final class ObservationsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
           java.lang.Integer, java.lang.Long> defaultEntry =
@@ -34317,7 +34337,7 @@ public final class DoodleProtos {
       return internalGetObservations().getMap().size();
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
 
     public boolean containsObservations(
@@ -34333,14 +34353,14 @@ public final class DoodleProtos {
       return getObservationsMap();
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
 
     public java.util.Map<java.lang.Integer, java.lang.Long> getObservationsMap() {
       return internalGetObservations().getMap();
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
 
     public long getObservationsOrDefault(
@@ -34352,7 +34372,7 @@ public final class DoodleProtos {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 5;</code>
+     * <code>map&lt;int32, int64&gt; observations = 6;</code>
      */
 
     public long getObservationsOrThrow(
@@ -34380,24 +34400,27 @@ public final class DoodleProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (inode_ != 0) {
+        output.writeInt32(1, inode_);
+      }
       if (fileType_ != com.bushpath.doodle.protobuf.DoodleProtos.FileType.DIRECTORY.getNumber()) {
-        output.writeEnum(1, fileType_);
+        output.writeEnum(2, fileType_);
       }
       if (!getUserBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, user_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, user_);
       }
       if (!getGroupBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, group_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, group_);
       }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, name_);
       }
       com.google.protobuf.GeneratedMessageV3
         .serializeIntegerMapTo(
           output,
           internalGetObservations(),
           ObservationsDefaultEntryHolder.defaultEntry,
-          5);
+          6);
       unknownFields.writeTo(output);
     }
 
@@ -34407,18 +34430,22 @@ public final class DoodleProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (inode_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, inode_);
+      }
       if (fileType_ != com.bushpath.doodle.protobuf.DoodleProtos.FileType.DIRECTORY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, fileType_);
+          .computeEnumSize(2, fileType_);
       }
       if (!getUserBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, user_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, user_);
       }
       if (!getGroupBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, group_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, group_);
       }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, name_);
       }
       for (java.util.Map.Entry<java.lang.Integer, java.lang.Long> entry
            : internalGetObservations().getMap().entrySet()) {
@@ -34428,7 +34455,7 @@ public final class DoodleProtos {
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(5, observations__);
+            .computeMessageSize(6, observations__);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -34446,6 +34473,8 @@ public final class DoodleProtos {
       com.bushpath.doodle.protobuf.DoodleProtos.File other = (com.bushpath.doodle.protobuf.DoodleProtos.File) obj;
 
       boolean result = true;
+      result = result && (getInode()
+          == other.getInode());
       result = result && fileType_ == other.fileType_;
       result = result && getUser()
           .equals(other.getUser());
@@ -34466,6 +34495,8 @@ public final class DoodleProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + INODE_FIELD_NUMBER;
+      hash = (53 * hash) + getInode();
       hash = (37 * hash) + FILETYPE_FIELD_NUMBER;
       hash = (53 * hash) + fileType_;
       hash = (37 * hash) + USER_FIELD_NUMBER;
@@ -34589,7 +34620,7 @@ public final class DoodleProtos {
       protected com.google.protobuf.MapField internalGetMapField(
           int number) {
         switch (number) {
-          case 5:
+          case 6:
             return internalGetObservations();
           default:
             throw new RuntimeException(
@@ -34600,7 +34631,7 @@ public final class DoodleProtos {
       protected com.google.protobuf.MapField internalGetMutableMapField(
           int number) {
         switch (number) {
-          case 5:
+          case 6:
             return internalGetMutableObservations();
           default:
             throw new RuntimeException(
@@ -34633,6 +34664,8 @@ public final class DoodleProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        inode_ = 0;
+
         fileType_ = 0;
 
         user_ = "";
@@ -34670,6 +34703,7 @@ public final class DoodleProtos {
         com.bushpath.doodle.protobuf.DoodleProtos.File result = new com.bushpath.doodle.protobuf.DoodleProtos.File(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        result.inode_ = inode_;
         result.fileType_ = fileType_;
         result.user_ = user_;
         result.group_ = group_;
@@ -34725,6 +34759,9 @@ public final class DoodleProtos {
 
       public Builder mergeFrom(com.bushpath.doodle.protobuf.DoodleProtos.File other) {
         if (other == com.bushpath.doodle.protobuf.DoodleProtos.File.getDefaultInstance()) return this;
+        if (other.getInode() != 0) {
+          setInode(other.getInode());
+        }
         if (other.fileType_ != 0) {
           setFileTypeValue(other.getFileTypeValue());
         }
@@ -34772,15 +34809,41 @@ public final class DoodleProtos {
       }
       private int bitField0_;
 
+      private int inode_ ;
+      /**
+       * <code>int32 inode = 1;</code>
+       */
+      public int getInode() {
+        return inode_;
+      }
+      /**
+       * <code>int32 inode = 1;</code>
+       */
+      public Builder setInode(int value) {
+        
+        inode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 inode = 1;</code>
+       */
+      public Builder clearInode() {
+        
+        inode_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int fileType_ = 0;
       /**
-       * <code>.FileType fileType = 1;</code>
+       * <code>.FileType fileType = 2;</code>
        */
       public int getFileTypeValue() {
         return fileType_;
       }
       /**
-       * <code>.FileType fileType = 1;</code>
+       * <code>.FileType fileType = 2;</code>
        */
       public Builder setFileTypeValue(int value) {
         fileType_ = value;
@@ -34788,7 +34851,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>.FileType fileType = 1;</code>
+       * <code>.FileType fileType = 2;</code>
        */
       public com.bushpath.doodle.protobuf.DoodleProtos.FileType getFileType() {
         @SuppressWarnings("deprecation")
@@ -34796,7 +34859,7 @@ public final class DoodleProtos {
         return result == null ? com.bushpath.doodle.protobuf.DoodleProtos.FileType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.FileType fileType = 1;</code>
+       * <code>.FileType fileType = 2;</code>
        */
       public Builder setFileType(com.bushpath.doodle.protobuf.DoodleProtos.FileType value) {
         if (value == null) {
@@ -34808,7 +34871,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>.FileType fileType = 1;</code>
+       * <code>.FileType fileType = 2;</code>
        */
       public Builder clearFileType() {
         
@@ -34819,7 +34882,7 @@ public final class DoodleProtos {
 
       private java.lang.Object user_ = "";
       /**
-       * <code>string user = 2;</code>
+       * <code>string user = 3;</code>
        */
       public java.lang.String getUser() {
         java.lang.Object ref = user_;
@@ -34834,7 +34897,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string user = 2;</code>
+       * <code>string user = 3;</code>
        */
       public com.google.protobuf.ByteString
           getUserBytes() {
@@ -34850,7 +34913,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string user = 2;</code>
+       * <code>string user = 3;</code>
        */
       public Builder setUser(
           java.lang.String value) {
@@ -34863,7 +34926,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string user = 2;</code>
+       * <code>string user = 3;</code>
        */
       public Builder clearUser() {
         
@@ -34872,7 +34935,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string user = 2;</code>
+       * <code>string user = 3;</code>
        */
       public Builder setUserBytes(
           com.google.protobuf.ByteString value) {
@@ -34888,7 +34951,7 @@ public final class DoodleProtos {
 
       private java.lang.Object group_ = "";
       /**
-       * <code>string group = 3;</code>
+       * <code>string group = 4;</code>
        */
       public java.lang.String getGroup() {
         java.lang.Object ref = group_;
@@ -34903,7 +34966,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string group = 3;</code>
+       * <code>string group = 4;</code>
        */
       public com.google.protobuf.ByteString
           getGroupBytes() {
@@ -34919,7 +34982,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string group = 3;</code>
+       * <code>string group = 4;</code>
        */
       public Builder setGroup(
           java.lang.String value) {
@@ -34932,7 +34995,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string group = 3;</code>
+       * <code>string group = 4;</code>
        */
       public Builder clearGroup() {
         
@@ -34941,7 +35004,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string group = 3;</code>
+       * <code>string group = 4;</code>
        */
       public Builder setGroupBytes(
           com.google.protobuf.ByteString value) {
@@ -34957,7 +35020,7 @@ public final class DoodleProtos {
 
       private java.lang.Object name_ = "";
       /**
-       * <code>string name = 4;</code>
+       * <code>string name = 5;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -34972,7 +35035,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string name = 4;</code>
+       * <code>string name = 5;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -34988,7 +35051,7 @@ public final class DoodleProtos {
         }
       }
       /**
-       * <code>string name = 4;</code>
+       * <code>string name = 5;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -35001,7 +35064,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string name = 4;</code>
+       * <code>string name = 5;</code>
        */
       public Builder clearName() {
         
@@ -35010,7 +35073,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>string name = 4;</code>
+       * <code>string name = 5;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -35051,7 +35114,7 @@ public final class DoodleProtos {
         return internalGetObservations().getMap().size();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
 
       public boolean containsObservations(
@@ -35067,14 +35130,14 @@ public final class DoodleProtos {
         return getObservationsMap();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
 
       public java.util.Map<java.lang.Integer, java.lang.Long> getObservationsMap() {
         return internalGetObservations().getMap();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
 
       public long getObservationsOrDefault(
@@ -35086,7 +35149,7 @@ public final class DoodleProtos {
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
 
       public long getObservationsOrThrow(
@@ -35106,7 +35169,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
 
       public Builder removeObservations(
@@ -35125,7 +35188,7 @@ public final class DoodleProtos {
         return internalGetMutableObservations().getMutableMap();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
       public Builder putObservations(
           int key,
@@ -35137,7 +35200,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 5;</code>
+       * <code>map&lt;int32, int64&gt; observations = 6;</code>
        */
 
       public Builder putAllObservations(
@@ -41395,8 +41458,8 @@ public final class DoodleProtos {
       "wRequest\022\n\n\002id\030\001 \001(\t\"S\n\023ControlShowRespo" +
       "nse\022\016\n\006plugin\030\001 \001(\t\022\016\n\006frozen\030\002 \001(\010\022\034\n\tv" +
       "ariables\030\003 \003(\0132\t.Variable\"X\n\016FileAddRequ" +
-      "est\022\014\n\004user\030\001 \001(\t\022\r\n\005group\030\002 \001(\t\022\014\n\004path" +
-      "\030\003 \001(\t\022\033\n\010fileType\030\004 \001(\0162\t.FileType\"\021\n\017F" +
+      "est\022\033\n\010fileType\030\001 \001(\0162\t.FileType\022\014\n\004user" +
+      "\030\002 \001(\t\022\r\n\005group\030\003 \001(\t\022\014\n\004path\030\004 \001(\t\"\021\n\017F" +
       "ileAddResponse\">\n\021FileDeleteRequest\022\014\n\004u" +
       "ser\030\001 \001(\t\022\r\n\005group\030\002 \001(\t\022\014\n\004path\030\003 \001(\t\"\024" +
       "\n\022FileDeleteResponse\"<\n\017FileListRequest\022" +
@@ -41446,40 +41509,41 @@ public final class DoodleProtos {
       "\034\n\tvariables\030\004 \003(\0132\t.Variable\022 \n\013checkpo" +
       "ints\030\005 \003(\0132\013.Checkpoint\"D\n\022SketchWriteRe" +
       "quest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022" +
-      "\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteResponse\"\262\001\n" +
-      "\004File\022\033\n\010fileType\030\001 \001(\0162\t.FileType\022\014\n\004us" +
-      "er\030\002 \001(\t\022\r\n\005group\030\003 \001(\t\022\014\n\004name\030\004 \001(\t\022-\n" +
-      "\014observations\030\005 \003(\0132\027.File.ObservationsE" +
-      "ntry\0323\n\021ObservationsEntry\022\013\n\003key\030\001 \001(\005\022\r" +
-      "\n\005value\030\002 \001(\003:\0028\001\"\211\001\n\rFileOperation\022\021\n\tt" +
-      "imestamp\030\001 \001(\003\022\033\n\010fileType\030\002 \001(\0162\t.FileT" +
-      "ype\022\014\n\004user\030\003 \001(\t\022\r\n\005group\030\004 \001(\t\022\014\n\004path" +
-      "\030\005 \001(\t\022\035\n\toperation\030\006 \001(\0162\n.Operation\"c\n" +
-      "\nCheckpoint\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketch" +
-      "Id\030\002 \001(\t\022\024\n\014checkpointId\030\003 \001(\t\022\032\n\010replic" +
-      "as\030\004 \003(\0132\010.Replica\"%\n\007Failure\022\014\n\004type\030\001 " +
-      "\001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n" +
-      "\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\":\n\007Replic" +
-      "a\022\025\n\rprimaryNodeId\030\001 \001(\005\022\030\n\020secondaryNod" +
-      "eIds\030\002 \003(\005\"6\n\010Variable\022\014\n\004type\030\001 \001(\t\022\014\n\004" +
-      "name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"b\n\021VariableOp" +
-      "eration\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\toperation\030" +
-      "\002 \001(\0162\n.Operation\022\033\n\010variable\030\003 \001(\0132\t.Va" +
-      "riable*\276\003\n\013MessageType\022\023\n\017CHECKPOINT_INI" +
-      "T\020\000\022\027\n\023CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPOI" +
-      "NT_TRANSFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONTR" +
-      "OL_LIST\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTROL" +
-      "_SHOW\020\006\022\013\n\007FAILURE\020\007\022\014\n\010FILE_ADD\020\010\022\017\n\013FI" +
-      "LE_DELETE\020\t\022\r\n\tFILE_LIST\020\n\022\017\n\013GOSSIP_HAS" +
-      "H\020\013\022\021\n\rGOSSIP_UPDATE\020\014\022\r\n\tNODE_LIST\020\r\022\r\n" +
-      "\tNODE_SHOW\020\016\022\016\n\nPIPE_CLOSE\020\017\022\r\n\tPIPE_OPE" +
-      "N\020\020\022\016\n\nPIPE_WRITE\020\021\022\017\n\013PLUGIN_LIST\020\022\022\t\n\005" +
-      "QUERY\020\023\022\017\n\013SKETCH_INIT\020\024\022\017\n\013SKETCH_LIST\020" +
-      "\025\022\021\n\rSKETCH_MODIFY\020\026\022\017\n\013SKETCH_SHOW\020\027\022\020\n" +
-      "\014SKETCH_WRITE\020\030*&\n\010FileType\022\r\n\tDIRECTORY" +
-      "\020\000\022\013\n\007REGULAR\020\001* \n\tOperation\022\007\n\003ADD\020\000\022\n\n" +
-      "\006DELETE\020\001B/\n\034com.bushpath.doodle.protobu" +
-      "fB\014DoodleProtos\240\001\001b\006proto3"
+      "\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteResponse\"\301\001\n" +
+      "\004File\022\r\n\005inode\030\001 \001(\005\022\033\n\010fileType\030\002 \001(\0162\t" +
+      ".FileType\022\014\n\004user\030\003 \001(\t\022\r\n\005group\030\004 \001(\t\022\014" +
+      "\n\004name\030\005 \001(\t\022-\n\014observations\030\006 \003(\0132\027.Fil" +
+      "e.ObservationsEntry\0323\n\021ObservationsEntry" +
+      "\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\003:\0028\001\"\211\001\n\rFil" +
+      "eOperation\022\021\n\ttimestamp\030\001 \001(\003\022\033\n\010fileTyp" +
+      "e\030\002 \001(\0162\t.FileType\022\014\n\004user\030\003 \001(\t\022\r\n\005grou" +
+      "p\030\004 \001(\t\022\014\n\004path\030\005 \001(\t\022\035\n\toperation\030\006 \001(\016" +
+      "2\n.Operation\"c\n\nCheckpoint\022\021\n\ttimestamp\030" +
+      "\001 \001(\003\022\020\n\010sketchId\030\002 \001(\t\022\024\n\014checkpointId\030" +
+      "\003 \001(\t\022\032\n\010replicas\030\004 \003(\0132\010.Replica\"%\n\007Fai" +
+      "lure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node" +
+      "\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030" +
+      "\003 \001(\005\":\n\007Replica\022\025\n\rprimaryNodeId\030\001 \001(\005\022" +
+      "\030\n\020secondaryNodeIds\030\002 \003(\005\"6\n\010Variable\022\014\n" +
+      "\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(" +
+      "\t\"b\n\021VariableOperation\022\021\n\ttimestamp\030\001 \001(" +
+      "\003\022\035\n\toperation\030\002 \001(\0162\n.Operation\022\033\n\010vari" +
+      "able\030\003 \001(\0132\t.Variable*\276\003\n\013MessageType\022\023\n" +
+      "\017CHECKPOINT_INIT\020\000\022\027\n\023CHECKPOINT_ROLLBAC" +
+      "K\020\001\022\027\n\023CHECKPOINT_TRANSFER\020\002\022\020\n\014CONTROL_" +
+      "INIT\020\003\022\020\n\014CONTROL_LIST\020\004\022\022\n\016CONTROL_MODI" +
+      "FY\020\005\022\020\n\014CONTROL_SHOW\020\006\022\013\n\007FAILURE\020\007\022\014\n\010F" +
+      "ILE_ADD\020\010\022\017\n\013FILE_DELETE\020\t\022\r\n\tFILE_LIST\020" +
+      "\n\022\017\n\013GOSSIP_HASH\020\013\022\021\n\rGOSSIP_UPDATE\020\014\022\r\n" +
+      "\tNODE_LIST\020\r\022\r\n\tNODE_SHOW\020\016\022\016\n\nPIPE_CLOS" +
+      "E\020\017\022\r\n\tPIPE_OPEN\020\020\022\016\n\nPIPE_WRITE\020\021\022\017\n\013PL" +
+      "UGIN_LIST\020\022\022\t\n\005QUERY\020\023\022\017\n\013SKETCH_INIT\020\024\022" +
+      "\017\n\013SKETCH_LIST\020\025\022\021\n\rSKETCH_MODIFY\020\026\022\017\n\013S" +
+      "KETCH_SHOW\020\027\022\020\n\014SKETCH_WRITE\020\030*&\n\010FileTy" +
+      "pe\022\r\n\tDIRECTORY\020\000\022\013\n\007REGULAR\020\001* \n\tOperat" +
+      "ion\022\007\n\003ADD\020\000\022\n\n\006DELETE\020\001B/\n\034com.bushpath" +
+      ".doodle.protobufB\014DoodleProtos\240\001\001b\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -41588,7 +41652,7 @@ public final class DoodleProtos {
     internal_static_FileAddRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FileAddRequest_descriptor,
-        new java.lang.String[] { "User", "Group", "Path", "FileType", });
+        new java.lang.String[] { "FileType", "User", "Group", "Path", });
     internal_static_FileAddResponse_descriptor =
       getDescriptor().getMessageTypes().get(15);
     internal_static_FileAddResponse_fieldAccessorTable = new
@@ -41810,7 +41874,7 @@ public final class DoodleProtos {
     internal_static_File_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_File_descriptor,
-        new java.lang.String[] { "FileType", "User", "Group", "Name", "Observations", });
+        new java.lang.String[] { "Inode", "FileType", "User", "Group", "Name", "Observations", });
     internal_static_File_ObservationsEntry_descriptor =
       internal_static_File_descriptor.getNestedTypes().get(0);
     internal_static_File_ObservationsEntry_fieldAccessorTable = new

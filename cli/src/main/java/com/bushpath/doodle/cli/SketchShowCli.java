@@ -4,7 +4,7 @@ import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
+import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
@@ -43,7 +43,7 @@ public class SketchShowCli implements Runnable {
             + "\nclass = \"" + response.getPlugin() + "\""
             + "\ninflatorClass = \"" + response.getInflatorClass() + "\"");
 
-        for (PluginVariable variable : response.getVariablesList()) {
+        for (Variable variable : response.getVariablesList()) {
             System.out.print("\n[[variable]]"
                 + "\ntype = \"" + variable.getType() + "\""
                 + "\nname = \"" + variable.getName() + "\""

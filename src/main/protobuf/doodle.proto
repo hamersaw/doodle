@@ -109,10 +109,10 @@ message ControlShowResponse {
  */
 
 message FileAddRequest {
-    string user = 1;
-    string group = 2;
-    string path = 3;
-    FileType fileType = 4;
+    FileType fileType = 1;
+    string user = 2;
+    string group = 3;
+    string path = 4;
 }
 
 message FileAddResponse {
@@ -305,6 +305,13 @@ message SketchWriteResponse {
  * Miscellaneous Messages
  */
 
+message Checkpoint {
+    int64 timestamp = 1;
+    string sketchId = 2;
+    string checkpointId = 3;
+    repeated Replica replicas = 4;
+}
+
 message File {
     int32 inode = 1;
     FileType fileType = 2;
@@ -326,13 +333,6 @@ message FileOperation {
     string group = 4;
     string path = 5;
     Operation operation = 6;
-}
-
-message Checkpoint {
-    int64 timestamp = 1;
-    string sketchId = 2;
-    string checkpointId = 3;
-    repeated Replica replicas = 4;
 }
 
 message Failure {

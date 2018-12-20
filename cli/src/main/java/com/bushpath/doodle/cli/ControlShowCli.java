@@ -4,7 +4,7 @@ import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.PluginVariable;
+import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -39,7 +39,7 @@ public class ControlShowCli implements Runnable {
             + "\nfrozen = \"" + response.getFrozen() + "\""
             + "\nclass = \"" + response.getPlugin() + "\"");
 
-        for (PluginVariable variable : response.getVariablesList()) {
+        for (Variable variable : response.getVariablesList()) {
             System.out.print("\n[[variable]]"
                 + "\ntype = \"" + variable.getType() + "\""
                 + "\nname = \"" + variable.getName() + "\""
