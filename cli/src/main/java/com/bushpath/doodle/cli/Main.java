@@ -8,8 +8,8 @@ import picocli.CommandLine.Option;
     version = "0.1",
     description = "cli application to interface with doodle",
     mixinStandardHelpOptions = true,
-    subcommands = {ControlCli.class, DataCli.class, NodeCli.class,
-        PluginCli.class, SketchCli.class})
+    subcommands = {AnalyticsCli.class, ControlCli.class,
+        DataCli.class, NodeCli.class, PluginCli.class, SketchCli.class})
 public class Main implements Runnable {
     @Option(names={"-i", "--ip-address"},
         description="IP address of doodle node [default=\"127.0.0.1\"].")
