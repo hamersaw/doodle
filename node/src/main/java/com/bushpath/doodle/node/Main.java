@@ -359,7 +359,7 @@ public class Main {
 
             GossipService gossipService = new GossipService(
                 checkpointManager, controlPluginManager, pluginManager,
-                nodeManager, sketchManager);
+                nodeManager, sketchManager, fileManager);
             server.registerService(gossipService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
@@ -374,7 +374,7 @@ public class Main {
             Timer timer = new Timer();
             GossipTimerTask gossipTimerTask =
                 new GossipTimerTask(controlPluginManager, nodeManager,
-                    sketchManager, checkpointManager);
+                    sketchManager, checkpointManager, fileManager);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
 

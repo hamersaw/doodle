@@ -15,9 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.zip.CRC32;
 
 public class FileManager {
     protected static final Logger log =
@@ -35,16 +37,14 @@ public class FileManager {
         this.random = new Random(System.nanoTime());
 
         // add root directory to inodes
-        DoodleDirectory directory = new DoodleDirectory("");
         DoodleInode inode =
-            new DoodleInode(FileType.DIRECTORY,
-                "root", "root", directory);
+            this.create(FileType.DIRECTORY, "root", "root", "");
 
         this.inodes.put(2, inode);
     }
 
-    public void add(FileType fileType, String user,
-            String group, String path) throws Exception {
+    public void add(String user, String group, String path,
+            int value, DoodleInode inode) throws Exception {
         this.lock.writeLock().lock();
         try {
             // parse path
@@ -60,21 +60,7 @@ public class FileManager {
 
             DoodleDirectory directory = (DoodleDirectory) doodleEntry;
 
-            // create inode
-            DoodleEntry entry = null;
-            switch (fileType) {
-                case DIRECTORY:
-                    entry = new DoodleDirectory(filename);
-                    break;
-                case REGULAR:
-                    entry = new DoodleFile(filename);
-                    break;
-            }
-
             // add inode
-            int value = this.random.nextInt();
-            DoodleInode inode =
-                new DoodleInode(fileType, user, group, entry);
             this.inodes.put(value, inode);
             directory.put(filename, value);
 
@@ -92,6 +78,35 @@ public class FileManager {
         } finally {
             this.lock.writeLock().unlock();
         }
+    }
+
+    public DoodleInode create(FileType fileType, String user,
+            String group, String path) {
+        long time = System.currentTimeMillis();
+        return this.create(fileType, user,
+            group, path, 0, time, time, time);
+    }
+
+    public DoodleInode create(FileType fileType, String user,
+            String group, String path, long size, long changeTime,
+            long modificationTime, long accessTime) {
+        List<String> elements = this.parsePath(path);
+        String filename = elements.remove(elements.size() - 1);
+
+        // create entry
+        DoodleEntry entry = null;
+        switch (fileType) {
+            case DIRECTORY:
+                entry = new DoodleDirectory(filename);
+                break;
+            case REGULAR:
+                entry = new DoodleFile(filename);
+                break;
+        }
+
+        // create inode
+        return new DoodleInode(fileType, user, group, size,
+            changeTime, modificationTime, accessTime, entry);
     }
 
     public void delete(String user, String group,
@@ -175,6 +190,24 @@ public class FileManager {
         return inode;
     }
 
+    public Set<Map.Entry<Integer, DoodleInode>> getInodeEntrySet() {
+        this.lock.readLock().lock();
+        try {
+            return this.inodes.entrySet();
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public Set<Map.Entry<Long, FileOperation>> getOperationsEntrySet() {
+        this.lock.readLock().lock();
+        try {
+            return this.operations.entrySet();
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
     public Collection<DoodleInode> list(String user, String group,
             String path) throws Exception {
         this.lock.readLock().lock();
@@ -215,5 +248,53 @@ public class FileManager {
         }
 
         return list;
+    }
+
+    @Override
+    public int hashCode() {
+        CRC32 crc32 = new CRC32();
+
+        this.lock.readLock().lock();
+        try {
+            for (FileOperation operation : this.operations.values()) {
+                crc32.update((int) operation.getTimestamp());
+                crc32.update(operation.getPath().getBytes());
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
+        return (int) crc32.getValue();
+    }
+
+    public int filesHashCode() {
+        CRC32 crc32 = new CRC32();
+
+        this.lock.readLock().lock();
+        try {
+            for (Map.Entry<Integer, DoodleInode> entry :
+                    this.inodes.entrySet()) {
+                // skip root node
+                if (entry.getKey() == 2) {
+                    continue;
+                }
+
+                crc32.update(entry.getKey());
+
+                DoodleInode inode = entry.getValue();
+                crc32.update(inode.getUser().getBytes());
+                crc32.update(inode.getGroup().getBytes());
+                crc32.update((int) inode.getSize());
+                crc32.update((int) inode.getChangeTime());
+                crc32.update((int) inode.getModificationTime());
+                crc32.update((int) inode.getAccessTime());
+
+                // TODO - add observations for files
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
+        return (int) crc32.getValue();
     }
 }

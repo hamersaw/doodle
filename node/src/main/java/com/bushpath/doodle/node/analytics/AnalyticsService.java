@@ -16,15 +16,18 @@ import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.util.Random;
 
 public class AnalyticsService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(AnalyticsService.class);
 
     protected FileManager fileManager;
+    protected Random random;
 
     public AnalyticsService(FileManager fileManager) {
         this.fileManager = fileManager;
+        this.random = new Random(System.nanoTime());
     }
 
     @Override
@@ -48,7 +51,7 @@ public class AnalyticsService implements Service {
                     FileAddRequest faRequest =
                         FileAddRequest.parseDelimitedFrom(in);
 
-                    FileType fileType = faRequest.getFileType();
+                    FileType faFileType = faRequest.getFileType();
                     String faUser = faRequest.getUser();
                     String faGroup = faRequest.getGroup();
                     String faPath = faRequest.getPath();
@@ -59,8 +62,11 @@ public class AnalyticsService implements Service {
                         FileAddResponse.newBuilder();
 
                     // populate builder
-                    this.fileManager.add(fileType, faUser,
-                        faGroup, faPath);
+                    DoodleInode faInode = this.fileManager
+                        .create(faFileType, faUser, faGroup, faPath);
+
+                    this.fileManager.add(faUser, faGroup, 
+                        faPath, random.nextInt(), faInode);
 
                     // write to out
                     out.writeInt(messageType);

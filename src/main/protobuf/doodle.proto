@@ -149,6 +149,8 @@ message GossipHashResponse {
     int32 controlHash = 2;
     int32 sketchHash = 3;
     int32 checkpointHash = 4;
+    int32 fileOperationsHash = 5;
+    int32 filesHash = 6;
 }
 
 message GossipUpdateRequest {
@@ -156,6 +158,8 @@ message GossipUpdateRequest {
     repeated ControlPluginGossip controlPlugins = 2;
     repeated SketchPluginGossip sketchPlugins = 3;
     repeated Checkpoint checkpoints = 4;
+    repeated FileOperation fileOperations = 5;
+    repeated File files = 6;
 }
 
 message GossipUpdateResponse {

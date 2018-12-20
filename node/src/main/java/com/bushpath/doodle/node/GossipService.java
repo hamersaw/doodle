@@ -5,6 +5,7 @@ import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateRequest;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
@@ -46,16 +48,18 @@ public class GossipService implements Service {
     protected PluginManager pluginManager;
     protected NodeManager nodeManager;
     protected SketchManager sketchManager;
+    protected FileManager fileManager;
 
     public GossipService(CheckpointManager checkpointManager,
             ControlPluginManager controlPluginManager,
             PluginManager pluginManager, NodeManager nodeManager,
-            SketchManager sketchManager) {
+            SketchManager sketchManager, FileManager fileManager) {
         this.checkpointManager = checkpointManager;
         this.controlPluginManager = controlPluginManager;
         this.pluginManager = pluginManager;
         this.nodeManager = nodeManager;
         this.sketchManager = sketchManager;
+        this.fileManager = fileManager;
     }
 
     @Override
@@ -86,7 +90,9 @@ public class GossipService implements Service {
                         .setNodesHash(this.nodeManager.hashCode())
                         .setControlHash(this.controlPluginManager.hashCode())
                         .setSketchHash(this.sketchManager.hashCode())
-                        .setCheckpointHash(this.checkpointManager.hashCode());
+                        .setCheckpointHash(this.checkpointManager.hashCode())
+                        .setFileOperationsHash(this.fileManager.hashCode())
+                        .setFilesHash(this.fileManager.filesHashCode());
 
 
                     // write to out
@@ -297,6 +303,18 @@ public class GossipService implements Service {
 
                         this.checkpointManager
                             .add(checkpointMetadata, true);
+                    }
+
+                    // TODO - handle fileOperations
+                    for (FileOperation operation :
+                            gossipUpdateRequest.getFileOperationsList()) {
+                        System.out.println("TODO - handle file operation");
+                    }
+
+                    // TODO - handle files
+                    for (com.bushpath.doodle.protobuf.DoodleProtos.File file :
+                            gossipUpdateRequest.getFilesList()) {
+                        System.out.println("TODO - handle file");
                     }
 
                     // write to out

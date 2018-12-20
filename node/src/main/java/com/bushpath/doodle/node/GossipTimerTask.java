@@ -3,6 +3,7 @@ package com.bushpath.doodle.node;
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateRequest;
@@ -13,6 +14,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.node.analytics.DoodleInode;
+import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
@@ -39,14 +42,17 @@ public class GossipTimerTask extends TimerTask {
     protected NodeManager nodeManager;
     protected SketchManager sketchManager;
     protected CheckpointManager checkpointManager;
+    protected FileManager fileManager;
 
     public GossipTimerTask(ControlPluginManager controlPluginManager,
             NodeManager nodeManager, SketchManager sketchManager,
-            CheckpointManager checkpointManager) {
+            CheckpointManager checkpointManager,
+            FileManager fileManager) {
         this.controlPluginManager = controlPluginManager;
         this.nodeManager = nodeManager;
         this.sketchManager = sketchManager;
         this.checkpointManager = checkpointManager;
+        this.fileManager = fileManager;
     }
 
     @Override
@@ -127,6 +133,23 @@ public class GossipTimerTask extends TimerTask {
                     this.checkpointManager.getEntrySet()) {
                 gossipUpdateBuilder
                     .addCheckpoints(entry.getValue().toProtobuf());
+            }
+        }
+
+        // handle fileOperations and files
+        if (gossipHashResponse.getFileOperationsHash() !=
+                this.fileManager.hashCode()) {
+            for (Map.Entry<Long, FileOperation> entry :
+                    this.fileManager.getOperationsEntrySet()) {
+                gossipUpdateBuilder
+                    .addFileOperations(entry.getValue());
+            }
+        } else if (gossipHashResponse.getFilesHash() !=
+                this.fileManager.filesHashCode()) {
+            for (Map.Entry<Integer, DoodleInode> entry :
+                    this.fileManager.getInodeEntrySet()) {
+                gossipUpdateBuilder
+                    .addFiles(entry.getValue().toProtobuf());
             }
         }
  

@@ -13775,6 +13775,16 @@ public final class DoodleProtos {
      * <code>int32 checkpointHash = 4;</code>
      */
     int getCheckpointHash();
+
+    /**
+     * <code>int32 fileOperationsHash = 5;</code>
+     */
+    int getFileOperationsHash();
+
+    /**
+     * <code>int32 filesHash = 6;</code>
+     */
+    int getFilesHash();
   }
   /**
    * Protobuf type {@code GossipHashResponse}
@@ -13793,6 +13803,8 @@ public final class DoodleProtos {
       controlHash_ = 0;
       sketchHash_ = 0;
       checkpointHash_ = 0;
+      fileOperationsHash_ = 0;
+      filesHash_ = 0;
     }
 
     @java.lang.Override
@@ -13837,6 +13849,16 @@ public final class DoodleProtos {
             case 32: {
 
               checkpointHash_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              fileOperationsHash_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              filesHash_ = input.readInt32();
               break;
             }
             default: {
@@ -13907,6 +13929,24 @@ public final class DoodleProtos {
       return checkpointHash_;
     }
 
+    public static final int FILEOPERATIONSHASH_FIELD_NUMBER = 5;
+    private int fileOperationsHash_;
+    /**
+     * <code>int32 fileOperationsHash = 5;</code>
+     */
+    public int getFileOperationsHash() {
+      return fileOperationsHash_;
+    }
+
+    public static final int FILESHASH_FIELD_NUMBER = 6;
+    private int filesHash_;
+    /**
+     * <code>int32 filesHash = 6;</code>
+     */
+    public int getFilesHash() {
+      return filesHash_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -13933,6 +13973,12 @@ public final class DoodleProtos {
       if (checkpointHash_ != 0) {
         output.writeInt32(4, checkpointHash_);
       }
+      if (fileOperationsHash_ != 0) {
+        output.writeInt32(5, fileOperationsHash_);
+      }
+      if (filesHash_ != 0) {
+        output.writeInt32(6, filesHash_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -13958,6 +14004,14 @@ public final class DoodleProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, checkpointHash_);
       }
+      if (fileOperationsHash_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, fileOperationsHash_);
+      }
+      if (filesHash_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, filesHash_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -13982,6 +14036,10 @@ public final class DoodleProtos {
           == other.getSketchHash());
       result = result && (getCheckpointHash()
           == other.getCheckpointHash());
+      result = result && (getFileOperationsHash()
+          == other.getFileOperationsHash());
+      result = result && (getFilesHash()
+          == other.getFilesHash());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -14001,6 +14059,10 @@ public final class DoodleProtos {
       hash = (53 * hash) + getSketchHash();
       hash = (37 * hash) + CHECKPOINTHASH_FIELD_NUMBER;
       hash = (53 * hash) + getCheckpointHash();
+      hash = (37 * hash) + FILEOPERATIONSHASH_FIELD_NUMBER;
+      hash = (53 * hash) + getFileOperationsHash();
+      hash = (37 * hash) + FILESHASH_FIELD_NUMBER;
+      hash = (53 * hash) + getFilesHash();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -14142,6 +14204,10 @@ public final class DoodleProtos {
 
         checkpointHash_ = 0;
 
+        fileOperationsHash_ = 0;
+
+        filesHash_ = 0;
+
         return this;
       }
 
@@ -14172,6 +14238,8 @@ public final class DoodleProtos {
         result.controlHash_ = controlHash_;
         result.sketchHash_ = sketchHash_;
         result.checkpointHash_ = checkpointHash_;
+        result.fileOperationsHash_ = fileOperationsHash_;
+        result.filesHash_ = filesHash_;
         onBuilt();
         return result;
       }
@@ -14231,6 +14299,12 @@ public final class DoodleProtos {
         }
         if (other.getCheckpointHash() != 0) {
           setCheckpointHash(other.getCheckpointHash());
+        }
+        if (other.getFileOperationsHash() != 0) {
+          setFileOperationsHash(other.getFileOperationsHash());
+        }
+        if (other.getFilesHash() != 0) {
+          setFilesHash(other.getFilesHash());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -14361,6 +14435,58 @@ public final class DoodleProtos {
       public Builder clearCheckpointHash() {
         
         checkpointHash_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int fileOperationsHash_ ;
+      /**
+       * <code>int32 fileOperationsHash = 5;</code>
+       */
+      public int getFileOperationsHash() {
+        return fileOperationsHash_;
+      }
+      /**
+       * <code>int32 fileOperationsHash = 5;</code>
+       */
+      public Builder setFileOperationsHash(int value) {
+        
+        fileOperationsHash_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 fileOperationsHash = 5;</code>
+       */
+      public Builder clearFileOperationsHash() {
+        
+        fileOperationsHash_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int filesHash_ ;
+      /**
+       * <code>int32 filesHash = 6;</code>
+       */
+      public int getFilesHash() {
+        return filesHash_;
+      }
+      /**
+       * <code>int32 filesHash = 6;</code>
+       */
+      public Builder setFilesHash(int value) {
+        
+        filesHash_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 filesHash = 6;</code>
+       */
+      public Builder clearFilesHash() {
+        
+        filesHash_ = 0;
         onChanged();
         return this;
       }
@@ -14516,6 +14642,54 @@ public final class DoodleProtos {
      */
     com.bushpath.doodle.protobuf.DoodleProtos.CheckpointOrBuilder getCheckpointsOrBuilder(
         int index);
+
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation> 
+        getFileOperationsList();
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.FileOperation getFileOperations(int index);
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    int getFileOperationsCount();
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder> 
+        getFileOperationsOrBuilderList();
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder getFileOperationsOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.File> 
+        getFilesList();
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.File getFiles(int index);
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    int getFilesCount();
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder> 
+        getFilesOrBuilderList();
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder getFilesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code GossipUpdateRequest}
@@ -14534,6 +14708,8 @@ public final class DoodleProtos {
       controlPlugins_ = java.util.Collections.emptyList();
       sketchPlugins_ = java.util.Collections.emptyList();
       checkpoints_ = java.util.Collections.emptyList();
+      fileOperations_ = java.util.Collections.emptyList();
+      files_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -14596,6 +14772,24 @@ public final class DoodleProtos {
                   input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint.parser(), extensionRegistry));
               break;
             }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                fileOperations_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              fileOperations_.add(
+                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.parser(), extensionRegistry));
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                files_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.File>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              files_.add(
+                  input.readMessage(com.bushpath.doodle.protobuf.DoodleProtos.File.parser(), extensionRegistry));
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -14622,6 +14816,12 @@ public final class DoodleProtos {
         }
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           checkpoints_ = java.util.Collections.unmodifiableList(checkpoints_);
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          fileOperations_ = java.util.Collections.unmodifiableList(fileOperations_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          files_ = java.util.Collections.unmodifiableList(files_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -14780,6 +14980,76 @@ public final class DoodleProtos {
       return checkpoints_.get(index);
     }
 
+    public static final int FILEOPERATIONS_FIELD_NUMBER = 5;
+    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation> fileOperations_;
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation> getFileOperationsList() {
+      return fileOperations_;
+    }
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder> 
+        getFileOperationsOrBuilderList() {
+      return fileOperations_;
+    }
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    public int getFileOperationsCount() {
+      return fileOperations_.size();
+    }
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileOperation getFileOperations(int index) {
+      return fileOperations_.get(index);
+    }
+    /**
+     * <code>repeated .FileOperation fileOperations = 5;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder getFileOperationsOrBuilder(
+        int index) {
+      return fileOperations_.get(index);
+    }
+
+    public static final int FILES_FIELD_NUMBER = 6;
+    private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.File> files_;
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.File> getFilesList() {
+      return files_;
+    }
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder> 
+        getFilesOrBuilderList() {
+      return files_;
+    }
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    public int getFilesCount() {
+      return files_.size();
+    }
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.File getFiles(int index) {
+      return files_.get(index);
+    }
+    /**
+     * <code>repeated .File files = 6;</code>
+     */
+    public com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder getFilesOrBuilder(
+        int index) {
+      return files_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -14806,6 +15076,12 @@ public final class DoodleProtos {
       for (int i = 0; i < checkpoints_.size(); i++) {
         output.writeMessage(4, checkpoints_.get(i));
       }
+      for (int i = 0; i < fileOperations_.size(); i++) {
+        output.writeMessage(5, fileOperations_.get(i));
+      }
+      for (int i = 0; i < files_.size(); i++) {
+        output.writeMessage(6, files_.get(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -14831,6 +15107,14 @@ public final class DoodleProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, checkpoints_.get(i));
       }
+      for (int i = 0; i < fileOperations_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, fileOperations_.get(i));
+      }
+      for (int i = 0; i < files_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, files_.get(i));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -14855,6 +15139,10 @@ public final class DoodleProtos {
           .equals(other.getSketchPluginsList());
       result = result && getCheckpointsList()
           .equals(other.getCheckpointsList());
+      result = result && getFileOperationsList()
+          .equals(other.getFileOperationsList());
+      result = result && getFilesList()
+          .equals(other.getFilesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -14881,6 +15169,14 @@ public final class DoodleProtos {
       if (getCheckpointsCount() > 0) {
         hash = (37 * hash) + CHECKPOINTS_FIELD_NUMBER;
         hash = (53 * hash) + getCheckpointsList().hashCode();
+      }
+      if (getFileOperationsCount() > 0) {
+        hash = (37 * hash) + FILEOPERATIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getFileOperationsList().hashCode();
+      }
+      if (getFilesCount() > 0) {
+        hash = (37 * hash) + FILES_FIELD_NUMBER;
+        hash = (53 * hash) + getFilesList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -15014,6 +15310,8 @@ public final class DoodleProtos {
           getControlPluginsFieldBuilder();
           getSketchPluginsFieldBuilder();
           getCheckpointsFieldBuilder();
+          getFileOperationsFieldBuilder();
+          getFilesFieldBuilder();
         }
       }
       @java.lang.Override
@@ -15042,6 +15340,18 @@ public final class DoodleProtos {
           bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           checkpointsBuilder_.clear();
+        }
+        if (fileOperationsBuilder_ == null) {
+          fileOperations_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          fileOperationsBuilder_.clear();
+        }
+        if (filesBuilder_ == null) {
+          files_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          filesBuilder_.clear();
         }
         return this;
       }
@@ -15105,6 +15415,24 @@ public final class DoodleProtos {
           result.checkpoints_ = checkpoints_;
         } else {
           result.checkpoints_ = checkpointsBuilder_.build();
+        }
+        if (fileOperationsBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            fileOperations_ = java.util.Collections.unmodifiableList(fileOperations_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.fileOperations_ = fileOperations_;
+        } else {
+          result.fileOperations_ = fileOperationsBuilder_.build();
+        }
+        if (filesBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            files_ = java.util.Collections.unmodifiableList(files_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.files_ = files_;
+        } else {
+          result.files_ = filesBuilder_.build();
         }
         onBuilt();
         return result;
@@ -15255,6 +15583,58 @@ public final class DoodleProtos {
                    getCheckpointsFieldBuilder() : null;
             } else {
               checkpointsBuilder_.addAllMessages(other.checkpoints_);
+            }
+          }
+        }
+        if (fileOperationsBuilder_ == null) {
+          if (!other.fileOperations_.isEmpty()) {
+            if (fileOperations_.isEmpty()) {
+              fileOperations_ = other.fileOperations_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureFileOperationsIsMutable();
+              fileOperations_.addAll(other.fileOperations_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.fileOperations_.isEmpty()) {
+            if (fileOperationsBuilder_.isEmpty()) {
+              fileOperationsBuilder_.dispose();
+              fileOperationsBuilder_ = null;
+              fileOperations_ = other.fileOperations_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              fileOperationsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getFileOperationsFieldBuilder() : null;
+            } else {
+              fileOperationsBuilder_.addAllMessages(other.fileOperations_);
+            }
+          }
+        }
+        if (filesBuilder_ == null) {
+          if (!other.files_.isEmpty()) {
+            if (files_.isEmpty()) {
+              files_ = other.files_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureFilesIsMutable();
+              files_.addAll(other.files_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.files_.isEmpty()) {
+            if (filesBuilder_.isEmpty()) {
+              filesBuilder_.dispose();
+              filesBuilder_ = null;
+              files_ = other.files_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              filesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getFilesFieldBuilder() : null;
+            } else {
+              filesBuilder_.addAllMessages(other.files_);
             }
           }
         }
@@ -16246,6 +16626,486 @@ public final class DoodleProtos {
           checkpoints_ = null;
         }
         return checkpointsBuilder_;
+      }
+
+      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation> fileOperations_ =
+        java.util.Collections.emptyList();
+      private void ensureFileOperationsIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          fileOperations_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation>(fileOperations_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.FileOperation, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder, com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder> fileOperationsBuilder_;
+
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation> getFileOperationsList() {
+        if (fileOperationsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(fileOperations_);
+        } else {
+          return fileOperationsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public int getFileOperationsCount() {
+        if (fileOperationsBuilder_ == null) {
+          return fileOperations_.size();
+        } else {
+          return fileOperationsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileOperation getFileOperations(int index) {
+        if (fileOperationsBuilder_ == null) {
+          return fileOperations_.get(index);
+        } else {
+          return fileOperationsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder setFileOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation value) {
+        if (fileOperationsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFileOperationsIsMutable();
+          fileOperations_.set(index, value);
+          onChanged();
+        } else {
+          fileOperationsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder setFileOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder builderForValue) {
+        if (fileOperationsBuilder_ == null) {
+          ensureFileOperationsIsMutable();
+          fileOperations_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          fileOperationsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder addFileOperations(com.bushpath.doodle.protobuf.DoodleProtos.FileOperation value) {
+        if (fileOperationsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFileOperationsIsMutable();
+          fileOperations_.add(value);
+          onChanged();
+        } else {
+          fileOperationsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder addFileOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation value) {
+        if (fileOperationsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFileOperationsIsMutable();
+          fileOperations_.add(index, value);
+          onChanged();
+        } else {
+          fileOperationsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder addFileOperations(
+          com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder builderForValue) {
+        if (fileOperationsBuilder_ == null) {
+          ensureFileOperationsIsMutable();
+          fileOperations_.add(builderForValue.build());
+          onChanged();
+        } else {
+          fileOperationsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder addFileOperations(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder builderForValue) {
+        if (fileOperationsBuilder_ == null) {
+          ensureFileOperationsIsMutable();
+          fileOperations_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          fileOperationsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder addAllFileOperations(
+          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOperation> values) {
+        if (fileOperationsBuilder_ == null) {
+          ensureFileOperationsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, fileOperations_);
+          onChanged();
+        } else {
+          fileOperationsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder clearFileOperations() {
+        if (fileOperationsBuilder_ == null) {
+          fileOperations_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          fileOperationsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public Builder removeFileOperations(int index) {
+        if (fileOperationsBuilder_ == null) {
+          ensureFileOperationsIsMutable();
+          fileOperations_.remove(index);
+          onChanged();
+        } else {
+          fileOperationsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder getFileOperationsBuilder(
+          int index) {
+        return getFileOperationsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder getFileOperationsOrBuilder(
+          int index) {
+        if (fileOperationsBuilder_ == null) {
+          return fileOperations_.get(index);  } else {
+          return fileOperationsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder> 
+           getFileOperationsOrBuilderList() {
+        if (fileOperationsBuilder_ != null) {
+          return fileOperationsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(fileOperations_);
+        }
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder addFileOperationsBuilder() {
+        return getFileOperationsFieldBuilder().addBuilder(
+            com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder addFileOperationsBuilder(
+          int index) {
+        return getFileOperationsFieldBuilder().addBuilder(
+            index, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .FileOperation fileOperations = 5;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder> 
+           getFileOperationsBuilderList() {
+        return getFileOperationsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.FileOperation, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder, com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder> 
+          getFileOperationsFieldBuilder() {
+        if (fileOperationsBuilder_ == null) {
+          fileOperationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.FileOperation, com.bushpath.doodle.protobuf.DoodleProtos.FileOperation.Builder, com.bushpath.doodle.protobuf.DoodleProtos.FileOperationOrBuilder>(
+                  fileOperations_,
+                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  getParentForChildren(),
+                  isClean());
+          fileOperations_ = null;
+        }
+        return fileOperationsBuilder_;
+      }
+
+      private java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.File> files_ =
+        java.util.Collections.emptyList();
+      private void ensureFilesIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          files_ = new java.util.ArrayList<com.bushpath.doodle.protobuf.DoodleProtos.File>(files_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.File, com.bushpath.doodle.protobuf.DoodleProtos.File.Builder, com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder> filesBuilder_;
+
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.File> getFilesList() {
+        if (filesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(files_);
+        } else {
+          return filesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public int getFilesCount() {
+        if (filesBuilder_ == null) {
+          return files_.size();
+        } else {
+          return filesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.File getFiles(int index) {
+        if (filesBuilder_ == null) {
+          return files_.get(index);
+        } else {
+          return filesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder setFiles(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.File value) {
+        if (filesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFilesIsMutable();
+          files_.set(index, value);
+          onChanged();
+        } else {
+          filesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder setFiles(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.File.Builder builderForValue) {
+        if (filesBuilder_ == null) {
+          ensureFilesIsMutable();
+          files_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          filesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder addFiles(com.bushpath.doodle.protobuf.DoodleProtos.File value) {
+        if (filesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFilesIsMutable();
+          files_.add(value);
+          onChanged();
+        } else {
+          filesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder addFiles(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.File value) {
+        if (filesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFilesIsMutable();
+          files_.add(index, value);
+          onChanged();
+        } else {
+          filesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder addFiles(
+          com.bushpath.doodle.protobuf.DoodleProtos.File.Builder builderForValue) {
+        if (filesBuilder_ == null) {
+          ensureFilesIsMutable();
+          files_.add(builderForValue.build());
+          onChanged();
+        } else {
+          filesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder addFiles(
+          int index, com.bushpath.doodle.protobuf.DoodleProtos.File.Builder builderForValue) {
+        if (filesBuilder_ == null) {
+          ensureFilesIsMutable();
+          files_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          filesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder addAllFiles(
+          java.lang.Iterable<? extends com.bushpath.doodle.protobuf.DoodleProtos.File> values) {
+        if (filesBuilder_ == null) {
+          ensureFilesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, files_);
+          onChanged();
+        } else {
+          filesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder clearFiles() {
+        if (filesBuilder_ == null) {
+          files_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          filesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public Builder removeFiles(int index) {
+        if (filesBuilder_ == null) {
+          ensureFilesIsMutable();
+          files_.remove(index);
+          onChanged();
+        } else {
+          filesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.File.Builder getFilesBuilder(
+          int index) {
+        return getFilesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder getFilesOrBuilder(
+          int index) {
+        if (filesBuilder_ == null) {
+          return files_.get(index);  } else {
+          return filesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public java.util.List<? extends com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder> 
+           getFilesOrBuilderList() {
+        if (filesBuilder_ != null) {
+          return filesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(files_);
+        }
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.File.Builder addFilesBuilder() {
+        return getFilesFieldBuilder().addBuilder(
+            com.bushpath.doodle.protobuf.DoodleProtos.File.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public com.bushpath.doodle.protobuf.DoodleProtos.File.Builder addFilesBuilder(
+          int index) {
+        return getFilesFieldBuilder().addBuilder(
+            index, com.bushpath.doodle.protobuf.DoodleProtos.File.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .File files = 6;</code>
+       */
+      public java.util.List<com.bushpath.doodle.protobuf.DoodleProtos.File.Builder> 
+           getFilesBuilderList() {
+        return getFilesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.bushpath.doodle.protobuf.DoodleProtos.File, com.bushpath.doodle.protobuf.DoodleProtos.File.Builder, com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder> 
+          getFilesFieldBuilder() {
+        if (filesBuilder_ == null) {
+          filesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.bushpath.doodle.protobuf.DoodleProtos.File, com.bushpath.doodle.protobuf.DoodleProtos.File.Builder, com.bushpath.doodle.protobuf.DoodleProtos.FileOrBuilder>(
+                  files_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          files_ = null;
+        }
+        return filesBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -41483,85 +42343,88 @@ public final class DoodleProtos {
       "\n\022FileDeleteResponse\"<\n\017FileListRequest\022" +
       "\014\n\004user\030\001 \001(\t\022\r\n\005group\030\002 \001(\t\022\014\n\004path\030\003 \001" +
       "(\t\"(\n\020FileListResponse\022\024\n\005files\030\001 \003(\0132\005." +
-      "File\"\023\n\021GossipHashRequest\"h\n\022GossipHashR" +
-      "esponse\022\021\n\tnodesHash\030\001 \001(\005\022\023\n\013controlHas" +
-      "h\030\002 \001(\005\022\022\n\nsketchHash\030\003 \001(\005\022\026\n\016checkpoin" +
-      "tHash\030\004 \001(\005\"\247\001\n\023GossipUpdateRequest\022\024\n\005n" +
-      "odes\030\001 \003(\0132\005.Node\022,\n\016controlPlugins\030\002 \003(" +
-      "\0132\024.ControlPluginGossip\022*\n\rsketchPlugins" +
-      "\030\003 \003(\0132\023.SketchPluginGossip\022 \n\013checkpoin" +
-      "ts\030\004 \003(\0132\013.Checkpoint\"\026\n\024GossipUpdateRes" +
-      "ponse\"\\\n\023ControlPluginGossip\022\n\n\002id\030\001 \001(\t" +
-      "\022\021\n\tclasspath\030\002 \001(\t\022&\n\noperations\030\003 \003(\0132" +
-      "\022.VariableOperation\"s\n\022SketchPluginGossi" +
-      "p\022\n\n\002id\030\001 \001(\t\022\021\n\tclasspath\030\002 \001(\t\022\026\n\016cont" +
-      "rolPlugins\030\003 \003(\t\022&\n\noperations\030\004 \003(\0132\022.V" +
-      "ariableOperation\"\021\n\017NodeListRequest\"(\n\020N" +
-      "odeListResponse\022\024\n\005nodes\030\001 \003(\0132\005.Node\"\035\n" +
-      "\017NodeShowRequest\022\n\n\002id\030\001 \001(\005\"\'\n\020NodeShow" +
-      "Response\022\023\n\004node\030\001 \001(\0132\005.Node\"\036\n\020PipeClo" +
-      "seRequest\022\n\n\002id\030\001 \001(\005\"\023\n\021PipeCloseRespon" +
-      "se\"\207\001\n\017PipeOpenRequest\022\020\n\010sketchId\030\001 \001(\t" +
-      "\022\020\n\010features\030\002 \003(\t\022\034\n\024transformThreadCou" +
-      "nt\030\003 \001(\005\022\036\n\026distributorThreadCount\030\004 \001(\005" +
-      "\022\022\n\nbufferSize\030\005 \001(\005\"6\n\020PipeOpenResponse" +
-      "\022\n\n\002id\030\001 \001(\005\022\026\n\016featureIndexes\030\002 \003(\005\",\n\020" +
-      "PipeWriteRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001" +
-      "(\014\"\023\n\021PipeWriteResponse\"\023\n\021PluginListReq" +
-      "uest\"C\n\022PluginListResponse\022\026\n\016controlPlu" +
-      "gins\030\001 \003(\t\022\025\n\rsketchPlugins\030\002 \003(\t\"A\n\014Que" +
-      "ryRequest\022\r\n\005query\030\001 \001(\014\022\016\n\006nodeId\030\002 \001(\005" +
-      "\022\022\n\nbufferSize\030\004 \001(\005\"2\n\rQueryResponse\022\014\n" +
-      "\004data\030\001 \001(\014\022\023\n\013lastMessage\030\002 \001(\010\"G\n\021Sket" +
-      "chInitRequest\022\n\n\002id\030\001 \001(\t\022\016\n\006plugin\030\002 \001(" +
-      "\t\022\026\n\016controlPlugins\030\003 \003(\t\"\024\n\022SketchInitR" +
-      "esponse\"\023\n\021SketchListRequest\"w\n\022SketchLi" +
-      "stResponse\0221\n\007plugins\030\001 \003(\0132 .SketchList" +
-      "Response.PluginsEntry\032.\n\014PluginsEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\023SketchM" +
-      "odifyRequest\022\n\n\002id\030\001 \001(\t\022&\n\noperations\030\002" +
-      " \003(\0132\022.VariableOperation\"\026\n\024SketchModify" +
-      "Response\"\037\n\021SketchShowRequest\022\n\n\002id\030\001 \001(" +
-      "\t\"\213\001\n\022SketchShowResponse\022\016\n\006plugin\030\001 \001(\t" +
-      "\022\016\n\006frozen\030\002 \001(\010\022\025\n\rinflatorClass\030\003 \001(\t\022" +
-      "\034\n\tvariables\030\004 \003(\0132\t.Variable\022 \n\013checkpo" +
-      "ints\030\005 \003(\0132\013.Checkpoint\"D\n\022SketchWriteRe" +
-      "quest\022\016\n\006nodeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022" +
-      "\014\n\004data\030\003 \001(\014\"\025\n\023SketchWriteResponse\"c\n\n" +
-      "Checkpoint\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchI" +
-      "d\030\002 \001(\t\022\024\n\014checkpointId\030\003 \001(\t\022\032\n\010replica" +
-      "s\030\004 \003(\0132\010.Replica\"\364\001\n\004File\022\033\n\010fileType\030\001" +
-      " \001(\0162\t.FileType\022\014\n\004user\030\002 \001(\t\022\r\n\005group\030\003" +
-      " \001(\t\022\014\n\004name\030\004 \001(\t\022\022\n\nchangeTime\030\005 \001(\003\022\030" +
-      "\n\020modificationTime\030\006 \001(\003\022\022\n\naccessTime\030\007" +
-      " \001(\003\022-\n\014observations\030\010 \003(\0132\027.File.Observ" +
-      "ationsEntry\0323\n\021ObservationsEntry\022\013\n\003key\030" +
-      "\001 \001(\005\022\r\n\005value\030\002 \001(\003:\0028\001\"s\n\rFileOperatio" +
-      "n\022\021\n\ttimestamp\030\001 \001(\003\022\r\n\005inode\030\002 \001(\005\022\014\n\004p" +
-      "ath\030\003 \001(\t\022\023\n\004file\030\004 \001(\0132\005.File\022\035\n\toperat" +
-      "ion\030\005 \001(\0162\n.Operation\"%\n\007Failure\022\014\n\004type" +
-      "\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005" +
-      "\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\":\n\007Rep" +
-      "lica\022\025\n\rprimaryNodeId\030\001 \001(\005\022\030\n\020secondary" +
-      "NodeIds\030\002 \003(\005\"6\n\010Variable\022\014\n\004type\030\001 \001(\t\022" +
-      "\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"b\n\021Variabl" +
-      "eOperation\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\toperati" +
-      "on\030\002 \001(\0162\n.Operation\022\033\n\010variable\030\003 \001(\0132\t" +
-      ".Variable*\276\003\n\013MessageType\022\023\n\017CHECKPOINT_" +
-      "INIT\020\000\022\027\n\023CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECK" +
-      "POINT_TRANSFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CO" +
-      "NTROL_LIST\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONT" +
-      "ROL_SHOW\020\006\022\013\n\007FAILURE\020\007\022\014\n\010FILE_ADD\020\010\022\017\n" +
-      "\013FILE_DELETE\020\t\022\r\n\tFILE_LIST\020\n\022\017\n\013GOSSIP_" +
-      "HASH\020\013\022\021\n\rGOSSIP_UPDATE\020\014\022\r\n\tNODE_LIST\020\r" +
-      "\022\r\n\tNODE_SHOW\020\016\022\016\n\nPIPE_CLOSE\020\017\022\r\n\tPIPE_" +
-      "OPEN\020\020\022\016\n\nPIPE_WRITE\020\021\022\017\n\013PLUGIN_LIST\020\022\022" +
-      "\t\n\005QUERY\020\023\022\017\n\013SKETCH_INIT\020\024\022\017\n\013SKETCH_LI" +
-      "ST\020\025\022\021\n\rSKETCH_MODIFY\020\026\022\017\n\013SKETCH_SHOW\020\027" +
-      "\022\020\n\014SKETCH_WRITE\020\030*&\n\010FileType\022\r\n\tDIRECT" +
-      "ORY\020\000\022\013\n\007REGULAR\020\001* \n\tOperation\022\007\n\003ADD\020\000" +
-      "\022\n\n\006DELETE\020\001B/\n\034com.bushpath.doodle.prot" +
-      "obufB\014DoodleProtos\240\001\001b\006proto3"
+      "File\"\023\n\021GossipHashRequest\"\227\001\n\022GossipHash" +
+      "Response\022\021\n\tnodesHash\030\001 \001(\005\022\023\n\013controlHa" +
+      "sh\030\002 \001(\005\022\022\n\nsketchHash\030\003 \001(\005\022\026\n\016checkpoi" +
+      "ntHash\030\004 \001(\005\022\032\n\022fileOperationsHash\030\005 \001(\005" +
+      "\022\021\n\tfilesHash\030\006 \001(\005\"\345\001\n\023GossipUpdateRequ" +
+      "est\022\024\n\005nodes\030\001 \003(\0132\005.Node\022,\n\016controlPlug" +
+      "ins\030\002 \003(\0132\024.ControlPluginGossip\022*\n\rsketc" +
+      "hPlugins\030\003 \003(\0132\023.SketchPluginGossip\022 \n\013c" +
+      "heckpoints\030\004 \003(\0132\013.Checkpoint\022&\n\016fileOpe" +
+      "rations\030\005 \003(\0132\016.FileOperation\022\024\n\005files\030\006" +
+      " \003(\0132\005.File\"\026\n\024GossipUpdateResponse\"\\\n\023C" +
+      "ontrolPluginGossip\022\n\n\002id\030\001 \001(\t\022\021\n\tclassp" +
+      "ath\030\002 \001(\t\022&\n\noperations\030\003 \003(\0132\022.Variable" +
+      "Operation\"s\n\022SketchPluginGossip\022\n\n\002id\030\001 " +
+      "\001(\t\022\021\n\tclasspath\030\002 \001(\t\022\026\n\016controlPlugins" +
+      "\030\003 \003(\t\022&\n\noperations\030\004 \003(\0132\022.VariableOpe" +
+      "ration\"\021\n\017NodeListRequest\"(\n\020NodeListRes" +
+      "ponse\022\024\n\005nodes\030\001 \003(\0132\005.Node\"\035\n\017NodeShowR" +
+      "equest\022\n\n\002id\030\001 \001(\005\"\'\n\020NodeShowResponse\022\023" +
+      "\n\004node\030\001 \001(\0132\005.Node\"\036\n\020PipeCloseRequest\022" +
+      "\n\n\002id\030\001 \001(\005\"\023\n\021PipeCloseResponse\"\207\001\n\017Pip" +
+      "eOpenRequest\022\020\n\010sketchId\030\001 \001(\t\022\020\n\010featur" +
+      "es\030\002 \003(\t\022\034\n\024transformThreadCount\030\003 \001(\005\022\036" +
+      "\n\026distributorThreadCount\030\004 \001(\005\022\022\n\nbuffer" +
+      "Size\030\005 \001(\005\"6\n\020PipeOpenResponse\022\n\n\002id\030\001 \001" +
+      "(\005\022\026\n\016featureIndexes\030\002 \003(\005\",\n\020PipeWriteR" +
+      "equest\022\n\n\002id\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\"\023\n\021Pipe" +
+      "WriteResponse\"\023\n\021PluginListRequest\"C\n\022Pl" +
+      "uginListResponse\022\026\n\016controlPlugins\030\001 \003(\t" +
+      "\022\025\n\rsketchPlugins\030\002 \003(\t\"A\n\014QueryRequest\022" +
+      "\r\n\005query\030\001 \001(\014\022\016\n\006nodeId\030\002 \001(\005\022\022\n\nbuffer" +
+      "Size\030\004 \001(\005\"2\n\rQueryResponse\022\014\n\004data\030\001 \001(" +
+      "\014\022\023\n\013lastMessage\030\002 \001(\010\"G\n\021SketchInitRequ" +
+      "est\022\n\n\002id\030\001 \001(\t\022\016\n\006plugin\030\002 \001(\t\022\026\n\016contr" +
+      "olPlugins\030\003 \003(\t\"\024\n\022SketchInitResponse\"\023\n" +
+      "\021SketchListRequest\"w\n\022SketchListResponse" +
+      "\0221\n\007plugins\030\001 \003(\0132 .SketchListResponse.P" +
+      "luginsEntry\032.\n\014PluginsEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\023SketchModifyReque" +
+      "st\022\n\n\002id\030\001 \001(\t\022&\n\noperations\030\002 \003(\0132\022.Var" +
+      "iableOperation\"\026\n\024SketchModifyResponse\"\037" +
+      "\n\021SketchShowRequest\022\n\n\002id\030\001 \001(\t\"\213\001\n\022Sket" +
+      "chShowResponse\022\016\n\006plugin\030\001 \001(\t\022\016\n\006frozen" +
+      "\030\002 \001(\010\022\025\n\rinflatorClass\030\003 \001(\t\022\034\n\tvariabl" +
+      "es\030\004 \003(\0132\t.Variable\022 \n\013checkpoints\030\005 \003(\013" +
+      "2\013.Checkpoint\"D\n\022SketchWriteRequest\022\016\n\006n" +
+      "odeId\030\001 \001(\005\022\020\n\010sketchId\030\002 \001(\t\022\014\n\004data\030\003 " +
+      "\001(\014\"\025\n\023SketchWriteResponse\"c\n\nCheckpoint" +
+      "\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchId\030\002 \001(\t\022\024\n" +
+      "\014checkpointId\030\003 \001(\t\022\032\n\010replicas\030\004 \003(\0132\010." +
+      "Replica\"\364\001\n\004File\022\033\n\010fileType\030\001 \001(\0162\t.Fil" +
+      "eType\022\014\n\004user\030\002 \001(\t\022\r\n\005group\030\003 \001(\t\022\014\n\004na" +
+      "me\030\004 \001(\t\022\022\n\nchangeTime\030\005 \001(\003\022\030\n\020modifica" +
+      "tionTime\030\006 \001(\003\022\022\n\naccessTime\030\007 \001(\003\022-\n\014ob" +
+      "servations\030\010 \003(\0132\027.File.ObservationsEntr" +
+      "y\0323\n\021ObservationsEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005v" +
+      "alue\030\002 \001(\003:\0028\001\"s\n\rFileOperation\022\021\n\ttimes" +
+      "tamp\030\001 \001(\003\022\r\n\005inode\030\002 \001(\005\022\014\n\004path\030\003 \001(\t\022" +
+      "\023\n\004file\030\004 \001(\0132\005.File\022\035\n\toperation\030\005 \001(\0162" +
+      "\n.Operation\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004" +
+      "text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddr" +
+      "ess\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\":\n\007Replica\022\025\n\rpr" +
+      "imaryNodeId\030\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 " +
+      "\003(\005\"6\n\010Variable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 " +
+      "\001(\t\022\016\n\006values\030\003 \003(\t\"b\n\021VariableOperation" +
+      "\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\toperation\030\002 \001(\0162\n" +
+      ".Operation\022\033\n\010variable\030\003 \001(\0132\t.Variable*" +
+      "\276\003\n\013MessageType\022\023\n\017CHECKPOINT_INIT\020\000\022\027\n\023" +
+      "CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPOINT_TRAN" +
+      "SFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONTROL_LIST" +
+      "\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTROL_SHOW\020\006" +
+      "\022\013\n\007FAILURE\020\007\022\014\n\010FILE_ADD\020\010\022\017\n\013FILE_DELE" +
+      "TE\020\t\022\r\n\tFILE_LIST\020\n\022\017\n\013GOSSIP_HASH\020\013\022\021\n\r" +
+      "GOSSIP_UPDATE\020\014\022\r\n\tNODE_LIST\020\r\022\r\n\tNODE_S" +
+      "HOW\020\016\022\016\n\nPIPE_CLOSE\020\017\022\r\n\tPIPE_OPEN\020\020\022\016\n\n" +
+      "PIPE_WRITE\020\021\022\017\n\013PLUGIN_LIST\020\022\022\t\n\005QUERY\020\023" +
+      "\022\017\n\013SKETCH_INIT\020\024\022\017\n\013SKETCH_LIST\020\025\022\021\n\rSK" +
+      "ETCH_MODIFY\020\026\022\017\n\013SKETCH_SHOW\020\027\022\020\n\014SKETCH" +
+      "_WRITE\020\030*&\n\010FileType\022\r\n\tDIRECTORY\020\000\022\013\n\007R" +
+      "EGULAR\020\001* \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE" +
+      "\020\001B/\n\034com.bushpath.doodle.protobufB\014Dood" +
+      "leProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -41712,13 +42575,13 @@ public final class DoodleProtos {
     internal_static_GossipHashResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GossipHashResponse_descriptor,
-        new java.lang.String[] { "NodesHash", "ControlHash", "SketchHash", "CheckpointHash", });
+        new java.lang.String[] { "NodesHash", "ControlHash", "SketchHash", "CheckpointHash", "FileOperationsHash", "FilesHash", });
     internal_static_GossipUpdateRequest_descriptor =
       getDescriptor().getMessageTypes().get(22);
     internal_static_GossipUpdateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GossipUpdateRequest_descriptor,
-        new java.lang.String[] { "Nodes", "ControlPlugins", "SketchPlugins", "Checkpoints", });
+        new java.lang.String[] { "Nodes", "ControlPlugins", "SketchPlugins", "Checkpoints", "FileOperations", "Files", });
     internal_static_GossipUpdateResponse_descriptor =
       getDescriptor().getMessageTypes().get(23);
     internal_static_GossipUpdateResponse_fieldAccessorTable = new
