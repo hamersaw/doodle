@@ -8,10 +8,9 @@ public class DoodleInode {
     protected String user;
     protected String group;
     protected long size;
-    protected long inodeChangeTime;
-    protected long inodeModificationTime;
-    protected long inodeAccessTime;
-    protected int blockCount;
+    protected long changeTime;
+    protected long modificationTime;
+    protected long accessTime;
     protected DoodleEntry entry;
 
     public DoodleInode(FileType fileType, String user,
@@ -20,10 +19,9 @@ public class DoodleInode {
         this.user = user;
         this.group = group;
         this.size = 0;
-        this.inodeChangeTime = System.currentTimeMillis();
-        this.inodeModificationTime = this.inodeChangeTime;
-        this.inodeAccessTime = this.inodeChangeTime;
-        this.blockCount = 0;
+        this.changeTime = System.currentTimeMillis();
+        this.modificationTime = this.changeTime;
+        this.accessTime = this.changeTime;
         this.entry = entry;
     }
 
@@ -41,6 +39,9 @@ public class DoodleInode {
             .setUser(this.user)
             .setGroup(this.group)
             .setName(this.entry.getName())
+            .setChangeTime(this.changeTime)
+            .setModificationTime(this.modificationTime)
+            .setAccessTime(this.accessTime)
             .build();
     }
 }

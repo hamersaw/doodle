@@ -1,5 +1,8 @@
 package com.bushpath.doodle.node.analytics;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
+import com.bushpath.doodle.protobuf.DoodleProtos.File;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
 import org.slf4j.Logger;
@@ -12,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -20,11 +24,13 @@ public class FileManager {
         LoggerFactory.getLogger(FileManager.class);
 
     protected Map<Integer, DoodleInode> inodes;
+    protected Map<Long, FileOperation> operations;
     protected ReadWriteLock lock;
     protected Random random;
 
     public FileManager() {
         this.inodes = new HashMap();
+        this.operations = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
         this.random = new Random(System.nanoTime());
 
@@ -71,6 +77,18 @@ public class FileManager {
                 new DoodleInode(fileType, user, group, entry);
             this.inodes.put(value, inode);
             directory.put(filename, value);
+
+            // add to operations
+            long timestamp = System.currentTimeMillis();
+            FileOperation fileOperation = FileOperation.newBuilder()
+                .setTimestamp(timestamp)
+                .setInode(value)
+                .setPath(path)
+                .setFile(inode.toProtobuf())
+                .setOperation(Operation.ADD)
+                .build();
+
+            this.operations.put(timestamp, fileOperation);
         } finally {
             this.lock.writeLock().unlock();
         }
@@ -111,6 +129,18 @@ public class FileManager {
             // delete inode
             parentDirectory.remove(filename);
             this.inodes.remove(inode);
+
+            // add to operations
+            long timestamp = System.currentTimeMillis();
+            FileOperation fileOperation = FileOperation.newBuilder()
+                .setTimestamp(timestamp)
+                .setInode(value)
+                .setPath(path)
+                .setFile(inode.toProtobuf())
+                .setOperation(Operation.DELETE)
+                .build();
+
+            this.operations.put(timestamp, fileOperation);
         } finally {
             this.lock.writeLock().unlock();
         }
