@@ -1,10 +1,15 @@
 package com.bushpath.doodle.node.analytics;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -26,23 +31,30 @@ public class FileManager {
         // add root directory to inodes
         DoodleDirectory directory = new DoodleDirectory("");
         DoodleInode inode =
-            new DoodleInode(DoodleInode.FileType.DIRECTORY,
+            new DoodleInode(FileType.DIRECTORY,
                 "root", "root", directory);
 
         this.inodes.put(2, inode);
     }
 
-    public void add(DoodleInode.FileType fileType, String user,
+    public void add(FileType fileType, String user,
             String group, String path) throws Exception {
         this.lock.writeLock().lock();
         try {
+            // parse path
+            List<String> elements = this.parsePath(path);
+            String filename = elements.remove(elements.size() - 1);
+
             // retrieve parent directory
-            String[] elements = this.parsePath(path);
-            DoodleDirectory directory =
-                this.getParentDirectory(user, group, elements);
+            DoodleEntry doodleEntry = 
+                this.getInode(user, group, elements).getEntry();
+            if (!(doodleEntry instanceof DoodleDirectory)) {
+                throw new RuntimeException("TODO - not directory");
+            }
+
+            DoodleDirectory directory = (DoodleDirectory) doodleEntry;
 
             // create inode
-            String filename = elements[elements.length - 1];
             DoodleEntry entry = null;
             switch (fileType) {
                 case DIRECTORY:
@@ -66,44 +78,112 @@ public class FileManager {
 
     public void delete(String user, String group,
             String path) throws Exception {
-        throw new RuntimeException("unimplemented");
+        this.lock.writeLock().lock();
+        try {
+            // parse path
+            List<String> elements = this.parsePath(path);
+            String filename = elements.remove(elements.size() - 1);
+
+            // retrieve parent directory
+            DoodleEntry parentEntry = 
+                this.getInode(user, group, elements).getEntry();
+            if (!(parentEntry instanceof DoodleDirectory)) {
+                throw new RuntimeException("TODO - not directory");
+            }
+
+            DoodleDirectory parentDirectory =
+                (DoodleDirectory) parentEntry;
+
+            // get inode
+            int value = parentDirectory.get(filename);
+            DoodleInode inode = this.inodes.get(value);
+
+            // check if inode is a non-empty directory
+            if (inode.getFileType() == FileType.DIRECTORY) {
+                DoodleDirectory directory =
+                    (DoodleDirectory) inode.getEntry();
+
+                if (directory.getInodes().size() != 0) {
+                    throw new RuntimeException("Directory is not empty");
+                }
+            }
+
+            // delete inode
+            parentDirectory.remove(filename);
+            this.inodes.remove(inode);
+        } finally {
+            this.lock.writeLock().unlock();
+        }
     }
 
-    protected DoodleDirectory getParentDirectory(String user,
-            String group, String[] elements) throws Exception {
+    protected DoodleInode getInode(String user, String group,
+            List<String> elements) throws Exception {
         // get root entry
-        DoodleDirectory directory =
-            (DoodleDirectory) inodes.get(2).getEntry();
+        DoodleInode inode = inodes.get(2);
+        if (elements.size() == 1 && elements.get(0).isEmpty()) {
+            return inode;
+        }
 
-        // find parent directory
-        for (int i=0; i<elements.length - 1; i++) {
+        // traverse elements
+        for (int i=0; i<elements.size(); i++) {
+            // check if inode is a directory
+            if (inode.getFileType() != FileType.DIRECTORY) {
+                throw new RuntimeException("TODO - entry not directory");
+            }
+ 
             // check if directory contains entry
-            if (!directory.contains(elements[i])) {
+            DoodleDirectory directory =
+                (DoodleDirectory) inode.getEntry();
+            if (!directory.contains(elements.get(i))) {
                 throw new RuntimeException("TODO - element missing");
             }
 
             // get entry inode
-            DoodleInode inode =
-                this.inodes.get(directory.get(elements[i]));
-            switch (inode.getFileType()) {
-                case DIRECTORY:
-                    directory = (DoodleDirectory) inode.getEntry();
-                    break;
-                case REGULAR:
-                    throw new RuntimeException("TODO - found file");
-            }
+            inode = this.inodes.get(directory.get(elements.get(i)));
         }
 
-        return directory;
+        return inode;
     }
 
     public Collection<DoodleInode> list(String user, String group,
             String path) throws Exception {
-        throw new RuntimeException("unimplemented");
+        this.lock.readLock().lock();
+        try {
+            // parse path
+            List<String> elements = this.parsePath(path);
+
+            // retrieve inode
+            DoodleInode inode = this.getInode(user, group, elements);
+
+            // populate list
+            List<DoodleInode> list = new ArrayList();
+            switch (inode.getFileType()) {
+                case DIRECTORY:
+                    DoodleDirectory directory =
+                        (DoodleDirectory) inode.getEntry();
+                    for (int value : directory.getInodes()) {
+                        list.add(this.inodes.get(value));
+                    }
+
+                    break;
+                case REGULAR:
+                    list.add(inode);
+                    break;
+            }
+
+            return list;
+        } finally {
+            this.lock.readLock().unlock();
+        }
     }
 
-    protected String[] parsePath(String path) {
-        return path.replaceAll("/$", "")
-            .replaceAll("^/", "").split("/");
+    protected List<String> parsePath(String path) {
+        List<String> list = new ArrayList();
+        for (String element : path.replaceAll("/$", "")
+                .replaceAll("^/", "").split("/")) {
+            list.add(element);
+        }
+
+        return list;
     }
 }

@@ -10,6 +10,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 
@@ -47,13 +48,19 @@ public class AnalyticsService implements Service {
                     FileAddRequest faRequest =
                         FileAddRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling FileAddRequest");
+                    FileType fileType = faRequest.getFileType();
+                    String faUser = faRequest.getUser();
+                    String faGroup = faRequest.getGroup();
+                    String faPath = faRequest.getPath();
+                    log.trace("handling FileAddRequest {}", faPath);
 
                     // init response
                     FileAddResponse.Builder faBuilder =
                         FileAddResponse.newBuilder();
 
-                    // TODO - populate builder
+                    // populate builder
+                    this.fileManager.add(fileType, faUser,
+                        faGroup, faPath);
 
                     // write to out
                     out.writeInt(messageType);
@@ -64,13 +71,17 @@ public class AnalyticsService implements Service {
                     FileDeleteRequest fdRequest =
                         FileDeleteRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling FileDeleteRequest");
+                    String fdUser = fdRequest.getUser();
+                    String fdGroup = fdRequest.getGroup();
+                    String fdPath = fdRequest.getPath();
+                    log.trace("handling FileDeleteRequest {}", fdPath);
 
                     // init response
                     FileDeleteResponse.Builder fdBuilder =
                         FileDeleteResponse.newBuilder();
 
-                    // TODO - populate builder
+                    // populate builder
+                    this.fileManager.delete(fdUser, fdGroup, fdPath);
 
                     // write to out
                     out.writeInt(messageType);
@@ -81,13 +92,20 @@ public class AnalyticsService implements Service {
                     FileListRequest flRequest =
                         FileListRequest.parseDelimitedFrom(in);
 
-                    log.trace("handling FileListRequest");
+                    String flUser = flRequest.getUser();
+                    String flGroup = flRequest.getGroup();
+                    String flPath = flRequest.getPath();
+                    log.trace("handling FileListRequest {}", flPath);
 
                     // init response
                     FileListResponse.Builder flBuilder =
                         FileListResponse.newBuilder();
 
-                    // TODO - populate builder
+                    // populate builder
+                    for (DoodleInode inode :
+                        this.fileManager.list(flUser, flGroup, flPath)) {
+                        flBuilder.addFiles(inode.toProtobuf());
+                    }
 
                     // write to out
                     out.writeInt(messageType);

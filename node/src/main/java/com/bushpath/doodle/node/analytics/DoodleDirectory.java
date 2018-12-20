@@ -1,5 +1,6 @@
 package com.bushpath.doodle.node.analytics;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,15 @@ public class DoodleDirectory extends DoodleEntry {
         return this.inodes.get(entry);
     }
 
+    public Collection<Integer> getInodes() {
+        return this.inodes.values();
+    }
+
     public void put(String entry, int inode) {
         this.inodes.put(entry, inode);
+    }
+
+    public void remove(String entry) {
+        this.inodes.remove(entry);
     }
 }

@@ -1,5 +1,8 @@
 package com.bushpath.doodle.node.analytics;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.File;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
+
 public class DoodleInode {
     protected FileType fileType;
     protected String user;
@@ -32,8 +35,12 @@ public class DoodleInode {
         return this.fileType;
     }
 
-    public enum FileType {
-        DIRECTORY,
-        REGULAR
+    public File toProtobuf() {
+        return File.newBuilder()
+            .setFileType(this.fileType)
+            .setUser(this.user)
+            .setGroup(this.group)
+            .setName(this.entry.getName())
+            .build();
     }
 }
