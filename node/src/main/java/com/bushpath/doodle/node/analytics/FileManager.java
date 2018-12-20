@@ -63,21 +63,14 @@ public class FileManager {
             // add inode
             this.inodes.put(value, inode);
             directory.put(filename, value);
-
-            // add to operations
-            long timestamp = System.currentTimeMillis();
-            FileOperation fileOperation = FileOperation.newBuilder()
-                .setTimestamp(timestamp)
-                .setInode(value)
-                .setPath(path)
-                .setFile(inode.toProtobuf())
-                .setOperation(Operation.ADD)
-                .build();
-
-            this.operations.put(timestamp, fileOperation);
         } finally {
             this.lock.writeLock().unlock();
         }
+    }
+
+    public void addOperation(FileOperation operation)
+            throws Exception {
+        this.operations.put(operation.getTimestamp(), operation);
     }
 
     public DoodleInode create(FileType fileType, String user,
@@ -85,6 +78,10 @@ public class FileManager {
         long time = System.currentTimeMillis();
         return this.create(fileType, user,
             group, path, 0, time, time, time);
+    }
+
+    public boolean containsOperation(long timestamp) {
+        return this.operations.containsKey(timestamp);
     }
 
     public DoodleInode create(FileType fileType, String user,
@@ -109,7 +106,7 @@ public class FileManager {
             changeTime, modificationTime, accessTime, entry);
     }
 
-    public void delete(String user, String group,
+    public DoodleInode delete(String user, String group,
             String path) throws Exception {
         this.lock.writeLock().lock();
         try {
@@ -145,17 +142,7 @@ public class FileManager {
             parentDirectory.remove(filename);
             this.inodes.remove(inode);
 
-            // add to operations
-            long timestamp = System.currentTimeMillis();
-            FileOperation fileOperation = FileOperation.newBuilder()
-                .setTimestamp(timestamp)
-                .setInode(value)
-                .setPath(path)
-                .setFile(inode.toProtobuf())
-                .setOperation(Operation.DELETE)
-                .build();
-
-            this.operations.put(timestamp, fileOperation);
+            return inode;
         } finally {
             this.lock.writeLock().unlock();
         }

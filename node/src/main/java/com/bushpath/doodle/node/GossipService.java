@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.analytics.DoodleInode;
 import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
@@ -305,10 +306,41 @@ public class GossipService implements Service {
                             .add(checkpointMetadata, true);
                     }
 
-                    // TODO - handle fileOperations
+                    // handle fileOperations
                     for (FileOperation operation :
                             gossipUpdateRequest.getFileOperationsList()) {
-                        System.out.println("TODO - handle file operation");
+                        if (this.fileManager.containsOperation(
+                                operation.getTimestamp())) {
+                            continue;
+                        }
+
+                        com.bushpath.doodle.protobuf.DoodleProtos.File file
+                            = operation.getFile();
+                        switch (operation.getOperation()) {
+                            case ADD:
+                                DoodleInode inode = this.fileManager.create(
+                                    file.getFileType(),
+                                    file.getUser(),
+                                    file.getGroup(),
+                                    operation.getPath(),
+                                    file.getSize(),
+                                    file.getChangeTime(),
+                                    file.getModificationTime(),
+                                    file.getAccessTime());
+
+                                this.fileManager.add(file.getUser(),
+                                    file.getGroup(), operation.getPath(),
+                                    operation.getInode(), inode);
+                                break;
+                            case DELETE:
+                                this.fileManager.delete(
+                                    file.getUser(),
+                                    file.getGroup(),
+                                    operation.getPath());
+                                break;
+                        }
+
+                        this.fileManager.addOperation(operation);
                     }
 
                     // TODO - handle files

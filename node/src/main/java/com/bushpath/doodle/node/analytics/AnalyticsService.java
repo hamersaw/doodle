@@ -4,15 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
-import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -65,8 +67,21 @@ public class AnalyticsService implements Service {
                     DoodleInode faInode = this.fileManager
                         .create(faFileType, faUser, faGroup, faPath);
 
+                    int value = random.nextInt();
                     this.fileManager.add(faUser, faGroup, 
-                        faPath, random.nextInt(), faInode);
+                        faPath, value, faInode);
+
+                    // add to operations
+                    long faTimestamp = System.currentTimeMillis();
+                    FileOperation faOp = FileOperation.newBuilder()
+                        .setTimestamp(faTimestamp)
+                        .setInode(value)
+                        .setPath(faPath)
+                        .setFile(faInode.toProtobuf())
+                        .setOperation(Operation.ADD)
+                        .build();
+
+                    this.fileManager.addOperation(faOp);
 
                     // write to out
                     out.writeInt(messageType);
@@ -87,7 +102,20 @@ public class AnalyticsService implements Service {
                         FileDeleteResponse.newBuilder();
 
                     // populate builder
-                    this.fileManager.delete(fdUser, fdGroup, fdPath);
+                    DoodleInode fdInode = this.fileManager
+                        .delete(fdUser, fdGroup, fdPath);
+
+                    // add to operations
+                    long rdTimestamp = System.currentTimeMillis();
+                    FileOperation fdOp = FileOperation.newBuilder()
+                        .setTimestamp(rdTimestamp)
+                        .setInode(-1) // TODO - set correct inode
+                        .setPath(fdPath)
+                        .setFile(fdInode.toProtobuf())
+                        .setOperation(Operation.DELETE)
+                        .build();
+
+                    this.fileManager.addOperation(fdOp);
 
                     // write to out
                     out.writeInt(messageType);

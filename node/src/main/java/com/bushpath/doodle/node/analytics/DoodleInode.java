@@ -64,6 +64,7 @@ public class DoodleInode {
             .setUser(this.user)
             .setGroup(this.group)
             .setName(this.entry.getName())
+            .setSize(this.size)
             .setChangeTime(this.changeTime)
             .setModificationTime(this.modificationTime)
             .setAccessTime(this.accessTime)

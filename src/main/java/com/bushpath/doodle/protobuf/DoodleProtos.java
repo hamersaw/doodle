@@ -35996,26 +35996,31 @@ public final class DoodleProtos {
         getNameBytes();
 
     /**
-     * <code>int64 changeTime = 5;</code>
+     * <code>int64 size = 5;</code>
+     */
+    long getSize();
+
+    /**
+     * <code>int64 changeTime = 6;</code>
      */
     long getChangeTime();
 
     /**
-     * <code>int64 modificationTime = 6;</code>
+     * <code>int64 modificationTime = 7;</code>
      */
     long getModificationTime();
 
     /**
-     * <code>int64 accessTime = 7;</code>
+     * <code>int64 accessTime = 8;</code>
      */
     long getAccessTime();
 
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
     int getObservationsCount();
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
     boolean containsObservations(
         int key);
@@ -36026,19 +36031,19 @@ public final class DoodleProtos {
     java.util.Map<java.lang.Integer, java.lang.Long>
     getObservations();
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
     java.util.Map<java.lang.Integer, java.lang.Long>
     getObservationsMap();
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
 
     long getObservationsOrDefault(
         int key,
         long defaultValue);
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
 
     long getObservationsOrThrow(
@@ -36061,6 +36066,7 @@ public final class DoodleProtos {
       user_ = "";
       group_ = "";
       name_ = "";
+      size_ = 0L;
       changeTime_ = 0L;
       modificationTime_ = 0L;
       accessTime_ = 0L;
@@ -36116,24 +36122,29 @@ public final class DoodleProtos {
             }
             case 40: {
 
-              changeTime_ = input.readInt64();
+              size_ = input.readInt64();
               break;
             }
             case 48: {
 
-              modificationTime_ = input.readInt64();
+              changeTime_ = input.readInt64();
               break;
             }
             case 56: {
 
+              modificationTime_ = input.readInt64();
+              break;
+            }
+            case 64: {
+
               accessTime_ = input.readInt64();
               break;
             }
-            case 66: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 observations_ = com.google.protobuf.MapField.newMapField(
                     ObservationsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Long>
               observations__ = input.readMessage(
@@ -36171,7 +36182,7 @@ public final class DoodleProtos {
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 8:
+        case 9:
           return internalGetObservations();
         default:
           throw new RuntimeException(
@@ -36306,34 +36317,43 @@ public final class DoodleProtos {
       }
     }
 
-    public static final int CHANGETIME_FIELD_NUMBER = 5;
+    public static final int SIZE_FIELD_NUMBER = 5;
+    private long size_;
+    /**
+     * <code>int64 size = 5;</code>
+     */
+    public long getSize() {
+      return size_;
+    }
+
+    public static final int CHANGETIME_FIELD_NUMBER = 6;
     private long changeTime_;
     /**
-     * <code>int64 changeTime = 5;</code>
+     * <code>int64 changeTime = 6;</code>
      */
     public long getChangeTime() {
       return changeTime_;
     }
 
-    public static final int MODIFICATIONTIME_FIELD_NUMBER = 6;
+    public static final int MODIFICATIONTIME_FIELD_NUMBER = 7;
     private long modificationTime_;
     /**
-     * <code>int64 modificationTime = 6;</code>
+     * <code>int64 modificationTime = 7;</code>
      */
     public long getModificationTime() {
       return modificationTime_;
     }
 
-    public static final int ACCESSTIME_FIELD_NUMBER = 7;
+    public static final int ACCESSTIME_FIELD_NUMBER = 8;
     private long accessTime_;
     /**
-     * <code>int64 accessTime = 7;</code>
+     * <code>int64 accessTime = 8;</code>
      */
     public long getAccessTime() {
       return accessTime_;
     }
 
-    public static final int OBSERVATIONS_FIELD_NUMBER = 8;
+    public static final int OBSERVATIONS_FIELD_NUMBER = 9;
     private static final class ObservationsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
           java.lang.Integer, java.lang.Long> defaultEntry =
@@ -36360,7 +36380,7 @@ public final class DoodleProtos {
       return internalGetObservations().getMap().size();
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
 
     public boolean containsObservations(
@@ -36376,14 +36396,14 @@ public final class DoodleProtos {
       return getObservationsMap();
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
 
     public java.util.Map<java.lang.Integer, java.lang.Long> getObservationsMap() {
       return internalGetObservations().getMap();
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
 
     public long getObservationsOrDefault(
@@ -36395,7 +36415,7 @@ public final class DoodleProtos {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;int32, int64&gt; observations = 8;</code>
+     * <code>map&lt;int32, int64&gt; observations = 9;</code>
      */
 
     public long getObservationsOrThrow(
@@ -36435,21 +36455,24 @@ public final class DoodleProtos {
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, name_);
       }
+      if (size_ != 0L) {
+        output.writeInt64(5, size_);
+      }
       if (changeTime_ != 0L) {
-        output.writeInt64(5, changeTime_);
+        output.writeInt64(6, changeTime_);
       }
       if (modificationTime_ != 0L) {
-        output.writeInt64(6, modificationTime_);
+        output.writeInt64(7, modificationTime_);
       }
       if (accessTime_ != 0L) {
-        output.writeInt64(7, accessTime_);
+        output.writeInt64(8, accessTime_);
       }
       com.google.protobuf.GeneratedMessageV3
         .serializeIntegerMapTo(
           output,
           internalGetObservations(),
           ObservationsDefaultEntryHolder.defaultEntry,
-          8);
+          9);
       unknownFields.writeTo(output);
     }
 
@@ -36472,17 +36495,21 @@ public final class DoodleProtos {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, name_);
       }
+      if (size_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, size_);
+      }
       if (changeTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(5, changeTime_);
+          .computeInt64Size(6, changeTime_);
       }
       if (modificationTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(6, modificationTime_);
+          .computeInt64Size(7, modificationTime_);
       }
       if (accessTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(7, accessTime_);
+          .computeInt64Size(8, accessTime_);
       }
       for (java.util.Map.Entry<java.lang.Integer, java.lang.Long> entry
            : internalGetObservations().getMap().entrySet()) {
@@ -36492,7 +36519,7 @@ public final class DoodleProtos {
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(8, observations__);
+            .computeMessageSize(9, observations__);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -36517,6 +36544,8 @@ public final class DoodleProtos {
           .equals(other.getGroup());
       result = result && getName()
           .equals(other.getName());
+      result = result && (getSize()
+          == other.getSize());
       result = result && (getChangeTime()
           == other.getChangeTime());
       result = result && (getModificationTime()
@@ -36544,6 +36573,9 @@ public final class DoodleProtos {
       hash = (53 * hash) + getGroup().hashCode();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSize());
       hash = (37 * hash) + CHANGETIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getChangeTime());
@@ -36668,7 +36700,7 @@ public final class DoodleProtos {
       protected com.google.protobuf.MapField internalGetMapField(
           int number) {
         switch (number) {
-          case 8:
+          case 9:
             return internalGetObservations();
           default:
             throw new RuntimeException(
@@ -36679,7 +36711,7 @@ public final class DoodleProtos {
       protected com.google.protobuf.MapField internalGetMutableMapField(
           int number) {
         switch (number) {
-          case 8:
+          case 9:
             return internalGetMutableObservations();
           default:
             throw new RuntimeException(
@@ -36720,6 +36752,8 @@ public final class DoodleProtos {
 
         name_ = "";
 
+        size_ = 0L;
+
         changeTime_ = 0L;
 
         modificationTime_ = 0L;
@@ -36759,6 +36793,7 @@ public final class DoodleProtos {
         result.user_ = user_;
         result.group_ = group_;
         result.name_ = name_;
+        result.size_ = size_;
         result.changeTime_ = changeTime_;
         result.modificationTime_ = modificationTime_;
         result.accessTime_ = accessTime_;
@@ -36827,6 +36862,9 @@ public final class DoodleProtos {
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
           onChanged();
+        }
+        if (other.getSize() != 0L) {
+          setSize(other.getSize());
         }
         if (other.getChangeTime() != 0L) {
           setChangeTime(other.getChangeTime());
@@ -37121,15 +37159,41 @@ public final class DoodleProtos {
         return this;
       }
 
+      private long size_ ;
+      /**
+       * <code>int64 size = 5;</code>
+       */
+      public long getSize() {
+        return size_;
+      }
+      /**
+       * <code>int64 size = 5;</code>
+       */
+      public Builder setSize(long value) {
+        
+        size_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 size = 5;</code>
+       */
+      public Builder clearSize() {
+        
+        size_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private long changeTime_ ;
       /**
-       * <code>int64 changeTime = 5;</code>
+       * <code>int64 changeTime = 6;</code>
        */
       public long getChangeTime() {
         return changeTime_;
       }
       /**
-       * <code>int64 changeTime = 5;</code>
+       * <code>int64 changeTime = 6;</code>
        */
       public Builder setChangeTime(long value) {
         
@@ -37138,7 +37202,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>int64 changeTime = 5;</code>
+       * <code>int64 changeTime = 6;</code>
        */
       public Builder clearChangeTime() {
         
@@ -37149,13 +37213,13 @@ public final class DoodleProtos {
 
       private long modificationTime_ ;
       /**
-       * <code>int64 modificationTime = 6;</code>
+       * <code>int64 modificationTime = 7;</code>
        */
       public long getModificationTime() {
         return modificationTime_;
       }
       /**
-       * <code>int64 modificationTime = 6;</code>
+       * <code>int64 modificationTime = 7;</code>
        */
       public Builder setModificationTime(long value) {
         
@@ -37164,7 +37228,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>int64 modificationTime = 6;</code>
+       * <code>int64 modificationTime = 7;</code>
        */
       public Builder clearModificationTime() {
         
@@ -37175,13 +37239,13 @@ public final class DoodleProtos {
 
       private long accessTime_ ;
       /**
-       * <code>int64 accessTime = 7;</code>
+       * <code>int64 accessTime = 8;</code>
        */
       public long getAccessTime() {
         return accessTime_;
       }
       /**
-       * <code>int64 accessTime = 7;</code>
+       * <code>int64 accessTime = 8;</code>
        */
       public Builder setAccessTime(long value) {
         
@@ -37190,7 +37254,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>int64 accessTime = 7;</code>
+       * <code>int64 accessTime = 8;</code>
        */
       public Builder clearAccessTime() {
         
@@ -37226,7 +37290,7 @@ public final class DoodleProtos {
         return internalGetObservations().getMap().size();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
 
       public boolean containsObservations(
@@ -37242,14 +37306,14 @@ public final class DoodleProtos {
         return getObservationsMap();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
 
       public java.util.Map<java.lang.Integer, java.lang.Long> getObservationsMap() {
         return internalGetObservations().getMap();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
 
       public long getObservationsOrDefault(
@@ -37261,7 +37325,7 @@ public final class DoodleProtos {
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
 
       public long getObservationsOrThrow(
@@ -37281,7 +37345,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
 
       public Builder removeObservations(
@@ -37300,7 +37364,7 @@ public final class DoodleProtos {
         return internalGetMutableObservations().getMutableMap();
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
       public Builder putObservations(
           int key,
@@ -37312,7 +37376,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>map&lt;int32, int64&gt; observations = 8;</code>
+       * <code>map&lt;int32, int64&gt; observations = 9;</code>
        */
 
       public Builder putAllObservations(
@@ -42393,38 +42457,38 @@ public final class DoodleProtos {
       "\001(\014\"\025\n\023SketchWriteResponse\"c\n\nCheckpoint" +
       "\022\021\n\ttimestamp\030\001 \001(\003\022\020\n\010sketchId\030\002 \001(\t\022\024\n" +
       "\014checkpointId\030\003 \001(\t\022\032\n\010replicas\030\004 \003(\0132\010." +
-      "Replica\"\364\001\n\004File\022\033\n\010fileType\030\001 \001(\0162\t.Fil" +
+      "Replica\"\202\002\n\004File\022\033\n\010fileType\030\001 \001(\0162\t.Fil" +
       "eType\022\014\n\004user\030\002 \001(\t\022\r\n\005group\030\003 \001(\t\022\014\n\004na" +
-      "me\030\004 \001(\t\022\022\n\nchangeTime\030\005 \001(\003\022\030\n\020modifica" +
-      "tionTime\030\006 \001(\003\022\022\n\naccessTime\030\007 \001(\003\022-\n\014ob" +
-      "servations\030\010 \003(\0132\027.File.ObservationsEntr" +
-      "y\0323\n\021ObservationsEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005v" +
-      "alue\030\002 \001(\003:\0028\001\"s\n\rFileOperation\022\021\n\ttimes" +
-      "tamp\030\001 \001(\003\022\r\n\005inode\030\002 \001(\005\022\014\n\004path\030\003 \001(\t\022" +
-      "\023\n\004file\030\004 \001(\0132\005.File\022\035\n\toperation\030\005 \001(\0162" +
-      "\n.Operation\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004" +
-      "text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddr" +
-      "ess\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\":\n\007Replica\022\025\n\rpr" +
-      "imaryNodeId\030\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 " +
-      "\003(\005\"6\n\010Variable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 " +
-      "\001(\t\022\016\n\006values\030\003 \003(\t\"b\n\021VariableOperation" +
-      "\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\toperation\030\002 \001(\0162\n" +
-      ".Operation\022\033\n\010variable\030\003 \001(\0132\t.Variable*" +
-      "\276\003\n\013MessageType\022\023\n\017CHECKPOINT_INIT\020\000\022\027\n\023" +
-      "CHECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPOINT_TRAN" +
-      "SFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONTROL_LIST" +
-      "\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTROL_SHOW\020\006" +
-      "\022\013\n\007FAILURE\020\007\022\014\n\010FILE_ADD\020\010\022\017\n\013FILE_DELE" +
-      "TE\020\t\022\r\n\tFILE_LIST\020\n\022\017\n\013GOSSIP_HASH\020\013\022\021\n\r" +
-      "GOSSIP_UPDATE\020\014\022\r\n\tNODE_LIST\020\r\022\r\n\tNODE_S" +
-      "HOW\020\016\022\016\n\nPIPE_CLOSE\020\017\022\r\n\tPIPE_OPEN\020\020\022\016\n\n" +
-      "PIPE_WRITE\020\021\022\017\n\013PLUGIN_LIST\020\022\022\t\n\005QUERY\020\023" +
-      "\022\017\n\013SKETCH_INIT\020\024\022\017\n\013SKETCH_LIST\020\025\022\021\n\rSK" +
-      "ETCH_MODIFY\020\026\022\017\n\013SKETCH_SHOW\020\027\022\020\n\014SKETCH" +
-      "_WRITE\020\030*&\n\010FileType\022\r\n\tDIRECTORY\020\000\022\013\n\007R" +
-      "EGULAR\020\001* \n\tOperation\022\007\n\003ADD\020\000\022\n\n\006DELETE" +
-      "\020\001B/\n\034com.bushpath.doodle.protobufB\014Dood" +
-      "leProtos\240\001\001b\006proto3"
+      "me\030\004 \001(\t\022\014\n\004size\030\005 \001(\003\022\022\n\nchangeTime\030\006 \001" +
+      "(\003\022\030\n\020modificationTime\030\007 \001(\003\022\022\n\naccessTi" +
+      "me\030\010 \001(\003\022-\n\014observations\030\t \003(\0132\027.File.Ob" +
+      "servationsEntry\0323\n\021ObservationsEntry\022\013\n\003" +
+      "key\030\001 \001(\005\022\r\n\005value\030\002 \001(\003:\0028\001\"s\n\rFileOper" +
+      "ation\022\021\n\ttimestamp\030\001 \001(\003\022\r\n\005inode\030\002 \001(\005\022" +
+      "\014\n\004path\030\003 \001(\t\022\023\n\004file\030\004 \001(\0132\005.File\022\035\n\top" +
+      "eration\030\005 \001(\0162\n.Operation\"%\n\007Failure\022\014\n\004" +
+      "type\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001" +
+      " \001(\005\022\021\n\tipAddress\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\":\n" +
+      "\007Replica\022\025\n\rprimaryNodeId\030\001 \001(\005\022\030\n\020secon" +
+      "daryNodeIds\030\002 \003(\005\"6\n\010Variable\022\014\n\004type\030\001 " +
+      "\001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006values\030\003 \003(\t\"b\n\021Var" +
+      "iableOperation\022\021\n\ttimestamp\030\001 \001(\003\022\035\n\tope" +
+      "ration\030\002 \001(\0162\n.Operation\022\033\n\010variable\030\003 \001" +
+      "(\0132\t.Variable*\276\003\n\013MessageType\022\023\n\017CHECKPO" +
+      "INT_INIT\020\000\022\027\n\023CHECKPOINT_ROLLBACK\020\001\022\027\n\023C" +
+      "HECKPOINT_TRANSFER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020" +
+      "\n\014CONTROL_LIST\020\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014" +
+      "CONTROL_SHOW\020\006\022\013\n\007FAILURE\020\007\022\014\n\010FILE_ADD\020" +
+      "\010\022\017\n\013FILE_DELETE\020\t\022\r\n\tFILE_LIST\020\n\022\017\n\013GOS" +
+      "SIP_HASH\020\013\022\021\n\rGOSSIP_UPDATE\020\014\022\r\n\tNODE_LI" +
+      "ST\020\r\022\r\n\tNODE_SHOW\020\016\022\016\n\nPIPE_CLOSE\020\017\022\r\n\tP" +
+      "IPE_OPEN\020\020\022\016\n\nPIPE_WRITE\020\021\022\017\n\013PLUGIN_LIS" +
+      "T\020\022\022\t\n\005QUERY\020\023\022\017\n\013SKETCH_INIT\020\024\022\017\n\013SKETC" +
+      "H_LIST\020\025\022\021\n\rSKETCH_MODIFY\020\026\022\017\n\013SKETCH_SH" +
+      "OW\020\027\022\020\n\014SKETCH_WRITE\020\030*&\n\010FileType\022\r\n\tDI" +
+      "RECTORY\020\000\022\013\n\007REGULAR\020\001* \n\tOperation\022\007\n\003A" +
+      "DD\020\000\022\n\n\006DELETE\020\001B/\n\034com.bushpath.doodle." +
+      "protobufB\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -42761,7 +42825,7 @@ public final class DoodleProtos {
     internal_static_File_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_File_descriptor,
-        new java.lang.String[] { "FileType", "User", "Group", "Name", "ChangeTime", "ModificationTime", "AccessTime", "Observations", });
+        new java.lang.String[] { "FileType", "User", "Group", "Name", "Size", "ChangeTime", "ModificationTime", "AccessTime", "Observations", });
     internal_static_File_ObservationsEntry_descriptor =
       internal_static_File_descriptor.getNestedTypes().get(0);
     internal_static_File_ObservationsEntry_fieldAccessorTable = new
