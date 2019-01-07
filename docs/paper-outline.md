@@ -1,3 +1,10 @@
+# introduction
+- TODO
+## research questions
+RQ-1: How can we perform iterative in-memory analytics while mitigating memory contention?
+RQ-2: How can we facilitate interopability with diverse distributed analytics platforms?
+RQ-3: 
+
 # systems overview
 ## data sketching
 #### fennel
@@ -13,11 +20,12 @@
     - responsbile for determining where data resides in cluster
 - SketchPlane
     - responsible for storage/retrieval of data
+- AnalyticsPlane
+    - interfaces with HDFS - splittig dataset into blocks
 - **figure** - show ControlPlane vs SketchPlane
 
 
 # methodology
-
 ## sketching data within the system
 #### plugin architecture
 - extensible plugin architecture (java jar file)
@@ -45,7 +53,7 @@
 - SketchPlugin handles raw data writes
 - **figure** - how fast can we insert data (observations / second)
     - insert into cluster with increasing number of nodes
-    - what is the bottleneck? csv parsing?
+    - what is the bottleneck? (initial testing shows csv parsing)
 
 ## recovering from failures
 - challenge: we have a unique situation where data cannot be replicated at the observation granularity level
@@ -54,8 +62,8 @@
 - solution:
     - periodically write data checkpoints
     - asynchronous, primary site replication
-    - journaling filesystem
     - manually initiated data rollback
+    - restarts read from most recent checkpoint
 - pros:
     - fast, efficient writes
 - cons:
@@ -64,28 +72,36 @@
     - sketches are small, checkpointing is fast, perform often
 - **figure** -  primary and secondary replica convergence (gantt chart)
 
-## querying and retrieving sketched data
+## initializing files
+- files are initialized with variety of metadata attributes
+    - sketch id - unique identifier for sketch
+    - query - combination of filters on data
+    - data format - data may be generated in a number of formats
+- full resolution data is generated impromptu
+#### query definition
 - query support for numeric constraints (<, <=, ==, >=, >)
     - present SQL-like interface
-- data generated client-side
-    - algorithm defined in SketchPlugin code
 - on failure, secondary replicas proivde the ability to query on-disk data
     - iteratively parses small portions in-memory (small memory footprint)
-- **figure** - querying on in-memory vs on-disk (failure)
+- **figure** - compare throughput and latency of cluster queries (on-disk and off-disk)
+#### dataset format
+- support for myriad file formats
+    - __table__ (csv, binary, netcdf, hdf5)
 
-## generation of synthetic datasets
-- data in transit is sketched
-- generate synthetic observations client-side (very fast)
-- sketch specific algorithms defined during plugin implementation
-    - fennel - 
-    - synopsis - 
-- **figure** - speed of querying vs. generating synthetic datasets
+## performing in-memory analytics
+- each sketchfs node emulates HDFS namenode and datanode functionality
+#### namenode - serving metadata
+- file metadata is available on every sketchfs node
+    - number of observations at each node
+#### datanode - serving blocks
+- blocks are computed in view of observation counts at each node
+- synthetic datasets are generated impromptu
+    - alleviates memory contention
+- sketch specific algorithms are defining within plugins
+    - fennel - TODO - describe
+    - synopsis - TODO - describe
+- **figure** - speed of generating synthetic datasets
 - **figure** - synthetic dataset statistical representation (kruskal-wallis, and interfeature)
-
-## analytics
-- by using Anamnesis we can present an in-memory, sketch aligned, HDFS compatible interface
-- reference paper to show speed improvements over HDFS
-
 
 # evaluation
 ## evaluation setup
@@ -95,8 +111,16 @@
 ## memory usage
 - **figure** - compare how much data can be stored in-memory by each system
     - MongoDB, Cassandra, HDFS, HyperDex, DB-X
-## throughput
+## system peformance
 - **figure** - use YCSB (Yahoo! Service Cloud Benchmark) to compare throughput of systems
     - only shortcoming - we really only support range queries instead of individual records
-## throughput vs. latency
-- **figure** - compare throughput and latency of cluster queries
+
+# related work
+## lossy compression algorithms
+- isabella
+- numarck
+- sz
+## hdfs compliant variants
+- tachyon / aluxio
+- triple-h
+## 

@@ -38,7 +38,7 @@ public class FileManager {
 
         // add root directory to inodes
         DoodleInode inode =
-            this.create(FileType.DIRECTORY, "root", "root", "");
+            this.create(2, FileType.DIRECTORY, "root", "root", "");
 
         this.inodes.put(2, inode);
     }
@@ -73,10 +73,10 @@ public class FileManager {
         this.operations.put(operation.getTimestamp(), operation);
     }
 
-    public DoodleInode create(FileType fileType, String user,
-            String group, String path) {
+    public DoodleInode create(int inodeValue, FileType fileType,
+            String user, String group, String path) {
         long time = System.currentTimeMillis();
-        return this.create(fileType, user,
+        return this.create(inodeValue, fileType, user,
             group, path, 0, time, time, time);
     }
 
@@ -84,9 +84,9 @@ public class FileManager {
         return this.operations.containsKey(timestamp);
     }
 
-    public DoodleInode create(FileType fileType, String user,
-            String group, String path, long size, long changeTime,
-            long modificationTime, long accessTime) {
+    public DoodleInode create(int inodeValue, FileType fileType,
+            String user, String group, String path, long size,
+            long changeTime, long modificationTime, long accessTime) {
         List<String> elements = this.parsePath(path);
         String filename = elements.remove(elements.size() - 1);
 
@@ -102,8 +102,8 @@ public class FileManager {
         }
 
         // create inode
-        return new DoodleInode(fileType, user, group, size,
-            changeTime, modificationTime, accessTime, entry);
+        return new DoodleInode(inodeValue, fileType, user, group,
+            size, changeTime, modificationTime, accessTime, entry);
     }
 
     public DoodleInode delete(String user, String group,
@@ -237,6 +237,21 @@ public class FileManager {
         return list;
     }
 
+    public void update(File file) throws Exception {
+        this.lock.writeLock().lock();
+        try {
+            // check if inode exists
+            if (!this.inodes.containsKey(file.getInode())) {
+                throw new RuntimeException("Unable to update inode '"
+                    + file.getInode() + "', it does not exist");
+            }
+
+            this.inodes.get(file.getInode()).update(file);
+        } finally {
+            this.lock.writeLock().unlock();
+        }
+    }
+
     @Override
     public int hashCode() {
         CRC32 crc32 = new CRC32();
@@ -276,7 +291,15 @@ public class FileManager {
                 crc32.update((int) inode.getModificationTime());
                 crc32.update((int) inode.getAccessTime());
 
-                // TODO - add observations for files
+                // add observations for files
+                if (inode.getFileType() == FileType.REGULAR) {
+                    DoodleFile file = (DoodleFile) inode.getEntry();
+                    for (Map.Entry<Integer, Integer> observations :
+                            file.getObservationEntrySet()) {
+                        crc32.update(observations.getKey());
+                        crc32.update(observations.getValue());
+                    }
+                }
             }
         } finally {
             this.lock.readLock().unlock();

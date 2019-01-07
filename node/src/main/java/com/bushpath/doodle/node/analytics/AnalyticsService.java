@@ -64,10 +64,10 @@ public class AnalyticsService implements Service {
                         FileAddResponse.newBuilder();
 
                     // populate builder
-                    DoodleInode faInode = this.fileManager
-                        .create(faFileType, faUser, faGroup, faPath);
-
                     int value = random.nextInt();
+                    DoodleInode faInode = this.fileManager.create(
+                        value, faFileType, faUser, faGroup, faPath);
+
                     this.fileManager.add(faUser, faGroup, 
                         faPath, value, faInode);
 
@@ -75,7 +75,6 @@ public class AnalyticsService implements Service {
                     long faTimestamp = System.currentTimeMillis();
                     FileOperation faOp = FileOperation.newBuilder()
                         .setTimestamp(faTimestamp)
-                        .setInode(value)
                         .setPath(faPath)
                         .setFile(faInode.toProtobuf())
                         .setOperation(Operation.ADD)
@@ -109,7 +108,6 @@ public class AnalyticsService implements Service {
                     long rdTimestamp = System.currentTimeMillis();
                     FileOperation fdOp = FileOperation.newBuilder()
                         .setTimestamp(rdTimestamp)
-                        .setInode(-1) // TODO - set correct inode
                         .setPath(fdPath)
                         .setFile(fdInode.toProtobuf())
                         .setOperation(Operation.DELETE)

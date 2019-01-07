@@ -1,5 +1,7 @@
 package com.bushpath.doodle.node.analytics;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.File;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +32,10 @@ public class DoodleDirectory extends DoodleEntry {
 
     public void remove(String entry) {
         this.inodes.remove(entry);
+    }
+
+    @Override
+    public void update(File file) throws Exception {
+        // TODO - perhaps update with inodes allowing mv operations
     }
 }

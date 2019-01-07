@@ -319,6 +319,7 @@ public class GossipService implements Service {
                         switch (operation.getOperation()) {
                             case ADD:
                                 DoodleInode inode = this.fileManager.create(
+                                    file.getInode(),
                                     file.getFileType(),
                                     file.getUser(),
                                     file.getGroup(),
@@ -330,7 +331,7 @@ public class GossipService implements Service {
 
                                 this.fileManager.add(file.getUser(),
                                     file.getGroup(), operation.getPath(),
-                                    operation.getInode(), inode);
+                                    file.getInode(), inode);
                                 break;
                             case DELETE:
                                 this.fileManager.delete(

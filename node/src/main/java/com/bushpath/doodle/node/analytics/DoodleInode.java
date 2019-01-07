@@ -4,6 +4,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.File;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
 public class DoodleInode {
+    protected int inodeValue;
     protected FileType fileType;
     protected String user;
     protected String group;
@@ -13,9 +14,10 @@ public class DoodleInode {
     protected long accessTime;
     protected DoodleEntry entry;
 
-    public DoodleInode(FileType fileType, String user, String group,
-            long size, long changeTime, long modificationTime,
-            long accessTime, DoodleEntry entry) {
+    public DoodleInode(int inodeValue, FileType fileType, String user,
+            String group, long size, long changeTime,
+            long modificationTime, long accessTime, DoodleEntry entry) {
+        this.inodeValue = inodeValue;
         this.fileType = fileType;
         this.user = user;
         this.group = group;
@@ -24,6 +26,10 @@ public class DoodleInode {
         this.modificationTime = modificationTime;
         this.accessTime = accessTime;
         this.entry = entry;
+    }
+
+    public int getInodeValue() {
+        return this.inodeValue;
     }
 
     public FileType getFileType() {
@@ -58,8 +64,30 @@ public class DoodleInode {
         return this.entry;
     }
 
+    public void update(File file) throws Exception {
+        // update inode
+        if (file.getChangeTime() > this.changeTime) {
+            this.user = file.getUser();
+            this.group = file.getGroup();
+            this.changeTime = file.getChangeTime();
+        }
+
+        // update entry
+        if (file.getModificationTime() > this.modificationTime) {
+            this.size = file.getSize();
+            this.entry.update(file);
+            this.modificationTime = file.getModificationTime();
+        }
+
+        // update access
+        if (file.getAccessTime() > this.accessTime) {
+            this.accessTime = file.getAccessTime();
+        }
+    }
+
     public File toProtobuf() {
         return File.newBuilder()
+            .setInode(this.inodeValue)
             .setFileType(this.fileType)
             .setUser(this.user)
             .setGroup(this.group)

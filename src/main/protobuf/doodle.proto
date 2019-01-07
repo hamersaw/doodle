@@ -317,15 +317,16 @@ message Checkpoint {
 }
 
 message File {
-    FileType fileType = 1;
-    string user = 2;
-    string group = 3;
-    string name = 4;
-    int64 size = 5;
-    int64 changeTime = 6;
-    int64 modificationTime = 7;
-    int64 accessTime = 8;
-    map<int32, int64> observations = 9;
+    int32 inode = 1;
+    FileType fileType = 2;
+    string user = 3;
+    string group = 4;
+    string name = 5;
+    int64 size = 6;
+    int64 changeTime = 7;
+    int64 modificationTime = 8;
+    int64 accessTime = 9;
+    map<int32, int32> observations = 10;
 }
 
 enum FileType {
@@ -335,10 +336,9 @@ enum FileType {
 
 message FileOperation {
     int64 timestamp = 1; 
-    int32 inode = 2;
-    string path = 3;
-    File file = 4;
-    Operation operation = 5;
+    string path = 2;
+    File file = 3;
+    Operation operation = 4;
 }
 
 message Failure {
