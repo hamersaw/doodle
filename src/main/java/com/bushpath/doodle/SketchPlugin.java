@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public abstract class SketchPlugin extends Plugin {
     protected String inflatorClass;
@@ -58,6 +59,37 @@ public abstract class SketchPlugin extends Plugin {
 
     public String getInflatorClass() {
         return this.inflatorClass;
+    }
+
+    public long getObservationCount(Query query) throws Exception {
+        // perform query
+        long observationCount = 0;
+        BlockingQueue<Serializable> queue = this.query(null, query);
+
+        // iterate over results
+        Serializable s = null;
+        while (true) {
+            // retrieve next Serializable from queue
+            try {
+                s = queue.poll(50, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                log.error("failed to poll queue", e);
+            }
+
+            // check if s is valid
+            if (s instanceof Exception) {
+                throw (Exception) s;
+            } else if (s instanceof Poison) {
+                break;
+            } else if (s == null) {
+                continue;
+            }
+
+            // increment record count
+            observationCount += this.getObservationCount(s);
+        }
+
+        return observationCount;
     }
 
     public int[] indexFeatures(List<String> list) throws Exception {
@@ -127,6 +159,7 @@ public abstract class SketchPlugin extends Plugin {
     protected abstract void addControlPlugin(
         ControlPlugin controlPlugin) throws Exception;
     public abstract Collection<String> getFeatures();
+    public abstract long getObservationCount(Serializable s);
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<SketchWriteRequest> out, int bufferSize);
     public abstract void loadData(DataInputStream in) throws Exception;
