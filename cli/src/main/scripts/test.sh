@@ -5,12 +5,12 @@
 ./doodle control modify dht -a "token:0:0,2147483646" -a "token:1:-536870911,1610612733" -a "token:2:-1073741822,1073741822" -a "token:3:-1610612733,536870911"
 
 # initialize DoodleFennelPlugin sketch
-#./doodle sketch init -c dht sketch_one com.bushpath.doodle.fennel.DoodleFennelPlugin
-#./doodle sketch modify sketch_one -a "hash:temperature_surface:-1" -a "hash:pressure_surface:-1"
+./doodle sketch init -c dht sketch_one com.bushpath.doodle.fennel.DoodleFennelPlugin
+./doodle sketch modify sketch_one -a "hash:temperature_surface:-1" -a "hash:pressure_surface:-1"
 
 # initialize DoodleSynopsisPlugin sketch
-./doodle sketch init -c dht sketch_one com.bushpath.doodle.synopsis.DoodleSynopsisPlugin
-./doodle sketch modify sketch_one -a "latitudeFeature:latitude:-1" -a "longitudeFeature:longitude:-1" -a "geohashPrecision:-1:4"
+#./doodle sketch init -c dht sketch_one com.bushpath.doodle.synopsis.DoodleSynopsisPlugin
+#./doodle sketch modify sketch_one -a "latitudeFeature:latitude:-1" -a "longitudeFeature:longitude:-1" -a "geohashPrecision:-1:4"
 
 # add features to sketch
 ./doodle sketch modify sketch_one \

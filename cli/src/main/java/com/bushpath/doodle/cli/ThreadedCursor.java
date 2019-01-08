@@ -102,26 +102,29 @@ public class ThreadedCursor {
             for (Map.Entry<Integer, List<Integer>> replica :
                     replicas.entrySet()) {
                 // attempt primary node
+                Node node = null;
                 try {
-                    Node node = nodeLookup.get(replica.getKey());
+                    node = nodeLookup.get(replica.getKey());
                     this.submitQuery(replica.getKey(),
                         node.getIpAddress(), node.getPort());
 
                     continue; // success
                 } catch (Exception e) {
-                    System.err.println(e.getMessage());
+                    System.err.println("failed to contact primary node "                        + node.getIpAddress() + ":" + node.getPort()
+                        + " - " + e.getMessage());
                 }
 
                 // attempt secondary nodes
                 for (Integer secondaryNodeId : replica.getValue()) {
                     try {
-                        Node node = nodeLookup.get(secondaryNodeId);
+                        node = nodeLookup.get(secondaryNodeId);
                         this.submitQuery(replica.getKey(),
                             node.getIpAddress(), node.getPort());
 
                         break; // success
                     } catch (Exception e) {
-                        System.err.println(e.getMessage());
+                        System.err.println("failed to contact secondary node "                        + node.getIpAddress() + ":" + node.getPort()
+                            + " - " + e.getMessage());
                     }
                 }
             }

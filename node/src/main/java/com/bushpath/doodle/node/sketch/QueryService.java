@@ -1,5 +1,6 @@
 package com.bushpath.doodle.node.sketch;
 
+import com.bushpath.doodle.Poison;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -87,21 +88,11 @@ public class QueryService implements Service {
                         SketchPlugin sketch =
                             this.sketchManager.get(qEntity);
 
-                        // start ResponseHandler
+                        // query
                         BlockingQueue<Serializable> queue =
-                            new ArrayBlockingQueue(2048);
-
-                        ResponseHandler responseHandler = 
-                            new ResponseHandler(queue, out, 
-                                qRequest.getBufferSize());
-                        responseHandler.start();
-
-                        // submit query to SketchPlugin
-                        sketch.query(query, queue);
-
-                        // shutdown ResponseHandler
-                        responseHandler.shutdown(); 
-                        responseHandler.join();
+                            sketch.query(null, query);
+                        this.handleResponse(queue, out,
+                            qRequest.getBufferSize());
                     } else {
                         // need to read from checkpoint replica
                         // get most recent checkpoint for sketch
@@ -147,21 +138,11 @@ public class QueryService implements Service {
 
                         sketch.replayVariableOperations();
  
-                        // start ResponseHandler
+                        // query
                         BlockingQueue<Serializable> queue =
-                            new ArrayBlockingQueue(2048);
-
-                        ResponseHandler responseHandler = 
-                            new ResponseHandler(queue, out, 
-                                qRequest.getBufferSize());
-                        responseHandler.start();
-
-                        // submit query to SketchPlugin
-                        sketch.query(query, dataIn, queue);
-
-                        // shutdown ResponseHandler
-                        responseHandler.shutdown(); 
-                        responseHandler.join();
+                            sketch.query(dataIn, query);
+                        this.handleResponse(queue, out,
+                            qRequest.getBufferSize());
      
                         // close checkpoint replica input streams
                         dataIn.close();
@@ -189,102 +170,86 @@ public class QueryService implements Service {
         }
     }
 
-    protected class ResponseHandler extends Thread {
-        protected BlockingQueue<Serializable> in;
-        protected DataOutputStream out;
-        protected int bufferSize;
-        protected ByteString.Output byteString;
-        protected ObjectOutputStream byteOut;
-        protected boolean shutdown;
+    protected void handleResponse(BlockingQueue<Serializable> in,
+            DataOutputStream out, int bufferSize) throws Exception {
+        ByteString.Output byteString = ByteString.newOutput();
+        ObjectOutputStream byteOut = new ObjectOutputStream(byteString);
 
-        public ResponseHandler(BlockingQueue<Serializable> in,
-                DataOutputStream out, int bufferSize) throws Exception {
-            this.in = in;
-            this.out = out;
-            this.bufferSize = bufferSize;
-            this.byteString = ByteString.newOutput();
-            this.byteOut = new ObjectOutputStream(byteString);
-            this.shutdown = false;
-        }
+        Serializable s = null;
+        while (true) {
+            // retrieve next "bytes" from queue
+            try {
+                s = in.poll(50, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                log.error("failed to poll queue", e);
+            }
 
-        @Override
-        public void run() {
-            Serializable s = null;
-            while (!this.in.isEmpty() || !this.shutdown) {
-                // retrieve next "bytes" from queue
+            if (s instanceof Exception) {
+                throw (Exception) s;
+            } else if (s instanceof Poison) {
+                break;
+            } else if (s == null) {
+                continue;
+            }
+
+            // write bytes to ByteString
+            try {
+                byteOut.writeObject(s);
+                byteOut.flush();
+            } catch (IOException e) {
+                log.warn("failed to write object", e);
+            }
+
+            if (byteString.size() >= bufferSize) {
                 try {
-                    s = this.in.poll(50, TimeUnit.MILLISECONDS);
-                } catch (InterruptedException e) {
-                    log.error("failed to poll queue", e);
-                }
-
-                if (s == null) {
-                    continue;
-                }
-
-                // write bytes to ByteString
-                try {
-                    this.byteOut.writeObject(s);
-                    this.byteOut.flush();
+                    byteOut.close();
                 } catch (IOException e) {
-                    log.warn("failed to write object", e);
+                    log.warn("failed to close ObjectOutputStream", e);
                 }
 
-                if (this.byteString.size() >= this.bufferSize) {
-                    try {
-                        this.byteOut.close();
-                    } catch (IOException e) {
-                        log.warn("failed to close ObjectOutputStream", e);
-                    }
+                // write QueryResponse
+                QueryResponse queryResponse = 
+                    QueryResponse.newBuilder()
+                        .setData(byteString.toByteString())
+                        .setLastMessage(false)
+                        .build();
 
-                    // write QueryResponse
-                    QueryResponse queryResponse = 
-                        QueryResponse.newBuilder()
-                            .setData(this.byteString.toByteString())
-                            .setLastMessage(false)
-                            .build();
-
-                    try {
-                        out.writeInt(MessageType.QUERY.getNumber());
-                        queryResponse.writeDelimitedTo(out);
-                    } catch (IOException e) {
-                        log.error("failed to write QueryResponse", e);
-                    }
-
-                    this.byteString = ByteString.newOutput();
-
-                    try {
-                        this.byteOut = new ObjectOutputStream(this.byteString);
-                    } catch (IOException e) {
-                        log.error("failed to create ObjectOutputStream", e);
-                        return;
-                    }
+                try {
+                    out.writeInt(MessageType.QUERY.getNumber());
+                    queryResponse.writeDelimitedTo(out);
+                } catch (IOException e) {
+                    log.error("failed to write QueryResponse", e);
                 }
-            }
 
-            try {
-                this.byteOut.close();
-            } catch (IOException e) {
-                log.warn("failed to close ObjectOutputStream", e);
-            }
+                byteString = ByteString.newOutput();
 
-            // write QueryResponse
-            QueryResponse queryResponse = 
-                QueryResponse.newBuilder()
-                    .setData(this.byteString.toByteString())
-                    .setLastMessage(true)
-                    .build();
-
-            try {
-                out.writeInt(MessageType.QUERY.getNumber());
-                queryResponse.writeDelimitedTo(out);
-            } catch (IOException e) {
-                log.error("failed to write QueryResponse", e);
+                try {
+                    byteOut = new ObjectOutputStream(byteString);
+                } catch (IOException e) {
+                    log.error("failed to create ObjectOutputStream", e);
+                    return;
+                }
             }
         }
 
-        public void shutdown() {
-            this.shutdown = true;
+        try {
+            byteOut.close();
+        } catch (IOException e) {
+            log.warn("failed to close ObjectOutputStream", e);
+        }
+
+        // write QueryResponse
+        QueryResponse queryResponse = 
+            QueryResponse.newBuilder()
+                .setData(byteString.toByteString())
+                .setLastMessage(true)
+                .build();
+
+        try {
+            out.writeInt(MessageType.QUERY.getNumber());
+            queryResponse.writeDelimitedTo(out);
+        } catch (IOException e) {
+            log.error("failed to write QueryResponse", e);
         }
     }
 }

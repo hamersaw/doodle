@@ -10,6 +10,6 @@ Distributed sketch-aligned file system presenting HDFS compatible interface.
 - __trace:__ fine-grained output
 
 ## TODO
-- update DoodleFile when gossip dictates
+- optimize sketch observation counts without generating data
 - add control plugins to 'sketch show' command
 - integrate yarn resource management (YarnClient)

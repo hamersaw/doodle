@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public abstract class SketchPlugin extends Plugin {
@@ -94,18 +95,6 @@ public abstract class SketchPlugin extends Plugin {
         }
     }
 
-    protected abstract void addControlPlugin(
-        ControlPlugin controlPlugin) throws Exception;
-    public abstract Collection<String> getFeatures();
-    public abstract Transform getTransform(BlockingQueue<ByteString> in,
-        BlockingQueue<SketchWriteRequest> out, int bufferSize);
-    public abstract void loadData(DataInputStream in) throws Exception;
-    public abstract void write(ByteString byteString) throws Exception;
-    public abstract void query(Query query,
-        BlockingQueue<Serializable> queue) throws Exception;
-    public abstract void query(Query query, DataInputStream in,
-        BlockingQueue<Serializable> queue) throws Exception;
-
     public void serializeSketchPlugin(DataOutputStream out)
             throws IOException {
         this.serializePlugin(out);
@@ -121,6 +110,31 @@ public abstract class SketchPlugin extends Plugin {
             out.write(controlPluginId.getBytes());
         }
     }
+
+    public BlockingQueue<Serializable> query(DataInputStream in,
+            Query query) {
+        BlockingQueue<Serializable> queue =
+            new ArrayBlockingQueue(2048);
+
+        // start QueryHandler
+        QueryHandler queryHandler =
+            new QueryHandler(in, query, queue, this);
+        queryHandler.start();
+
+        return queue;
+    }
+
+    protected abstract void addControlPlugin(
+        ControlPlugin controlPlugin) throws Exception;
+    public abstract Collection<String> getFeatures();
+    public abstract Transform getTransform(BlockingQueue<ByteString> in,
+        BlockingQueue<SketchWriteRequest> out, int bufferSize);
+    public abstract void loadData(DataInputStream in) throws Exception;
+    public abstract void write(ByteString byteString) throws Exception;
+    public abstract void query(Query query,
+        BlockingQueue<Serializable> queue) throws Exception;
+    public abstract void query(Query query, DataInputStream in,
+        BlockingQueue<Serializable> queue) throws Exception;
 
     public SketchPluginGossip toGossip() {
         SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()
