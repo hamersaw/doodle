@@ -11,9 +11,10 @@ import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -86,12 +87,14 @@ public class CommUtility {
                 return ControlModifyResponse.parseDelimitedFrom(in);
             case CONTROL_SHOW:
                 return ControlShowResponse.parseDelimitedFrom(in);
-            case FILE_ADD:
-                return FileAddResponse.parseDelimitedFrom(in);
+            case FILE_CREATE:
+                return FileCreateResponse.parseDelimitedFrom(in);
             case FILE_DELETE:
                 return FileDeleteResponse.parseDelimitedFrom(in);
             case FILE_LIST:
                 return FileListResponse.parseDelimitedFrom(in);
+            case FILE_MKDIR:
+                return FileMkdirResponse.parseDelimitedFrom(in);
             case GOSSIP_HASH:
                 return GossipHashResponse.parseDelimitedFrom(in);
             case GOSSIP_UPDATE:

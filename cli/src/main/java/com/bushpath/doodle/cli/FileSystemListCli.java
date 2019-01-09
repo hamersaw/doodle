@@ -14,7 +14,7 @@ import java.util.Map;
 @Command(name = "list",
     description = "List files.",
     mixinStandardHelpOptions = true)
-public class AnalyticsListCli implements Runnable {
+public class FileSystemListCli implements Runnable {
     @Parameters(index="0", description="Path of file.")
     private String path;
 

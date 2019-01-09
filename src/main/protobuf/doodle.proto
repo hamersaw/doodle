@@ -17,23 +17,24 @@ enum MessageType {
     CONTROL_MODIFY = 5;
     CONTROL_SHOW = 6;
     FAILURE = 7;
-    FILE_ADD = 8;
+    FILE_CREATE = 8;
     FILE_DELETE = 9;
     FILE_LIST = 10;
-    GOSSIP_HASH = 11;
-    GOSSIP_UPDATE = 12;
-    NODE_LIST = 13;
-    NODE_SHOW = 14;
-    PIPE_CLOSE = 15;
-    PIPE_OPEN = 16;
-    PIPE_WRITE = 17;
-    PLUGIN_LIST = 18;
-    QUERY = 19;
-    SKETCH_INIT = 20;
-    SKETCH_LIST = 21;
-    SKETCH_MODIFY = 22;
-    SKETCH_SHOW = 23;
-    SKETCH_WRITE = 24;
+    FILE_MKDIR = 11;
+    GOSSIP_HASH = 12;
+    GOSSIP_UPDATE = 13;
+    NODE_LIST = 14;
+    NODE_SHOW = 15;
+    PIPE_CLOSE = 16;
+    PIPE_OPEN = 17;
+    PIPE_WRITE = 18;
+    PLUGIN_LIST = 19;
+    QUERY = 20;
+    SKETCH_INIT = 21;
+    SKETCH_LIST = 22;
+    SKETCH_MODIFY = 23;
+    SKETCH_SHOW = 24;
+    SKETCH_WRITE = 25;
 }
 
 /**
@@ -108,14 +109,17 @@ message ControlShowResponse {
  * File Messages
  */
 
-message FileAddRequest {
-    FileType fileType = 1;
-    string user = 2;
-    string group = 3;
-    string path = 4;
+message FileCreateRequest {
+    string user = 1;
+    string group = 2;
+    string path = 3;
+    string sketchId = 4;
+    bytes query = 5;
+    repeated string includeFeatures = 6;
+    repeated string excludeFeatures = 7;
 }
 
-message FileAddResponse {
+message FileCreateResponse {
 }
 
 message FileDeleteRequest {
@@ -135,6 +139,15 @@ message FileListRequest {
 
 message FileListResponse {
     repeated File files = 1;
+}
+
+message FileMkdirRequest {
+    string user = 1;
+    string group = 2;
+    string path = 3;
+}
+
+message FileMkdirResponse {
 }
 
 /**

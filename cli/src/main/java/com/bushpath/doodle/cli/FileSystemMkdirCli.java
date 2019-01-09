@@ -1,19 +1,21 @@
 package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Option;
 
 import java.util.Map;
 
-@Command(name = "delete",
-    description = "Delete a file to the analytics plane.",
+@Command(name = "mkdir",
+    description = "Create a directory.",
     mixinStandardHelpOptions = true)
-public class AnalyticsDeleteCli implements Runnable {
+public class FileSystemMkdirCli implements Runnable {
     @Parameters(index="0", description="Path of file.")
     private String path;
 
@@ -22,24 +24,24 @@ public class AnalyticsDeleteCli implements Runnable {
         String user = System.getProperty("user.name");
         String group = user;
 
-        // create FileDeleteRequest
-        FileDeleteRequest request = FileDeleteRequest.newBuilder()
+        // create FileMkdirRequest
+        FileMkdirRequest request = FileMkdirRequest.newBuilder()
             .setUser(user)
             .setGroup(group)
-            .setPath(this.path)
+            .setPath(path)
             .build();
-        FileDeleteResponse response = null;
+        FileMkdirResponse response = null;
 
         // send request
         try {
-            response = (FileDeleteResponse) CommUtility.send(
-                MessageType.FILE_DELETE.getNumber(),
+            response = (FileMkdirResponse) CommUtility.send(
+                MessageType.FILE_MKDIR.getNumber(),
                 request, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle FileDeleteResponse
+        // TODO - handle FileMkdirResponse
     }
 }
