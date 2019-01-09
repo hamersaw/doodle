@@ -358,10 +358,12 @@ public class GossipService implements Service {
                         this.fileManager.addOperation(operation);
                     }
 
-                    // TODO - handle files
+                    // handle files
                     for (com.bushpath.doodle.protobuf.DoodleProtos.File file :
                             gossipUpdateRequest.getFilesList()) {
-                        System.out.println("TODO - handle file");
+                        DoodleInode inode =
+                            this.fileManager.getInode(file.getInode());
+                        inode.update(file);
                     }
 
                     // write to out

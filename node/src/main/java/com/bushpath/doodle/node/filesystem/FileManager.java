@@ -120,6 +120,15 @@ public class FileManager {
         }
     }
 
+    public DoodleInode getInode(int value) {
+        this.lock.readLock().lock();
+        try {
+            return this.inodes.get(value);
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
     protected DoodleInode getInode(String user, String group,
             List<String> elements) throws Exception {
         // get root entry
