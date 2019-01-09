@@ -14,11 +14,11 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.analytics.DoodleInode;
-import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
+import com.bushpath.doodle.node.filesystem.DoodleInode;
+import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.sketch.CheckpointMetadata;
 import com.bushpath.doodle.node.sketch.CheckpointManager;

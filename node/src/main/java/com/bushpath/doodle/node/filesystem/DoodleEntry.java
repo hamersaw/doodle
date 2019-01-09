@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.analytics;
+package com.bushpath.doodle.node.filesystem;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.File;
 

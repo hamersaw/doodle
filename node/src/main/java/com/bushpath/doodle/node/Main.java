@@ -10,13 +10,13 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.analytics.AnalyticsService;
-import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.ControlService;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.NodeService;
+import com.bushpath.doodle.node.filesystem.FileSystemService;
+import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 import com.bushpath.doodle.node.sketch.CheckpointManager;
@@ -323,9 +323,9 @@ public class Main {
 
         // register Services
         try {
-            AnalyticsService analyticsService =
-                new AnalyticsService(fileManager);
-            server.registerService(analyticsService);
+            FileSystemService fileSystemService =
+                new FileSystemService(fileManager);
+            server.registerService(fileSystemService);
 
             ControlService controlService = new ControlService(
                 controlPluginManager, pluginManager);

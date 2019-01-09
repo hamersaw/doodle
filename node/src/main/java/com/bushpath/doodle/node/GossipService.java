@@ -22,11 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
-import com.bushpath.doodle.node.analytics.DoodleInode;
-import com.bushpath.doodle.node.analytics.FileManager;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
+import com.bushpath.doodle.node.filesystem.DoodleInode;
+import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.sketch.CheckpointManager;
 import com.bushpath.doodle.node.sketch.CheckpointMetadata;

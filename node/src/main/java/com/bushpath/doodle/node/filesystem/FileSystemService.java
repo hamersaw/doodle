@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.analytics;
+package com.bushpath.doodle.node.filesystem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +20,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Random;
 
-public class AnalyticsService implements Service {
+public class FileSystemService implements Service {
     protected static final Logger log =
-        LoggerFactory.getLogger(AnalyticsService.class);
+        LoggerFactory.getLogger(FileSystemService.class);
 
     protected FileManager fileManager;
     protected Random random;
 
-    public AnalyticsService(FileManager fileManager) {
+    public FileSystemService(FileManager fileManager) {
         this.fileManager = fileManager;
         this.random = new Random(System.nanoTime());
     }
