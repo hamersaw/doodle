@@ -148,6 +148,10 @@ public class GossipTimerTask extends TimerTask {
                 this.fileManager.filesHashCode()) {
             for (Map.Entry<Integer, DoodleInode> entry :
                     this.fileManager.getInodeEntrySet()) {
+                if (entry.getKey() == 2) {
+                    continue; // skip root directory
+                }
+
                 gossipUpdateBuilder
                     .addFiles(entry.getValue().toProtobuf());
             }

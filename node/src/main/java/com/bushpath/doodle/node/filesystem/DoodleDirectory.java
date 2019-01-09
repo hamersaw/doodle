@@ -36,6 +36,10 @@ public class DoodleDirectory extends DoodleEntry {
     }
 
     @Override
+    public void buildProtobuf(File.Builder builder) {
+    }
+
+    @Override
     public FileType getFileType() {
         return FileType.DIRECTORY;
     }

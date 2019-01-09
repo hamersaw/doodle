@@ -37758,11 +37758,26 @@ public final class DoodleProtos {
     long getAccessTime();
 
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>string sketchId = 10;</code>
+     */
+    java.lang.String getSketchId();
+    /**
+     * <code>string sketchId = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getSketchIdBytes();
+
+    /**
+     * <code>bytes query = 11;</code>
+     */
+    com.google.protobuf.ByteString getQuery();
+
+    /**
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
     int getObservationsCount();
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
     boolean containsObservations(
         int key);
@@ -37773,19 +37788,19 @@ public final class DoodleProtos {
     java.util.Map<java.lang.Integer, java.lang.Integer>
     getObservations();
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
     java.util.Map<java.lang.Integer, java.lang.Integer>
     getObservationsMap();
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
 
     int getObservationsOrDefault(
         int key,
         int defaultValue);
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
 
     int getObservationsOrThrow(
@@ -37813,6 +37828,8 @@ public final class DoodleProtos {
       changeTime_ = 0L;
       modificationTime_ = 0L;
       accessTime_ = 0L;
+      sketchId_ = "";
+      query_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -37889,10 +37906,21 @@ public final class DoodleProtos {
               break;
             }
             case 82: {
-              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sketchId_ = s;
+              break;
+            }
+            case 90: {
+
+              query_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
                 observations_ = com.google.protobuf.MapField.newMapField(
                     ObservationsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000200;
+                mutable_bitField0_ |= 0x00000800;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
               observations__ = input.readMessage(
@@ -37930,7 +37958,7 @@ public final class DoodleProtos {
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 10:
+        case 12:
           return internalGetObservations();
         default:
           throw new RuntimeException(
@@ -38110,7 +38138,50 @@ public final class DoodleProtos {
       return accessTime_;
     }
 
-    public static final int OBSERVATIONS_FIELD_NUMBER = 10;
+    public static final int SKETCHID_FIELD_NUMBER = 10;
+    private volatile java.lang.Object sketchId_;
+    /**
+     * <code>string sketchId = 10;</code>
+     */
+    public java.lang.String getSketchId() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sketchId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sketchId = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSketchIdBytes() {
+      java.lang.Object ref = sketchId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sketchId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int QUERY_FIELD_NUMBER = 11;
+    private com.google.protobuf.ByteString query_;
+    /**
+     * <code>bytes query = 11;</code>
+     */
+    public com.google.protobuf.ByteString getQuery() {
+      return query_;
+    }
+
+    public static final int OBSERVATIONS_FIELD_NUMBER = 12;
     private static final class ObservationsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
           java.lang.Integer, java.lang.Integer> defaultEntry =
@@ -38137,7 +38208,7 @@ public final class DoodleProtos {
       return internalGetObservations().getMap().size();
     }
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
 
     public boolean containsObservations(
@@ -38153,14 +38224,14 @@ public final class DoodleProtos {
       return getObservationsMap();
     }
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
 
     public java.util.Map<java.lang.Integer, java.lang.Integer> getObservationsMap() {
       return internalGetObservations().getMap();
     }
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
 
     public int getObservationsOrDefault(
@@ -38172,7 +38243,7 @@ public final class DoodleProtos {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;int32, int32&gt; observations = 10;</code>
+     * <code>map&lt;int32, int32&gt; observations = 12;</code>
      */
 
     public int getObservationsOrThrow(
@@ -38227,12 +38298,18 @@ public final class DoodleProtos {
       if (accessTime_ != 0L) {
         output.writeInt64(9, accessTime_);
       }
+      if (!getSketchIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, sketchId_);
+      }
+      if (!query_.isEmpty()) {
+        output.writeBytes(11, query_);
+      }
       com.google.protobuf.GeneratedMessageV3
         .serializeIntegerMapTo(
           output,
           internalGetObservations(),
           ObservationsDefaultEntryHolder.defaultEntry,
-          10);
+          12);
       unknownFields.writeTo(output);
     }
 
@@ -38275,6 +38352,13 @@ public final class DoodleProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(9, accessTime_);
       }
+      if (!getSketchIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, sketchId_);
+      }
+      if (!query_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, query_);
+      }
       for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
            : internalGetObservations().getMap().entrySet()) {
         com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
@@ -38283,7 +38367,7 @@ public final class DoodleProtos {
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(10, observations__);
+            .computeMessageSize(12, observations__);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -38318,6 +38402,10 @@ public final class DoodleProtos {
           == other.getModificationTime());
       result = result && (getAccessTime()
           == other.getAccessTime());
+      result = result && getSketchId()
+          .equals(other.getSketchId());
+      result = result && getQuery()
+          .equals(other.getQuery());
       result = result && internalGetObservations().equals(
           other.internalGetObservations());
       result = result && unknownFields.equals(other.unknownFields);
@@ -38353,6 +38441,10 @@ public final class DoodleProtos {
       hash = (37 * hash) + ACCESSTIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getAccessTime());
+      hash = (37 * hash) + SKETCHID_FIELD_NUMBER;
+      hash = (53 * hash) + getSketchId().hashCode();
+      hash = (37 * hash) + QUERY_FIELD_NUMBER;
+      hash = (53 * hash) + getQuery().hashCode();
       if (!internalGetObservations().getMap().isEmpty()) {
         hash = (37 * hash) + OBSERVATIONS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetObservations().hashCode();
@@ -38468,7 +38560,7 @@ public final class DoodleProtos {
       protected com.google.protobuf.MapField internalGetMapField(
           int number) {
         switch (number) {
-          case 10:
+          case 12:
             return internalGetObservations();
           default:
             throw new RuntimeException(
@@ -38479,7 +38571,7 @@ public final class DoodleProtos {
       protected com.google.protobuf.MapField internalGetMutableMapField(
           int number) {
         switch (number) {
-          case 10:
+          case 12:
             return internalGetMutableObservations();
           default:
             throw new RuntimeException(
@@ -38530,6 +38622,10 @@ public final class DoodleProtos {
 
         accessTime_ = 0L;
 
+        sketchId_ = "";
+
+        query_ = com.google.protobuf.ByteString.EMPTY;
+
         internalGetMutableObservations().clear();
         return this;
       }
@@ -38568,6 +38664,8 @@ public final class DoodleProtos {
         result.changeTime_ = changeTime_;
         result.modificationTime_ = modificationTime_;
         result.accessTime_ = accessTime_;
+        result.sketchId_ = sketchId_;
+        result.query_ = query_;
         result.observations_ = internalGetObservations();
         result.observations_.makeImmutable();
         result.bitField0_ = to_bitField0_;
@@ -38648,6 +38746,13 @@ public final class DoodleProtos {
         }
         if (other.getAccessTime() != 0L) {
           setAccessTime(other.getAccessTime());
+        }
+        if (!other.getSketchId().isEmpty()) {
+          sketchId_ = other.sketchId_;
+          onChanged();
+        }
+        if (other.getQuery() != com.google.protobuf.ByteString.EMPTY) {
+          setQuery(other.getQuery());
         }
         internalGetMutableObservations().mergeFrom(
             other.internalGetObservations());
@@ -39063,6 +39168,104 @@ public final class DoodleProtos {
         return this;
       }
 
+      private java.lang.Object sketchId_ = "";
+      /**
+       * <code>string sketchId = 10;</code>
+       */
+      public java.lang.String getSketchId() {
+        java.lang.Object ref = sketchId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sketchId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSketchIdBytes() {
+        java.lang.Object ref = sketchId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sketchId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sketchId = 10;</code>
+       */
+      public Builder setSketchId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 10;</code>
+       */
+      public Builder clearSketchId() {
+        
+        sketchId_ = getDefaultInstance().getSketchId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sketchId = 10;</code>
+       */
+      public Builder setSketchIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sketchId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString query_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes query = 11;</code>
+       */
+      public com.google.protobuf.ByteString getQuery() {
+        return query_;
+      }
+      /**
+       * <code>bytes query = 11;</code>
+       */
+      public Builder setQuery(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        query_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes query = 11;</code>
+       */
+      public Builder clearQuery() {
+        
+        query_ = getDefaultInstance().getQuery();
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.MapField<
           java.lang.Integer, java.lang.Integer> observations_;
       private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
@@ -39090,7 +39293,7 @@ public final class DoodleProtos {
         return internalGetObservations().getMap().size();
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
 
       public boolean containsObservations(
@@ -39106,14 +39309,14 @@ public final class DoodleProtos {
         return getObservationsMap();
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
 
       public java.util.Map<java.lang.Integer, java.lang.Integer> getObservationsMap() {
         return internalGetObservations().getMap();
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
 
       public int getObservationsOrDefault(
@@ -39125,7 +39328,7 @@ public final class DoodleProtos {
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
 
       public int getObservationsOrThrow(
@@ -39145,7 +39348,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
 
       public Builder removeObservations(
@@ -39164,7 +39367,7 @@ public final class DoodleProtos {
         return internalGetMutableObservations().getMutableMap();
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
       public Builder putObservations(
           int key,
@@ -39176,7 +39379,7 @@ public final class DoodleProtos {
         return this;
       }
       /**
-       * <code>map&lt;int32, int32&gt; observations = 10;</code>
+       * <code>map&lt;int32, int32&gt; observations = 12;</code>
        */
 
       public Builder putAllObservations(
@@ -44207,39 +44410,40 @@ public final class DoodleProtos {
       "sketchId\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\"\025\n\023SketchWr" +
       "iteResponse\"c\n\nCheckpoint\022\021\n\ttimestamp\030\001" +
       " \001(\003\022\020\n\010sketchId\030\002 \001(\t\022\024\n\014checkpointId\030\003" +
-      " \001(\t\022\032\n\010replicas\030\004 \003(\0132\010.Replica\"\221\002\n\004Fil" +
+      " \001(\t\022\032\n\010replicas\030\004 \003(\0132\010.Replica\"\262\002\n\004Fil" +
       "e\022\r\n\005inode\030\001 \001(\005\022\033\n\010fileType\030\002 \001(\0162\t.Fil" +
       "eType\022\014\n\004user\030\003 \001(\t\022\r\n\005group\030\004 \001(\t\022\014\n\004na" +
       "me\030\005 \001(\t\022\014\n\004size\030\006 \001(\003\022\022\n\nchangeTime\030\007 \001" +
       "(\003\022\030\n\020modificationTime\030\010 \001(\003\022\022\n\naccessTi" +
-      "me\030\t \001(\003\022-\n\014observations\030\n \003(\0132\027.File.Ob" +
-      "servationsEntry\0323\n\021ObservationsEntry\022\013\n\003" +
-      "key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"d\n\rFileOper" +
-      "ation\022\021\n\ttimestamp\030\001 \001(\003\022\014\n\004path\030\002 \001(\t\022\023" +
-      "\n\004file\030\003 \001(\0132\005.File\022\035\n\toperation\030\004 \001(\0162\n" +
-      ".Operation\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004t" +
-      "ext\030\002 \001(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddre" +
-      "ss\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\":\n\007Replica\022\025\n\rpri" +
-      "maryNodeId\030\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 \003" +
-      "(\005\"6\n\010Variable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001" +
-      "(\t\022\016\n\006values\030\003 \003(\t\"b\n\021VariableOperation\022" +
-      "\021\n\ttimestamp\030\001 \001(\003\022\035\n\toperation\030\002 \001(\0162\n." +
-      "Operation\022\033\n\010variable\030\003 \001(\0132\t.Variable*\321" +
-      "\003\n\013MessageType\022\023\n\017CHECKPOINT_INIT\020\000\022\027\n\023C" +
-      "HECKPOINT_ROLLBACK\020\001\022\027\n\023CHECKPOINT_TRANS" +
-      "FER\020\002\022\020\n\014CONTROL_INIT\020\003\022\020\n\014CONTROL_LIST\020" +
-      "\004\022\022\n\016CONTROL_MODIFY\020\005\022\020\n\014CONTROL_SHOW\020\006\022" +
-      "\013\n\007FAILURE\020\007\022\017\n\013FILE_CREATE\020\010\022\017\n\013FILE_DE" +
-      "LETE\020\t\022\r\n\tFILE_LIST\020\n\022\016\n\nFILE_MKDIR\020\013\022\017\n" +
-      "\013GOSSIP_HASH\020\014\022\021\n\rGOSSIP_UPDATE\020\r\022\r\n\tNOD" +
-      "E_LIST\020\016\022\r\n\tNODE_SHOW\020\017\022\016\n\nPIPE_CLOSE\020\020\022" +
-      "\r\n\tPIPE_OPEN\020\021\022\016\n\nPIPE_WRITE\020\022\022\017\n\013PLUGIN" +
-      "_LIST\020\023\022\t\n\005QUERY\020\024\022\017\n\013SKETCH_INIT\020\025\022\017\n\013S" +
-      "KETCH_LIST\020\026\022\021\n\rSKETCH_MODIFY\020\027\022\017\n\013SKETC" +
-      "H_SHOW\020\030\022\020\n\014SKETCH_WRITE\020\031*&\n\010FileType\022\r" +
-      "\n\tDIRECTORY\020\000\022\013\n\007REGULAR\020\001* \n\tOperation\022" +
-      "\007\n\003ADD\020\000\022\n\n\006DELETE\020\001B/\n\034com.bushpath.doo" +
-      "dle.protobufB\014DoodleProtos\240\001\001b\006proto3"
+      "me\030\t \001(\003\022\020\n\010sketchId\030\n \001(\t\022\r\n\005query\030\013 \001(" +
+      "\014\022-\n\014observations\030\014 \003(\0132\027.File.Observati" +
+      "onsEntry\0323\n\021ObservationsEntry\022\013\n\003key\030\001 \001" +
+      "(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"d\n\rFileOperation\022\021" +
+      "\n\ttimestamp\030\001 \001(\003\022\014\n\004path\030\002 \001(\t\022\023\n\004file\030" +
+      "\003 \001(\0132\005.File\022\035\n\toperation\030\004 \001(\0162\n.Operat" +
+      "ion\"%\n\007Failure\022\014\n\004type\030\001 \001(\t\022\014\n\004text\030\002 \001" +
+      "(\t\"3\n\004Node\022\n\n\002id\030\001 \001(\005\022\021\n\tipAddress\030\002 \001(" +
+      "\t\022\014\n\004port\030\003 \001(\005\":\n\007Replica\022\025\n\rprimaryNod" +
+      "eId\030\001 \001(\005\022\030\n\020secondaryNodeIds\030\002 \003(\005\"6\n\010V" +
+      "ariable\022\014\n\004type\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006v" +
+      "alues\030\003 \003(\t\"b\n\021VariableOperation\022\021\n\ttime" +
+      "stamp\030\001 \001(\003\022\035\n\toperation\030\002 \001(\0162\n.Operati" +
+      "on\022\033\n\010variable\030\003 \001(\0132\t.Variable*\321\003\n\013Mess" +
+      "ageType\022\023\n\017CHECKPOINT_INIT\020\000\022\027\n\023CHECKPOI" +
+      "NT_ROLLBACK\020\001\022\027\n\023CHECKPOINT_TRANSFER\020\002\022\020" +
+      "\n\014CONTROL_INIT\020\003\022\020\n\014CONTROL_LIST\020\004\022\022\n\016CO" +
+      "NTROL_MODIFY\020\005\022\020\n\014CONTROL_SHOW\020\006\022\013\n\007FAIL" +
+      "URE\020\007\022\017\n\013FILE_CREATE\020\010\022\017\n\013FILE_DELETE\020\t\022" +
+      "\r\n\tFILE_LIST\020\n\022\016\n\nFILE_MKDIR\020\013\022\017\n\013GOSSIP" +
+      "_HASH\020\014\022\021\n\rGOSSIP_UPDATE\020\r\022\r\n\tNODE_LIST\020" +
+      "\016\022\r\n\tNODE_SHOW\020\017\022\016\n\nPIPE_CLOSE\020\020\022\r\n\tPIPE" +
+      "_OPEN\020\021\022\016\n\nPIPE_WRITE\020\022\022\017\n\013PLUGIN_LIST\020\023" +
+      "\022\t\n\005QUERY\020\024\022\017\n\013SKETCH_INIT\020\025\022\017\n\013SKETCH_L" +
+      "IST\020\026\022\021\n\rSKETCH_MODIFY\020\027\022\017\n\013SKETCH_SHOW\020" +
+      "\030\022\020\n\014SKETCH_WRITE\020\031*&\n\010FileType\022\r\n\tDIREC" +
+      "TORY\020\000\022\013\n\007REGULAR\020\001* \n\tOperation\022\007\n\003ADD\020" +
+      "\000\022\n\n\006DELETE\020\001B/\n\034com.bushpath.doodle.pro" +
+      "tobufB\014DoodleProtos\240\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -44588,7 +44792,7 @@ public final class DoodleProtos {
     internal_static_File_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_File_descriptor,
-        new java.lang.String[] { "Inode", "FileType", "User", "Group", "Name", "Size", "ChangeTime", "ModificationTime", "AccessTime", "Observations", });
+        new java.lang.String[] { "Inode", "FileType", "User", "Group", "Name", "Size", "ChangeTime", "ModificationTime", "AccessTime", "SketchId", "Query", "Observations", });
     internal_static_File_ObservationsEntry_descriptor =
       internal_static_File_descriptor.getNestedTypes().get(0);
     internal_static_File_ObservationsEntry_fieldAccessorTable = new

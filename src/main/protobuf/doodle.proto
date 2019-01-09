@@ -339,7 +339,9 @@ message File {
     int64 changeTime = 7;
     int64 modificationTime = 8;
     int64 accessTime = 9;
-    map<int32, int32> observations = 10;
+
+    bytes query = 10;
+    map<int32, int32> observations = 11;
 }
 
 enum FileType {

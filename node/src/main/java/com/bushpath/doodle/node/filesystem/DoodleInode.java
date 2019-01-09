@@ -81,10 +81,12 @@ public class DoodleInode {
         if (file.getAccessTime() > this.accessTime) {
             this.accessTime = file.getAccessTime();
         }
+
+        this.entry.update(file);
     }
 
     public File toProtobuf() {
-        return File.newBuilder()
+        File.Builder builder = File.newBuilder()
             .setInode(this.inodeValue)
             .setFileType(this.getFileType())
             .setUser(this.user)
@@ -93,7 +95,9 @@ public class DoodleInode {
             .setSize(this.size)
             .setChangeTime(this.changeTime)
             .setModificationTime(this.modificationTime)
-            .setAccessTime(this.accessTime)
-            .build();
+            .setAccessTime(this.accessTime);
+
+        this.entry.buildProtobuf(builder);
+        return builder.build();
     }
 }

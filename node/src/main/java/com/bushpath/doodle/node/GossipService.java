@@ -16,6 +16,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
 import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
+import com.bushpath.rutils.query.Query;
+
 import com.google.protobuf.ByteString;
 
 import org.slf4j.Logger;
@@ -39,6 +41,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
@@ -329,7 +332,24 @@ public class GossipService implements Service {
                                         entry = new DoodleDirectory(filename);
                                         break;
                                     case REGULAR:
-                                        entry = new DoodleFile(filename);
+                                        // parse query
+                                        ByteString data = file.getQuery();
+                                        ObjectInputStream objectIn =
+                                            new ObjectInputStream(data.newInput());
+                                        Query query = (Query) objectIn.readObject();
+                                        objectIn.close();
+
+                                        // get SketchPlugin
+                                        SketchPlugin sketch =
+                                            this.sketchManager.get(query.getEntity());
+                                        long observationCount =
+                                            sketch.getObservationCount(query);
+
+                                        entry = new DoodleFile(filename, query, data);
+                                        ((DoodleFile) entry).addObservations(
+                                            this.nodeManager.getThisNodeId(),
+                                            (int) observationCount);
+
                                         break;
                                 }
 

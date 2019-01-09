@@ -1,9 +1,6 @@
 package com.bushpath.doodle.node.filesystem;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
@@ -18,8 +15,20 @@ import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
 
+import com.bushpath.rutils.query.Query;
+
+import com.google.protobuf.ByteString;
+
+import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.control.NodeManager;
+import com.bushpath.doodle.node.sketch.SketchManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
 import java.util.Random;
 
 public class FileSystemService implements Service {
@@ -27,10 +36,15 @@ public class FileSystemService implements Service {
         LoggerFactory.getLogger(FileSystemService.class);
 
     protected FileManager fileManager;
+    protected NodeManager nodeManager;
+    protected SketchManager sketchManager;
     protected Random random;
 
-    public FileSystemService(FileManager fileManager) {
+    public FileSystemService(FileManager fileManager,
+            NodeManager nodeManager, SketchManager sketchManager ) {
         this.fileManager = fileManager;
+        this.nodeManager = nodeManager;
+        this.sketchManager = sketchManager;
         this.random = new Random(System.nanoTime());
     }
 
@@ -56,6 +70,12 @@ public class FileSystemService implements Service {
                     FileCreateRequest fcRequest =
                         FileCreateRequest.parseDelimitedFrom(in);
 
+                    ByteString data = fcRequest.getQuery();
+                    ObjectInputStream objectIn =
+                        new ObjectInputStream(data.newInput());
+                    Query query = (Query) objectIn.readObject();
+                    objectIn.close();
+
                     String fcUser = fcRequest.getUser();
                     String fcGroup = fcRequest.getGroup();
                     String fcPath = fcRequest.getPath();
@@ -66,9 +86,24 @@ public class FileSystemService implements Service {
                         FileCreateResponse.newBuilder();
 
                     // populate builder
+                    // check if sketch exists
+                    this.sketchManager.checkExists(query.getEntity());
+
+                    // get SketchPlugin
+                    SketchPlugin sketch =
+                        this.sketchManager.get(query.getEntity());
+                    long observationCount =
+                        sketch.getObservationCount(query);
+
+                    // create inode
                     String fcFilename =
                         this.fileManager.parseFilename(fcPath);
-                    DoodleFile fcFile = new DoodleFile(fcFilename);
+                    DoodleFile fcFile =
+                        new DoodleFile(fcFilename, query, data);
+
+                    fcFile.addObservations(
+                        this.nodeManager.getThisNodeId(),
+                        (int) observationCount);
 
                     long fcTimestamp = System.currentTimeMillis();
                     int fcValue = random.nextInt();
@@ -76,6 +111,7 @@ public class FileSystemService implements Service {
                         fcValue, fcUser, fcGroup, 0, fcTimestamp,
                         fcTimestamp, fcTimestamp, fcFile);
 
+                    // add inode
                     this.fileManager.add(fcUser, fcGroup, 
                         fcPath, fcValue, fcInode);
 

@@ -51,6 +51,20 @@ public class FileSystemListCli implements Runnable {
                 + "\ngroup: \"" + file.getGroup() + "\""
                 + "\nname: \"" + file.getName() + "\"");
 
+            switch (file.getFileType()) {
+                case DIRECTORY:
+                    break;
+                case REGULAR:
+                    // TODO - remove or fix print observations
+                    for (Map.Entry<Integer, Integer> entry :
+                            file.getObservationsMap().entrySet()) {
+                        System.out.println(entry.getKey() + ":"
+                            + entry.getValue());
+                    }
+
+                    break;
+            }
+
             i += 1;
         }
     }

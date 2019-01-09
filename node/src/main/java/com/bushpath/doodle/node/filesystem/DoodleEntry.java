@@ -14,6 +14,7 @@ public abstract class DoodleEntry {
         return this.name;
     }
 
+    public abstract void buildProtobuf(File.Builder builder);
     public abstract FileType getFileType();
     public abstract void update(File file) throws Exception;
 }

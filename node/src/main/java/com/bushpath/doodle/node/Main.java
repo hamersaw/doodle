@@ -324,7 +324,7 @@ public class Main {
         // register Services
         try {
             FileSystemService fileSystemService =
-                new FileSystemService(fileManager);
+                new FileSystemService(fileManager, nodeManager, sketchManager);
             server.registerService(fileSystemService);
 
             ControlService controlService = new ControlService(
