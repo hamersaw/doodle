@@ -37,8 +37,9 @@ public class FileManager {
         this.random = new Random(System.nanoTime());
 
         // add root directory to inodes
+        DoodleDirectory directory = new DoodleDirectory("");
         DoodleInode inode =
-            this.create(2, FileType.DIRECTORY, "root", "root", "");
+            new DoodleInode(2, "root", "root", 0, 0, 0, 0, directory);
 
         this.inodes.put(2, inode);
     }
@@ -73,37 +74,8 @@ public class FileManager {
         this.operations.put(operation.getTimestamp(), operation);
     }
 
-    public DoodleInode create(int inodeValue, FileType fileType,
-            String user, String group, String path) {
-        long time = System.currentTimeMillis();
-        return this.create(inodeValue, fileType, user,
-            group, path, 0, time, time, time);
-    }
-
     public boolean containsOperation(long timestamp) {
         return this.operations.containsKey(timestamp);
-    }
-
-    public DoodleInode create(int inodeValue, FileType fileType,
-            String user, String group, String path, long size,
-            long changeTime, long modificationTime, long accessTime) {
-        List<String> elements = this.parsePath(path);
-        String filename = elements.remove(elements.size() - 1);
-
-        // create entry
-        DoodleEntry entry = null;
-        switch (fileType) {
-            case DIRECTORY:
-                entry = new DoodleDirectory(filename);
-                break;
-            case REGULAR:
-                entry = new DoodleFile(filename);
-                break;
-        }
-
-        // create inode
-        return new DoodleInode(inodeValue, fileType, user, group,
-            size, changeTime, modificationTime, accessTime, entry);
     }
 
     public DoodleInode delete(String user, String group,
@@ -225,6 +197,11 @@ public class FileManager {
         } finally {
             this.lock.readLock().unlock();
         }
+    }
+
+    public String parseFilename(String path) {
+        List<String> elements = this.parsePath(path);
+        return elements.get(elements.size() - 1);
     }
 
     protected List<String> parsePath(String path) {

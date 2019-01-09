@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.filesystem;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.File;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,12 +12,16 @@ public class DoodleFile extends DoodleEntry {
 
     public DoodleFile(String name) {
         super(name);
-
         this.observations = new HashMap();
     }
 
     public Set<Map.Entry<Integer, Integer>> getObservationEntrySet() {
         return this.observations.entrySet();
+    }
+
+    @Override
+    public FileType getFileType() {
+        return FileType.REGULAR;
     }
 
     @Override

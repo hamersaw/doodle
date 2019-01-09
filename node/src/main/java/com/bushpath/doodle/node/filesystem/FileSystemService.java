@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileAddRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileAddResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -35,9 +37,10 @@ public class FileSystemService implements Service {
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.FILE_ADD.getNumber(),
+                MessageType.FILE_CREATE.getNumber(),
                 MessageType.FILE_DELETE.getNumber(),
-                MessageType.FILE_LIST.getNumber()
+                MessageType.FILE_LIST.getNumber(),
+                MessageType.FILE_MKDIR.getNumber()
             };
     }
 
@@ -48,43 +51,47 @@ public class FileSystemService implements Service {
         // handle message
         try {
             switch (MessageType.forNumber(messageType)) {
-                case FILE_ADD:
+                case FILE_CREATE:
                     // parse request
-                    FileAddRequest faRequest =
-                        FileAddRequest.parseDelimitedFrom(in);
+                    FileCreateRequest fcRequest =
+                        FileCreateRequest.parseDelimitedFrom(in);
 
-                    FileType faFileType = faRequest.getFileType();
-                    String faUser = faRequest.getUser();
-                    String faGroup = faRequest.getGroup();
-                    String faPath = faRequest.getPath();
-                    log.trace("handling FileAddRequest {}", faPath);
+                    String fcUser = fcRequest.getUser();
+                    String fcGroup = fcRequest.getGroup();
+                    String fcPath = fcRequest.getPath();
+                    log.trace("handling FileCreateRequest {}", fcPath);
 
                     // init response
-                    FileAddResponse.Builder faBuilder =
-                        FileAddResponse.newBuilder();
+                    FileCreateResponse.Builder fcBuilder =
+                        FileCreateResponse.newBuilder();
 
                     // populate builder
-                    int value = random.nextInt();
-                    DoodleInode faInode = this.fileManager.create(
-                        value, faFileType, faUser, faGroup, faPath);
+                    String fcFilename =
+                        this.fileManager.parseFilename(fcPath);
+                    DoodleFile fcFile = new DoodleFile(fcFilename);
 
-                    this.fileManager.add(faUser, faGroup, 
-                        faPath, value, faInode);
+                    long fcTimestamp = System.currentTimeMillis();
+                    int fcValue = random.nextInt();
+                    DoodleInode fcInode = new DoodleInode(
+                        fcValue, fcUser, fcGroup, 0, fcTimestamp,
+                        fcTimestamp, fcTimestamp, fcFile);
+
+                    this.fileManager.add(fcUser, fcGroup, 
+                        fcPath, fcValue, fcInode);
 
                     // add to operations
-                    long faTimestamp = System.currentTimeMillis();
-                    FileOperation faOp = FileOperation.newBuilder()
-                        .setTimestamp(faTimestamp)
-                        .setPath(faPath)
-                        .setFile(faInode.toProtobuf())
+                    FileOperation fcOp = FileOperation.newBuilder()
+                        .setTimestamp(fcTimestamp)
+                        .setPath(fcPath)
+                        .setFile(fcInode.toProtobuf())
                         .setOperation(Operation.ADD)
                         .build();
 
-                    this.fileManager.addOperation(faOp);
+                    this.fileManager.addOperation(fcOp);
 
                     // write to out
                     out.writeInt(messageType);
-                    faBuilder.build().writeDelimitedTo(out);
+                    fcBuilder.build().writeDelimitedTo(out);
                     break;
                 case FILE_DELETE:
                     // parse request
@@ -142,6 +149,49 @@ public class FileSystemService implements Service {
                     // write to out
                     out.writeInt(messageType);
                     flBuilder.build().writeDelimitedTo(out);
+                    break;
+                case FILE_MKDIR:
+                    // parse request
+                    FileMkdirRequest fmRequest =
+                        FileMkdirRequest.parseDelimitedFrom(in);
+
+                    String fmUser = fmRequest.getUser();
+                    String fmGroup = fmRequest.getGroup();
+                    String fmPath = fmRequest.getPath();
+                    log.trace("handling FileMkdirRequest {}", fmPath);
+
+                    // init response
+                    FileMkdirResponse.Builder fmBuilder =
+                        FileMkdirResponse.newBuilder();
+
+                    // populate builder
+                    String fmFilename =
+                        this.fileManager.parseFilename(fmPath);
+                    DoodleDirectory fmDirectory =
+                        new DoodleDirectory(fmFilename);
+
+                    long fmTimestamp = System.currentTimeMillis();
+                    int fmValue = random.nextInt();
+                    DoodleInode fmInode = new DoodleInode(
+                        fmValue, fmUser, fmGroup, 0, fmTimestamp,
+                        fmTimestamp, fmTimestamp, fmDirectory);
+
+                    this.fileManager.add(fmUser, fmGroup, 
+                        fmPath, fmValue, fmInode);
+
+                    // add to operations
+                    FileOperation fmOp = FileOperation.newBuilder()
+                        .setTimestamp(fmTimestamp)
+                        .setPath(fmPath)
+                        .setFile(fmInode.toProtobuf())
+                        .setOperation(Operation.ADD)
+                        .build();
+
+                    this.fileManager.addOperation(fmOp);
+
+                    // write to out
+                    out.writeInt(messageType);
+                    fmBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

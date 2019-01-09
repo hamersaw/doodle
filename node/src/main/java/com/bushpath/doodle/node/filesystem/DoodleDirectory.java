@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.filesystem;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.File;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +33,11 @@ public class DoodleDirectory extends DoodleEntry {
 
     public void remove(String entry) {
         this.inodes.remove(entry);
+    }
+
+    @Override
+    public FileType getFileType() {
+        return FileType.DIRECTORY;
     }
 
     @Override

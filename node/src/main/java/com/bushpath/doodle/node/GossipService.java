@@ -25,6 +25,9 @@ import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.control.ControlPluginManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
+import com.bushpath.doodle.node.filesystem.DoodleDirectory;
+import com.bushpath.doodle.node.filesystem.DoodleEntry;
+import com.bushpath.doodle.node.filesystem.DoodleFile;
 import com.bushpath.doodle.node.filesystem.DoodleInode;
 import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
@@ -318,16 +321,27 @@ public class GossipService implements Service {
                             = operation.getFile();
                         switch (operation.getOperation()) {
                             case ADD:
-                                DoodleInode inode = this.fileManager.create(
+                                String filename = this.fileManager
+                                    .parseFilename(operation.getPath());
+                                DoodleEntry entry = null;
+                                switch (file.getFileType()) {
+                                    case DIRECTORY:
+                                        entry = new DoodleDirectory(filename);
+                                        break;
+                                    case REGULAR:
+                                        entry = new DoodleFile(filename);
+                                        break;
+                                }
+
+                                DoodleInode inode = new DoodleInode(
                                     file.getInode(),
-                                    file.getFileType(),
                                     file.getUser(),
                                     file.getGroup(),
-                                    operation.getPath(),
                                     file.getSize(),
                                     file.getChangeTime(),
                                     file.getModificationTime(),
-                                    file.getAccessTime());
+                                    file.getAccessTime(),
+                                    entry);
 
                                 this.fileManager.add(file.getUser(),
                                     file.getGroup(), operation.getPath(),

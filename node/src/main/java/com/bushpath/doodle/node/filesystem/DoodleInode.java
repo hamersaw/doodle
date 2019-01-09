@@ -5,7 +5,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
 public class DoodleInode {
     protected int inodeValue;
-    protected FileType fileType;
     protected String user;
     protected String group;
     protected long size;
@@ -14,11 +13,10 @@ public class DoodleInode {
     protected long accessTime;
     protected DoodleEntry entry;
 
-    public DoodleInode(int inodeValue, FileType fileType, String user,
+    public DoodleInode(int inodeValue, String user,
             String group, long size, long changeTime,
             long modificationTime, long accessTime, DoodleEntry entry) {
         this.inodeValue = inodeValue;
-        this.fileType = fileType;
         this.user = user;
         this.group = group;
         this.size = size;
@@ -33,7 +31,7 @@ public class DoodleInode {
     }
 
     public FileType getFileType() {
-        return this.fileType;
+        return this.entry.getFileType();
     }
 
     public String getUser() {
@@ -88,7 +86,7 @@ public class DoodleInode {
     public File toProtobuf() {
         return File.newBuilder()
             .setInode(this.inodeValue)
-            .setFileType(this.fileType)
+            .setFileType(this.getFileType())
             .setUser(this.user)
             .setGroup(this.group)
             .setName(this.entry.getName())

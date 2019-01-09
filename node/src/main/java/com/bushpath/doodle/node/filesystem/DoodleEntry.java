@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.filesystem;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.File;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
 public abstract class DoodleEntry {
     protected String name;
@@ -13,5 +14,6 @@ public abstract class DoodleEntry {
         return this.name;
     }
 
+    public abstract FileType getFileType();
     public abstract void update(File file) throws Exception;
 }
