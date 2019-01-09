@@ -7,6 +7,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.util.Map;
@@ -17,6 +18,10 @@ import java.util.Map;
 public class FileSystemListCli implements Runnable {
     @Parameters(index="0", description="Path of file.")
     private String path;
+
+    @Option(names = {"-v", "--verbose"},
+        description = "Include verbose output.")
+    private boolean verbose;
 
     @Override
     public void run() {
@@ -51,18 +56,21 @@ public class FileSystemListCli implements Runnable {
                 + "\ngroup: \"" + file.getGroup() + "\""
                 + "\nname: \"" + file.getName() + "\"");
 
-            switch (file.getFileType()) {
-                case DIRECTORY:
-                    break;
-                case REGULAR:
-                    // TODO - remove or fix print observations
-                    for (Map.Entry<Integer, Integer> entry :
-                            file.getObservationsMap().entrySet()) {
-                        System.out.println(entry.getKey() + ":"
-                            + entry.getValue());
-                    }
+            if (this.verbose) {
+                switch (file.getFileType()) {
+                    case DIRECTORY:
+                        break;
+                    case REGULAR:
+                        // print observation counts
+                        for (Map.Entry<Integer, Integer> entry :
+                                file.getObservationsMap().entrySet()) {
+                            System.out.println("[[files.observations]]"
+                                + "\nnodeId: " + entry.getKey()
+                                + "\ncount: " + entry.getValue());
+                        }
 
-                    break;
+                        break;
+                }
             }
 
             i += 1;
