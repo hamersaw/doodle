@@ -69,10 +69,8 @@ public class QueryService implements Service {
                         QueryRequest.parseDelimitedFrom(in);
 
                     ByteString data = qRequest.getQuery();
-                    ObjectInputStream objectIn =
-                        new ObjectInputStream(data.newInput());
-                    Query query = (Query) objectIn.readObject();
-                    objectIn.close();
+                    Query query =
+                        Query.fromInputStream(data.newInput());
 
                     int nodeId = qRequest.getNodeId();
                     String qEntity = query.getEntity();

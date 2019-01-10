@@ -40,17 +40,8 @@ public class ThreadedCursor {
         this.replicas = replicas;
         this.nodeLookup = nodeLookup;
         this.inflator = inflator;
+        this.queryByteString = ByteString.copyFrom(query.toByteArray());
         this.bufferSize = bufferSize;
-
-        // initialize queryRequest
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        ObjectOutputStream objectOut = new ObjectOutputStream(byteOut);
-        objectOut.writeObject(query);
-        objectOut.close();
-        byteOut.close();
-
-        this.queryByteString =
-            ByteString.copyFrom(byteOut.toByteArray());
 
         // initialize instance variables
         this.in = new ArrayBlockingQueue(4096);

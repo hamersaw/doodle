@@ -53,16 +53,7 @@ public class FileSystemCreateCli implements Runnable {
         // pack query into ByteString
         ByteString queryByteString = null;
         try {
-            ByteArrayOutputStream byteOut =
-                new ByteArrayOutputStream();
-            ObjectOutputStream objectOut =
-                new ObjectOutputStream(byteOut);
-            objectOut.writeObject(query);
-            objectOut.close();
-            byteOut.close();
-
-            queryByteString =
-                ByteString.copyFrom(byteOut.toByteArray());
+            queryByteString = ByteString.copyFrom(query.toByteArray());
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
