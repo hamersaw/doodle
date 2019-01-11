@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
 
 // define repositories
 repositories {
@@ -11,4 +12,22 @@ dependencies {
 
     compile 'com.google.protobuf:protobuf-java:3.4.0'
     compile 'org.slf4j:slf4j-simple:1.7.25'
+}
+
+// build script
+buildscript {
+    repositories {             
+        mavenCentral()         
+    }
+
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+    }
+} 
+  
+// protobuf protoc
+protobuf{
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.4.0'
+    } 
 }

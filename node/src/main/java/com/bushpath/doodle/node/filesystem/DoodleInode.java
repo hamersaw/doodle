@@ -7,19 +7,17 @@ public class DoodleInode {
     protected int inodeValue;
     protected String user;
     protected String group;
-    protected long size;
     protected long changeTime;
     protected long modificationTime;
     protected long accessTime;
     protected DoodleEntry entry;
 
     public DoodleInode(int inodeValue, String user,
-            String group, long size, long changeTime,
-            long modificationTime, long accessTime, DoodleEntry entry) {
+            String group, long changeTime, long modificationTime,
+            long accessTime, DoodleEntry entry) {
         this.inodeValue = inodeValue;
         this.user = user;
         this.group = group;
-        this.size = size;
         this.changeTime = changeTime;
         this.modificationTime = modificationTime;
         this.accessTime = accessTime;
@@ -43,7 +41,7 @@ public class DoodleInode {
     }
 
     public long getSize() {
-        return this.size;
+        return this.entry.getSize();
     }
 
     public long getChangeTime() {
@@ -72,7 +70,6 @@ public class DoodleInode {
 
         // update entry
         if (file.getModificationTime() > this.modificationTime) {
-            this.size = file.getSize();
             this.entry.update(file);
             this.modificationTime = file.getModificationTime();
         }
@@ -92,7 +89,7 @@ public class DoodleInode {
             .setUser(this.user)
             .setGroup(this.group)
             .setName(this.entry.getName())
-            .setSize(this.size)
+            .setSize(this.entry.getSize())
             .setChangeTime(this.changeTime)
             .setModificationTime(this.modificationTime)
             .setAccessTime(this.accessTime);

@@ -9,6 +9,7 @@ repositories {
 
 // define dependencies
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':doodle-core')
 
     compile 'com.moandjiezana.toml:toml4j:0.7.2'

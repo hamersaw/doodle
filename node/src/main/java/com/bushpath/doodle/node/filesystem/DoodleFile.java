@@ -52,6 +52,16 @@ public class DoodleFile extends DoodleEntry {
     }
 
     @Override
+    public long getSize() {
+        long size = 0;
+        for (Integer observationCount : this.observations.values()) {
+            size += observationCount;
+        }
+
+        return size;
+    }
+
+    @Override
     public void update(File file) throws Exception {
         for (Map.Entry<Integer, Integer> entry :
                 file.getObservationsMap().entrySet()) {

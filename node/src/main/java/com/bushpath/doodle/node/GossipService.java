@@ -357,7 +357,6 @@ public class GossipService implements Service {
                                     file.getInode(),
                                     file.getUser(),
                                     file.getGroup(),
-                                    file.getSize(),
                                     file.getChangeTime(),
                                     file.getModificationTime(),
                                     file.getAccessTime(),

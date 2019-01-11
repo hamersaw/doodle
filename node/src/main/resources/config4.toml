@@ -13,6 +13,18 @@ intervalMilliSeconds = 2500
 [[control.gossip.seed]]
 ipAddress = "127.0.0.1"
 port = 5450
+
+#
+# FileSystem Configuration
+#
+[filesystem.namenode]
+port = 9003
+
+#
+# Plugins Configuration
+#
+[plugins]
+directory = "../plugins"
  
 #
 # Sketch Plane Configuration
@@ -23,9 +35,3 @@ directory = "../checkpoints/3/"
 [sketch.checkpoint.transfer]
 intervalMilliSeconds = 2000
 bufferSizeBytes = 8192
-
-#
-# Plugins Configuration
-#
-[plugins]
-directory = "../plugins"

@@ -39,7 +39,7 @@ public class FileManager {
         // add root directory to inodes
         DoodleDirectory directory = new DoodleDirectory("");
         DoodleInode inode =
-            new DoodleInode(2, "root", "root", 0, 0, 0, 0, directory);
+            new DoodleInode(2, "root", "root", 0, 0, 0, directory);
 
         this.inodes.put(2, inode);
     }
@@ -129,6 +129,11 @@ public class FileManager {
         }
     }
 
+    public DoodleInode getInode(String user, String group, String path)
+            throws Exception {
+        return this.getInode(user, group, this.parsePath(path));
+    }
+
     protected DoodleInode getInode(String user, String group,
             List<String> elements) throws Exception {
         // get root entry
@@ -148,7 +153,8 @@ public class FileManager {
             DoodleDirectory directory =
                 (DoodleDirectory) inode.getEntry();
             if (!directory.contains(elements.get(i))) {
-                throw new RuntimeException("TODO - element missing");
+                throw new RuntimeException("TODO - element missing '"
+                    + elements.get(i) + "'");
             }
 
             // get entry inode

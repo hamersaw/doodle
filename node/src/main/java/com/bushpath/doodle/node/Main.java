@@ -1,5 +1,8 @@
 package com.bushpath.doodle.node;
 
+import com.bushpath.anamnesis.ipc.rpc.RpcServer;
+import com.bushpath.anamnesis.ipc.rpc.packet_handler.IpcConnectionContextPacketHandler;
+
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
 
@@ -15,6 +18,7 @@ import com.bushpath.doodle.node.control.ControlService;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.NodeService;
+import com.bushpath.doodle.node.filesystem.ClientNamenodeService;
 import com.bushpath.doodle.node.filesystem.FileSystemService;
 import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
@@ -34,6 +38,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -364,6 +369,31 @@ public class Main {
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
             System.exit(5);
+        }
+
+        // start HDFS emulation
+        try {
+            // initialize RpcServer
+            int namenodePort =
+                toml.getLong("filesystem.namenode.port").intValue();
+            ServerSocket serverSocket = new ServerSocket(namenodePort);
+            RpcServer rpcServer = new RpcServer(serverSocket);
+
+            // register ClientNamenodeService
+            ClientNamenodeService clientNamenodeService =
+                new ClientNamenodeService(fileManager);
+            rpcServer.addRpcProtocol(
+                "org.apache.hadoop.hdfs.protocol.ClientProtocol",
+                clientNamenodeService);
+
+			rpcServer.addPacketHandler(
+				new IpcConnectionContextPacketHandler());
+
+            // start RpcServer
+            rpcServer.start();
+        } catch (Exception e) {
+            log.error("Unknown HDFS emulation startup failure", e);
+            System.exit(6);
         }
 
         try {

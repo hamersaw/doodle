@@ -108,7 +108,7 @@ public class FileSystemService implements Service {
                     long fcTimestamp = System.currentTimeMillis();
                     int fcValue = random.nextInt();
                     DoodleInode fcInode = new DoodleInode(
-                        fcValue, fcUser, fcGroup, 0, fcTimestamp,
+                        fcValue, fcUser, fcGroup, fcTimestamp,
                         fcTimestamp, fcTimestamp, fcFile);
 
                     // add inode
@@ -209,7 +209,7 @@ public class FileSystemService implements Service {
                     long fmTimestamp = System.currentTimeMillis();
                     int fmValue = random.nextInt();
                     DoodleInode fmInode = new DoodleInode(
-                        fmValue, fmUser, fmGroup, 0, fmTimestamp,
+                        fmValue, fmUser, fmGroup, fmTimestamp,
                         fmTimestamp, fmTimestamp, fmDirectory);
 
                     this.fileManager.add(fmUser, fmGroup, 

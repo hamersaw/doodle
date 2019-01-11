@@ -45,6 +45,11 @@ public class DoodleDirectory extends DoodleEntry {
     }
 
     @Override
+    public long getSize() {
+        return 4096;
+    }
+
+    @Override
     public void update(File file) throws Exception {
         // TODO - perhaps update with inodes allowing mv operations
     }
