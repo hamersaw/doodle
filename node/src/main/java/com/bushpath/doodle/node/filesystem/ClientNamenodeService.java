@@ -99,14 +99,16 @@ public class ClientNamenodeService {
 
         switch (entry.getFileType()) {
             case DIRECTORY:
+                DoodleDirectory directory = (DoodleDirectory) entry;
                 fsBuilder.setFileType(
                         HdfsProtos.HdfsFileStatusProto.FileType.IS_DIR)
-                    .setChildrenNum(0); // TODO - get children count
+                    .setChildrenNum(directory.getInodes().size());
                 break;
             case REGULAR:
+                DoodleFile file = (DoodleFile) entry;
                 fsBuilder.setFileType(
                         HdfsProtos.HdfsFileStatusProto.FileType.IS_FILE)
-                    .setBlocksize(0); // TODO - get block size
+                    .setBlocksize(67108864); // 64 MB
                 
                 // TODO - if needLocation setLocations
                 break;

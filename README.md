@@ -10,7 +10,6 @@ Distributed sketch-aligned file system presenting HDFS compatible interface.
 - __trace:__ fine-grained output
 
 ## TODO
-- optimize sketch observation counts without generating data
 - on file creation compute observation counts on checkpoints at each node
 - add control plugins to 'sketch show' command
 - integrate yarn resource management (YarnClient)
