@@ -113,10 +113,9 @@ message FileCreateRequest {
     string user = 1;
     string group = 2;
     string path = 3;
-    string sketchId = 4;
-    bytes query = 5;
-    repeated string includeFeatures = 6;
-    repeated string excludeFeatures = 7;
+    FileFormat fileFormat = 4;
+    string sketchId = 5;
+    bytes query = 6;
 }
 
 message FileCreateResponse {
@@ -340,13 +339,19 @@ message File {
     int64 modificationTime = 8;
     int64 accessTime = 9;
 
-    bytes query = 10;
-    map<int32, int32> observations = 11;
+    FileFormat fileFormat = 10;
+    bytes query = 11;
+    map<int32, int32> observations = 12;
 }
 
 enum FileType {
     DIRECTORY = 0;
     REGULAR = 1;
+}
+
+enum FileFormat {
+    BINARY = 0;
+    CSV = 1;
 }
 
 message FileOperation {

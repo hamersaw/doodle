@@ -12,15 +12,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class DoodleFile extends DoodleEntry {
+    protected Format format;
     protected Query query;
     protected ByteString queryByteString;
+    protected int featureCount;
     protected Map<Integer, Integer> observations;
 
-    public DoodleFile(String name, Query query,
-            ByteString queryByteString) {
+    public DoodleFile(String name, Format format, Query query,
+            ByteString queryByteString, int featureCount) {
         super(name);
+        this.format = format;
         this.query = query;
         this.queryByteString = queryByteString;
+        this.featureCount = featureCount;
         this.observations = new HashMap();
     }
 
@@ -39,6 +43,7 @@ public class DoodleFile extends DoodleEntry {
     @Override
     public void buildProtobuf(File.Builder builder) {
         builder.setQuery(this.queryByteString);
+        builder.setFileFormat(this.format.getFileFormat());
 
         for (Map.Entry<Integer, Integer> entry :
                 this.observations.entrySet()) {
@@ -53,12 +58,13 @@ public class DoodleFile extends DoodleEntry {
 
     @Override
     public long getSize() {
-        long size = 0;
+        int totalObservationCount = 0;
         for (Integer observationCount : this.observations.values()) {
-            size += observationCount;
+            totalObservationCount += observationCount;
         }
 
-        return size;
+        return this.format
+            .length(this.featureCount, totalObservationCount);
     }
 
     @Override

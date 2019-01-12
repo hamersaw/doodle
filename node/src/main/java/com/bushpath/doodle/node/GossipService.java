@@ -32,6 +32,7 @@ import com.bushpath.doodle.node.filesystem.DoodleEntry;
 import com.bushpath.doodle.node.filesystem.DoodleFile;
 import com.bushpath.doodle.node.filesystem.DoodleInode;
 import com.bushpath.doodle.node.filesystem.FileManager;
+import com.bushpath.doodle.node.filesystem.Format;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.sketch.CheckpointManager;
 import com.bushpath.doodle.node.sketch.CheckpointMetadata;
@@ -342,10 +343,15 @@ public class GossipService implements Service {
                                         // get SketchPlugin
                                         SketchPlugin sketch =
                                             this.sketchManager.get(query.getEntity());
+                                        int featureCount =
+                                            sketch.getFeatures().size();
                                         long observationCount =
                                             sketch.getObservationCount(query);
 
-                                        entry = new DoodleFile(filename, query, data);
+                                        Format format = Format.getFormat(file.getFileFormat());
+
+                                        entry = new DoodleFile(filename, format, 
+                                            query, data, featureCount);
                                         ((DoodleFile) entry).addObservations(
                                             this.nodeManager.getThisNodeId(),
                                             (int) observationCount);

@@ -4,6 +4,7 @@ import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileFormat;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 
 import com.bushpath.rutils.query.Query;
@@ -29,6 +30,11 @@ public class FileSystemCreateCli implements Runnable {
 
     @Parameters(index="1", description="SketchId to build file from.")
     private String sketchId;
+
+    @Option(names = {"-f", "--format"},
+        converter = FileFormatConverter.class,
+        description = "File format [default: CSV].")
+    private FileFormat fileFormat = FileFormat.CSV;
 
     @Option(names = {"-q", "--query"},
         description = "Feature range query (eq. 'f0:0..10', 'f1:0..', 'f2:..10').")
@@ -64,6 +70,7 @@ public class FileSystemCreateCli implements Runnable {
             .setUser(user)
             .setGroup(group)
             .setPath(path)
+            .setFileFormat(this.fileFormat)
             .setSketchId(this.sketchId)
             .setQuery(queryByteString)
             .build();

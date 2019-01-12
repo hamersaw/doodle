@@ -92,14 +92,17 @@ public class FileSystemService implements Service {
                     // get SketchPlugin
                     SketchPlugin sketch =
                         this.sketchManager.get(query.getEntity());
+                    int featureCount = sketch.getFeatures().size();
                     long observationCount =
                         sketch.getObservationCount(query);
 
                     // create inode
                     String fcFilename =
                         this.fileManager.parseFilename(fcPath);
-                    DoodleFile fcFile =
-                        new DoodleFile(fcFilename, query, data);
+                    Format format =
+                        Format.getFormat(fcRequest.getFileFormat());
+                    DoodleFile fcFile = new DoodleFile(fcFilename, 
+                        format, query, data, featureCount);
 
                     fcFile.addObservations(
                         this.nodeManager.getThisNodeId(),
