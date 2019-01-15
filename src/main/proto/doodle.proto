@@ -370,6 +370,10 @@ message Node {
     int32 id = 1;
     string ipAddress = 2;
     int32 port = 3;
+    int32 namenodeIpcPort = 4;
+    int32 datanodeXferPort = 5;
+    int32 datanodeIpcPort = 6;
+    int32 datanodeInfoPort = 7;
 }
 
 enum Operation {

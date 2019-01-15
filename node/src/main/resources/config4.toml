@@ -18,7 +18,12 @@ port = 5450
 # FileSystem Configuration
 #
 [filesystem.namenode]
-port = 9003
+ipcPort = 9003
+
+[filesystem.datanode]
+xferPort = 8023
+ipcPort = 8033
+infoPort = 8043
 
 #
 # Plugins Configuration

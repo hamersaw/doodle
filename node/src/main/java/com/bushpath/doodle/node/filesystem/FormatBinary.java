@@ -9,14 +9,11 @@ public class FormatBinary implements Format {
     }
 
     @Override
-    public int format(float[] observation, DataOutputStream out)
+    public void format(float[] observation, DataOutputStream out)
             throws Exception {
-        // TODO - write observation to out
         for (float f : observation) {
             out.writeFloat(f);
         }
-
-        return (int) this.length(observation.length, 1);
     }
 
     @Override

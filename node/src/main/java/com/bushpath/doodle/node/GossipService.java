@@ -130,7 +130,11 @@ public class GossipService implements Service {
                         NodeMetadata nodeMetadata = new NodeMetadata(
                                 nodeProto.getId(),
                                 nodeProto.getIpAddress(),
-                                (short) nodeProto.getPort()
+                                (short) nodeProto.getPort(),
+                                (short) nodeProto.getNamenodeIpcPort(),
+                                (short) nodeProto.getDatanodeXferPort(),
+                                (short) nodeProto.getDatanodeIpcPort(),
+                                (short) nodeProto.getDatanodeInfoPort()
                             );
 
                         try {

@@ -14,10 +14,26 @@ public class FormatCsv implements Format {
     }
 
     @Override
-    public int format(float[] observation, DataOutputStream out)
+    public void format(float[] observation, DataOutputStream out)
             throws Exception {
-        // TODO - write observation to out
-        return (int) this.length(observation.length, 1);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i=0; i<observation.length; i++) {
+            // TODO - optimize this         
+            String s = Double.toString(observation[i]);
+            int length = s.length();
+            if (length > this.precision) {
+                s = s.substring(0, this.precision);
+            } else if (length < this.precision) {
+                s = String.format("%1$-" + this.precision + "s", s)
+                    .replace(' ', '0');
+            }
+
+            stringBuilder.append((i != 0 ? this.delimiter : "") + s); 
+        }
+
+        stringBuilder.append("\n");
+        out.write(stringBuilder.toString().getBytes());
     }
 
     @Override

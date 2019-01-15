@@ -36,6 +36,14 @@ public class DoodleFile extends DoodleEntry {
         this.observations.put(nodeId, observationCount);
     }
 
+    public int getFeatureCount() {
+        return this.featureCount;
+    }
+
+    public Format getFormat() {
+        return this.format;
+    }
+
     public Set<Map.Entry<Integer, Integer>> getObservationEntrySet() {
         return this.observations.entrySet();
     }

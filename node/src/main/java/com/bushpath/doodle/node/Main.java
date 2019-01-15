@@ -19,6 +19,7 @@ import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.NodeService;
 import com.bushpath.doodle.node.filesystem.ClientNamenodeService;
+import com.bushpath.doodle.node.filesystem.DataTransferService;
 import com.bushpath.doodle.node.filesystem.FileSystemService;
 import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
@@ -130,7 +131,8 @@ public class Main {
                     new NodeMetadata(
                         (short) -1,
                         seedToml.getString("ipAddress"),
-                        seedToml.getLong("port").shortValue()
+                        seedToml.getLong("port").shortValue(),
+                        (short) -1, (short) -1, (short) -1, (short) -1
                     ));
             }
         }
@@ -144,7 +146,11 @@ public class Main {
             NodeMetadata nodeMetadata = new NodeMetadata(
                     toml.getLong("control.nodeId").intValue(),
                     toml.getString("control.ipAddress"),
-                    toml.getLong("control.port").shortValue()
+                    toml.getLong("control.port").shortValue(),
+                    toml.getLong("filesystem.namenode.ipcPort").shortValue(),
+                    toml.getLong("filesystem.datanode.xferPort").shortValue(),
+                    toml.getLong("filesystem.datanode.ipcPort").shortValue(),
+                    toml.getLong("filesystem.datanode.infoPort").shortValue()
                 );
 
             nodeManager.add(nodeMetadata);
@@ -375,13 +381,13 @@ public class Main {
         try {
             // initialize RpcServer
             int namenodePort =
-                toml.getLong("filesystem.namenode.port").intValue();
+                toml.getLong("filesystem.namenode.ipcPort").intValue();
             ServerSocket serverSocket = new ServerSocket(namenodePort);
             RpcServer rpcServer = new RpcServer(serverSocket);
 
             // register ClientNamenodeService
             ClientNamenodeService clientNamenodeService =
-                new ClientNamenodeService(fileManager);
+                new ClientNamenodeService(fileManager, nodeManager);
             rpcServer.addRpcProtocol(
                 "org.apache.hadoop.hdfs.protocol.ClientProtocol",
                 clientNamenodeService);
@@ -391,6 +397,18 @@ public class Main {
 
             // start RpcServer
             rpcServer.start();
+
+            // initialize DataTransferService
+            int datanodeXferPort =
+                toml.getLong("filesystem.datanode.xferPort").intValue();
+            ServerSocket xferServerSocket =
+                new ServerSocket(datanodeXferPort);
+            DataTransferService dataTransferService =
+                new DataTransferService(xferServerSocket,
+                    fileManager, sketchManager);
+
+            // start DataTransferService
+            dataTransferService.start();
         } catch (Exception e) {
             log.error("Unknown HDFS emulation startup failure", e);
             System.exit(6);

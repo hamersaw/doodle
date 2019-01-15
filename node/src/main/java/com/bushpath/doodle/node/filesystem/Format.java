@@ -6,7 +6,7 @@ import java.io.DataOutputStream;
 
 public interface Format {
     public abstract long length(int featureCount, int observationCount);
-    public abstract int format(float[] observation,
+    public abstract void format(float[] observation,
         DataOutputStream out) throws Exception;
     public abstract FileFormat getFileFormat();
 

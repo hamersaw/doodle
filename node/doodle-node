@@ -3,8 +3,6 @@ APPLICATION="doodle-node"
 VERSION="0.1-SNAPSHOT"
 MAIN_CLASS="com.bushpath.doodle.node.Main"
 
-JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny"
-
 CLASSPATH=""
 BASEDIR=$(dirname $0)
 if [ -f $BASEDIR/build/libs/$APPLICATION-$VERSION.jar ]; then
@@ -13,5 +11,7 @@ else
     echo "unable to find $APPLICATION-$VERSION.jar."
     exit 1
 fi
+
+JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny -Djava.library.path=$BASEDIR/../../anamnesis/build/generated"
 
 java -cp $CLASSPATH $JAVA_OPTS $MAIN_CLASS $@
