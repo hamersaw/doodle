@@ -1,9 +1,14 @@
 package com.bushpath.doodle.node.filesystem;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BlockUtil {
+    protected static final Logger log =
+        LoggerFactory.getLogger(BlockUtil.class);
     public static final int BLOCK_SIZE = 67108864;
 
     public static LinkedHashMap<Long, Long>
@@ -44,6 +49,8 @@ public class BlockUtil {
             }
         }
 
+        log.trace("Computed {} block size(s) for inode {}",
+            blockSizes.size(), inode.getInodeValue());
         return blockSizes;
     }
 

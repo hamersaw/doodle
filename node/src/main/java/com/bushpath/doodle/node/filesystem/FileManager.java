@@ -64,6 +64,8 @@ public class FileManager {
             // add inode
             this.inodes.put(value, inode);
             directory.put(filename, value);
+
+            log.info("Added file '{}' with inode:{}", path, value);
         } finally {
             this.lock.writeLock().unlock();
         }
@@ -113,6 +115,8 @@ public class FileManager {
             // delete inode
             parentDirectory.remove(filename);
             this.inodes.remove(inode);
+
+            log.info("Deleted file '{}' with inode:{}", path, value);
 
             return inode;
         } finally {

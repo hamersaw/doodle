@@ -12,6 +12,9 @@ import org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos;
 import org.apache.hadoop.hdfs.protocol.proto.HdfsProtos;
 import org.apache.hadoop.security.proto.SecurityProtos;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 
@@ -23,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ClientNamenodeService {
+    protected static final Logger log =
+        LoggerFactory.getLogger(ClientNamenodeService.class);
+
     protected FileManager fileManager;
     protected NodeManager nodeManager;
 
@@ -39,8 +45,11 @@ public class ClientNamenodeService {
             ClientNamenodeProtocolProtos.GetBlockLocationsRequestProto
                 .parseDelimitedFrom(in);
 
-        // retrieve DoodleInode
         String user = socketContext.getEffectiveUser();
+        log.debug("Recv getBlockLocations request for {} from '{}'",
+            req.getSrc(), user);
+
+        // retrieve DoodleInode
         DoodleInode inode =
             fileManager.getInode(user, user, req.getSrc());
         
@@ -63,8 +72,11 @@ public class ClientNamenodeService {
             ClientNamenodeProtocolProtos.GetFileInfoRequestProto
                 .parseDelimitedFrom(in);
 
-        // retrieve DoodleInode
         String user = socketContext.getEffectiveUser();
+        log.debug("Recv getFileInfo request for {} from '{}'",
+            req.getSrc(), user);
+
+        // retrieve DoodleInode
         DoodleInode inode =
             fileManager.getInode(user, user, req.getSrc());
 
@@ -89,11 +101,14 @@ public class ClientNamenodeService {
             ClientNamenodeProtocolProtos.GetListingRequestProto
                 .parseDelimitedFrom(in);
 
+        String user = socketContext.getEffectiveUser();
+        log.debug("Recv getListing request for {} from '{}'",
+            req.getSrc(), user);
+
         String startAfter =
             new String(req.getStartAfter().toByteArray());
 
         // execute query
-        String user = socketContext.getEffectiveUser();
         Collection<DoodleInode> doodleInodes =
             this.fileManager.list(user, user, req.getSrc());
 
@@ -119,6 +134,9 @@ public class ClientNamenodeService {
 
     public Message getServerDefaults(DataInputStream in,
             SocketContext socketContext) throws Exception {
+        log.debug("Recv getServerDefaults request");
+
+        // parse request
         ClientNamenodeProtocolProtos.GetServerDefaultsRequestProto req =
             ClientNamenodeProtocolProtos.GetServerDefaultsRequestProto
                 .parseDelimitedFrom(in);
@@ -197,6 +215,10 @@ public class ClientNamenodeService {
             long blockSize = entry.getValue();
 
             int nodeId = BlockUtil.getNodeId(blockId);
+
+            log.debug("Creating LocatedBlockProto for "
+                + "blockId:{} offset:{} blockSize:{} nodeId:{}",
+                blockId, offset, blockSize, nodeId);
 
             // create DatanodeInfoProto
             NodeMetadata nodeMetadata = this.nodeManager.get(nodeId);

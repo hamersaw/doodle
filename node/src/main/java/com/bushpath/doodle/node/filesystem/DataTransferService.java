@@ -15,6 +15,9 @@ import com.bushpath.doodle.SketchPlugin;
 
 import com.bushpath.rutils.query.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.io.ByteArrayOutputStream;
@@ -36,6 +39,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ExecutorService;
 
 public class DataTransferService extends Thread {
+    protected static final Logger log =
+        LoggerFactory.getLogger(DataTransferService.class);
+
     protected ServerSocket serverSocket;
     protected ExecutorService executorService;
     protected FileManager fileManager;
@@ -182,12 +188,10 @@ public class DataTransferService extends Thread {
                         int nodeId = BlockUtil.getNodeId(blockId);
                         short blockNum = BlockUtil.getBlockNum(blockId);
 
-                        /*System.out.println("block:" + blockId +
-                            "\n\tinode:" + inodeValue +
-                            "\n\tnodeId:" + nodeId +
-                            "\n\tblockNum:" + blockNum +
-                            "\n\toffset:" + readBlockProto.getOffset() +
-                            "\n\tlength:" + readBlockProto.getLen());*/
+                        log.debug("Recv READ_BLOCK op for blockId:{}"
+                            + " offset:{} length:{}", blockId,
+                            readBlockProto.getOffset(),
+                            readBlockProto.getLen());
 
                         // retrieve block
                         byte[] block = null;
@@ -200,9 +204,9 @@ public class DataTransferService extends Thread {
                             block = initBlock(inode, nodeId, blockNum);
                             blocks.put(blockId, block);
 
-                            System.out.println("generated block "
-                                + blockId + " with size "
-                                + block.length);
+                            log.info("Initialized blockId:{}"
+                                + " with length:{}", blockId,
+                                block.length);
                         }
 
                         // send op response
