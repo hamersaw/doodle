@@ -33,16 +33,20 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
 
 public class DataTransferService extends Thread {
     protected ServerSocket serverSocket;
+    protected ExecutorService executorService;
     protected FileManager fileManager;
     protected SketchManager sketchManager;
     protected Map<Long, byte[]> blocks;
 
     public DataTransferService(ServerSocket serverSocket,
-            FileManager fileManager, SketchManager sketchManager) {
+            ExecutorService executorService, FileManager fileManager,
+            SketchManager sketchManager) {
         this.serverSocket = serverSocket;
+        this.executorService = executorService;
         this.fileManager = fileManager;
         this.sketchManager = sketchManager;
         this.blocks = new HashMap();
@@ -53,7 +57,7 @@ public class DataTransferService extends Thread {
         try {
             while (true) {
                 Socket socket = this.serverSocket.accept();
-                new Worker(socket).start();
+                this.executorService.execute(new Worker(socket));
             }
         } catch (Exception e) {
             // TODO - handle exception
@@ -140,7 +144,7 @@ public class DataTransferService extends Thread {
         return byteOut.toByteArray();
     }
 
-    protected class Worker extends Thread {
+    protected class Worker implements Runnable {
         protected Socket socket;
 
         public Worker(Socket socket) {

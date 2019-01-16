@@ -1,3 +1,5 @@
+threadCount = 4
+
 #
 # Control Plane Configuration
 #
@@ -5,7 +7,6 @@
 nodeId = 1
 ipAddress = "127.0.0.1"
 port = 5451
-threadCount = 4
  
 [control.gossip]
 intervalMilliSeconds = 2500
@@ -17,6 +18,9 @@ port = 5450
 #
 # FileSystem Configuration
 #
+[filesystem]
+threadCount = 4
+
 [filesystem.namenode]
 ipcPort = 9001
 

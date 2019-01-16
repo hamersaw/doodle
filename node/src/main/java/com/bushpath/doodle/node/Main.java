@@ -52,6 +52,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors; 
+import java.util.concurrent.ExecutorService;
 
 public class Main {
     protected static final Logger log = LoggerFactory.getLogger(Main.class);
@@ -329,7 +331,7 @@ public class Main {
         // initialize Server
         Server server = new Server(
                 toml.getLong("control.port").shortValue(),
-                toml.getLong("control.threadCount").shortValue()
+                toml.getLong("threadCount").shortValue()
             );
 
         // register Services
@@ -379,11 +381,18 @@ public class Main {
 
         // start HDFS emulation
         try {
+            // initialize threadpool
+            int threadCount =
+                toml.getLong("filesystem.threadCount").intValue();
+            ExecutorService executorService =
+                Executors.newFixedThreadPool(threadCount);
+ 
             // initialize RpcServer
             int namenodePort =
                 toml.getLong("filesystem.namenode.ipcPort").intValue();
             ServerSocket serverSocket = new ServerSocket(namenodePort);
-            RpcServer rpcServer = new RpcServer(serverSocket);
+            RpcServer rpcServer =
+                new RpcServer(serverSocket, executorService);
 
             // register ClientNamenodeService
             ClientNamenodeService clientNamenodeService =
@@ -405,7 +414,7 @@ public class Main {
                 new ServerSocket(datanodeXferPort);
             DataTransferService dataTransferService =
                 new DataTransferService(xferServerSocket,
-                    fileManager, sketchManager);
+                    executorService, fileManager, sketchManager);
 
             // start DataTransferService
             dataTransferService.start();
