@@ -115,9 +115,8 @@ public class DataQueryCli implements Runnable {
 
             URL[] urls = new URL[paths.length];
             for (int i=0; i<urls.length; i++) {
-                String absoluteName = ((Path) paths[i]).toUri().toString();
-                System.out.println("LOADING JAR: '"
-                    + absoluteName + "'");
+                String absoluteName =
+                    ((Path) paths[i]).toUri().toString();
                 urls[i] = new URL(absoluteName);
             }
 

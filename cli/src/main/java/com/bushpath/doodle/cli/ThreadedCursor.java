@@ -14,7 +14,9 @@ import com.google.protobuf.ByteString;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.EOFException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.List;
 import java.util.Map;
@@ -205,8 +207,14 @@ public class ThreadedCursor {
                 // process byteString
                 List<float[]> observations = null;
                 try {
-                    observations = inflator.process(byteString);
+                    ObjectInputStream objectIn =
+                        new ObjectInputStream(byteString.newInput());
+
+                    observations = inflator.process(objectIn);
+                } catch (EOFException e) {
+                    // processed all data
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.err.println("failed to inflate ByteString: "
                         + e.getMessage());
                     continue;
