@@ -7,6 +7,6 @@ import java.util.List;
 public abstract class Inflator {
     public abstract List<float[]> process(ObjectInputStream in)
         throws Exception;
-    public abstract List<float[]> process(Serializable serializable)
-        throws Exception;
+    public abstract void process(Serializable serializable,
+        List<float[]> observations) throws Exception;
 }

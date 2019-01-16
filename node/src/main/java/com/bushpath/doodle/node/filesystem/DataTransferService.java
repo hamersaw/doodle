@@ -121,7 +121,8 @@ public class DataTransferService extends Thread {
             }
 
             // handle serializable
-            List<float[]> observations = inflator.process(s);
+            List<float[]> observations = new ArrayList();
+            inflator.process(s, observations);
             for (float[] observation : observations) {
                 // check if we need to increment blockNum
                 if (blockSize == currentBlockSize) {
