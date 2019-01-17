@@ -175,6 +175,8 @@ public class DataQueryCli implements Runnable {
         }
 
         try {
+            long startTime = System.currentTimeMillis();
+
             // initialize ThreadedCursor
             ThreadedCursor cursor = new ThreadedCursor(
                 replicas, nodeLookup, inflator,
@@ -193,7 +195,9 @@ public class DataQueryCli implements Runnable {
                 count += 1;
             }
 
-            System.out.println("generated " + count + " record(s)");
+            long deltaTime = System.currentTimeMillis() - startTime;
+            System.out.println("generated " + count
+                + " observation(s) in " + deltaTime + "ms");
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
