@@ -186,12 +186,15 @@ public class DataQueryCli implements Runnable {
             long count = 0;
             float[] observation = null;
             while ((observation = cursor.next()) != null) {
-                // TODO - TMP don't print observations
-                /*for (int i=0; i<observation.length; i++) {
-                    System.out.print((i == 0 ? "" : ",")
-                        + observation[i]);
-                }
-                System.out.println("");*/
+                // TODO - TMP
+                /*if (count % 1000 == 0) {
+                    for (int i=0; i<observation.length; i++) {
+                        System.out.print((i == 0 ? "" : ",")
+                            + observation[i]);
+                    }
+                    System.out.println("");
+                }*/
+
                 count += 1;
             }
 

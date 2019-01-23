@@ -73,6 +73,14 @@ public abstract class Transform extends Thread {
                         this.sketchId, e);
                 }
             }
+
+            try {
+                this.onPipeWriteEnd();
+            } catch (Exception e) {
+                log.error("Failed to 'onPipeWriteEnd' for sketch '{}'",
+                    this.sketchId, e);
+                e.printStackTrace();
+            }
         }
 
         // close (all record have been processed)
@@ -89,5 +97,6 @@ public abstract class Transform extends Thread {
     }
 
     public abstract void close() throws Exception;
+    public abstract void onPipeWriteEnd() throws Exception;
     public abstract void process(float[] observation) throws Exception;
 }
