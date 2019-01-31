@@ -1,11 +1,9 @@
 package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
-import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
-import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 
@@ -54,29 +52,6 @@ public class SketchShowCli implements Runnable {
                     + "\"" + variable.getValues(i) + "\"");
             }
             System.out.println("]");
-        }
-
-        for (Checkpoint checkpoint : response.getCheckpointsList()) {
-            System.out.print("\n[[checkpoint]]"
-                + "\ntimestamp = \"" + checkpoint.getTimestamp() + "\""
-                + "\nsketchId = \"" + checkpoint.getSketchId() + "\""
-                + "\ncheckpointId = \"" + checkpoint.getCheckpointId() + "\"");
-
-            for (Replica replica : checkpoint.getReplicasList()) {
-                System.out.print("\n[[checkpoint.replica]]"
-                    + "\nprimaryNodeId = \"" 
-                    + replica.getPrimaryNodeId() + "\""
-                    + "\nsecondaryNodeIds = [");
-
-                for (int i=0; i<replica.getSecondaryNodeIdsCount(); i++) {
-                    System.out.print((i!=0 ? ", " : "")
-                        + "\"" + replica.getSecondaryNodeIds(i) + "\"");
-                }
-
-                System.out.print("]");
-            }
-
-            System.out.println();
         }
     }
 }

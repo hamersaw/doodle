@@ -2,26 +2,19 @@ package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.plugin.PluginManager;
-import com.bushpath.doodle.node.sketch.CheckpointManager;
-import com.bushpath.doodle.node.sketch.CheckpointMetadata;
 import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.io.DataInputStream;
@@ -33,10 +26,10 @@ public class ControlService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(ControlService.class);
 
-    protected ControlPluginManager controlPluginManager;
+    protected ControlManager controlPluginManager;
     protected PluginManager pluginManager;
 
-    public ControlService(ControlPluginManager controlPluginManager,
+    public ControlService(ControlManager controlPluginManager,
             PluginManager pluginManager) {
         this.controlPluginManager = controlPluginManager;
         this.pluginManager = pluginManager;
@@ -45,9 +38,7 @@ public class ControlService implements Service {
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.CONTROL_INIT.getNumber(),
                 MessageType.CONTROL_LIST.getNumber(),
-                MessageType.CONTROL_MODIFY.getNumber(),
                 MessageType.CONTROL_SHOW.getNumber()
             };
     }
@@ -59,37 +50,6 @@ public class ControlService implements Service {
         // handle message
         try {
             switch (MessageType.forNumber(messageType)) {
-                case CONTROL_INIT:
-                    // parse request
-                    ControlInitRequest ciRequest =
-                        ControlInitRequest.parseDelimitedFrom(in);
-
-                    String ciId = ciRequest.getId();
-                    String ciPlugin = ciRequest.getPlugin();
-                    log.trace("handling ControlInitRequest {}:{}",
-                        ciId, ciPlugin);
-
-                    // check if control plugin already exists
-                    this.controlPluginManager.checkNotExists(ciId);
-
-                    // init response
-                    ControlInitResponse.Builder ciBuilder =
-                        ControlInitResponse.newBuilder();
-
-                    // add control plugin
-                    Class<? extends ControlPlugin> clazz = 
-                        this.pluginManager.getControlPlugin(ciPlugin);
-                    Constructor constructor = 
-                        clazz.getConstructor(String.class);
-                    ControlPlugin controlPlugin = (ControlPlugin) 
-                        constructor.newInstance(ciId);
-
-                    this.controlPluginManager.add(ciId, controlPlugin);
-
-                    // write to out
-                    out.writeInt(messageType);
-                    ciBuilder.build().writeDelimitedTo(out);
-                    break;
                 case CONTROL_LIST:
                     // parse request
                     ControlListRequest clRequest =
@@ -111,37 +71,6 @@ public class ControlService implements Service {
                     // write to out
                     out.writeInt(messageType);
                     clBuilder.build().writeDelimitedTo(out);
-                    break;
-                case CONTROL_MODIFY:
-                    // parse request
-                    ControlModifyRequest cmRequest =
-                        ControlModifyRequest.parseDelimitedFrom(in);
-
-                    String cmId = cmRequest.getId();
-                    log.trace("handling ControlModifyRequest '{}'",
-                        cmId);
-
-                    // check if control plugin exists
-                    this.controlPluginManager.checkExists(cmId);
-
-                    ControlPlugin modifyPlugin =
-                        this.controlPluginManager.get(cmId);
-                    modifyPlugin.checkFrozen();
-
-                    // init response
-                    ControlModifyResponse.Builder cmBuilder =
-                        ControlModifyResponse.newBuilder();
-
-                    // handle operations
-
-                    for (VariableOperation operation :
-                            cmRequest.getOperationsList()) {
-                        modifyPlugin.handleVariableOperation(operation);
-                    }
-
-                    // write to out
-                    out.writeInt(messageType);
-                    cmBuilder.build().writeDelimitedTo(out);
                     break;
                 case CONTROL_SHOW:
                     // parse request

@@ -2,11 +2,12 @@ package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
+import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
+import com.bushpath.doodle.protobuf.DoodleProtos.PluginType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -32,15 +33,21 @@ public class SketchModifyCli implements Runnable {
 
     @Override
     public void run() {
-        // create SketchModifyRequest
-        SketchModifyRequest.Builder builder = SketchModifyRequest.newBuilder()
-            .setId(this.id);
+        JournalOperationRequest.Builder builder =
+            JournalOperationRequest.newBuilder();
 
         // parse variables into VariableOperations
         try {
             for (String variable : this.addVariables) {
                 builder.addOperations(
-                    this.parseArgument(variable, Operation.ADD));
+                    Operation.newBuilder()
+                        .setTimestamp(System.nanoTime())
+                        .setOperationType(OperationType.ADD)
+                        .setPluginId(id)
+                        .setPluginType(PluginType.SKETCH)
+                        .setVariable(
+                            this.parseArgument(variable))
+                        .build());
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -50,31 +57,37 @@ public class SketchModifyCli implements Runnable {
         try {
             for (String variable : this.deleteVariables) {
                 builder.addOperations(
-                    this.parseArgument(variable, Operation.DELETE));
+                    Operation.newBuilder()
+                        .setTimestamp(System.nanoTime())
+                        .setOperationType(OperationType.DELETE)
+                        .setPluginId(id)
+                        .setPluginType(PluginType.SKETCH)
+                        .setVariable(
+                            this.parseArgument(variable))
+                        .build());
             }
         } catch (Exception e) {
             System.err.println(e);
             return;
         }
 
-        SketchModifyRequest request = builder.build();
-        SketchModifyResponse response = null;
+        JournalOperationRequest request = builder.build();
+        JournalOperationResponse response = null;
 
         // send request
         try {
-            response = (SketchModifyResponse) CommUtility.send(
-                MessageType.SKETCH_MODIFY.getNumber(),
+            response = (JournalOperationResponse) CommUtility.send(
+                MessageType.JOURNAL_OPERATION.getNumber(),
                 request, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle SketchModifyResponse
+        // TODO - handle JournalOperationResponse
     }
 
-    protected VariableOperation parseArgument(String arg,
-            Operation operation) throws Exception {
+    protected Variable parseArgument(String arg) throws Exception {
         String[] fields = arg.split(":");
         if (fields.length != 3) {
             throw new RuntimeException("Failed to parse variable fields '" +
@@ -95,10 +108,6 @@ public class SketchModifyCli implements Runnable {
             builder.addValues(value);
         }
 
-        return VariableOperation.newBuilder()
-            .setTimestamp(System.nanoTime())
-            .setOperation(operation)
-            .setVariable(builder.build())
-            .build();
+        return builder.build();
     }
 }

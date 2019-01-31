@@ -36,16 +36,12 @@ public class QueryService implements Service {
 
     protected NodeManager nodeManager;
     protected PluginManager pluginManager;
-    protected CheckpointManager checkpointManager;
     protected SketchManager sketchManager;
 
     public QueryService(NodeManager nodeManager,
-            PluginManager pluginManager,
-            CheckpointManager checkpointManager, 
-            SketchManager sketchManager) {
+            PluginManager pluginManager, SketchManager sketchManager) {
         this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
-        this.checkpointManager = checkpointManager;
         this.sketchManager = sketchManager;
     }
 
@@ -92,59 +88,7 @@ public class QueryService implements Service {
                         this.handleResponse(queue, out,
                             qRequest.getBufferSize());
                     } else {
-                        // need to read from checkpoint replica
-                        // get most recent checkpoint for sketch
-                        CheckpointMetadata checkpointMetadata = null;
-                        for (CheckpointMetadata checkpoint :
-                                this.checkpointManager
-                                .getSketchCheckpoints(qEntity)) {
-                            if (checkpointMetadata == null || 
-                                    checkpointMetadata.getTimestamp() <
-                                    checkpoint.getTimestamp()) {
-                                checkpointMetadata = checkpoint;
-                            }
-                        }
-
-                        if (checkpointMetadata == null) {
-                            // no checkpoints for this sketch -> error
-                            throw new RuntimeException("unable to find valid checkpoint replica for sketch '" + qEntity + "'");
-                        }
- 
-                        // open DataInputStream on checkpoint
-                        String qCheckpointId =
-                            checkpointMetadata.getCheckpointId();
-                        String qCheckpointFile = this.checkpointManager
-                            .getCheckpointFile(qCheckpointId, nodeId);
-                        FileInputStream fileIn =
-                            new FileInputStream(qCheckpointFile);
-                        DataInputStream dataIn =
-                            new DataInputStream(fileIn);
-
-                        // read classpath
-                        int classpathLength = dataIn.readInt(); 
-                        byte[] classpathBytes = new byte[classpathLength];
-                        dataIn.readFully(classpathBytes);
-                        String classpath = new String(classpathBytes);
-
-                        // initialize sketch
-                        Class<? extends SketchPlugin> clazz =
-                            this.pluginManager.getSketchPlugin(classpath);
-                        Constructor constructor =
-                            clazz.getConstructor(DataInputStream.class);
-                        SketchPlugin sketch = 
-                            (SketchPlugin) constructor.newInstance(dataIn);
-
-                        sketch.replayVariableOperations();
- 
-                        // query
-                        BlockingQueue<Serializable> queue =
-                            sketch.query(dataIn, query);
-                        this.handleResponse(queue, out,
-                            qRequest.getBufferSize());
-     
-                        // close checkpoint replica input streams
-                        dataIn.close();
-                        fileIn.close();
+                        // TODO - TMP checkpoint code removed
                     }
 
                     break;

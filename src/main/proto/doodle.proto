@@ -9,20 +9,21 @@ option java_generate_equals_and_hash = true;
  */ 
 
 enum MessageType {
-    CHECKPOINT_INIT = 0;
-    CHECKPOINT_ROLLBACK = 1;
-    CHECKPOINT_TRANSFER = 2;
-    CONTROL_INIT = 3;
-    CONTROL_LIST = 4;
-    CONTROL_MODIFY = 5;
-    CONTROL_SHOW = 6;
-    FAILURE = 7;
-    FILE_CREATE = 8;
-    FILE_DELETE = 9;
-    FILE_LIST = 10;
-    FILE_MKDIR = 11;
-    GOSSIP_HASH = 12;
-    GOSSIP_UPDATE = 13;
+    CONTROL_INIT = 0; // TODO - remove
+    CONTROL_LIST = 1;
+    CONTROL_MODIFY = 2; // TODO -remove
+    CONTROL_SHOW = 3;
+    FAILURE = 4;
+    FILE_CREATE = 5;
+    FILE_DELETE = 6;
+    FILE_LIST = 7;
+    FILE_MKDIR = 8;
+    GOSSIP = 9;
+    //GOSSIP_HASH = 9; // TODO - remove
+    GOSSIP_UPDATE = 10; /// TODO - remove
+    JOURNAL_OPERATION = 11;
+    JOURNAL_WRITE = 12;
+    JOURNAL_WRITE_SEARCH = 13;
     NODE_LIST = 14;
     NODE_SHOW = 15;
     PIPE_CLOSE = 16;
@@ -30,55 +31,24 @@ enum MessageType {
     PIPE_WRITE = 18;
     PLUGIN_LIST = 19;
     QUERY = 20;
-    SKETCH_INIT = 21;
+    SKETCH_INIT = 21; // TODO - remove
     SKETCH_LIST = 22;
-    SKETCH_MODIFY = 23;
+    SKETCH_MODIFY = 23; // TODO - remove
     SKETCH_SHOW = 24;
     SKETCH_WRITE = 25;
-}
-
-/**
- * Checkpoint Messages
- */
-
-message CheckpointInitRequest {
-    string sketchId = 1;
-    string checkpointId = 2;
-}
-
-message CheckpointInitResponse {
-    Checkpoint checkpoint = 1;
-}
-
-message CheckpointRollbackRequest {
-    string sketchId = 1;
-    string checkpointId = 2;
-}
-
-message CheckpointRollbackResponse {
-}
-
-message CheckpointTransferRequest {
-    string checkpointId = 1;
-    int64 offset = 2;
-}
-
-message CheckpointTransferResponse {
-    bytes data = 1;
-    bool lastMessage = 2;
 }
 
 /**
  * Control Messages
  */
 
-message ControlInitRequest {
+/*message ControlInitRequest {
     string id = 1;
     string plugin = 2;
 }
 
 message ControlInitResponse {
-}
+}*/
 
 message ControlListRequest {
 }
@@ -87,13 +57,13 @@ message ControlListResponse {
     map<string, string> plugins = 1;
 }
 
-message ControlModifyRequest {
+/*message ControlModifyRequest {
     string id = 1;
     repeated VariableOperation operations = 2;
 }
 
 message ControlModifyResponse {
-}
+}*/
 
 message ControlShowRequest {
     string id = 1;
@@ -153,25 +123,23 @@ message FileMkdirResponse {
  * Gossip Messages
  */
 
-message GossipHashRequest {
+/*message GossipHashRequest {
 }
 
 message GossipHashResponse {
     int32 nodesHash = 1;
     int32 controlHash = 2;
     int32 sketchHash = 3;
-    int32 checkpointHash = 4;
-    int32 fileOperationsHash = 5;
-    int32 filesHash = 6;
+    int32 fileOperationsHash = 4;
+    int32 filesHash = 5;
 }
 
 message GossipUpdateRequest {
     repeated Node nodes = 1;
     repeated ControlPluginGossip controlPlugins = 2;
     repeated SketchPluginGossip sketchPlugins = 3;
-    repeated Checkpoint checkpoints = 4;
-    repeated FileOperation fileOperations = 5;
-    repeated File files = 6;
+    repeated FileOperation fileOperations = 4;
+    repeated File files = 5;
 }
 
 message GossipUpdateResponse {
@@ -188,6 +156,47 @@ message SketchPluginGossip {
     string classpath = 2;
     repeated string controlPlugins = 3;
     repeated VariableOperation operations = 4;
+}*/
+
+/**
+ * Gossip Messages
+ */
+
+message GossipRequest {
+    Node node = 1;
+    int32 nodesHash = 2;
+    int64 operationTimestamp = 3;
+}
+
+message GossipResponse {
+    repeated Node nodes = 1;
+    repeated Operation operations = 2;
+}
+
+message JournalOperationRequest {
+    repeated Operation operations = 1;
+}
+
+message JournalOperationResponse {
+}
+
+/*message JournalSearchRequest {
+    string sketchId = 1;
+    bool includeOperations = 2;
+    bool includeWrites = 3;
+}
+
+message JournalSearchResponse {
+    repeated bytes data = 1;
+}*/
+
+message JournalWriteRequest {
+    int32 nodeId = 1;
+    string sketchId = 2;
+    bytes data = 3;
+}
+
+message JournalWriteResponse {
 }
 
 /**
@@ -272,14 +281,14 @@ message QueryResponse {
  * Sketch Messages
  */
 
-message SketchInitRequest {
+/*message SketchInitRequest {
     string id = 1;
     string plugin = 2;
     repeated string controlPlugins = 3;
 }
 
 message SketchInitResponse {
-}
+}*/
 
 message SketchListRequest {
 }
@@ -288,13 +297,13 @@ message SketchListResponse {
     map<string, string> plugins = 1;
 }
 
-message SketchModifyRequest {
+/*message SketchModifyRequest {
     string id = 1;
     repeated VariableOperation operations = 2;
 }
 
 message SketchModifyResponse {
-}
+}*/
 
 message SketchShowRequest {
     string id = 1;
@@ -305,7 +314,6 @@ message SketchShowResponse {
     bool frozen = 2;
     string inflatorClass = 3;
     repeated Variable variables = 4;
-    repeated Checkpoint checkpoints = 5;
 }
 
 message SketchWriteRequest {
@@ -320,13 +328,6 @@ message SketchWriteResponse {
 /**
  * Miscellaneous Messages
  */
-
-message Checkpoint {
-    int64 timestamp = 1;
-    string sketchId = 2;
-    string checkpointId = 3;
-    repeated Replica replicas = 4;
-}
 
 message File {
     int32 inode = 1;
@@ -358,7 +359,7 @@ message FileOperation {
     int64 timestamp = 1; 
     string path = 2;
     File file = 3;
-    Operation operation = 4;
+    OperationType operationType = 4;
 }
 
 message Failure {
@@ -376,14 +377,30 @@ message Node {
     int32 datanodeInfoPort = 7;
 }
 
-enum Operation {
-    ADD = 0;
-    DELETE = 1;
+message Operation {
+    // operation metadata
+    int64 timestamp = 1;
+    OperationType operationType = 2;
+    string pluginId = 3;
+
+    // add / delete operation
+    Variable variable = 4;
+
+    // init operation
+    PluginType pluginType = 5;
+    string pluginClass = 6;
+    repeated string linkPluginIds = 7;
 }
 
-message Replica {
-    int32 primaryNodeId = 1;
-    repeated int32 secondaryNodeIds = 2;
+enum OperationType {
+    ADD = 0;
+    DELETE = 1;
+    INIT = 2;
+}
+
+enum PluginType {
+    CONTROL = 0;
+    SKETCH = 1;
 }
 
 message Variable {
@@ -392,8 +409,8 @@ message Variable {
     repeated string values = 3;
 }
 
-message VariableOperation {
+/*message VariableOperation {
     int64 timestamp = 1;
     Operation operation = 2;
     Variable variable = 3;
-}
+}*/

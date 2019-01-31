@@ -3,20 +3,19 @@ package com.bushpath.doodle;
 import com.google.protobuf.AbstractParser;
 import com.google.protobuf.GeneratedMessageV3;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointInitResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointRollbackResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.CheckpointTransferResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
+//import com.bushpath.doodle.protobuf.DoodleProtos.ControlInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
+//import com.bushpath.doodle.protobuf.DoodleProtos.ControlModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.ControlShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileDeleteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.GossipResponse;
+//import com.bushpath.doodle.protobuf.DoodleProtos.GossipHashResponse;
+//import com.bushpath.doodle.protobuf.DoodleProtos.GossipUpdateResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeShowResponse;
@@ -24,9 +23,9 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
+//import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
+//import com.bushpath.doodle.protobuf.DoodleProtos.SketchModifyResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 
@@ -73,18 +72,12 @@ public class CommUtility {
     protected static GeneratedMessageV3 parseResponse(int messageType,
             DataInputStream in) throws Exception {
         switch(MessageType.forNumber(messageType)) {
-            case CHECKPOINT_INIT:
-                return CheckpointInitResponse.parseDelimitedFrom(in);
-            case CHECKPOINT_ROLLBACK:
-                return CheckpointRollbackResponse.parseDelimitedFrom(in);
-            case CHECKPOINT_TRANSFER:
-                return CheckpointTransferResponse.parseDelimitedFrom(in);
-            case CONTROL_INIT:
-                return ControlInitResponse.parseDelimitedFrom(in);
+            //case CONTROL_INIT:
+            //    return ControlInitResponse.parseDelimitedFrom(in);
             case CONTROL_LIST:
                 return ControlListResponse.parseDelimitedFrom(in);
-            case CONTROL_MODIFY:
-                return ControlModifyResponse.parseDelimitedFrom(in);
+            //case CONTROL_MODIFY:
+            //    return ControlModifyResponse.parseDelimitedFrom(in);
             case CONTROL_SHOW:
                 return ControlShowResponse.parseDelimitedFrom(in);
             case FILE_CREATE:
@@ -95,10 +88,14 @@ public class CommUtility {
                 return FileListResponse.parseDelimitedFrom(in);
             case FILE_MKDIR:
                 return FileMkdirResponse.parseDelimitedFrom(in);
-            case GOSSIP_HASH:
-                return GossipHashResponse.parseDelimitedFrom(in);
-            case GOSSIP_UPDATE:
-                return GossipUpdateResponse.parseDelimitedFrom(in);
+            case GOSSIP:
+                return GossipResponse.parseDelimitedFrom(in);
+            //case GOSSIP_HASH:
+            //    return GossipHashResponse.parseDelimitedFrom(in);
+            //case GOSSIP_UPDATE:
+            //    return GossipUpdateResponse.parseDelimitedFrom(in);
+            case JOURNAL_OPERATION:
+                return JournalOperationResponse.parseDelimitedFrom(in);
             case NODE_LIST:
                 return NodeListResponse.parseDelimitedFrom(in);
             case NODE_SHOW:
@@ -111,12 +108,12 @@ public class CommUtility {
                 return PipeWriteResponse.parseDelimitedFrom(in);
             case PLUGIN_LIST:
                 return PluginListResponse.parseDelimitedFrom(in);
-            case SKETCH_INIT:
-                return SketchInitResponse.parseDelimitedFrom(in);
+            //case SKETCH_INIT:
+            //    return SketchInitResponse.parseDelimitedFrom(in);
             case SKETCH_LIST:
                 return SketchListResponse.parseDelimitedFrom(in);
-            case SKETCH_MODIFY:
-                return SketchModifyResponse.parseDelimitedFrom(in);
+            //case SKETCH_MODIFY:
+            //    return SketchModifyResponse.parseDelimitedFrom(in);
             case SKETCH_SHOW:
                 return SketchShowResponse.parseDelimitedFrom(in);
             case SKETCH_WRITE:

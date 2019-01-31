@@ -1,6 +1,6 @@
 package com.bushpath.doodle;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteRequest;
 
 import com.google.protobuf.ByteString;
 
@@ -18,13 +18,13 @@ public abstract class Transform extends Thread {
 
     protected String sketchId;
     protected BlockingQueue<ByteString> in;
-    protected BlockingQueue<SketchWriteRequest> out;
+    protected BlockingQueue<JournalWriteRequest> out;
     protected int featureCount;
     protected int bufferSize;
     protected boolean shutdown;
 
     public Transform(String sketchId, BlockingQueue<ByteString> in,
-            BlockingQueue<SketchWriteRequest> out, 
+            BlockingQueue<JournalWriteRequest> out, 
             int featureCount, int bufferSize) {
         this.sketchId = sketchId;
         this.in = in;

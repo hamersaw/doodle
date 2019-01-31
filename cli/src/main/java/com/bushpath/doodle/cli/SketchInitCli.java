@@ -2,8 +2,11 @@ package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchInitResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
+import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
+import com.bushpath.doodle.protobuf.DoodleProtos.PluginType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -28,24 +31,33 @@ public class SketchInitCli implements Runnable {
 
     @Override
     public void run() {
-        // create SketchInitRequest
-        SketchInitRequest request = SketchInitRequest.newBuilder()
-            .setId(this.id)
-            .setPlugin(this.plugin)
-            .addAllControlPlugins(this.controlPlugins)
+        // create Operation
+        Operation operation = Operation.newBuilder()
+            .setTimestamp(System.nanoTime())
+            .setOperationType(OperationType.INIT)
+            .setPluginId(this.id)
+            .setPluginType(PluginType.SKETCH)
+            .setPluginClass(this.plugin)
+            .addAllLinkPluginIds(this.controlPlugins)
             .build();
-        SketchInitResponse response = null;
+
+        // create JournalOperationRequest
+        JournalOperationRequest request =
+            JournalOperationRequest.newBuilder()
+                .addOperations(operation)
+                .build();
+        JournalOperationResponse response = null;
 
         // send request
         try {
-            response = (SketchInitResponse) CommUtility.send(
-                MessageType.SKETCH_INIT.getNumber(),
+            response = (JournalOperationResponse) CommUtility.send(
+                MessageType.JOURNAL_OPERATION.getNumber(),
                 request, Main.ipAddress, Main.port);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle SketchInitResponse
+        // TODO - handle JournalOperationResponse
     }
 }

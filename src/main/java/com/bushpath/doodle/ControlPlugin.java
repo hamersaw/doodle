@@ -1,7 +1,7 @@
 package com.bushpath.doodle;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
+//import com.bushpath.doodle.protobuf.DoodleProtos.ControlPluginGossip;
+//import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,7 +16,7 @@ public abstract class ControlPlugin extends Plugin {
         super(in);
     }
 
-    public ControlPluginGossip toGossip() {
+    /*public ControlPluginGossip toGossip() {
         ControlPluginGossip.Builder builder = ControlPluginGossip.newBuilder()
             .setId(this.id)
             .setClasspath(this.getClass().getName());
@@ -26,7 +26,7 @@ public abstract class ControlPlugin extends Plugin {
         }
 
         return builder.build();
-    }
+    }*/
 
     public void serializeControlPlugin(DataOutputStream out)
             throws IOException {

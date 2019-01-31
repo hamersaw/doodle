@@ -1,9 +1,9 @@
 package com.bushpath.doodle;
 
 import com.bushpath.doodle.ControlPlugin;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
+//import com.bushpath.doodle.protobuf.DoodleProtos.SketchPluginGossip;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteRequest;
+//import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import com.bushpath.rutils.query.Query;
 
@@ -161,7 +161,7 @@ public abstract class SketchPlugin extends Plugin {
     public abstract Collection<String> getFeatures();
     public abstract long getObservationCount(Serializable s);
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
-        BlockingQueue<SketchWriteRequest> out, int bufferSize);
+        BlockingQueue<JournalWriteRequest> out, int bufferSize);
     public abstract void loadData(DataInputStream in) throws Exception;
     public abstract void write(ByteString byteString) throws Exception;
     public abstract void query(Query query,
@@ -169,7 +169,7 @@ public abstract class SketchPlugin extends Plugin {
     public abstract void query(Query query, DataInputStream in,
         BlockingQueue<Serializable> queue) throws Exception;
 
-    public SketchPluginGossip toGossip() {
+    /*public SketchPluginGossip toGossip() {
         SketchPluginGossip.Builder builder = SketchPluginGossip.newBuilder()
             .setId(this.id)
             .setClasspath(this.getClass().getName())
@@ -180,5 +180,5 @@ public abstract class SketchPlugin extends Plugin {
         }
 
         return builder.build();
-    }
+    }*/
 }

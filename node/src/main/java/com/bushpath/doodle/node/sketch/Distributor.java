@@ -2,8 +2,8 @@ package com.bushpath.doodle.node.sketch;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +18,11 @@ public class Distributor extends Thread {
     protected static final Logger log =
         LoggerFactory.getLogger(Distributor.class);
 
-    protected BlockingQueue<SketchWriteRequest> queue;
+    protected BlockingQueue<JournalWriteRequest> queue;
     protected NodeManager nodeManager;
     protected boolean shutdown;
 
-    public Distributor(BlockingQueue<SketchWriteRequest> queue,
+    public Distributor(BlockingQueue<JournalWriteRequest> queue,
             NodeManager nodeManager) {
         this.queue = queue;
         this.nodeManager = nodeManager;
@@ -32,29 +32,30 @@ public class Distributor extends Thread {
     @Override
     public void run() {
         this.shutdown = false;
+
+        JournalWriteRequest jwRequest = null;
         while (!this.shutdown) {
-            SketchWriteRequest swRequest = null;
             try {
-                swRequest = this.queue.poll(50, TimeUnit.MILLISECONDS);
+                jwRequest = this.queue.poll(50, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
             }
 
-            if (swRequest == null) {
+            if (jwRequest == null) {
                 continue;
             }
 
             // handle sketchWriteRequest
             try {
                 NodeMetadata nodeMetadata =
-                    this.nodeManager.get(swRequest.getNodeId());
+                    this.nodeManager.get(jwRequest.getNodeId());
 
-                SketchWriteResponse swResponse = (SketchWriteResponse)
+                JournalWriteResponse jwResponse = (JournalWriteResponse)
                     CommUtility.send(
-                        MessageType.SKETCH_WRITE.getNumber(),
-                        swRequest, nodeMetadata.getIpAddress(),
+                        MessageType.JOURNAL_WRITE.getNumber(),
+                        jwRequest, nodeMetadata.getIpAddress(),
                         nodeMetadata.getPort());
             } catch (Exception e) {
-                log.error("Failed to send SketchWriteRequest", e);
+                log.error("Failed to send JournalWriteRequest", e);
             }
         }
     }

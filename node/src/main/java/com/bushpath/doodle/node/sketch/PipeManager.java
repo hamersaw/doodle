@@ -2,7 +2,7 @@ package com.bushpath.doodle.node.sketch;
 
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.Transform;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteRequest;
 
 import com.google.protobuf.ByteString;
 
@@ -85,12 +85,15 @@ public class PipeManager {
  
             // create queues
             BlockingQueue<ByteString> in = new ArrayBlockingQueue(1024);
-            BlockingQueue<SketchWriteRequest> out = new ArrayBlockingQueue(1024);
+            BlockingQueue<JournalWriteRequest> out =
+                new ArrayBlockingQueue(1024);
 
             // create transforms
-            Transform[] transformArray = new Transform[transformThreadCount];
+            Transform[] transformArray =
+                new Transform[transformThreadCount];
             for (int i=0; i<transformArray.length; i++) {
-                transformArray[i] = sketch.getTransform(in, out, bufferSize);
+                transformArray[i] =
+                    sketch.getTransform(in, out, bufferSize);
                 transformArray[i].start();
             }
 
@@ -98,7 +101,8 @@ public class PipeManager {
             Distributor[] distributorArray =
                 new Distributor[distributorThreadCount];
             for (int i=0; i<distributorArray.length; i++) {
-                distributorArray[i] = new Distributor(out, this.nodeManager);
+                distributorArray[i] =
+                    new Distributor(out, this.nodeManager);
                 distributorArray[i].start();
             }
 

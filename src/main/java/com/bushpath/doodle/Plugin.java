@@ -1,7 +1,6 @@
 package com.bushpath.doodle;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
-import com.bushpath.doodle.protobuf.DoodleProtos.VariableOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +23,11 @@ public abstract class Plugin {
 
     protected String id;
     protected AtomicBoolean frozen;
-    protected Map<Long, VariableOperation> operations;
     protected Map<String, Map<String, Set<String>>> variables;
 
     public Plugin(String id) {
         this.id = id;
         this.frozen = new AtomicBoolean(false);
-        this.operations = new TreeMap();
         this.variables = new TreeMap();
     }
 
@@ -43,17 +40,6 @@ public abstract class Plugin {
 
         // read frozen
         this.frozen = new AtomicBoolean(in.readBoolean());
- 
-        // read operations
-        int operationsCount = in.readInt();
-        this.operations = new TreeMap();
-        for (int i=0; i<operationsCount; i++) {
-            long key = in.readLong();
-            VariableOperation variableOperation =
-                VariableOperation.parseDelimitedFrom(in);
-
-            this.operations.put(key, variableOperation);
-        }
 
         // initialize variables
         this.variables = new TreeMap();
@@ -97,7 +83,7 @@ public abstract class Plugin {
         return variables;
     }
 
-    public void handleVariableOperation(VariableOperation variableOperation) {
+    /*public void handleVariableOperation(VariableOperation variableOperation) {
         // check if operation has already been processed
         if (this.operations.containsKey(variableOperation.getTimestamp())) {
             return;
@@ -166,16 +152,16 @@ public abstract class Plugin {
 
         // add operation to processed list
         this.operations.put(variableOperation.getTimestamp(), variableOperation);
-    }
+    }*/
 
-    public void replayVariableOperations() {
+    /*public void replayVariableOperations() {
         Map<Long, VariableOperation> operations = this.operations;
         this.operations = new TreeMap();
 
         for (VariableOperation operation : operations.values()) {
             this.handleVariableOperation(operation);
         }
-    }
+    }*/
 
     public void serializePlugin(DataOutputStream out)
             throws IOException {
@@ -185,35 +171,10 @@ public abstract class Plugin {
 
         // write frozen
         out.writeBoolean(this.frozen.get());
-
-        // write operations
-        out.writeInt(this.operations.size());
-        for (Map.Entry<Long, VariableOperation> entry :
-                this.operations.entrySet()) {
-            out.writeLong(entry.getKey());
-            entry.getValue().writeDelimitedTo(out);
-        }
     }
 
     public abstract void addVariable(String type, String name, String value);
     public abstract void deleteVariable(String type, String name, String value);
     public abstract void serialize(DataOutputStream out)
         throws IOException;
-
-    @Override
-    public int hashCode() {
-        CRC32 crc32 = new CRC32();
-
-        for (String type : this.variables.keySet()) {
-            crc32.update(type.getBytes());
-            for (String name : this.variables.get(type).keySet()) {
-                crc32.update(name.getBytes());
-                for (String value : this.variables.get(type).get(name)) {
-                    crc32.update(value.getBytes());
-                }
-            }
-        }
-
-        return (int) crc32.getValue();
-    }
 }

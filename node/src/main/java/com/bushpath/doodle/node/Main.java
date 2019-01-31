@@ -13,7 +13,7 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.control.ControlPluginManager;
+import com.bushpath.doodle.node.control.ControlManager;
 import com.bushpath.doodle.node.control.ControlService;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
@@ -24,10 +24,6 @@ import com.bushpath.doodle.node.filesystem.FileSystemService;
 import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
-import com.bushpath.doodle.node.sketch.CheckpointManager;
-import com.bushpath.doodle.node.sketch.CheckpointMetadata;
-import com.bushpath.doodle.node.sketch.CheckpointService;
-import com.bushpath.doodle.node.sketch.CheckpointTransferTimerTask;
 import com.bushpath.doodle.node.sketch.PipeManager;
 import com.bushpath.doodle.node.sketch.PipeService;
 import com.bushpath.doodle.node.sketch.SketchManager;
@@ -121,9 +117,9 @@ public class Main {
         // initialize FileManager
         FileManager fileManager = new FileManager();
 
-        // initialize ControlPluginManager
-        ControlPluginManager controlPluginManager =
-            new ControlPluginManager();
+        // initialize ControlManager
+        ControlManager controlManager =
+            new ControlManager(pluginManager);
 
         // initialize NodeManager
         List<NodeMetadata> seedNodes = new ArrayList();
@@ -161,173 +157,19 @@ public class Main {
             System.exit(2);
         }
 
-        // intialize CheckpointManager
-        CheckpointTransferTimerTask checkpointTransferTimerTask =
-            new CheckpointTransferTimerTask();
-        CheckpointManager checkpointManager = new CheckpointManager(
-                nodeManager, 
-                toml.getString("sketch.checkpoint.directory"),
-                checkpointTransferTimerTask
-            );
-
-        // add previous checkpoints to CheckpointManager
-        try {
-            File checkpointConfigurationFile =
-                new File(checkpointManager.getConfigurationFile());
-
-            if (checkpointConfigurationFile.exists()) {
-                // parse checkpoint toml
-                Toml configurationToml = new Toml();
-                configurationToml.read(checkpointConfigurationFile);
-
-                for (Toml checkpointToml : 
-                        configurationToml.getTables("checkpoint")) {
-                    // create CheckpointMetadata
-                    CheckpointMetadata checkpointMetadata =
-                        new CheckpointMetadata(
-                                checkpointToml.getLong("timestamp"),
-                                checkpointToml.getString("sketchId"),
-                                checkpointToml.getString("checkpointId")
-                            );
-
-                    // add replicas
-                    for (Toml replicaToml :
-                            checkpointToml.getTables("replica")) {
-
-
-                        List<Long> secondaryNodeIds = replicaToml.getList("secondaryNodeIds");
-                        checkpointMetadata.addReplica(
-                            replicaToml.getLong("primaryNodeId").intValue(),
-                            secondaryNodeIds.get(0).intValue(),
-                            secondaryNodeIds.get(1).intValue());
-                    }
-
-                    // add to CheckpointManager
-                    checkpointManager.add(checkpointMetadata, false);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Failed to parse checkpoint configuration file", e);
-            System.exit(3);
-        }
-
         // initailize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
 
         // initialize SketchManager
         SketchManager sketchManager =
-            new SketchManager();
+            new SketchManager(controlManager, pluginManager);
 
-        // load most recent version of each sketch checkpoint
-        try {
-            Map<String, CheckpointMetadata> sketchCheckpoints
-                = new HashMap();;
+        // initialize Journals
+        OperationJournal operationJournal =
+            new OperationJournal(controlManager, sketchManager);
+        WriteJournal writeJournal = new WriteJournal();
+        // TODO - read from disk
 
-            // find latest checkpoint for each sketch
-            for (Map.Entry<String, CheckpointMetadata> entry :
-                    checkpointManager.getEntrySet()) {
-                CheckpointMetadata checkpointMetadata =
-                    entry.getValue();
-
-                String sketchId = checkpointMetadata.getSketchId();
-                if (!sketchCheckpoints.containsKey(sketchId) ||
-                        sketchCheckpoints.get(sketchId).getTimestamp() 
-                        < checkpointMetadata.getTimestamp()) {
-                    sketchCheckpoints.put(sketchId, checkpointMetadata);
-                }
-            }
-
-            // load sketch checkpoints
-            for (CheckpointMetadata checkpoint :
-                    sketchCheckpoints.values()) {
-                String sketchId = checkpoint.getSketchId();
-                String checkpointId = checkpoint.getCheckpointId();
-
-                // open DataInputStream on checkpoint
-                String checkpointFile = checkpointManager
-                    .getCheckpointFile(checkpointId);
-                FileInputStream fileIn =
-                    new FileInputStream(checkpointFile);
-                DataInputStream dataIn =
-                    new DataInputStream(fileIn);
-
-                // read classpath
-                int classpathLength = dataIn.readInt(); 
-                byte[] classpathBytes = new byte[classpathLength];
-                dataIn.readFully(classpathBytes);
-                String classpath = new String(classpathBytes);
-
-                // initialize sketch
-                Class<? extends SketchPlugin> clazz =
-                    pluginManager.getSketchPlugin(classpath);
-                Constructor constructor =
-                    clazz.getConstructor(DataInputStream.class);
-                SketchPlugin sketch = 
-                    (SketchPlugin) constructor.newInstance(dataIn);
-
-                sketch.replayVariableOperations();
-                sketch.loadData(dataIn);
-
-                dataIn.close();
-                fileIn.close();
-
-                // read plugins
-                Set<String> controlPluginIds =
-                    sketch.getControlPluginIds();
-                ControlPlugin[] controlPlugins = 
-                    new ControlPlugin[controlPluginIds.size()];
-                int index=0;
-                for (String cpId : controlPluginIds) {
-                    if (controlPluginManager.contains(cpId)) {
-                        controlPlugins[index++] = 
-                            controlPluginManager.get(cpId);
-                    } else {
-                        // open DataInputStream on control plugin
-                        String cpFile = checkpointManager
-                            .getControlPluginFile(cpId);
-                        FileInputStream cpFileIn =
-                            new FileInputStream(cpFile);
-                        DataInputStream cpDataIn =
-                            new DataInputStream(cpFileIn);
-
-                        // read classpath
-                        int cpClasspathLength = cpDataIn.readInt(); 
-                        byte[] cpClasspathBytes =
-                            new byte[cpClasspathLength];
-                        cpDataIn.readFully(cpClasspathBytes);
-                        String cpClasspath =
-                            new String(cpClasspathBytes);
-
-                        // initialize sketch
-                        Class<? extends ControlPlugin> cpClazz =
-                            pluginManager.getControlPlugin(cpClasspath);
-                        Constructor cpConstructor =
-                            cpClazz.getConstructor(DataInputStream.class);
-                        ControlPlugin controlPlugin = (ControlPlugin) 
-                            cpConstructor.newInstance(cpDataIn);
-
-                        controlPlugin.replayVariableOperations();
-
-                        cpDataIn.close();
-                        cpFileIn.close();
-
-                        // add ControlPlugin to ControlPluginManager
-                        controlPluginManager.add(cpId, controlPlugin);
-
-                        controlPlugins[index++] = controlPlugin;
-                    }
-                }
-
-                sketch.initControlPlugins(controlPlugins);
-
-                // add new sketch
-                sketchManager.add(sketchId, sketch);
-            }
-        } catch (Exception e) {
-            log.error("Failed to load sketch checkpoints", e);
-            System.exit(4);
-        }
- 
         // initialize Server
         Server server = new Server(
                 toml.getLong("control.port").shortValue(),
@@ -341,8 +183,12 @@ public class Main {
             server.registerService(fileSystemService);
 
             ControlService controlService = new ControlService(
-                controlPluginManager, pluginManager);
+                controlManager, pluginManager);
             server.registerService(controlService);
+
+            GossipService gossipService = new GossipService(
+                nodeManager, operationJournal, writeJournal);
+            server.registerService(gossipService);
 
             NodeService nodeService = new NodeService(nodeManager);
             server.registerService(nodeService);
@@ -350,30 +196,17 @@ public class Main {
             PluginService pluginService = new PluginService(pluginManager);
             server.registerService(pluginService);
 
-            CheckpointService checkpointService =
-                new CheckpointService(checkpointManager, 
-                    controlPluginManager, pluginManager, sketchManager,
-                    toml.getLong("sketch.checkpoint.transfer.bufferSizeBytes")
-                        .intValue());
-            server.registerService(checkpointService);
-
             PipeService pipeService =
                 new PipeService(sketchManager, pipeManager);
             server.registerService(pipeService);
 
             QueryService queryService = new QueryService(nodeManager,
-                pluginManager, checkpointManager, sketchManager);
+                pluginManager, sketchManager);
             server.registerService(queryService);
 
             SketchService sketchService = new SketchService(
-                checkpointManager, controlPluginManager, 
-                pluginManager, sketchManager);
+                controlManager, pluginManager, sketchManager);
             server.registerService(sketchService);
-
-            GossipService gossipService = new GossipService(
-                checkpointManager, controlPluginManager, pluginManager,
-                nodeManager, sketchManager, fileManager);
-            server.registerService(gossipService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
             System.exit(5);
@@ -427,20 +260,25 @@ public class Main {
             // start Server
             server.start();
 
-            // start GossipTimerTask
+            // start Gossip TimerTask
             Timer timer = new Timer();
             GossipTimerTask gossipTimerTask =
-                new GossipTimerTask(controlPluginManager, nodeManager,
-                    sketchManager, checkpointManager, fileManager);
+                new GossipTimerTask(nodeManager, operationJournal);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
 
-            // start CheckpointTransferTimerTask
-            timer.scheduleAtFixedRate(checkpointTransferTimerTask, 0,
-                toml.getLong("sketch.checkpoint.transfer.intervalMilliSeconds"));
+            // TODO - start WriteTimerTask
+
+            /*// start GossipTimerTask
+            Timer timer = new Timer();
+            GossipTimerTask gossipTimerTask =
+                new GossipTimerTask(controlPluginManager,
+                    nodeManager, sketchManager, fileManager);
+            timer.scheduleAtFixedRate(gossipTimerTask, 0,
+                toml.getLong("control.gossip.intervalMilliSeconds"));*/
 
             server.join();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             log.error("Unknown failure", e);
         }
     }

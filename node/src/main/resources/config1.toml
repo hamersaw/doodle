@@ -34,13 +34,3 @@ infoPort = 8040
 #
 [plugins]
 directory = "../plugins"
- 
-#
-# Sketch Plane Configuration
-#
-[sketch.checkpoint]
-directory = "../checkpoints/0/"
-
-[sketch.checkpoint.transfer]
-intervalMilliSeconds = 2000
-bufferSizeBytes = 8192

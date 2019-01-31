@@ -2,12 +2,10 @@ package com.bushpath.doodle.cli;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.Inflator;
-import com.bushpath.doodle.protobuf.DoodleProtos.Checkpoint;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 
@@ -83,26 +81,6 @@ public class DataQueryCli implements Runnable {
             return;
         }
 
-        // intialize most recent checkpoint replication data
-        Checkpoint mostRecentCheckpoint = null;
-        for (Checkpoint checkpoint :
-                sketchShowResponse.getCheckpointsList()) {
-            if (mostRecentCheckpoint == null || 
-                    checkpoint.getTimestamp() > 
-                    mostRecentCheckpoint.getTimestamp()) {
-                mostRecentCheckpoint = checkpoint;
-            }
-        }
-
-        Map<Integer, List<Integer>> replicas = new HashMap();
-        if (mostRecentCheckpoint != null) {
-            for (Replica replica : 
-                    mostRecentCheckpoint.getReplicasList()) {
-                replicas.put(replica.getPrimaryNodeId(),
-                    replica.getSecondaryNodeIdsList());
-            }
-        }
-
         // load plugins
         URLClassLoader urlClassLoader = null;
         try {
@@ -168,6 +146,7 @@ public class DataQueryCli implements Runnable {
             nodeLookup.put(node.getId(), node);
         }
 
+        Map replicas = new HashMap();
         if (replicas.isEmpty()) {
             for (Integer nodeId : nodeLookup.keySet()) {
                 replicas.put(nodeId, new ArrayList());

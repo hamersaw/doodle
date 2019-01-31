@@ -13,7 +13,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
-import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
+import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
 
 import com.bushpath.rutils.query.Query;
 
@@ -123,7 +123,7 @@ public class FileSystemService implements Service {
                         .setTimestamp(fcTimestamp)
                         .setPath(fcPath)
                         .setFile(fcInode.toProtobuf())
-                        .setOperation(Operation.ADD)
+                        .setOperationType(OperationType.ADD)
                         .build();
 
                     this.fileManager.addOperation(fcOp);
@@ -156,7 +156,7 @@ public class FileSystemService implements Service {
                         .setTimestamp(rdTimestamp)
                         .setPath(fdPath)
                         .setFile(fdInode.toProtobuf())
-                        .setOperation(Operation.DELETE)
+                        .setOperationType(OperationType.DELETE)
                         .build();
 
                     this.fileManager.addOperation(fdOp);
@@ -223,7 +223,7 @@ public class FileSystemService implements Service {
                         .setTimestamp(fmTimestamp)
                         .setPath(fmPath)
                         .setFile(fmInode.toProtobuf())
-                        .setOperation(Operation.ADD)
+                        .setOperationType(OperationType.ADD)
                         .build();
 
                     this.fileManager.addOperation(fmOp);
