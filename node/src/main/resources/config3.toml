@@ -1,28 +1,30 @@
-threadCount = 4
+nodeId = 2
+ipAddress = "127.0.0.1"
+port = 5452
+serverThreadCount = 4
 
 #
 # Control Plane Configuration
 #
-[control]
-nodeId = 2
-ipAddress = "127.0.0.1"
-port = 5452
- 
-[control.gossip]
-intervalMilliSeconds = 2500
- 
-[[control.gossip.seed]]
-ipAddress = "127.0.0.1"
-port = 5450
+[control.journal]
+directory = "../journal/control"
+maximumFileSizeBytes = 8589934592
 
-[control.replication]
+#
+# Data Plane Configuration
+#
+[data.replication]
 intervalMilliSeconds = 1000
+
+[data.journal]
+directory = "../journal/data"
+maximumFileSizeBytes = 68719476736
 
 #
 # FileSystem Configuration
 #
 [filesystem]
-threadCount = 4
+workerThreadCount = 4
 
 [filesystem.namenode]
 ipcPort = 9002
@@ -31,6 +33,16 @@ ipcPort = 9002
 xferPort = 8022
 ipcPort = 8032
 infoPort = 8042
+
+#
+# Gossip Configuration
+#
+[gossip]
+intervalMilliSeconds = 2500
+ 
+[[gossip.seed]]
+ipAddress = "127.0.0.1"
+port = 5450
 
 #
 # Plugins Configuration

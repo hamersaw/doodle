@@ -123,8 +123,8 @@ public class Main {
 
         // initialize NodeManager
         List<NodeMetadata> seedNodes = new ArrayList();
-        if (toml.getTables("control.gossip.seed") != null) {
-            for (Toml seedToml : toml.getTables("control.gossip.seed")) {
+        if (toml.getTables("gossip.seed") != null) {
+            for (Toml seedToml : toml.getTables("gossip.seed")) {
                 seedNodes.add(
                     new NodeMetadata(
                         (short) -1,
@@ -136,15 +136,15 @@ public class Main {
         }
 
         NodeManager nodeManager = new NodeManager(
-                toml.getLong("control.nodeId").intValue(),
+                toml.getLong("nodeId").intValue(),
                 seedNodes
             );
 
         try {
             NodeMetadata nodeMetadata = new NodeMetadata(
-                    toml.getLong("control.nodeId").intValue(),
-                    toml.getString("control.ipAddress"),
-                    toml.getLong("control.port").shortValue(),
+                    toml.getLong("nodeId").intValue(),
+                    toml.getString("ipAddress"),
+                    toml.getLong("port").shortValue(),
                     toml.getLong("filesystem.namenode.ipcPort").shortValue(),
                     toml.getLong("filesystem.datanode.xferPort").shortValue(),
                     toml.getLong("filesystem.datanode.ipcPort").shortValue(),
@@ -175,8 +175,8 @@ public class Main {
 
         // initialize Server
         Server server = new Server(
-                toml.getLong("control.port").shortValue(),
-                toml.getLong("threadCount").shortValue()
+                toml.getLong("port").shortValue(),
+                toml.getLong("serverThreadCount").shortValue()
             );
 
         // register Services
@@ -219,7 +219,7 @@ public class Main {
         try {
             // initialize threadpool
             int threadCount =
-                toml.getLong("filesystem.threadCount").intValue();
+                toml.getLong("filesystem.workerThreadCount").intValue();
             ExecutorService executorService =
                 Executors.newFixedThreadPool(threadCount);
  
@@ -269,10 +269,10 @@ public class Main {
             GossipTimerTask gossipTimerTask =
                 new GossipTimerTask(nodeManager, operationJournal);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
-                toml.getLong("control.gossip.intervalMilliSeconds"));
+                toml.getLong("gossip.intervalMilliSeconds"));
 
             timer.scheduleAtFixedRate(replicationTimerTask, 0,
-                toml.getLong("control.replication.intervalMilliSeconds"));
+                toml.getLong("data.replication.intervalMilliSeconds"));
 
             // wait indefinitely
             server.join();
