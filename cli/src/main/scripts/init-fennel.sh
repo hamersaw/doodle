@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # initialize DoodleFennelPlugin sketch
-./doodle sketch init -c dht sketch_one com.bushpath.doodle.fennel.DoodleFennelPlugin
+./doodle sketch init sketch_one com.bushpath.doodle.fennel.FennelPlugin dht
 ./doodle sketch modify sketch_one -a "hash:temperature_surface:-1" -a "hash:pressure_surface:-1"
 
 # add features to sketch

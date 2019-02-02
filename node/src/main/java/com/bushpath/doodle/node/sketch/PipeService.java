@@ -78,15 +78,15 @@ public class PipeService implements Service {
 
                     // check if sketch exists
                     this.sketchManager.checkExists(poSketchId);
+                    SketchPlugin sketch = 
+                        this.sketchManager.get(poSketchId);
+                    sketch.freeze();
 
                     // init response
                     PipeOpenResponse.Builder poBuilder =
                         PipeOpenResponse.newBuilder();
 
                     // handle
-                    SketchPlugin sketch = 
-                        this.sketchManager.get(poSketchId);
-
                     int[] featureIndexes =
                         sketch.indexFeatures(poFeatures);
 

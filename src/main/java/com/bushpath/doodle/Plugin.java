@@ -1,11 +1,11 @@
 package com.bushpath.doodle;
 
 import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
+import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,20 +31,6 @@ public abstract class Plugin {
         this.variables = new TreeMap();
     }
 
-    public Plugin(DataInputStream in) throws IOException {
-        // read id
-        int idLength = in.readInt();
-        byte[] idBytes = new byte[idLength];
-        in.readFully(idBytes);
-        this.id = new String(idBytes);
-
-        // read frozen
-        this.frozen = new AtomicBoolean(in.readBoolean());
-
-        // initialize variables
-        this.variables = new TreeMap();
-    }
-
     public void checkFrozen() throws Exception {
         if (this.frozen.get()) {
             throw new RuntimeException("Unable to support operation"
@@ -57,7 +43,10 @@ public abstract class Plugin {
     }
 
     public void freeze() {
-        this.frozen.set(true);
+        if (!this.frozen.get()) {
+            this.init();
+            this.frozen.set(true);
+        }
     }
 
     public boolean frozen() {
@@ -72,7 +61,8 @@ public abstract class Plugin {
                     .setType(type)
                     .setName(name);
 
-                for (String value : this.variables.get(type).get(name)) {
+                for (String value
+                        : this.variables.get(type).get(name)) {
                     builder.addValues(value);
                 }
 
@@ -83,14 +73,9 @@ public abstract class Plugin {
         return variables;
     }
 
-    /*public void handleVariableOperation(VariableOperation variableOperation) {
-        // check if operation has already been processed
-        if (this.operations.containsKey(variableOperation.getTimestamp())) {
-            return;
-        }
-
+    public void processVariable(Variable variable,
+            OperationType operationType) {
         // process operation
-        Variable variable = variableOperation.getVariable();
         Map<String, Set<String>> nameMap = null;
         if (this.variables.containsKey(variable.getType())) {
             nameMap = this.variables.get(variable.getType());
@@ -107,33 +92,16 @@ public abstract class Plugin {
             nameMap.put(variable.getName(), valueSet);
         }
 
-
-        switch(variableOperation.getOperation()) {
+        switch(operationType) {
             case ADD:
-                for (String value : variable.getValuesList()) {
-                    if (!valueSet.contains(value)) {
-                        this.addVariable(variable.getType(),
-                            variable.getName(), value);
-                    }
-
-                    valueSet.add(value);
-                }
-
+                valueSet.addAll(variable.getValuesList());
                 log.info("'{}': added {} value(s) to variable '{}:{}'",
                     this.id, variable.getValuesCount(),
                     variable.getType(), variable.getName());
 
                 break;
             case DELETE:
-                for (String value : variable.getValuesList()) {
-                    if (valueSet.contains(value)) {
-                        this.deleteVariable(variable.getType(),
-                            variable.getName(), value);
-                    }
-
-                    valueSet.remove(value);
-                }
-
+                valueSet.removeAll(variable.getValuesList());
                 log.info("'{}': deleted {} value(s) from variable '{}:{}'",
                     this.id, variable.getValuesCount(),
                     variable.getType(), variable.getName());
@@ -149,32 +117,7 @@ public abstract class Plugin {
         if (nameMap.isEmpty()) {
             this.variables.remove(variable.getType());
         }
-
-        // add operation to processed list
-        this.operations.put(variableOperation.getTimestamp(), variableOperation);
-    }*/
-
-    /*public void replayVariableOperations() {
-        Map<Long, VariableOperation> operations = this.operations;
-        this.operations = new TreeMap();
-
-        for (VariableOperation operation : operations.values()) {
-            this.handleVariableOperation(operation);
-        }
-    }*/
-
-    public void serializePlugin(DataOutputStream out)
-            throws IOException {
-        // write this.id
-        out.writeInt(this.id.length());
-        out.write(this.id.getBytes());
-
-        // write frozen
-        out.writeBoolean(this.frozen.get());
     }
 
-    public abstract void addVariable(String type, String name, String value);
-    public abstract void deleteVariable(String type, String name, String value);
-    public abstract void serialize(DataOutputStream out)
-        throws IOException;
+    public abstract void init();
 }

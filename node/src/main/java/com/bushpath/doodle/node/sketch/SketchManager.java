@@ -9,7 +9,9 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.node.ReplicationTimerTask;
 import com.bushpath.doodle.node.control.ControlManager;
+import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 
 import java.lang.reflect.Constructor;
@@ -26,27 +28,21 @@ public class SketchManager {
         LoggerFactory.getLogger(SketchManager.class);
 
     protected ControlManager controlManager;
+    protected NodeManager nodeManager;
     protected PluginManager pluginManager;
+    protected ReplicationTimerTask replicationTimerTask;
     protected TreeMap<String, SketchPlugin> sketches;
     protected ReadWriteLock lock;
 
     public SketchManager(ControlManager controlManager,
-            PluginManager pluginManager) {
+            NodeManager nodeManager, PluginManager pluginManager,
+            ReplicationTimerTask replicationTimerTask) {
         this.controlManager = controlManager;
+        this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
+        this.replicationTimerTask = replicationTimerTask;
         this.sketches = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
-    }
-
-    public void add(String id,
-            SketchPlugin sketch) throws Exception {
-        this.lock.writeLock().lock();
-        try {
-            this.sketches.put(id, sketch);
-            log.info("Added sketch {}", id);
-        } finally {
-            this.lock.writeLock().unlock();
-        }
     }
 
     public void checkExists(String id) {
@@ -114,64 +110,35 @@ public class SketchManager {
 
         switch (operation.getOperationType()) {
             case ADD:
-                // get plugin
-                this.checkExists(operation.getPluginId());
-                SketchPlugin aPlugin = this.sketches.get(pluginId);
-
-                // add variables
-                Variable aVariable = operation.getVariable();
-                for (String value : aVariable.getValuesList()) {
-                    aPlugin.addVariable(aVariable.getType(),
-                        aVariable.getName(), value);
-                }
-
-                log.info("'{}': added {} value(s) to variable '{}:{}'",
-                    pluginId, aVariable.getValuesCount(),
-                    aVariable.getType(), aVariable.getName());
-
-                break;
             case DELETE:
                 // get plugin
                 this.checkExists(operation.getPluginId());
-                SketchPlugin dPlugin = this.sketches.get(pluginId);
+                SketchPlugin adPlugin = this.sketches.get(pluginId);
 
-                // delete variables
-                Variable dVariable = operation.getVariable();
-                for (String value : dVariable.getValuesList()) {
-                    dPlugin.deleteVariable(dVariable.getType(),
-                        dVariable.getName(), value);
-                }
-
-                log.info("'{}': deleted {} value(s) from variable '{}:{}'",
-                    pluginId, dVariable.getValuesCount(),
-                    dVariable.getType(), dVariable.getName());
-
+                adPlugin.processVariable(operation.getVariable(),
+                    operation.getOperationType());
                 break;
             case INIT:
                 // check if plugin already exists
                 this.checkNotExists(operation.getPluginId());
 
-                // create SketchPlugin
+                // get constructor
                 Class<? extends SketchPlugin> clazz =
                     this.pluginManager
                         .getSketchPlugin(operation.getPluginClass());
                 Constructor constructor =
-                    clazz.getConstructor(String.class);
+                    clazz.getConstructor(String.class, ControlPlugin.class);
+
+                // retreive ControlPlugin
+                String controlPluginId = operation.getControlPluginId();
+                this.controlManager.checkExists(controlPluginId);
+                ControlPlugin controlPlugin =
+                    this.controlManager.get(controlPluginId);
+                controlPlugin.freeze();
+
+                // create SketchPlugin
                 SketchPlugin sketch = (SketchPlugin) constructor
-                    .newInstance(pluginId);
-
-                // initialize ControlPlugin's
-                List<String> list =
-                    operation.getLinkPluginIdsList();
-                ControlPlugin[] controlPlugins = 
-                    new ControlPlugin[list.size()];
-                for (int i=0; i<controlPlugins.length; i++) {
-                    controlPlugins[i] =
-                        this.controlManager.get(list.get(i));
-                    controlPlugins[i].freeze();
-                }
-
-                sketch.initControlPlugins(controlPlugins);
+                    .newInstance(pluginId, controlPlugin);
 
                 // add sketch
                 this.lock.writeLock().lock();
@@ -180,6 +147,13 @@ public class SketchManager {
                     log.info("Added plugin {}", pluginId);
                 } finally {
                     this.lock.writeLock().unlock();
+                }
+
+                // add replicas to ReplicationTimerTask
+                for (int nodeId :
+                        sketch.getPrimaryReplicas(this.nodeManager.getThisNodeId())) {
+                    this.replicationTimerTask
+                        .addReplica(nodeId, sketch);
                 }
 
                 break;

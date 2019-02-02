@@ -39,13 +39,17 @@ public class DataQueryCli implements Runnable {
         description="Size of buffer data (in bytes) [default=2000].")
     private int bufferSize = 2000;
 
-    @Option(names = {"-p", "--plugin-directory"},
+    @Option(names = {"-d", "--plugin-directory"},
         description = "Directory containing Doodle plugins [default=../plugins].")
     private String pluginDirectory = "../plugins";
 
     @Option(names = {"-q", "--query"},
         description = "Feature range query (eq. 'f0:0..10', 'f1:0..', 'f2:..10').")
     private String[] queries;
+
+    @Option(names = {"-o", "--observation-print"},
+        description = "Print every nth observation [default=-1]")
+    private int observationMod = -1;
 
     @Option(names={"-w", "--worker-count"},
         description="Number of workers in ThreadedCursor [default=8].")
@@ -165,14 +169,14 @@ public class DataQueryCli implements Runnable {
             long count = 0;
             float[] observation = null;
             while ((observation = cursor.next()) != null) {
-                // TODO - TMP
-                /*if (count % 1000 == 0) {
+                if (this.observationMod != -1
+                        && count % this.observationMod == 0) {
                     for (int i=0; i<observation.length; i++) {
                         System.out.print((i == 0 ? "" : ",")
                             + observation[i]);
                     }
                     System.out.println("");
-                }*/
+                }
 
                 count += 1;
             }

@@ -47,12 +47,12 @@ public class DataInsertCli implements Runnable {
     private int distributorThreadCount = 3;
 
     @Option(names={"-b", "--sketch-write-buffer-size"},
-        description="Size of SketchWriteRequest data (in bytes) [default=2000].")
-    private int sketchWriteBufferSize = 2000;
+        description="Size of SketchWriteRequest data (in bytes) [default=5000].")
+    private int sketchWriteBufferSize = 5000;
 
     @Option(names={"-s", "--pipe-write-buffer-size"},
-        description="Size of PipeWriteRequest data (in bytes) [default=2000].")
-    private int pipeWriteBufferSize = 2000;
+        description="Size of PipeWriteRequest data (in bytes) [default=5000].")
+    private int pipeWriteBufferSize = 5000;
 
     @Override
     public void run() {

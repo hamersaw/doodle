@@ -88,38 +88,13 @@ public class ControlManager {
 
         switch (operation.getOperationType()) {
             case ADD:
-                // get plugin
-                this.checkExists(operation.getPluginId());
-                ControlPlugin aPlugin = this.plugins.get(pluginId);
-
-                // add variables
-                Variable aVariable = operation.getVariable();
-                for (String value : aVariable.getValuesList()) {
-                    aPlugin.addVariable(aVariable.getType(),
-                        aVariable.getName(), value);
-                }
-
-                log.info("'{}': added {} value(s) to variable '{}:{}'",
-                    pluginId, aVariable.getValuesCount(),
-                    aVariable.getType(), aVariable.getName());
-
-                break;
             case DELETE:
                 // get plugin
                 this.checkExists(operation.getPluginId());
-                ControlPlugin dPlugin = this.plugins.get(pluginId);
+                ControlPlugin adPlugin = this.plugins.get(pluginId);
 
-                // delete variables
-                Variable dVariable = operation.getVariable();
-                for (String value : dVariable.getValuesList()) {
-                    dPlugin.deleteVariable(dVariable.getType(),
-                        dVariable.getName(), value);
-                }
-
-                log.info("'{}': deleted {} value(s) from variable '{}:{}'",
-                    pluginId, dVariable.getValuesCount(),
-                    dVariable.getType(), dVariable.getName());
-
+                adPlugin.processVariable(operation.getVariable(),
+                    operation.getOperationType());
                 break;
             case INIT:
                 // check if plugin already exists

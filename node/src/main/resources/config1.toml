@@ -15,6 +15,9 @@ intervalMilliSeconds = 2500
 ipAddress = "127.0.0.1"
 port = 5451
 
+[control.replication]
+intervalMilliSeconds = 1000
+
 #
 # FileSystem Configuration
 #

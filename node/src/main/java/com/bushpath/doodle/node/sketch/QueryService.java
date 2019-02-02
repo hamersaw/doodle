@@ -73,23 +73,18 @@ public class QueryService implements Service {
                     log.trace("handling QueryRequest {}:{}",
                         nodeId, qEntity);
 
-                    // check if nodeId == thisNodeId;
-                    if (nodeId == this.nodeManager.getThisNodeId()) {
-                        // check if sketch exists
-                        this.sketchManager.checkExists(qEntity);
+                    // check if sketch exists
+                    this.sketchManager.checkExists(qEntity);
 
-                        // get SketchPlugin
-                        SketchPlugin sketch =
-                            this.sketchManager.get(qEntity);
+                    // get SketchPlugin
+                    SketchPlugin sketch =
+                        this.sketchManager.get(qEntity);
 
-                        // query
-                        BlockingQueue<Serializable> queue =
-                            sketch.query(null, query);
-                        this.handleResponse(queue, out,
-                            qRequest.getBufferSize());
-                    } else {
-                        // TODO - TMP checkpoint code removed
-                    }
+                    // query
+                    BlockingQueue<Serializable> queue =
+                        sketch.query(nodeId, query);
+                    this.handleResponse(queue, out,
+                        qRequest.getBufferSize());
 
                     break;
                 default:

@@ -9,8 +9,13 @@ import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.JournalOperationResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteSearchRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteSearchResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
+import com.bushpath.doodle.protobuf.DoodleProtos.WriteUpdate;
+
+import com.google.protobuf.ByteString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,25 +136,53 @@ public class GossipService implements Service {
                     JournalWriteRequest jwRequest =
                         JournalWriteRequest.parseDelimitedFrom(in);
 
+                    int jwNodeId = jwRequest.getNodeId();
                     String jwSketchId = jwRequest.getSketchId();
-                    log.trace("handling JournalWriteRequest {}",
-                        jwSketchId);
+                    log.trace("handling journalWriteRequest {}:{}",
+                        jwNodeId, jwSketchId);
 
                     // init response
                     JournalWriteResponse.Builder jwBuilder =
                         JournalWriteResponse.newBuilder();
 
                     // handle
-                    this.writeJournal.add(jwSketchId,
+                    this.writeJournal.add(jwNodeId, jwSketchId,
                         jwRequest.getData());
-
-                    // TODO - write to sketch
 
                     // write to out
                     out.writeInt(messageType);
                     jwBuilder.build().writeDelimitedTo(out);
                     break;
                 case JOURNAL_WRITE_SEARCH:
+                    // parse request
+                    JournalWriteSearchRequest jwsRequest =
+                        JournalWriteSearchRequest.parseDelimitedFrom(in);
+
+                    log.trace("handling JournalWriteSearchRequest");
+
+                    // init response
+                    JournalWriteSearchResponse.Builder jwsBuilder =
+                        JournalWriteSearchResponse.newBuilder();
+
+                    // handle WriteJournal searches
+                    for (Map.Entry<String, Long> entry :
+                            jwsRequest.getSketchesMap().entrySet()) {
+                        WriteUpdate.Builder wuBuilder =
+                            WriteUpdate.newBuilder()
+                                .setSketchId(entry.getKey());
+
+                        for (Map.Entry<Long, ByteString> e :
+                                this.writeJournal.search(entry.getKey(),
+                                    entry.getValue()).entrySet()) {
+                            wuBuilder.putData(e.getKey(), e.getValue());
+                        }
+
+                        jwsBuilder.addWriteUpdates(wuBuilder.build());
+                    }
+
+                    // write to out
+                    out.writeInt(messageType);
+                    jwsBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

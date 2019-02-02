@@ -15,6 +15,9 @@ intervalMilliSeconds = 2500
 ipAddress = "127.0.0.1"
 port = 5450
 
+[control.replication]
+intervalMilliSeconds = 1000
+
 #
 # FileSystem Configuration
 #
@@ -34,13 +37,3 @@ infoPort = 8043
 #
 [plugins]
 directory = "../plugins"
- 
-#
-# Sketch Plane Configuration
-#
-[sketch.checkpoint]
-directory = "../checkpoints/3/"
-
-[sketch.checkpoint.transfer]
-intervalMilliSeconds = 2000
-bufferSizeBytes = 8192

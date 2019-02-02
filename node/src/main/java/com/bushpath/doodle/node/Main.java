@@ -157,18 +157,21 @@ public class Main {
             System.exit(2);
         }
 
-        // initailize PipeManager
+        // initialize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
 
+        // initialize ReplicationTimerTask
+        ReplicationTimerTask replicationTimerTask =
+            new ReplicationTimerTask(nodeManager);
+
         // initialize SketchManager
-        SketchManager sketchManager =
-            new SketchManager(controlManager, pluginManager);
+        SketchManager sketchManager = new SketchManager(controlManager,
+            nodeManager, pluginManager, replicationTimerTask);
 
         // initialize Journals
         OperationJournal operationJournal =
             new OperationJournal(controlManager, sketchManager);
-        WriteJournal writeJournal = new WriteJournal();
-        // TODO - read from disk
+        WriteJournal writeJournal = new WriteJournal(sketchManager);
 
         // initialize Server
         Server server = new Server(
@@ -260,23 +263,18 @@ public class Main {
             // start Server
             server.start();
 
-            // start Gossip TimerTask
+            // start TimerTasks
             Timer timer = new Timer();
+
             GossipTimerTask gossipTimerTask =
                 new GossipTimerTask(nodeManager, operationJournal);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("control.gossip.intervalMilliSeconds"));
 
-            // TODO - start WriteTimerTask
+            timer.scheduleAtFixedRate(replicationTimerTask, 0,
+                toml.getLong("control.replication.intervalMilliSeconds"));
 
-            /*// start GossipTimerTask
-            Timer timer = new Timer();
-            GossipTimerTask gossipTimerTask =
-                new GossipTimerTask(controlPluginManager,
-                    nodeManager, sketchManager, fileManager);
-            timer.scheduleAtFixedRate(gossipTimerTask, 0,
-                toml.getLong("control.gossip.intervalMilliSeconds"));*/
-
+            // wait indefinitely
             server.join();
         } catch (Exception e) {
             log.error("Unknown failure", e);

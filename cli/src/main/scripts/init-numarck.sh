@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # initialize DoodleNumarckPlugin sketch
-./doodle sketch init -c dht sketch_one com.bushpath.doodle.numarck.DoodleNumarckPlugin
+./doodle sketch init sketch_one com.bushpath.doodle.numarck.DoodleNumarckPlugin dht
 
 # add features to sketch
 ./doodle sketch modify sketch_one \

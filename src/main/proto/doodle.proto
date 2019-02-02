@@ -9,46 +9,32 @@ option java_generate_equals_and_hash = true;
  */ 
 
 enum MessageType {
-    CONTROL_INIT = 0; // TODO - remove
-    CONTROL_LIST = 1;
-    CONTROL_MODIFY = 2; // TODO -remove
-    CONTROL_SHOW = 3;
-    FAILURE = 4;
-    FILE_CREATE = 5;
-    FILE_DELETE = 6;
-    FILE_LIST = 7;
-    FILE_MKDIR = 8;
-    GOSSIP = 9;
-    //GOSSIP_HASH = 9; // TODO - remove
-    GOSSIP_UPDATE = 10; /// TODO - remove
-    JOURNAL_OPERATION = 11;
-    JOURNAL_WRITE = 12;
-    JOURNAL_WRITE_SEARCH = 13;
-    NODE_LIST = 14;
-    NODE_SHOW = 15;
-    PIPE_CLOSE = 16;
-    PIPE_OPEN = 17;
-    PIPE_WRITE = 18;
-    PLUGIN_LIST = 19;
-    QUERY = 20;
-    SKETCH_INIT = 21; // TODO - remove
-    SKETCH_LIST = 22;
-    SKETCH_MODIFY = 23; // TODO - remove
-    SKETCH_SHOW = 24;
-    SKETCH_WRITE = 25;
+    CONTROL_LIST = 0;
+    CONTROL_SHOW = 1;
+    FAILURE = 2;
+    FILE_CREATE = 3;
+    FILE_DELETE = 4;
+    FILE_LIST = 5;
+    FILE_MKDIR = 6;
+    GOSSIP = 7;
+    JOURNAL_OPERATION = 8;
+    JOURNAL_WRITE = 9;
+    JOURNAL_WRITE_SEARCH = 10;
+    NODE_LIST = 11;
+    NODE_SHOW = 12;
+    PIPE_CLOSE = 13;
+    PIPE_OPEN = 14;
+    PIPE_WRITE = 15;
+    PLUGIN_LIST = 16;
+    QUERY = 17;
+    SKETCH_LIST = 18;
+    SKETCH_SHOW = 19;
+    SKETCH_WRITE = 20;
 }
 
 /**
  * Control Messages
  */
-
-/*message ControlInitRequest {
-    string id = 1;
-    string plugin = 2;
-}
-
-message ControlInitResponse {
-}*/
 
 message ControlListRequest {
 }
@@ -56,14 +42,6 @@ message ControlListRequest {
 message ControlListResponse {
     map<string, string> plugins = 1;
 }
-
-/*message ControlModifyRequest {
-    string id = 1;
-    repeated VariableOperation operations = 2;
-}
-
-message ControlModifyResponse {
-}*/
 
 message ControlShowRequest {
     string id = 1;
@@ -123,45 +101,6 @@ message FileMkdirResponse {
  * Gossip Messages
  */
 
-/*message GossipHashRequest {
-}
-
-message GossipHashResponse {
-    int32 nodesHash = 1;
-    int32 controlHash = 2;
-    int32 sketchHash = 3;
-    int32 fileOperationsHash = 4;
-    int32 filesHash = 5;
-}
-
-message GossipUpdateRequest {
-    repeated Node nodes = 1;
-    repeated ControlPluginGossip controlPlugins = 2;
-    repeated SketchPluginGossip sketchPlugins = 3;
-    repeated FileOperation fileOperations = 4;
-    repeated File files = 5;
-}
-
-message GossipUpdateResponse {
-}
-
-message ControlPluginGossip {
-    string id = 1;
-    string classpath = 2;
-    repeated VariableOperation operations = 3;
-}
-
-message SketchPluginGossip {
-    string id = 1;
-    string classpath = 2;
-    repeated string controlPlugins = 3;
-    repeated VariableOperation operations = 4;
-}*/
-
-/**
- * Gossip Messages
- */
-
 message GossipRequest {
     Node node = 1;
     int32 nodesHash = 2;
@@ -180,16 +119,6 @@ message JournalOperationRequest {
 message JournalOperationResponse {
 }
 
-/*message JournalSearchRequest {
-    string sketchId = 1;
-    bool includeOperations = 2;
-    bool includeWrites = 3;
-}
-
-message JournalSearchResponse {
-    repeated bytes data = 1;
-}*/
-
 message JournalWriteRequest {
     int32 nodeId = 1;
     string sketchId = 2;
@@ -197,6 +126,19 @@ message JournalWriteRequest {
 }
 
 message JournalWriteResponse {
+}
+
+message JournalWriteSearchRequest {
+    map<string, int64> sketches = 1;
+}
+
+message JournalWriteSearchResponse {
+    repeated WriteUpdate writeUpdates = 1;
+}
+
+message WriteUpdate {
+    string sketchId = 1;
+    map<int64, bytes> data = 2;
 }
 
 /**
@@ -281,29 +223,12 @@ message QueryResponse {
  * Sketch Messages
  */
 
-/*message SketchInitRequest {
-    string id = 1;
-    string plugin = 2;
-    repeated string controlPlugins = 3;
-}
-
-message SketchInitResponse {
-}*/
-
 message SketchListRequest {
 }
 
 message SketchListResponse {
     map<string, string> plugins = 1;
 }
-
-/*message SketchModifyRequest {
-    string id = 1;
-    repeated VariableOperation operations = 2;
-}
-
-message SketchModifyResponse {
-}*/
 
 message SketchShowRequest {
     string id = 1;
@@ -389,7 +314,7 @@ message Operation {
     // init operation
     PluginType pluginType = 5;
     string pluginClass = 6;
-    repeated string linkPluginIds = 7;
+    string controlPluginId = 7;
 }
 
 enum OperationType {
@@ -408,9 +333,3 @@ message Variable {
     string name = 2;
     repeated string values = 3;
 }
-
-/*message VariableOperation {
-    int64 timestamp = 1;
-    Operation operation = 2;
-    Variable variable = 3;
-}*/

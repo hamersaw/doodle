@@ -9,8 +9,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.SketchListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,33 +104,6 @@ public class SketchService implements Service {
                     // write to out
                     out.writeInt(messageType);
                     ssBuilder.build().writeDelimitedTo(out);
-                    break;
-                case SKETCH_WRITE:
-                    // parse request
-                    SketchWriteRequest swRequest =
-                        SketchWriteRequest.parseDelimitedFrom(in);
-
-                    String swId = swRequest.getSketchId();
-                    log.trace("handling SketchWriteRequest '{}'", swId);
-
-                    // check if sketch exists
-                    this.sketchManager.checkExists(swId);
-
-                    SketchPlugin writeSketch = 
-                        this.sketchManager.get(swId);
-
-                    writeSketch.freeze();
-
-                    // init response
-                    SketchWriteResponse.Builder swBuilder =
-                        SketchWriteResponse.newBuilder();
-
-                    // handle
-                    writeSketch.write(swRequest.getData());
-
-                    // write to out
-                    out.writeInt(messageType);
-                    swBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

@@ -8,7 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
+import java.io.ObjectOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -21,6 +24,8 @@ public abstract class Transform extends Thread {
     protected BlockingQueue<JournalWriteRequest> out;
     protected int featureCount;
     protected int bufferSize;
+    protected Map<Integer, ByteString.Output> buffers;
+    protected Map<Integer, ObjectOutputStream> objectOutputStreams;
     protected boolean shutdown;
 
     public Transform(String sketchId, BlockingQueue<ByteString> in,
@@ -31,7 +36,52 @@ public abstract class Transform extends Thread {
         this.out = out;
         this.featureCount = featureCount;
         this.bufferSize = bufferSize;
+        this.buffers = new HashMap();
+        this.objectOutputStreams = new HashMap();
         this.shutdown = true;
+    }
+
+    protected void checkBufferSize(int nodeId) throws Exception {
+        this.objectOutputStreams.get(nodeId).flush();
+
+        if (this.buffers.get(nodeId).size() >= this.bufferSize) {
+			this.flushBuffer(nodeId, true);
+        }
+    }
+
+	private void flushBuffer(int nodeId,
+            boolean delete) throws Exception {
+		ByteString.Output byteStringOutput = this.buffers.get(nodeId);
+        this.objectOutputStreams.get(nodeId).close();
+
+		// create JournalWriteRequest   
+		JournalWriteRequest journalWriteRequest =
+			JournalWriteRequest.newBuilder()
+				.setNodeId(nodeId)
+				.setSketchId(this.sketchId)
+				.setData(byteStringOutput.toByteString())
+				.build();
+
+		while (!this.out.offer(journalWriteRequest)) {}
+
+        if (delete) {
+            this.buffers.remove(nodeId);
+            this.objectOutputStreams.remove(nodeId);
+        }
+	}
+
+    protected ObjectOutputStream getObjectOutputStream(int nodeId)
+            throws Exception {
+        if (!this.buffers.containsKey(nodeId)) {
+            ByteString.Output byteStringOutput = ByteString.newOutput();
+            this.buffers.put(nodeId, byteStringOutput);
+
+            ObjectOutputStream objectOutputStream =
+                new ObjectOutputStream(byteStringOutput);
+            this.objectOutputStreams.put(nodeId, objectOutputStream);
+        }
+
+        return this.objectOutputStreams.get(nodeId);
     }
 
     @Override
@@ -83,9 +133,11 @@ public abstract class Transform extends Thread {
             }
         }
 
-        // close (all record have been processed)
+        // close (all records have been processed)
         try {
-            this.close();
+            for (Integer nodeId : this.buffers.keySet()) {
+                this.flushBuffer(nodeId, false);
+            }
         } catch (Exception e) {
             log.error("Failed to close transform for sketch '{}'",
                 this.sketchId, e);
@@ -96,7 +148,6 @@ public abstract class Transform extends Thread {
         this.shutdown = true;
     }
 
-    public abstract void close() throws Exception;
     public abstract void onPipeWriteEnd() throws Exception;
     public abstract void process(float[] observation) throws Exception;
 }

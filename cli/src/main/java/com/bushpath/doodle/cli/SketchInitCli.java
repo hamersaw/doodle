@@ -25,9 +25,9 @@ public class SketchInitCli implements Runnable {
     @Parameters(index="1", description="SketchPlugin classpath.")
     private String plugin;
 
-    @Option(names={"-c", "--control-plugins"},
-        description="ControlPlugin ID's to make available to SketchPlugin.")
-    private List<String> controlPlugins = new ArrayList();
+    @Parameters(index="2",
+        description="ControlPlugin ID to link to SketchPlugin.")
+    private String controlPlugin;
 
     @Override
     public void run() {
@@ -38,7 +38,7 @@ public class SketchInitCli implements Runnable {
             .setPluginId(this.id)
             .setPluginType(PluginType.SKETCH)
             .setPluginClass(this.plugin)
-            .addAllLinkPluginIds(this.controlPlugins)
+            .setControlPluginId(this.controlPlugin)
             .build();
 
         // create JournalOperationRequest

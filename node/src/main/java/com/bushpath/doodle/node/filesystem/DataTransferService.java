@@ -96,7 +96,7 @@ public class DataTransferService extends Thread {
         Inflator inflator = (Inflator) constructor
             .newInstance(sketch.getVariables());
 
-        BlockingQueue<Serializable> queue = sketch.query(null, query);
+        BlockingQueue<Serializable> queue = sketch.query(nodeId, query);
 
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         DataOutputStream dataOut = new DataOutputStream(byteOut);
