@@ -7,6 +7,9 @@ import com.bushpath.rutils.query.Query;
 
 import com.google.protobuf.ByteString;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,6 +27,13 @@ public abstract class SketchPlugin extends Plugin {
         super(id);
 
         this.inflatorClass = inflatorClass;
+        this.writeTimestamps = new HashMap();
+    }
+
+    public SketchPlugin(DataInputStream in) throws IOException {
+        super(in);
+
+        this.inflatorClass = in.readUTF();
         this.writeTimestamps = new HashMap();
     }
 
@@ -121,11 +131,19 @@ public abstract class SketchPlugin extends Plugin {
         }
     }
 
+    public void serializeSketchPlugin(DataOutputStream out)
+            throws IOException {
+        this.serializePlugin(out);
+        out.writeUTF(this.inflatorClass);
+    }
+
     public abstract Collection<String> getFeatures();
     public abstract long getObservationCount(Serializable e);
     public abstract Collection<Integer> getPrimaryReplicas(int nodeId);
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<JournalWriteRequest> out, int bufferSize);
+    public abstract void serialize(DataOutputStream out)
+        throws IOException;
     protected abstract void write(int nodeId, ByteString data)
         throws Exception;
     protected abstract void query(int nodeId,

@@ -100,6 +100,8 @@ public class GossipService implements Service {
 
                     // handle operation gossip
                     long gTimestamp = gRequest.getOperationTimestamp();
+                    this.operationJournal.updateJournalTimestamp(
+                        node.getId(), gTimestamp);
                     for (Map.Entry<Long, Operation> entry :
                             this.operationJournal
                                 .search(gTimestamp).entrySet()) {

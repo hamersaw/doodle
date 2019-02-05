@@ -118,8 +118,8 @@ public class Main {
         FileManager fileManager = new FileManager();
 
         // initialize ControlManager
-        ControlManager controlManager =
-            new ControlManager(pluginManager);
+        ControlManager controlManager = new ControlManager(
+            toml.getString("control.directory"), pluginManager);
 
         // initialize NodeManager
         List<NodeMetadata> seedNodes = new ArrayList();
@@ -165,13 +165,25 @@ public class Main {
             new ReplicationTimerTask(nodeManager);
 
         // initialize SketchManager
-        SketchManager sketchManager = new SketchManager(controlManager,
+        SketchManager sketchManager = new SketchManager(
+            toml.getString("data.directory"), controlManager,
             nodeManager, pluginManager, replicationTimerTask);
 
         // initialize Journals
-        OperationJournal operationJournal =
-            new OperationJournal(controlManager, sketchManager);
-        WriteJournal writeJournal = new WriteJournal(sketchManager);
+        OperationJournal operationJournal = null;
+        WriteJournal writeJournal = null;
+        try {
+            operationJournal = new OperationJournal(
+                toml.getString("control.journal.directory"),
+                toml.getLong("control.journal.maximumFileSizeBytes")
+                    .intValue(),
+                controlManager, sketchManager);
+
+            writeJournal = new WriteJournal(sketchManager);
+        } catch (Exception e) {
+            log.error("Failed to initialize journals", e);
+            System.exit(3);
+        }
 
         // initialize Server
         Server server = new Server(
@@ -212,7 +224,7 @@ public class Main {
             server.registerService(sketchService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
-            System.exit(5);
+            System.exit(4);
         }
 
         // start HDFS emulation
@@ -256,7 +268,7 @@ public class Main {
             dataTransferService.start();
         } catch (Exception e) {
             log.error("Unknown HDFS emulation startup failure", e);
-            System.exit(6);
+            System.exit(5);
         }
 
         try {

@@ -6,19 +6,25 @@ serverThreadCount = 4
 #
 # Control Plane Configuration
 #
+[control]
+directory = "../persist/0/control"
+
 [control.journal]
-directory = "../journal/control"
-maximumFileSizeBytes = 8589934592
+directory = "../persist/0/control-journal"
+maximumFileSizeBytes = 2097152
 
 #
 # Data Plane Configuration
 #
+[data]
+directory = "../persist/0/data"
+
 [data.replication]
 intervalMilliSeconds = 1000
 
 [data.journal]
-directory = "../journal/data"
-maximumFileSizeBytes = 68719476736
+directory = "../persist/0/data-journal"
+maximumFileSizeBytes = 67108864
 
 #
 # FileSystem Configuration

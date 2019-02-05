@@ -14,6 +14,12 @@ import com.bushpath.doodle.node.control.ControlManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.TreeMap;
 import java.util.List;
@@ -27,6 +33,7 @@ public class SketchManager {
     protected static final Logger log =
         LoggerFactory.getLogger(SketchManager.class);
 
+    protected String directory;
     protected ControlManager controlManager;
     protected NodeManager nodeManager;
     protected PluginManager pluginManager;
@@ -34,15 +41,53 @@ public class SketchManager {
     protected TreeMap<String, SketchPlugin> sketches;
     protected ReadWriteLock lock;
 
-    public SketchManager(ControlManager controlManager,
-            NodeManager nodeManager, PluginManager pluginManager,
+    public SketchManager(String directory,
+            ControlManager controlManager, NodeManager nodeManager,
+            PluginManager pluginManager,
             ReplicationTimerTask replicationTimerTask) {
+        this.directory = directory;
         this.controlManager = controlManager;
         this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
         this.replicationTimerTask = replicationTimerTask;
         this.sketches = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
+
+        // create persist directory if doesn't exist
+        File file = new File(directory);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        // parse persisted control plugins 
+        for (String filename : file.list()) {
+            try {
+                DataInputStream in = new DataInputStream(
+                    new FileInputStream(this.directory + "/" + filename));
+
+                // get constructor
+                String className = in.readUTF();
+                Class<? extends SketchPlugin> clazz =
+                    this.pluginManager.getSketchPlugin(className);
+                Constructor constructor = clazz.getConstructor(
+                    DataInputStream.class, ControlPlugin.class);
+
+                // retrieve ControlPlugin
+                String controlPluginId = in.readUTF();
+                ControlPlugin controlPlugin =
+                    this.controlManager.get(controlPluginId);
+
+                // create SketchPlugin
+                SketchPlugin sketch = (SketchPlugin) constructor
+                    .newInstance(in, controlPlugin);
+
+                // add sketch
+                this.sketches.put(sketch.getId(), sketch);
+            } catch (Exception e) {
+                log.warn("failed to read persisted plugin file {}",
+                    filename, e);
+            }
+        }
     }
 
     public void checkExists(String id) {
@@ -78,6 +123,23 @@ public class SketchManager {
         }
     }
 
+    public void freeze(String id) throws IOException {
+        this.lock.writeLock().lock();
+        try {
+            SketchPlugin sketchPlugin = this.sketches.get(id);
+            if (!sketchPlugin.frozen()) {
+                // freeze and initialize sketchPlugin
+                sketchPlugin.freeze();
+                sketchPlugin.init();
+
+                // serialize sketchPlugin
+                this.serialize(sketchPlugin);
+            }
+        } finally {
+            this.lock.writeLock().unlock();
+        }
+    }
+
     public SketchPlugin get(String id) {
         this.lock.readLock().lock();
         try {
@@ -108,14 +170,15 @@ public class SketchManager {
     public void handleOperation(Operation operation) throws Exception {
         String pluginId = operation.getPluginId();
 
+        SketchPlugin sketchPlugin = null;
         switch (operation.getOperationType()) {
             case ADD:
             case DELETE:
                 // get plugin
                 this.checkExists(operation.getPluginId());
-                SketchPlugin adPlugin = this.sketches.get(pluginId);
+                sketchPlugin = this.sketches.get(pluginId);
 
-                adPlugin.processVariable(operation.getVariable(),
+                sketchPlugin.processVariable(operation.getVariable(),
                     operation.getOperationType());
                 break;
             case INIT:
@@ -132,31 +195,51 @@ public class SketchManager {
                 // retreive ControlPlugin
                 String controlPluginId = operation.getControlPluginId();
                 this.controlManager.checkExists(controlPluginId);
+                this.controlManager.freeze(controlPluginId);
                 ControlPlugin controlPlugin =
                     this.controlManager.get(controlPluginId);
-                controlPlugin.freeze();
 
                 // create SketchPlugin
-                SketchPlugin sketch = (SketchPlugin) constructor
+                sketchPlugin = (SketchPlugin) constructor
                     .newInstance(pluginId, controlPlugin);
 
                 // add sketch
                 this.lock.writeLock().lock();
                 try {
-                    this.sketches.put(pluginId, sketch);
+                    this.sketches.put(pluginId, sketchPlugin);
                     log.info("Added plugin {}", pluginId);
                 } finally {
                     this.lock.writeLock().unlock();
                 }
 
                 // add replicas to ReplicationTimerTask
-                for (int nodeId :
-                        sketch.getPrimaryReplicas(this.nodeManager.getThisNodeId())) {
+                for (int nodeId : sketchPlugin.getPrimaryReplicas(
+                        this.nodeManager.getThisNodeId())) {
                     this.replicationTimerTask
-                        .addReplica(nodeId, sketch);
+                        .addReplica(nodeId, sketchPlugin);
                 }
 
                 break;
         }
+
+        // serialize plugin
+        this.lock.readLock().lock();
+        try {
+            sketchPlugin.setLastUpdated(operation.getTimestamp());
+            this.serialize(sketchPlugin);
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    protected void serialize(SketchPlugin sketchPlugin)
+            throws IOException {
+        String filename = this.directory + "/"
+            + sketchPlugin.getId();
+        DataOutputStream out = new DataOutputStream(
+            new FileOutputStream(filename));
+
+        sketchPlugin.serialize(out);
+        out.close();
     }
 }

@@ -12,7 +12,6 @@ public class NodeMetadata {
     protected short datanodeIpcPort;
     protected short datanodeInfoPort;
 
-
     public NodeMetadata(int id, String ipAddress, short port,
             short namenodeIpcPort, short datanodeXferPort,
             short datanodeIpcPort, short datanodeInfoPort) {
