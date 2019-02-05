@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.control.ControlManager;
+import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 
 import java.io.DataInputStream;
@@ -27,13 +28,16 @@ public class SketchService implements Service {
     protected static final Logger log =
         LoggerFactory.getLogger(SketchService.class);
 
-    protected ControlManager controlPluginManager;
+    protected ControlManager controlManager;
+    protected NodeManager nodeManager;
     protected PluginManager pluginManager;
     protected SketchManager sketchManager;
 
-    public SketchService(ControlManager controlPluginManager,
-            PluginManager pluginManager, SketchManager sketchManager) {
-        this.controlPluginManager = controlPluginManager;
+    public SketchService(ControlManager controlManager,
+            NodeManager nodeManager, PluginManager pluginManager,
+            SketchManager sketchManager) {
+        this.controlManager = controlManager;
+        this.nodeManager = nodeManager;
         this.pluginManager = pluginManager;
         this.sketchManager = sketchManager;
     }
@@ -95,11 +99,24 @@ public class SketchService implements Service {
                     SketchPlugin showSketch =
                         this.sketchManager.get(ssId);
 
-                    ssBuilder.setPlugin(showSketch.getClass().getName());
+                    ssBuilder.setPlugin(showSketch
+                        .getClass().getName());
+                    ssBuilder.setInflatorClass(showSketch
+                        .getInflatorClass());
+                    ssBuilder.setReplicationFactor(showSketch
+                        .getReplicationFactor());
                     ssBuilder.setFrozen(showSketch.frozen());
-                    ssBuilder
-                        .setInflatorClass(showSketch.getInflatorClass());
-                    ssBuilder.addAllVariables(showSketch.getVariables());
+                    ssBuilder.addAllVariables(showSketch
+                        .getVariables());
+
+                    for (Integer nodeId : showSketch.getPrimaryReplicas(
+                            this.nodeManager.getThisNodeId())) {
+                        ssBuilder.putPersistTimestamps(nodeId,
+                            showSketch.getPersistTimestamp(nodeId));
+
+                        ssBuilder.putWriteTimestamps(nodeId,
+                            showSketch.getWriteTimestamp(nodeId));
+                    }
 
                     // write to out
                     out.writeInt(messageType);

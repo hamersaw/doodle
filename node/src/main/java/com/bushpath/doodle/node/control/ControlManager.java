@@ -192,7 +192,7 @@ public class ControlManager {
     protected void serialize(ControlPlugin controlPlugin)
             throws IOException {
         String filename = this.directory + "/"
-            + controlPlugin.getId();
+            + controlPlugin.getId() + ".bin";
         DataOutputStream out = new DataOutputStream(
             new FileOutputStream(filename));
 

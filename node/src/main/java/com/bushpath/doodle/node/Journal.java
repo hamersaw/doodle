@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -35,7 +36,7 @@ public abstract class Journal {
         // create DataOutputStream if needed
         if (this.out == null) {
             this.filename = this.directory + "/"
-                + System.currentTimeMillis();
+                + UUID.randomUUID().toString() + ".bin";
             this.out = new DataOutputStream(
                 new FileOutputStream(this.filename));
         }

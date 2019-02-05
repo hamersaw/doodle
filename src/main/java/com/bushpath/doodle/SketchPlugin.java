@@ -21,12 +21,17 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class SketchPlugin extends Plugin {
     protected String inflatorClass;
+    protected int replicationFactor;
+    protected Map<Integer, Long> persistTimestamps;
     protected Map<Integer, Long> writeTimestamps;
 
-    public SketchPlugin(String id, String inflatorClass) {
+    public SketchPlugin(String id, int replicationFactor, 
+            String inflatorClass) {
         super(id);
 
         this.inflatorClass = inflatorClass;
+        this.replicationFactor = replicationFactor;
+        this.persistTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
     }
 
@@ -34,7 +39,18 @@ public abstract class SketchPlugin extends Plugin {
         super(in);
 
         this.inflatorClass = in.readUTF();
+        this.replicationFactor = in.readInt();
+        this.persistTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
+
+        int length = in.readInt();
+        for (int i=0; i<length; i++) {
+            int nodeId = in.readInt();
+            long timestamp = in.readLong();
+
+            this.persistTimestamps.put(nodeId, timestamp);
+            this.writeTimestamps.put(nodeId, timestamp);
+        }
     }
 
     public String getInflatorClass() {
@@ -71,6 +87,18 @@ public abstract class SketchPlugin extends Plugin {
         }
 
         return observationCount;
+    }
+
+    public long getPersistTimestamp(int nodeId) {
+        if (!this.persistTimestamps.containsKey(nodeId)) {
+            return 0;
+        }
+
+        return this.persistTimestamps.get(nodeId);
+    }
+
+    public int getReplicationFactor() {
+        return this.replicationFactor;
     }
 
     public long getWriteTimestamp(int nodeId) {
@@ -135,6 +163,13 @@ public abstract class SketchPlugin extends Plugin {
             throws IOException {
         this.serializePlugin(out);
         out.writeUTF(this.inflatorClass);
+        out.writeInt(this.replicationFactor);
+        out.writeInt(this.persistTimestamps.size());
+        for (Map.Entry<Integer, Long> entry :
+                this.persistTimestamps.entrySet()) {
+            out.writeInt(entry.getKey());
+            out.writeLong(entry.getValue());
+        }
     }
 
     public abstract Collection<String> getFeatures();

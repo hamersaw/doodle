@@ -129,7 +129,9 @@ message JournalWriteResponse {
 }
 
 message JournalWriteSearchRequest {
-    map<string, int64> sketches = 1;
+    int32 nodeId = 1;
+    map<string, int64> persistTimestamps = 2;
+    map<string, int64> writeTimestamps = 3;
 }
 
 message JournalWriteSearchResponse {
@@ -236,9 +238,13 @@ message SketchShowRequest {
 
 message SketchShowResponse {
     string plugin = 1;    
-    bool frozen = 2;
-    string inflatorClass = 3;
-    repeated Variable variables = 4;
+    string inflatorClass = 2;
+    int32 replicationFactor = 3;
+    bool frozen = 4;
+    int32 lastUpdatedTimestamp = 5;
+    repeated Variable variables = 6;
+    map<int32, int64> persistTimestamps = 7;
+    map<int32, int64> writeTimestamps = 8;
 }
 
 message SketchWriteRequest {
@@ -311,10 +317,13 @@ message Operation {
     // add / delete operation
     Variable variable = 4;
 
-    // init operation
+    // init plugin operation
     PluginType pluginType = 5;
     string pluginClass = 6;
+
+    // init sketch operation
     string controlPluginId = 7;
+    int32 replicationFactor = 8;
 }
 
 enum OperationType {

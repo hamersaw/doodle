@@ -10,6 +10,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
+import java.util.Map;
+
 @Command(name = "show",
     description = "Show a SketchPlugin.",
     mixinStandardHelpOptions = true)
@@ -37,9 +39,12 @@ public class SketchShowCli implements Runnable {
 
         // handle SketchShowResponse
         System.out.println("id = \"" + this.id + "\""
-            + "\nfrozen = \"" + response.getFrozen() + "\""
             + "\nclass = \"" + response.getPlugin() + "\""
-            + "\ninflatorClass = \"" + response.getInflatorClass() + "\"");
+            + "\ninflatorClass = \""
+                + response.getInflatorClass() + "\""
+            + "\nreplicationFactor = "
+                + response.getReplicationFactor()
+            + "\nfrozen = \"" + response.getFrozen() + "\"");
 
         for (Variable variable : response.getVariablesList()) {
             System.out.print("\n[[variable]]"
@@ -52,6 +57,15 @@ public class SketchShowCli implements Runnable {
                     + "\"" + variable.getValues(i) + "\"");
             }
             System.out.println("]");
+        }
+
+        for (Map.Entry<Integer, Long> entry :
+                response.getPersistTimestampsMap().entrySet()) {
+            System.out.println("\n[[primaryReplica]]"
+                + "\nnodeId = " + entry.getKey()
+                + "\npersistTimestamp = " + entry.getValue()
+                + "\nwriteTimestamp = " +
+                    response.getWriteTimestampsMap().get(entry.getKey()));
         }
     }
 }

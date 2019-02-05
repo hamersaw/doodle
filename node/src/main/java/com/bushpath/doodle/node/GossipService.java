@@ -167,8 +167,8 @@ public class GossipService implements Service {
                         JournalWriteSearchResponse.newBuilder();
 
                     // handle WriteJournal searches
-                    for (Map.Entry<String, Long> entry :
-                            jwsRequest.getSketchesMap().entrySet()) {
+                    for (Map.Entry<String, Long> entry : jwsRequest
+                            .getWriteTimestampsMap().entrySet()) {
                         WriteUpdate.Builder wuBuilder =
                             WriteUpdate.newBuilder()
                                 .setSketchId(entry.getKey());
@@ -180,6 +180,14 @@ public class GossipService implements Service {
                         }
 
                         jwsBuilder.addWriteUpdates(wuBuilder.build());
+                    }
+
+                    // update journal timestamps
+                    for (Map.Entry<String, Long> entry : jwsRequest
+                            .getPersistTimestampsMap().entrySet()) {
+                        this.writeJournal.updateJournalTimestamp(
+                            entry.getKey(), jwsRequest.getNodeId(),
+                            entry.getValue());
                     }
 
                     // write to out

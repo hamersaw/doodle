@@ -104,13 +104,11 @@ public class OperationJournal extends Journal {
                     }
                 }
             } catch (EOFException e) {
-            } catch (Exception e) {
-                log.warn("failed to parse operation journal '{}'",
-                    filename, e);
             } finally {
                 in.close();
-                this.completedFiles.put(lastTimestamp, filePath);
             }
+
+            this.completedFiles.put(lastTimestamp, filePath);
         }
 
         // delete any unnecessary journal files

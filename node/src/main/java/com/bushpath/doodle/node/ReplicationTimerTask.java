@@ -64,19 +64,27 @@ public class ReplicationTimerTask extends TimerTask {
                     replicas.entrySet()) {
                 // initialize JournalWriteSearchRequest
                 JournalWriteSearchRequest.Builder jwsBuilder =
-                    JournalWriteSearchRequest.newBuilder();
+                    JournalWriteSearchRequest.newBuilder()
+                        .setNodeId(this.nodeManager.getThisNodeId());
 
                 for (SketchPlugin sketch : entry.getValue()) {
-                    jwsBuilder.putSketches(sketch.getId(),
+                    jwsBuilder.putPersistTimestamps(sketch.getId(),
+                        sketch.getPersistTimestamp(entry.getKey()));
+
+                    jwsBuilder.putWriteTimestamps(sketch.getId(),
                         sketch.getWriteTimestamp(entry.getKey()));
                 }
 
                 // get primary replica node
+                if (!this.nodeManager.contains(entry.getKey())) {
+                    continue;
+                }
+
                 NodeMetadata nodeMetadata = null;
                 try {
                     nodeMetadata = this.nodeManager.get(entry.getKey());
                 } catch (Exception e) {
-                    log.error("Failed to retrieve node metadata", e);
+                    log.warn("Failed to retrieve node metadata", e);
                     continue;
                 }
 
@@ -120,7 +128,7 @@ public class ReplicationTimerTask extends TimerTask {
                 }
             }
         } catch (Exception e) {
-            log.error("unknown failure", e);
+            log.warn("unknown failure", e);
         } finally {
             this.lock.readLock().unlock();
         }

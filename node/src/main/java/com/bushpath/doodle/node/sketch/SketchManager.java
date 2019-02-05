@@ -83,6 +83,13 @@ public class SketchManager {
 
                 // add sketch
                 this.sketches.put(sketch.getId(), sketch);
+ 
+                // add replicas to ReplicationTimerTask
+                for (int nodeId : sketch.getPrimaryReplicas(
+                        this.nodeManager.getThisNodeId())) {
+                    this.replicationTimerTask
+                        .addReplica(nodeId, sketch);
+                }
             } catch (Exception e) {
                 log.warn("failed to read persisted plugin file {}",
                     filename, e);
@@ -189,8 +196,8 @@ public class SketchManager {
                 Class<? extends SketchPlugin> clazz =
                     this.pluginManager
                         .getSketchPlugin(operation.getPluginClass());
-                Constructor constructor =
-                    clazz.getConstructor(String.class, ControlPlugin.class);
+                Constructor constructor = clazz.getConstructor(
+                    String.class, Integer.class, ControlPlugin.class);
 
                 // retreive ControlPlugin
                 String controlPluginId = operation.getControlPluginId();
@@ -200,8 +207,9 @@ public class SketchManager {
                     this.controlManager.get(controlPluginId);
 
                 // create SketchPlugin
-                sketchPlugin = (SketchPlugin) constructor
-                    .newInstance(pluginId, controlPlugin);
+                sketchPlugin = (SketchPlugin) constructor.newInstance(
+                    pluginId, operation.getReplicationFactor(),
+                    controlPlugin);
 
                 // add sketch
                 this.lock.writeLock().lock();
@@ -235,7 +243,7 @@ public class SketchManager {
     protected void serialize(SketchPlugin sketchPlugin)
             throws IOException {
         String filename = this.directory + "/"
-            + sketchPlugin.getId();
+            + sketchPlugin.getId() + ".bin";
         DataOutputStream out = new DataOutputStream(
             new FileOutputStream(filename));
 

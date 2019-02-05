@@ -179,7 +179,11 @@ public class Main {
                     .intValue(),
                 controlManager, sketchManager);
 
-            writeJournal = new WriteJournal(sketchManager);
+            writeJournal = new WriteJournal(
+                toml.getString("data.journal.directory"),
+                toml.getLong("data.journal.maximumFileSizeBytes")
+                    .intValue(),
+                sketchManager);
         } catch (Exception e) {
             log.error("Failed to initialize journals", e);
             System.exit(3);
@@ -220,7 +224,8 @@ public class Main {
             server.registerService(queryService);
 
             SketchService sketchService = new SketchService(
-                controlManager, pluginManager, sketchManager);
+                controlManager, nodeManager,
+                pluginManager, sketchManager);
             server.registerService(sketchService);
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);

@@ -29,6 +29,10 @@ public class SketchInitCli implements Runnable {
         description="ControlPlugin ID to link to SketchPlugin.")
     private String controlPlugin;
 
+    @Option(names={"-r", "--replication-factor"},
+        description="Number of sketch replicas in cluster [default: 3].")
+    private int replicationFactor = 3;
+
     @Override
     public void run() {
         // create Operation
@@ -39,6 +43,7 @@ public class SketchInitCli implements Runnable {
             .setPluginType(PluginType.SKETCH)
             .setPluginClass(this.plugin)
             .setControlPluginId(this.controlPlugin)
+            .setReplicationFactor(this.replicationFactor)
             .build();
 
         // create JournalOperationRequest
