@@ -130,7 +130,7 @@ message JournalWriteResponse {
 
 message JournalWriteSearchRequest {
     int32 nodeId = 1;
-    map<string, int64> persistTimestamps = 2;
+    map<string, int64> flushTimestamps = 2;
     map<string, int64> writeTimestamps = 3;
 }
 
@@ -243,7 +243,7 @@ message SketchShowResponse {
     bool frozen = 4;
     int32 lastUpdatedTimestamp = 5;
     repeated Variable variables = 6;
-    map<int32, int64> persistTimestamps = 7;
+    map<int32, int64> flushTimestamps = 7;
     map<int32, int64> writeTimestamps = 8;
 }
 

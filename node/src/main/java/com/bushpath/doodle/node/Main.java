@@ -291,6 +291,13 @@ public class Main {
             timer.scheduleAtFixedRate(replicationTimerTask, 0,
                 toml.getLong("data.replication.intervalMilliSeconds"));
 
+            MemoryManagementTimerTask memoryManagementTimerTask =
+                new MemoryManagementTimerTask(
+                    nodeManager, sketchManager,
+                    toml.getLong("memoryManagement.writeDiffMilliSeconds"));
+            timer.scheduleAtFixedRate(memoryManagementTimerTask, 0,
+                toml.getLong("memoryManagement.intervalMilliSeconds"));
+
             // wait indefinitely
             server.join();
         } catch (Exception e) {

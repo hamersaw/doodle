@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class SketchPlugin extends Plugin {
     protected String inflatorClass;
     protected int replicationFactor;
-    protected Map<Integer, Long> persistTimestamps;
+    protected Map<Integer, Long> flushTimestamps;
     protected Map<Integer, Long> writeTimestamps;
 
     public SketchPlugin(String id, int replicationFactor, 
@@ -31,7 +32,7 @@ public abstract class SketchPlugin extends Plugin {
 
         this.inflatorClass = inflatorClass;
         this.replicationFactor = replicationFactor;
-        this.persistTimestamps = new HashMap();
+        this.flushTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
     }
 
@@ -40,7 +41,7 @@ public abstract class SketchPlugin extends Plugin {
 
         this.inflatorClass = in.readUTF();
         this.replicationFactor = in.readInt();
-        this.persistTimestamps = new HashMap();
+        this.flushTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
 
         int length = in.readInt();
@@ -48,9 +49,15 @@ public abstract class SketchPlugin extends Plugin {
             int nodeId = in.readInt();
             long timestamp = in.readLong();
 
-            this.persistTimestamps.put(nodeId, timestamp);
+            this.flushTimestamps.put(nodeId, timestamp);
             this.writeTimestamps.put(nodeId, timestamp);
         }
+    }
+
+    public void flush(int nodeId, String filePath) throws Exception {
+        this.flushMemoryTables(nodeId, filePath);
+        this.flushTimestamps.put(nodeId,
+            this.writeTimestamps.get(nodeId));
     }
 
     public String getInflatorClass() {
@@ -59,7 +66,8 @@ public abstract class SketchPlugin extends Plugin {
 
     public long getObservationCount(int nodeId, Query query)
             throws Exception {
-        // perform query
+        return -1; // TODO - add getObservationCount(...) to SketchManager
+        /*// perform query
         long observationCount = 0;
         BlockingQueue<Serializable> queue = this.query(nodeId, query);
 
@@ -86,15 +94,15 @@ public abstract class SketchPlugin extends Plugin {
             observationCount += this.getObservationCount(s);
         }
 
-        return observationCount;
+        return observationCount;*/
     }
 
-    public long getPersistTimestamp(int nodeId) {
-        if (!this.persistTimestamps.containsKey(nodeId)) {
+    public long getFlushTimestamp(int nodeId) {
+        if (!this.flushTimestamps.containsKey(nodeId)) {
             return 0;
         }
 
-        return this.persistTimestamps.get(nodeId);
+        return this.flushTimestamps.get(nodeId);
     }
 
     public int getReplicationFactor() {
@@ -136,18 +144,6 @@ public abstract class SketchPlugin extends Plugin {
         return indices;
     }
 
-    public BlockingQueue<Serializable> query(int nodeId, Query query) {
-        BlockingQueue<Serializable> queue =
-            new ArrayBlockingQueue(2048);
-
-        // start QueryHandler
-        QueryHandler queryHandler =
-            new QueryHandler(nodeId, this, query, queue);
-        queryHandler.start();
-
-        return queue;
-    }
-
     public void write(int nodeId, long timestamp, ByteString data)
             throws Exception{
         this.write(nodeId, data);
@@ -164,15 +160,17 @@ public abstract class SketchPlugin extends Plugin {
         this.serializePlugin(out);
         out.writeUTF(this.inflatorClass);
         out.writeInt(this.replicationFactor);
-        out.writeInt(this.persistTimestamps.size());
+        out.writeInt(this.flushTimestamps.size());
         for (Map.Entry<Integer, Long> entry :
-                this.persistTimestamps.entrySet()) {
+                this.flushTimestamps.entrySet()) {
             out.writeInt(entry.getKey());
             out.writeLong(entry.getValue());
         }
     }
 
     public abstract Collection<String> getFeatures();
+    protected abstract void flushMemoryTables(int nodeId,
+        String filePath) throws Exception;
     public abstract long getObservationCount(Serializable e);
     public abstract Collection<Integer> getPrimaryReplicas(int nodeId);
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
@@ -181,6 +179,6 @@ public abstract class SketchPlugin extends Plugin {
         throws IOException;
     protected abstract void write(int nodeId, ByteString data)
         throws Exception;
-    protected abstract void query(int nodeId,
-        Query query, BlockingQueue<Serializable> queue);
+    public abstract void query(int nodeId, Query query, File file,
+        BlockingQueue<Serializable> queue) throws Exception;
 }

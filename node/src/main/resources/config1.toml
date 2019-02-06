@@ -51,6 +51,13 @@ ipAddress = "127.0.0.1"
 port = 5451
 
 #
+# Memory Management Configuration
+#
+[memoryManagement]
+intervalMilliSeconds = 1000
+writeDiffMilliSeconds = 10000
+
+#
 # Plugins Configuration
 #
 [plugins]

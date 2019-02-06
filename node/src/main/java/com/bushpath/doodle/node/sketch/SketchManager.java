@@ -6,6 +6,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
 import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 
+import com.bushpath.rutils.query.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +20,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.zip.CRC32;
@@ -60,7 +66,14 @@ public class SketchManager {
         }
 
         // parse persisted control plugins 
-        for (String filename : file.list()) {
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".bin");
+            }
+        };
+
+        for (String filename : file.list(filenameFilter)) {
             try {
                 DataInputStream in = new DataInputStream(
                     new FileInputStream(this.directory + "/" + filename));
@@ -130,6 +143,17 @@ public class SketchManager {
         }
     }
 
+    public void flush(String id, int nodeId) throws Exception {
+        this.lock.writeLock().lock();
+        try {
+            SketchPlugin sketchPlugin = this.sketches.get(id);
+            sketchPlugin.flush(nodeId, this.getDatFile(id, nodeId));
+            this.serialize(sketchPlugin);
+        } finally {
+            this.lock.writeLock().unlock();
+        }
+    }
+
     public void freeze(String id) throws IOException {
         this.lock.writeLock().lock();
         try {
@@ -154,6 +178,10 @@ public class SketchManager {
         } finally {
             this.lock.readLock().unlock();
         }
+    }
+    
+    protected String getDatFile(String id, int nodeId) {
+        return this.directory + "/" + id + "-" + nodeId + ".dat";
     }
 
     public Set<Map.Entry<String, SketchPlugin>> getEntrySet() {
@@ -235,6 +263,28 @@ public class SketchManager {
         try {
             sketchPlugin.setLastUpdated(operation.getTimestamp());
             this.serialize(sketchPlugin);
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public BlockingQueue<Serializable> query(String id,
+            int nodeId, Query query) {
+        this.lock.readLock().lock();
+        try {
+            // get SketchPlugin
+            SketchPlugin sketchPlugin = this.sketches.get(id);
+            File file = new File(this.getDatFile(id, nodeId));
+
+            // start QueryHandler
+            BlockingQueue<Serializable> queue =
+                new ArrayBlockingQueue(2048);
+
+            QueryHandler queryHandler = new QueryHandler(nodeId,
+                sketchPlugin, query, file, queue);
+            queryHandler.start();
+
+            return queue;
         } finally {
             this.lock.readLock().unlock();
         }

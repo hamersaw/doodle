@@ -68,7 +68,7 @@ public class WriteJournal extends Journal {
                     // add to sketch
                     SketchPlugin sketch =
                         this.sketchManager.get(sketchId);
-                    if (sketch.getPersistTimestamp(nodeId)
+                    if (sketch.getFlushTimestamp(nodeId)
                             < timestamp) {
                         sketch.write(nodeId, timestamp, data);
                     }

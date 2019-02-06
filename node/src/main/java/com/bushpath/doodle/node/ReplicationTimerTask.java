@@ -68,8 +68,8 @@ public class ReplicationTimerTask extends TimerTask {
                         .setNodeId(this.nodeManager.getThisNodeId());
 
                 for (SketchPlugin sketch : entry.getValue()) {
-                    jwsBuilder.putPersistTimestamps(sketch.getId(),
-                        sketch.getPersistTimestamp(entry.getKey()));
+                    jwsBuilder.putFlushTimestamps(sketch.getId(),
+                        sketch.getFlushTimestamp(entry.getKey()));
 
                     jwsBuilder.putWriteTimestamps(sketch.getId(),
                         sketch.getWriteTimestamp(entry.getKey()));

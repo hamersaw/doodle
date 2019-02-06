@@ -111,8 +111,8 @@ public class SketchService implements Service {
 
                     for (Integer nodeId : showSketch.getPrimaryReplicas(
                             this.nodeManager.getThisNodeId())) {
-                        ssBuilder.putPersistTimestamps(nodeId,
-                            showSketch.getPersistTimestamp(nodeId));
+                        ssBuilder.putFlushTimestamps(nodeId,
+                            showSketch.getFlushTimestamp(nodeId));
 
                         ssBuilder.putWriteTimestamps(nodeId,
                             showSketch.getWriteTimestamp(nodeId));

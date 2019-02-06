@@ -184,7 +184,7 @@ public class GossipService implements Service {
 
                     // update journal timestamps
                     for (Map.Entry<String, Long> entry : jwsRequest
-                            .getPersistTimestampsMap().entrySet()) {
+                            .getFlushTimestampsMap().entrySet()) {
                         this.writeJournal.updateJournalTimestamp(
                             entry.getKey(), jwsRequest.getNodeId(),
                             entry.getValue());
