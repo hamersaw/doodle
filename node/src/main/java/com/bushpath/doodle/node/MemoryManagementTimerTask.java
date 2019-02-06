@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.control.NodeManager;
-import com.bushpath.doodle.node.sketch.SketchManager;
+import com.bushpath.doodle.node.data.SketchManager;
 
 import java.util.Collection;
 import java.util.Map;

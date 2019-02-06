@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.sketch;
+package com.bushpath.doodle.node.data;
 
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;

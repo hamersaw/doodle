@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.sketch;
+package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -7,9 +7,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.JournalWriteResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.bushpath.doodle.node.control.NodeManager;
-import com.bushpath.doodle.node.control.NodeMetadata;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;

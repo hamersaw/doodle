@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.sketch;
+package com.bushpath.doodle.node.data;
 
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
@@ -11,7 +11,6 @@ import com.bushpath.rutils.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.ReplicationTimerTask;
 import com.bushpath.doodle.node.control.ControlManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.plugin.PluginManager;

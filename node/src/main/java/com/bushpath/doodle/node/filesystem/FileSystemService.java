@@ -21,7 +21,7 @@ import com.google.protobuf.ByteString;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.control.NodeManager;
-import com.bushpath.doodle.node.sketch.SketchManager;
+import com.bushpath.doodle.node.data.SketchManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node;
+package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.ControlPlugin;
 import com.bushpath.doodle.SketchPlugin;
@@ -7,8 +7,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.control.ControlManager;
-import com.bushpath.doodle.node.sketch.SketchManager;
+import com.bushpath.doodle.node.Journal;
+import com.bushpath.doodle.node.data.SketchManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

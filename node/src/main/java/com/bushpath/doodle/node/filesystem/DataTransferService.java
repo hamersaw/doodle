@@ -18,7 +18,7 @@ import com.bushpath.rutils.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.sketch.SketchManager;
+import com.bushpath.doodle.node.data.SketchManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

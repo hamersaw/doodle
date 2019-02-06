@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node;
+package com.bushpath.doodle.node.data;
 
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.SketchPlugin;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
-import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.net.ConnectException;
 import java.util.HashMap;

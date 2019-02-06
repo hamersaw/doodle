@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.plugin.PluginManager;
-import com.bushpath.doodle.node.sketch.SketchManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

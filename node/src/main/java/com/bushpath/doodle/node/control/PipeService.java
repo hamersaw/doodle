@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.sketch;
+package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.node.data.SketchManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

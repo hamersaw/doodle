@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.NodeManager;
+import com.bushpath.doodle.node.control.OperationJournal;
 
 import java.net.ConnectException;
 import java.util.TimerTask;

@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node.sketch;
+package com.bushpath.doodle.node.control;
 
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.Transform;
@@ -8,8 +8,6 @@ import com.google.protobuf.ByteString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.bushpath.doodle.node.control.NodeManager;
 
 import java.util.HashMap;
 import java.util.List;
