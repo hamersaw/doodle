@@ -76,16 +76,10 @@ public class QueryService implements Service {
                     // check if sketch exists
                     this.sketchManager.checkExists(qEntity);
 
-                    // get SketchPlugin
-                    //SketchPlugin sketch =
-                    //    this.sketchManager.get(qEntity);
-
                     // query
                     BlockingQueue<Serializable> queue =
                         this.sketchManager
                             .query(qEntity, nodeId, query);
-                    /*BlockingQueue<Serializable> queue =
-                        sketch.query(nodeId, query);*/
                     this.handleResponse(queue, out,
                         qRequest.getBufferSize());
 

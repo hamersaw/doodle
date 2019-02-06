@@ -11,6 +11,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,8 +56,9 @@ public abstract class SketchPlugin extends Plugin {
         }
     }
 
-    public void flush(int nodeId, String filePath) throws Exception {
-        this.flushMemoryTables(nodeId, filePath);
+    public void flush(int nodeId, ObjectInputStream in,
+            ObjectOutputStream out) throws Exception {
+        this.flushMemoryTables(nodeId, in, out);
         this.flushTimestamps.put(nodeId,
             this.writeTimestamps.get(nodeId));
     }
@@ -170,7 +173,7 @@ public abstract class SketchPlugin extends Plugin {
 
     public abstract Collection<String> getFeatures();
     protected abstract void flushMemoryTables(int nodeId,
-        String filePath) throws Exception;
+        ObjectInputStream in, ObjectOutputStream out) throws Exception;
     public abstract long getObservationCount(Serializable e);
     public abstract Collection<Integer> getPrimaryReplicas(int nodeId);
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
@@ -179,6 +182,7 @@ public abstract class SketchPlugin extends Plugin {
         throws IOException;
     protected abstract void write(int nodeId, ByteString data)
         throws Exception;
-    public abstract void query(int nodeId, Query query, File file,
-        BlockingQueue<Serializable> queue) throws Exception;
+    public abstract void query(int nodeId, Query query,
+        ObjectInputStream in, BlockingQueue<Serializable> queue)
+        throws Exception;
 }

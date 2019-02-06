@@ -23,6 +23,8 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.TreeMap;
@@ -146,9 +148,38 @@ public class SketchManager {
     public void flush(String id, int nodeId) throws Exception {
         this.lock.writeLock().lock();
         try {
+            // open streams
+            String datFilename = this.getDatFile(id, nodeId);
+            File file = new File(datFilename);
+            File tmpFile = new File(datFilename + ".tmp");
+
+            FileInputStream fileIn = null;
+            ObjectInputStream in = null;
+            if (file.exists()) {
+                fileIn = new FileInputStream(file);
+                in = new ObjectInputStream(fileIn);
+            }
+
+            FileOutputStream fileOut = new FileOutputStream(tmpFile);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+            // flush data
             SketchPlugin sketchPlugin = this.sketches.get(id);
-            sketchPlugin.flush(nodeId, this.getDatFile(id, nodeId));
+            sketchPlugin.flush(nodeId, in, out);
             this.serialize(sketchPlugin);
+
+            // close streams
+            if (in != null) {
+                in.close();
+                fileIn.close();
+            }
+
+            out.close();
+            fileOut.close();
+
+            // clean up files
+            file.delete();
+            tmpFile.renameTo(file);
         } finally {
             this.lock.writeLock().unlock();
         }

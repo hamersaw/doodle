@@ -6,6 +6,8 @@ import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.rutils.query.Query;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 
@@ -28,9 +30,25 @@ public class QueryHandler extends Thread {
     @Override
     public void run() {
         try {
-            this.sketchPlugin.query(this.nodeId,
-                this.query, this.file, this.queue);
+            // open streams if file exists
+            FileInputStream fileIn = null;
+            ObjectInputStream in = null;
+            if (file.exists()) {
+                fileIn = new FileInputStream(file);
+                in = new ObjectInputStream(fileIn);
+            }
 
+            // execute query
+            this.sketchPlugin.query(this.nodeId,
+                this.query, in, this.queue);
+
+            // close streams
+            if (in != null) {
+                in.close();
+                fileIn.close();
+            }
+
+            // send poison through queue
             while(!this.queue.offer(new Poison())) {}
         } catch (Exception e) {
             while(!this.queue.offer(e)) {}

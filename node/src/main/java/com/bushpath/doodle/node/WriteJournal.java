@@ -142,8 +142,8 @@ public class WriteJournal extends Journal {
             SketchPlugin sketchPlugin =
                 this.sketchManager.get(entry.getKey());
             Map<Integer, Long> map = entry.getValue();
-            if (sketchPlugin == null ||
-                    map.size() < sketchPlugin.getReplicationFactor()) {
+            if (sketchPlugin == null || map.size() <
+                    sketchPlugin.getReplicationFactor() - 1) {
                 minimumTimestamp = Long.MAX_VALUE;
                 break;
             }
