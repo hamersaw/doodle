@@ -46,9 +46,9 @@ public class DataInsertCli implements Runnable {
         description="Number of distributor threads at each node [default=3].")
     private int distributorThreadCount = 3;
 
-    @Option(names={"-b", "--sketch-write-buffer-size"},
-        description="Size of SketchWriteRequest data (in bytes) [default=5000].")
-    private int sketchWriteBufferSize = 5000;
+    @Option(names={"-b", "--journal-write-buffer-size"},
+        description="Size of JournalWriteRequest data (in bytes) [default=5000].")
+    private int journalWriteBufferSize = 5000;
 
     @Option(names={"-s", "--pipe-write-buffer-size"},
         description="Size of PipeWriteRequest data (in bytes) [default=5000].")
@@ -101,7 +101,7 @@ public class DataInsertCli implements Runnable {
             .setSketchId(this.sketchId)
             .setTransformThreadCount(this.transformThreadCount)
             .setDistributorThreadCount(this.distributorThreadCount)
-            .setBufferSize(this.sketchWriteBufferSize);
+            .setBufferSize(this.journalhWriteBufferSize);
 
         // add features to pipeOpenBuilder
         for (String feature : reader.getHeader()) {

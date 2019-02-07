@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # initialize DoodleSynopsisPlugin sketch
-./doodle sketch init sketch_one com.bushpath.doodle.synopsis.DoodleSynopsisPlugin dht
+./doodle sketch init sketch_one com.bushpath.doodle.synopsis.SynopsisPlugin dht
 ./doodle sketch modify sketch_one -a "latitudeFeature:latitude:-1" -a "longitudeFeature:longitude:-1" -a "geohashPrecision:-1:4"
 
 # add features to sketch
