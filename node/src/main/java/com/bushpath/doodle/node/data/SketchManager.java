@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.data;
 
 import com.bushpath.doodle.ControlPlugin;
+import com.bushpath.doodle.Poison;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
 import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
@@ -32,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.zip.CRC32;
@@ -218,6 +220,46 @@ public class SketchManager {
         this.lock.readLock().lock();
         try {
             return this.sketches.entrySet();
+        } finally {
+            this.lock.readLock().unlock();
+        }
+    }
+
+    public long getObservationCount(String id, int nodeId,
+            Query query) throws Exception {
+        this.lock.readLock().lock();
+        try {
+            SketchPlugin sketchPlugin = this.sketches.get(id);
+
+            // perform query
+            long observationCount = 0;
+            BlockingQueue<Serializable> queue =
+                this.query(id, nodeId, query);
+
+            // iterate over results
+            Serializable s = null;
+            while (true) {
+                // retrieve next Serializable from queue
+                try {
+                    s = queue.poll(50, TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                    log.error("failed to poll queue", e);
+                }
+
+                // check if s is valid
+                if (s instanceof Exception) {
+                    throw (Exception) s;
+                } else if (s instanceof Poison) {
+                    break;
+                } else if (s == null) {
+                    continue;
+                }
+
+                // increment record count
+                observationCount += sketchPlugin.getObservationCount(s);
+            }
+
+            return observationCount;
         } finally {
             this.lock.readLock().unlock();
         }

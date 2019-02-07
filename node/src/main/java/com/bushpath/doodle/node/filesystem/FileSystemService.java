@@ -93,8 +93,9 @@ public class FileSystemService implements Service {
                     SketchPlugin sketch =
                         this.sketchManager.get(query.getEntity());
                     int featureCount = sketch.getFeatures().size();
-                    long observationCount =
-                        sketch.getObservationCount(query);
+                    long observationCount = this.sketchManager
+                        .getObservationCount(query.getEntity(),
+                            this.nodeManager.getThisNodeId(), query);
 
                     // create inode
                     String fcFilename =

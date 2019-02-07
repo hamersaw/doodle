@@ -67,39 +67,6 @@ public abstract class SketchPlugin extends Plugin {
         return this.inflatorClass;
     }
 
-    public long getObservationCount(int nodeId, Query query)
-            throws Exception {
-        return -1; // TODO - add getObservationCount(...) to SketchManager
-        /*// perform query
-        long observationCount = 0;
-        BlockingQueue<Serializable> queue = this.query(nodeId, query);
-
-        // iterate over results
-        Serializable s = null;
-        while (true) {
-            // retrieve next Serializable from queue
-            try {
-                s = queue.poll(50, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                log.error("failed to poll queue", e);
-            }
-
-            // check if s is valid
-            if (s instanceof Exception) {
-                throw (Exception) s;
-            } else if (s instanceof Poison) {
-                break;
-            } else if (s == null) {
-                continue;
-            }
-
-            // increment record count
-            observationCount += this.getObservationCount(s);
-        }
-
-        return observationCount;*/
-    }
-
     public long getFlushTimestamp(int nodeId) {
         if (!this.flushTimestamps.containsKey(nodeId)) {
             return 0;
