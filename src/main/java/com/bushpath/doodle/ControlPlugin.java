@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class ControlPlugin extends Plugin {
     public ControlPlugin(String id) {
@@ -19,6 +21,8 @@ public abstract class ControlPlugin extends Plugin {
         this.serializePlugin(out);
     }
 
+    public abstract Map<Integer, Set<Integer>>
+        getReplicas(int replicationFactor);
     public abstract void serialize(DataOutputStream out)
         throws IOException;
 }

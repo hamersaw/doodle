@@ -18,6 +18,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -25,15 +27,17 @@ import java.util.concurrent.TimeUnit;
 public abstract class SketchPlugin extends Plugin {
     protected String inflatorClass;
     protected int replicationFactor;
+    protected Map<Integer, Set<Integer>> replicas;
     protected Map<Integer, Long> flushTimestamps;
     protected Map<Integer, Long> writeTimestamps;
 
-    public SketchPlugin(String id, int replicationFactor, 
-            String inflatorClass) {
+    public SketchPlugin(String id, int replicationFactor,
+            Map<Integer, Set<Integer>> replicas, String inflatorClass) {
         super(id);
 
         this.inflatorClass = inflatorClass;
         this.replicationFactor = replicationFactor;
+        this.replicas = replicas;
         this.flushTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
     }
@@ -73,6 +77,22 @@ public abstract class SketchPlugin extends Plugin {
         }
 
         return this.flushTimestamps.get(nodeId);
+    }
+
+    public Collection<Integer> getPrimaryReplicas(int nodeId) {
+        Set<Integer> primaryNodeIds = new TreeSet();
+        for (Map.Entry<Integer, Set<Integer>> replica :
+                this.replicas.entrySet()) {
+            if (replica.getValue().contains(nodeId)) {
+                primaryNodeIds.add(replica.getKey());
+            }
+        }
+
+        return primaryNodeIds;
+    }
+
+    public Map<Integer, Set<Integer>> getReplicas() {
+        return this.replicas;
     }
 
     public int getReplicationFactor() {
@@ -142,7 +162,6 @@ public abstract class SketchPlugin extends Plugin {
     protected abstract void flushMemoryTables(int nodeId,
         ObjectInputStream in, ObjectOutputStream out) throws Exception;
     public abstract long getObservationCount(Serializable e);
-    public abstract Collection<Integer> getPrimaryReplicas(int nodeId);
     public abstract Transform getTransform(BlockingQueue<ByteString> in,
         BlockingQueue<JournalWriteRequest> out, int bufferSize);
     public abstract void serialize(DataOutputStream out)
