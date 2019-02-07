@@ -6,6 +6,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 
@@ -150,7 +151,12 @@ public class DataQueryCli implements Runnable {
             nodeLookup.put(node.getId(), node);
         }
 
-        Map replicas = new HashMap();
+        Map<Integer, List<Integer>> replicas = new HashMap();
+        for (Replica replica : sketchShowResponse.getReplicasList()) {
+            replicas.put(replica.getPrimaryNodeId(),
+                replica.getSecondaryNodeIdsList());
+        }
+
         if (replicas.isEmpty()) {
             for (Integer nodeId : nodeLookup.keySet()) {
                 replicas.put(nodeId, new ArrayList());

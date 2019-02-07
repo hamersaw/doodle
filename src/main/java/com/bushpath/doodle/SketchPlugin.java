@@ -32,21 +32,23 @@ public abstract class SketchPlugin extends Plugin {
     protected Map<Integer, Long> writeTimestamps;
 
     public SketchPlugin(String id, int replicationFactor,
-            Map<Integer, Set<Integer>> replicas, String inflatorClass) {
+            ControlPlugin controlPlugin, String inflatorClass) {
         super(id);
 
         this.inflatorClass = inflatorClass;
         this.replicationFactor = replicationFactor;
-        this.replicas = replicas;
+        this.replicas = controlPlugin.getReplicas(replicationFactor);
         this.flushTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
     }
 
-    public SketchPlugin(DataInputStream in) throws IOException {
+    public SketchPlugin(DataInputStream in,
+            ControlPlugin controlPlugin) throws IOException {
         super(in);
 
         this.inflatorClass = in.readUTF();
         this.replicationFactor = in.readInt();
+        this.replicas = controlPlugin.getReplicas(replicationFactor);
         this.flushTimestamps = new HashMap();
         this.writeTimestamps = new HashMap();
 

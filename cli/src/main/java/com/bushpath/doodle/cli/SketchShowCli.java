@@ -3,9 +3,10 @@ package com.bushpath.doodle.cli;
 import com.bushpath.doodle.CommUtility;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
-import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.Variable;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -59,13 +60,20 @@ public class SketchShowCli implements Runnable {
             System.out.println("]");
         }
 
-        for (Map.Entry<Integer, Long> entry :
-                response.getPersistTimestampsMap().entrySet()) {
-            System.out.println("\n[[primaryReplica]]"
-                + "\nnodeId = " + entry.getKey()
-                + "\npersistTimestamp = " + entry.getValue()
-                + "\nwriteTimestamp = " +
-                    response.getWriteTimestampsMap().get(entry.getKey()));
+        for (Replica replica : response.getReplicasList()) {
+            System.out.print("\n[[replica]]"
+                + "\nprimaryNodeId = " + replica.getPrimaryNodeId()
+                + "\nsecondaryNodeIds = [");
+
+            int i=0;
+            for (Integer secondaryNodeId :
+                    replica.getSecondaryNodeIdsList()) {
+                System.out.print((i != 0 ? ", " : "")
+                    + secondaryNodeId);
+                i += 1;
+            }
+
+            System.out.println("]");
         }
     }
 }

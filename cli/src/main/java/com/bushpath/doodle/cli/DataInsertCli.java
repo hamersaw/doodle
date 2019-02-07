@@ -101,7 +101,7 @@ public class DataInsertCli implements Runnable {
             .setSketchId(this.sketchId)
             .setTransformThreadCount(this.transformThreadCount)
             .setDistributorThreadCount(this.distributorThreadCount)
-            .setBufferSize(this.journalhWriteBufferSize);
+            .setBufferSize(this.journalWriteBufferSize);
 
         // add features to pipeOpenBuilder
         for (String feature : reader.getHeader()) {

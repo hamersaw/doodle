@@ -243,8 +243,7 @@ message SketchShowResponse {
     bool frozen = 4;
     int32 lastUpdatedTimestamp = 5;
     repeated Variable variables = 6;
-    map<int32, int64> flushTimestamps = 7;
-    map<int32, int64> writeTimestamps = 8;
+    repeated Replica replicas = 7;
 }
 
 message SketchWriteRequest {
@@ -335,6 +334,11 @@ enum OperationType {
 enum PluginType {
     CONTROL = 0;
     SKETCH = 1;
+}
+
+message Replica {
+    int32 primaryNodeId = 1;
+    repeated int32 secondaryNodeIds = 2;
 }
 
 message Variable {

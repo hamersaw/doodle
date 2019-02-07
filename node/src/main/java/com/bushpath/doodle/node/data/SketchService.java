@@ -5,6 +5,7 @@ import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
@@ -23,6 +24,7 @@ import java.io.DataOutputStream;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SketchService implements Service {
     protected static final Logger log =
@@ -109,13 +111,14 @@ public class SketchService implements Service {
                     ssBuilder.addAllVariables(showSketch
                         .getVariables());
 
-                    for (Integer nodeId : showSketch.getPrimaryReplicas(
-                            this.nodeManager.getThisNodeId())) {
-                        ssBuilder.putFlushTimestamps(nodeId,
-                            showSketch.getFlushTimestamp(nodeId));
+                    for (Map.Entry<Integer, Set<Integer>> entry :
+                            showSketch.getReplicas().entrySet()) {
+                        Replica replica = Replica.newBuilder()
+                            .setPrimaryNodeId(entry.getKey())
+                            .addAllSecondaryNodeIds(entry.getValue())
+                            .build();
 
-                        ssBuilder.putWriteTimestamps(nodeId,
-                            showSketch.getWriteTimestamp(nodeId));
+                        ssBuilder.addReplicas(replica);
                     }
 
                     // write to out
