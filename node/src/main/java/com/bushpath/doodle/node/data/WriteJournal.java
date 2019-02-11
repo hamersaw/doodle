@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.data;
 
 import com.bushpath.doodle.SketchPlugin;
+import com.bushpath.doodle.protobuf.DoodleProtos.WriteUpdate;
 
 import com.google.protobuf.ByteString;
 
@@ -170,15 +171,19 @@ public class WriteJournal extends Journal {
         }
     }
 
-    public Map<Long, ByteString> search(String sketchId,
-            long timestamp) throws Exception {
+    public void search(String sketchId, long timestamp,
+            WriteUpdate.Builder wuBuilder) throws Exception {
         this.lock.readLock().lock();
         try {
             if (!this.journal.containsKey(sketchId)) {
-                return new HashMap(); // wait until gossip inits sketch
+                return; // wait until gossip inits sketch
             }
 
-            return this.journal.get(sketchId).tailMap(timestamp, false);
+            for (Map.Entry<Long, ByteString> entry :
+                    this.journal.get(sketchId)
+                        .tailMap(timestamp, false).entrySet()) {
+                wuBuilder.putData(entry.getKey(), entry.getValue());
+            }
         } finally {
             this.lock.readLock().unlock();
         }

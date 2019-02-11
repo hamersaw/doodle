@@ -175,11 +175,8 @@ public class GossipService implements Service {
                             WriteUpdate.newBuilder()
                                 .setSketchId(entry.getKey());
 
-                        for (Map.Entry<Long, ByteString> e :
-                                this.writeJournal.search(entry.getKey(),
-                                    entry.getValue()).entrySet()) {
-                            wuBuilder.putData(e.getKey(), e.getValue());
-                        }
+                        this.writeJournal.search(entry.getKey(),
+                            entry.getValue(), wuBuilder);
 
                         jwsBuilder.addWriteUpdates(wuBuilder.build());
                     }
