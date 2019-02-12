@@ -5,6 +5,7 @@ import com.bushpath.doodle.SketchPlugin;
 
 import com.bushpath.rutils.query.Query;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -32,10 +33,12 @@ public class QueryHandler extends Thread {
         try {
             // open streams if file exists
             FileInputStream fileIn = null;
+            BufferedInputStream bufIn = null;
             ObjectInputStream in = null;
             if (file.exists()) {
                 fileIn = new FileInputStream(file);
-                in = new ObjectInputStream(fileIn);
+                bufIn = new BufferedInputStream(fileIn);
+                in = new ObjectInputStream(bufIn);
             }
 
             // execute query
@@ -45,6 +48,7 @@ public class QueryHandler extends Thread {
             // close streams
             if (in != null) {
                 in.close();
+                bufIn.close();
                 fileIn.close();
             }
 

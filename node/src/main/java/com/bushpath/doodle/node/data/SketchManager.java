@@ -16,7 +16,9 @@ import com.bushpath.doodle.node.control.ControlManager;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -155,14 +157,18 @@ public class SketchManager {
             File tmpFile = new File(datFilename + ".tmp");
 
             FileInputStream fileIn = null;
+            BufferedInputStream bufIn = null;
             ObjectInputStream in = null;
             if (file.exists()) {
                 fileIn = new FileInputStream(file);
-                in = new ObjectInputStream(fileIn);
+                bufIn = new BufferedInputStream(fileIn);
+                in = new ObjectInputStream(bufIn);
             }
 
             FileOutputStream fileOut = new FileOutputStream(tmpFile);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            BufferedOutputStream bufOut =
+                new BufferedOutputStream(fileOut);
+            ObjectOutputStream out = new ObjectOutputStream(bufOut);
 
             // flush data
             SketchPlugin sketchPlugin = this.sketches.get(id);
@@ -172,10 +178,12 @@ public class SketchManager {
             // close streams
             if (in != null) {
                 in.close();
+                bufIn.close();
                 fileIn.close();
             }
 
             out.close();
+            bufOut.close();
             fileOut.close();
 
             // clean up files
