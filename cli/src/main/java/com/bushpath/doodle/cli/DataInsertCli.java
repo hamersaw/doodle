@@ -12,6 +12,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 
+import com.bushpath.rutils.reader.BinaryReader;
+import com.bushpath.rutils.reader.Reader;
 import com.bushpath.rutils.reader.ThreadedCsvReader;
 
 import com.google.protobuf.ByteString;
@@ -31,8 +33,8 @@ public class DataInsertCli implements Runnable {
     @Parameters(index="0", description="Id of SketchPlugin instance.")
     private String sketchId;
 
-    @Parameters(index="1", description="CSV file to load.")
-    private String filename;
+    @Parameters(index="1..*", description="File(s) to load.")
+    private String[] filenames;
 
     @Option(names={"-p", "--pipe-count"},
         description="The nubmer of nodes to initialize pipes at [default=5].")
@@ -56,13 +58,16 @@ public class DataInsertCli implements Runnable {
 
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
+        long recordCount = 0;
+
         /**
          * open file for writing
          */
 
-        ThreadedCsvReader reader = null;
+        Reader<float[]> reader = null;
         try {
-            reader = new ThreadedCsvReader(this.filename, 4);
+            reader = this.openReader(this.filenames[0]);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
@@ -73,7 +78,8 @@ public class DataInsertCli implements Runnable {
          */
 
         // create NodeListRequest
-        NodeListRequest nodeListRequest = NodeListRequest.newBuilder().build();
+        NodeListRequest nodeListRequest =
+            NodeListRequest.newBuilder().build();
         NodeListResponse nodeListResponse = null;
 
         // send NodeListRequest
@@ -144,41 +150,59 @@ public class DataInsertCli implements Runnable {
         // send PipeWriteRequests
         ByteString.Output byteOut = ByteString.newOutput();
         DataOutputStream out = new DataOutputStream(byteOut);
-        double[] record = null;
-        int index = 0;
+        float[] record = null;
+        int pipeIndex = 0;
+        int fileIndex = 1;
         try {
-            while ((record = reader.next()) != null) {
+            while (true) {
+                while ((record = reader.next()) == null) {
+                    reader.close();
+                    if (fileIndex == this.filenames.length) {
+                        break;
+                    } 
+
+                    reader = this.openReader(this.filenames[fileIndex]);
+                    // TODO - check if header is still correct
+                    fileIndex += 1;
+                }
+
+                if (record == null) {
+                    break;
+                }
+
                 // write record to out
                 for (int i=0; i<featureIndexes.length; i++) {
-                    out.writeFloat((float) record[featureIndexes[i]]);
+                    out.writeFloat(record[featureIndexes[i]]);
                 }
+
+                recordCount += 1;
 
                 if (byteOut.size() >= this.pipeWriteBufferSize) {
                     // close DataOutputStream
                     out. close();
 
                     // find value node to write to
-                    while (pipeIds[index] == null) {
-                        index = (index + 1) % pipeIds.length;
+                    while (pipeIds[pipeIndex] == null) {
+                        pipeIndex = (pipeIndex + 1) % pipeIds.length;
                     }
 
                     // create PipeWriteRequest
                     PipeWriteRequest pipeWriteRequest =
                         PipeWriteRequest.newBuilder()
-                        .setId(pipeIds[index])
+                        .setId(pipeIds[pipeIndex])
                         .setData(byteOut.toByteString())
                         .build();
      
                     // write to node
                     PipeWriteResponse pipeWriteResponse = null;
-                    Node node = nodes.get(index);
+                    Node node = nodes.get(pipeIndex);
                     pipeWriteResponse = (PipeWriteResponse) CommUtility.send(
                         MessageType.PIPE_WRITE.getNumber(),
                         pipeWriteRequest, node.getIpAddress(),
                         (short) node.getPort());
 
                     // update variables
-                    index = (index + 1) % pipeIds.length;
+                    pipeIndex = (pipeIndex + 1) % pipeIds.length;
                     byteOut = ByteString.newOutput();
                     out = new DataOutputStream(byteOut);
                 }
@@ -190,20 +214,20 @@ public class DataInsertCli implements Runnable {
             // if byteOut.size() > 0 the nwrite
             if (byteOut.size() > 0) {
                 // find value node to write to
-                while (pipeIds[index] == null) {
-                    index = (index + 1) % pipeIds.length;
+                while (pipeIds[pipeIndex] == null) {
+                    pipeIndex = (pipeIndex + 1) % pipeIds.length;
                 }
 
                 // create PipeWriteRequest
                 PipeWriteRequest pipeWriteRequest =
                     PipeWriteRequest.newBuilder()
-                    .setId(pipeIds[index])
+                    .setId(pipeIds[pipeIndex])
                     .setData(byteOut.toByteString())
                     .build();
  
                 // write to node
                 PipeWriteResponse pipeWriteResponse = null;
-                Node node = nodes.get(index);
+                Node node = nodes.get(pipeIndex);
                 pipeWriteResponse = (PipeWriteResponse) CommUtility.send(
                     MessageType.PIPE_WRITE.getNumber(),
                     pipeWriteRequest, node.getIpAddress(),
@@ -238,5 +262,22 @@ public class DataInsertCli implements Runnable {
                 System.err.println(e.getMessage());
             }
         }
+
+        long time = System.currentTimeMillis() - startTime;
+        System.out.println("Wrote " + recordCount + " record(s) in "
+            + time + "ms (" + (recordCount / time * 1000)
+            + " records/sec)");
+    }
+
+    protected Reader<float[]> openReader(String filename)
+            throws Exception {
+        if (filename.endsWith(".csv")) {
+            return new ThreadedCsvReader(filename, 4);
+        } else if (filename.endsWith(".bin")) {
+            return new BinaryReader(filename);
+        } else {
+            throw new RuntimeException("Unsupported file format ''"
+                + filename);
+       }
     }
 }
