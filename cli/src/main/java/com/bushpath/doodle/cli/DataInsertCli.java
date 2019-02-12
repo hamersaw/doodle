@@ -58,8 +58,7 @@ public class DataInsertCli implements Runnable {
 
     @Override
     public void run() {
-        long startTime = System.currentTimeMillis();
-        long recordCount = 0;
+        long openStartTime = System.currentTimeMillis();
 
         /**
          * open file for writing
@@ -147,7 +146,13 @@ public class DataInsertCli implements Runnable {
 
         // TODO - check if any pipe ids initialized valid
 
+        long openTime = System.currentTimeMillis() - openStartTime;
+        System.out.println("Open Time: " + openTime + "ms");
+
         // send PipeWriteRequests
+        long writeStartTime = System.currentTimeMillis();
+        long recordCount = 0;
+
         ByteString.Output byteOut = ByteString.newOutput();
         DataOutputStream out = new DataOutputStream(byteOut);
         float[] record = null;
@@ -237,9 +242,17 @@ public class DataInsertCli implements Runnable {
             System.err.println(e.getMessage());
         }
 
+        long writeTime = System.currentTimeMillis() - writeStartTime;
+        System.out.println("Write Time: " + writeTime
+            + "\n    Record Count: " + recordCount
+            + "\n    Records/Second: "
+                + (recordCount / writeTime * 1000));
+
         /**
          * close pipes
          */
+
+        long closeStartTime = System.currentTimeMillis();
         for (int i=0; i<nodes.size(); i++) {
             // check if pipe was opened
             if (pipeIds[i] == null) {
@@ -263,10 +276,8 @@ public class DataInsertCli implements Runnable {
             }
         }
 
-        long time = System.currentTimeMillis() - startTime;
-        System.out.println("Wrote " + recordCount + " record(s) in "
-            + time + "ms (" + (recordCount / time * 1000)
-            + " records/sec)");
+        long closeTime = System.currentTimeMillis() - closeStartTime;
+        System.out.println("Close Time: " + closeTime + "ms");
     }
 
     protected Reader<float[]> openReader(String filename)
