@@ -246,7 +246,7 @@ public class DataInsertCli implements Runnable {
         System.out.println("Write Time: " + writeTime
             + "\n    Record Count: " + recordCount
             + "\n    Records/Second: "
-                + (recordCount / writeTime * 1000));
+                + ((recordCount / (double) writeTime) * 1000));
 
         /**
          * close pipes
