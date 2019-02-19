@@ -23,6 +23,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.DataOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -91,7 +92,9 @@ public class DataInsertCli implements Runnable {
             return;
         }
 
-        List<Node> nodes = nodeListResponse.getNodesList();
+        List<Node> nodes = new ArrayList();
+        nodes.addAll(nodeListResponse.getNodesList());
+        //List<Node> nodes = nodeListResponse.getNodesList();
         Random random = new Random(System.currentTimeMillis());
         while (nodes.size() > this.pipeCount) {
             nodes.remove(random.nextInt(nodes.size()));

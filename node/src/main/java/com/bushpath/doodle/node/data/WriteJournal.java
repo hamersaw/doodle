@@ -115,6 +115,7 @@ public class WriteJournal extends Journal {
 
             // write to local sketch
             SketchPlugin sketch = this.sketchManager.get(sketchId);
+            this.sketchManager.freeze(sketchId);
             sketch.write(nodeId, timestamp, data);
 
             // get memoryTable
