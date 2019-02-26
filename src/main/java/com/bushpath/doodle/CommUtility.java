@@ -21,6 +21,7 @@ import com.bushpath.doodle.protobuf.DoodleProtos.PipeCloseResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeOpenResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PipeWriteResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.QueryProfileResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.SketchWriteResponse;
@@ -100,6 +101,8 @@ public class CommUtility {
                 return PipeWriteResponse.parseDelimitedFrom(in);
             case PLUGIN_LIST:
                 return PluginListResponse.parseDelimitedFrom(in);
+            case QUERY_PROFILE:
+                return QueryProfileResponse.parseDelimitedFrom(in);
             case SKETCH_LIST:
                 return SketchListResponse.parseDelimitedFrom(in);
             case SKETCH_SHOW:

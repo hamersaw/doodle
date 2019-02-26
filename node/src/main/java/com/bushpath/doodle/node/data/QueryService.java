@@ -6,6 +6,8 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.QueryRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.QueryResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.QueryProfileRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.QueryProfileResponse;
 
 import com.bushpath.rutils.query.Query;
 
@@ -48,7 +50,8 @@ public class QueryService implements Service {
     @Override
     public int[] getMessageTypes() {
         return new int[]{
-                MessageType.QUERY.getNumber()
+                MessageType.QUERY.getNumber(),
+                MessageType.QUERY_PROFILE.getNumber()
             };
     }
 
@@ -83,6 +86,43 @@ public class QueryService implements Service {
                     this.handleResponse(queue, out,
                         qRequest.getBufferSize());
 
+                    break;
+                case QUERY_PROFILE:
+                    // parse request
+                    QueryProfileRequest qpRequest =
+                        QueryProfileRequest.parseDelimitedFrom(in);
+
+                    ByteString profileData = qpRequest.getQuery();
+                    Query profileQuery =
+                        Query.fromInputStream(profileData.newInput());
+
+                    int qpNodeId = qpRequest.getNodeId();
+                    String qpEntity = profileQuery.getEntity();
+                    log.trace("handling QueryProfileRequest {}:{}",
+                        qpNodeId, qpEntity);
+
+                    // check if sketch exists
+                    this.sketchManager.checkExists(qpEntity);
+
+                    // execute test query
+                    long qpStartTime = System.currentTimeMillis();
+                    long observationCount = this.sketchManager
+                        .getObservationCount(qpEntity,
+                            qpNodeId, profileQuery);
+                    long qpExecutionTime = System.currentTimeMillis()
+                        - qpStartTime;
+
+                    // init response
+                    QueryProfileResponse.Builder qpBuilder =
+                        QueryProfileResponse.newBuilder();
+
+                    qpBuilder.setObservationCount(observationCount);
+                    qpBuilder
+                        .setExecutionTimeMilliSeconds(qpExecutionTime);
+
+                    // write to out
+                    out.writeInt(messageType);
+                    qpBuilder.build().writeDelimitedTo(out);
                     break;
                 default:
                     log.warn("Unreachable");

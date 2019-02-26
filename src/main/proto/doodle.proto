@@ -27,9 +27,10 @@ enum MessageType {
     PIPE_WRITE = 15;
     PLUGIN_LIST = 16;
     QUERY = 17;
-    SKETCH_LIST = 18;
-    SKETCH_SHOW = 19;
-    SKETCH_WRITE = 20;
+    QUERY_PROFILE = 18;
+    SKETCH_LIST = 19;
+    SKETCH_SHOW = 20;
+    SKETCH_WRITE = 21;
 }
 
 /**
@@ -219,6 +220,16 @@ message QueryRequest {
 message QueryResponse {
     bytes data = 1;
     bool lastMessage = 2;
+}
+
+message QueryProfileRequest {
+    bytes query = 1;
+    int32 nodeId = 2;
+}
+
+message QueryProfileResponse {
+    int64 observationCount = 1;
+    int64 executionTimeMilliSeconds = 2;
 }
 
 /**
