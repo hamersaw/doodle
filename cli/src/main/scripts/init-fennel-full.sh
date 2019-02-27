@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# initialize DoodleSynopsisPlugin sketch
-./doodle sketch init sketch_one com.bushpath.doodle.synopsis.SynopsisPlugin dht -r 1
-./doodle sketch modify sketch_one -a "latitudeFeature:latitude:-1" -a "longitudeFeature:longitude:-1" -a "geohashPrecision:-1:5"
+# initialize DoodleFennelPlugin sketch
+./doodle sketch init sketch_one com.bushpath.doodle.fennel.FennelPlugin dht
+./doodle sketch modify sketch_one -a "hash:albedo_surface:-1" -a "hash:temperature_surface:-1" -a "hash:precipitable_water_entire_atmosphere:-1" -a "hash:pressure_surface:-1" -a "hash:surface_wind_gust_surface:-1"
 
 # add features to sketch
 ./doodle sketch modify sketch_one \
