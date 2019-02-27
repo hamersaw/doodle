@@ -31,7 +31,7 @@ public class Distributor extends Thread {
         this.shutdown = false;
 
         JournalWriteRequest jwRequest = null;
-        while (!this.shutdown) {
+        while (!this.shutdown || !this.queue.isEmpty()) {
             try {
                 jwRequest = this.queue.poll(50, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {

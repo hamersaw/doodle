@@ -43,7 +43,6 @@ public abstract class Transform extends Thread {
 
     protected void checkBufferSize(int nodeId) throws Exception {
         this.objectOutputStreams.get(nodeId).flush();
-
         if (this.buffers.get(nodeId).size() >= this.bufferSize) {
 			this.flushBuffer(nodeId, true);
         }
@@ -78,6 +77,7 @@ public abstract class Transform extends Thread {
 
             ObjectOutputStream objectOutputStream =
                 new ObjectOutputStream(byteStringOutput);
+ 
             this.objectOutputStreams.put(nodeId, objectOutputStream);
         }
 
@@ -87,7 +87,7 @@ public abstract class Transform extends Thread {
     @Override
     public void run() {
         this.shutdown = false;
-        while (!this.shutdown) {
+        while (!this.shutdown || !this.in.isEmpty()) {
             ByteString byteString = null;
             try {
                 byteString = this.in.poll(50, TimeUnit.MILLISECONDS);
