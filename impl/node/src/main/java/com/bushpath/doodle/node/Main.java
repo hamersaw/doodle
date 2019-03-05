@@ -141,8 +141,7 @@ public class Main {
 
                 int id = Integer.parseInt(array[3]);
                 NodeMetadata nodeMetadata = new NodeMetadata(
-                        id, array[0], Short.parseShort(array[1]),
-                        (short) -1, (short) -1, (short) -1, (short) -1);
+                        id, array[0], Short.parseShort(array[1]));
 
                 nodes.put(id, nodeMetadata);
                 log.debug("added node '{}' - {}:{}",

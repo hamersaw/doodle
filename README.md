@@ -30,3 +30,4 @@ doodle is a distributed sketch-aligned database. It also provides a simple exten
 
 ## TODO
 - add control plugins to 'sketch show' command
+- implement distributed file system overlay

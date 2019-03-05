@@ -24,7 +24,7 @@ else
     exit 1
 fi
 
-JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny"
+JAVA_OPTS="-Xmx2G -Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny"
 
 # iterate over hosts file
 while read LINE; do
