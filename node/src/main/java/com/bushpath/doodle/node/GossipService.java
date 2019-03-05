@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node;
 
 import com.bushpath.doodle.SketchPlugin;
+import com.bushpath.doodle.Service;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.GossipRequest;
@@ -20,7 +21,6 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.control.NodeMetadata;
 import com.bushpath.doodle.node.control.OperationJournal;
@@ -75,7 +75,8 @@ public class GossipService implements Service {
                         GossipResponse.newBuilder();
 
                     // handle node
-                    Node node = gRequest.getNode();
+                    // TODO - remove
+                    /*Node node = gRequest.getNode();
                     if (!this.nodeManager.contains(node.getId())) {
                         // add node
                         this.nodeManager.add(
@@ -98,12 +99,13 @@ public class GossipService implements Service {
                                 this.nodeManager.getValues()) {
                             gBuilder.addNodes(nodeMetadata.toProtobuf());
                         }
-                    }
+                    }*/
 
                     // handle operation gossip
                     long gTimestamp = gRequest.getOperationTimestamp();
+                    int gNodeId = gRequest.getNodeId();
                     this.operationJournal.updateJournalTimestamp(
-                        node.getId(), gTimestamp);
+                        gNodeId, gTimestamp);
                     for (Map.Entry<Long, Operation> entry :
                             this.operationJournal
                                 .search(gTimestamp).entrySet()) {

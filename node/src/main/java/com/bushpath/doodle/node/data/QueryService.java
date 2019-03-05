@@ -1,6 +1,7 @@
 package com.bushpath.doodle.node.data;
 
 import com.bushpath.doodle.Poison;
+import com.bushpath.doodle.Service;
 import com.bushpath.doodle.SketchPlugin;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
@@ -16,7 +17,6 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.Service;
 import com.bushpath.doodle.node.control.NodeManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 

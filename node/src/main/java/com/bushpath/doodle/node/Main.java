@@ -1,9 +1,7 @@
 package com.bushpath.doodle.node;
 
-import com.bushpath.anamnesis.ipc.rpc.RpcServer;
-import com.bushpath.anamnesis.ipc.rpc.packet_handler.IpcConnectionContextPacketHandler;
-
 import com.bushpath.doodle.ControlPlugin;
+import com.bushpath.doodle.Server;
 import com.bushpath.doodle.SketchPlugin;
 
 import com.moandjiezana.toml.Toml;
@@ -26,16 +24,14 @@ import com.bushpath.doodle.node.data.SketchManager;
 import com.bushpath.doodle.node.data.SketchService;
 import com.bushpath.doodle.node.data.QueryService;
 import com.bushpath.doodle.node.data.WriteJournal;
-import com.bushpath.doodle.node.filesystem.ClientNamenodeService;
-import com.bushpath.doodle.node.filesystem.DataTransferService;
-import com.bushpath.doodle.node.filesystem.FileSystemService;
-import com.bushpath.doodle.node.filesystem.FileManager;
 import com.bushpath.doodle.node.plugin.PluginManager;
 import com.bushpath.doodle.node.plugin.PluginService;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.ServerSocket;
@@ -49,25 +45,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors; 
 import java.util.concurrent.ExecutorService;
 
 public class Main {
-    protected static final Logger log = LoggerFactory.getLogger(Main.class);
+    protected static final Logger log =
+        LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         // check arguments
-        if (args.length != 1) {
-            System.err.println("Usage: <config-file>");
+        if (args.length != 6) {
+            System.err.println("Usage: <ipAddress> <port> <persistDirectory> <nodeId> <hostsFile> <configFile>");
             System.exit(1);
         }
+
+        String ipAddress = args[0];
+        short port = Short.parseShort(args[1]);
+        String persistDirectory = args[2]; 
+        int nodeId = Integer.parseInt(args[3]);
+        String hostsPath = args[4];
+
+        System.out.println(ipAddress + " " + port + " " + persistDirectory + " " + nodeId + " " + hostsPath + " " + args[5]);
 
         // parse configuration file
         Toml toml = new Toml();
         try {
-            toml.read(new File(args[0]));
+            toml.read(new File(args[5]));
         } catch (Exception e) {
             log.error("Failed to parse configuration file", e);
             System.exit(2);
@@ -117,48 +123,40 @@ public class Main {
             System.exit(3);
         }
 
-        // initialize FileManager
-        FileManager fileManager = new FileManager();
-
         // initialize ControlManager
         ControlManager controlManager = new ControlManager(
-            toml.getString("control.directory"), pluginManager);
+            persistDirectory + "/" 
+                + toml.getString("control.directory"), pluginManager);
 
         // initialize NodeManager
-        List<NodeMetadata> seedNodes = new ArrayList();
-        if (toml.getTables("gossip.seed") != null) {
-            for (Toml seedToml : toml.getTables("gossip.seed")) {
-                seedNodes.add(
-                    new NodeMetadata(
-                        (short) -1,
-                        seedToml.getString("ipAddress"),
-                        seedToml.getLong("port").shortValue(),
-                        (short) -1, (short) -1, (short) -1, (short) -1
-                    ));
-            }
-        }
-
-        NodeManager nodeManager = new NodeManager(
-                toml.getLong("nodeId").intValue(),
-                seedNodes
-            );
-
+        TreeMap<Integer, NodeMetadata> nodes = new TreeMap();
         try {
-            NodeMetadata nodeMetadata = new NodeMetadata(
-                    toml.getLong("nodeId").intValue(),
-                    toml.getString("ipAddress"),
-                    toml.getLong("port").shortValue(),
-                    toml.getLong("filesystem.namenode.ipcPort").shortValue(),
-                    toml.getLong("filesystem.datanode.xferPort").shortValue(),
-                    toml.getLong("filesystem.datanode.ipcPort").shortValue(),
-                    toml.getLong("filesystem.datanode.infoPort").shortValue()
-                );
+            // parse nodes from hosts file
+            FileReader fileIn = new FileReader(hostsPath);
+            BufferedReader in = new BufferedReader(fileIn);
 
-            nodeManager.add(nodeMetadata);
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                String[] array = line.split(" ");
+
+                int id = Integer.parseInt(array[3]);
+                NodeMetadata nodeMetadata = new NodeMetadata(
+                        id, array[0], Short.parseShort(array[1]),
+                        (short) -1, (short) -1, (short) -1, (short) -1);
+
+                nodes.put(id, nodeMetadata);
+                log.debug("added node '{}' - {}:{}",
+                    id, array[0], array[1]);
+            }
+
+            in.close();
+            fileIn.close();
         } catch (Exception e) {
             log.error("Failed to initialize NodeManager", e);
-            System.exit(2);
+            System.exit(4);
         }
+
+        NodeManager nodeManager = new NodeManager(nodeId, nodes);
 
         // initialize PipeManager
         PipeManager pipeManager = new PipeManager(nodeManager);
@@ -169,21 +167,24 @@ public class Main {
 
         // initialize SketchManager
         SketchManager sketchManager = new SketchManager(
-            toml.getString("data.directory"), controlManager,
-            nodeManager, pluginManager, replicationTimerTask);
+            persistDirectory + "/" + toml.getString("data.directory"),
+            controlManager, nodeManager,
+            pluginManager, replicationTimerTask);
 
         // initialize Journals
         OperationJournal operationJournal = null;
         WriteJournal writeJournal = null;
         try {
             operationJournal = new OperationJournal(
-                toml.getString("control.journal.directory"),
+                persistDirectory + "/" +
+                    toml.getString("control.journal.directory"),
                 toml.getLong("control.journal.maximumFileSizeBytes")
                     .intValue(),
                 controlManager, sketchManager);
 
             writeJournal = new WriteJournal(
-                toml.getString("data.journal.directory"),
+                persistDirectory + "/" +
+                    toml.getString("data.journal.directory"),
                 toml.getLong("data.journal.maximumFileSizeBytes")
                     .intValue(),
                 sketchManager);
@@ -193,17 +194,11 @@ public class Main {
         }
 
         // initialize Server
-        Server server = new Server(
-                toml.getLong("port").shortValue(),
-                toml.getLong("serverThreadCount").shortValue()
-            );
+        Server server = new Server(port,
+            toml.getLong("serverThreadCount").shortValue());
 
         // register Services
         try {
-            FileSystemService fileSystemService =
-                new FileSystemService(fileManager, nodeManager, sketchManager);
-            server.registerService(fileSystemService);
-
             ControlService controlService = new ControlService(
                 controlManager, pluginManager);
             server.registerService(controlService);
@@ -233,50 +228,6 @@ public class Main {
         } catch (Exception e) {
             log.error("Unknwon Service registration failure", e);
             System.exit(4);
-        }
-
-        // start HDFS emulation
-        try {
-            // initialize threadpool
-            int threadCount =
-                toml.getLong("filesystem.workerThreadCount").intValue();
-            ExecutorService executorService =
-                Executors.newFixedThreadPool(threadCount);
- 
-            // initialize RpcServer
-            int namenodePort =
-                toml.getLong("filesystem.namenode.ipcPort").intValue();
-            ServerSocket serverSocket = new ServerSocket(namenodePort);
-            RpcServer rpcServer =
-                new RpcServer(serverSocket, executorService);
-
-            // register ClientNamenodeService
-            ClientNamenodeService clientNamenodeService =
-                new ClientNamenodeService(fileManager, nodeManager);
-            rpcServer.addRpcProtocol(
-                "org.apache.hadoop.hdfs.protocol.ClientProtocol",
-                clientNamenodeService);
-
-			rpcServer.addPacketHandler(
-				new IpcConnectionContextPacketHandler());
-
-            // start RpcServer
-            rpcServer.start();
-
-            // initialize DataTransferService
-            int datanodeXferPort =
-                toml.getLong("filesystem.datanode.xferPort").intValue();
-            ServerSocket xferServerSocket =
-                new ServerSocket(datanodeXferPort);
-            DataTransferService dataTransferService =
-                new DataTransferService(xferServerSocket,
-                    executorService, fileManager, sketchManager);
-
-            // start DataTransferService
-            dataTransferService.start();
-        } catch (Exception e) {
-            log.error("Unknown HDFS emulation startup failure", e);
-            System.exit(5);
         }
 
         try {

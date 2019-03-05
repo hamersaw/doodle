@@ -1,0 +1,7 @@
+127.0.0.1 5450 /home/hamersaw/Downloads/persist/0 0 /home/hamersaw/Development/doodle/./bin/../etc/hosts.txt /home/hamersaw/Development/doodle/./bin/../etc/node-config.toml
+[main] INFO org.reflections.Reflections - Reflections took 46 ms to scan 5 urls, producing 9 keys and 24 values 
+[main] INFO com.bushpath.doodle.node.plugin.PluginManager - Registered ControlPlugin 'com.bushpath.doodle.dht.DhtPlugin'
+[main] INFO com.bushpath.doodle.node.plugin.PluginManager - Registered SketchPlugin 'com.bushpath.doodle.isabella.IsabellaPlugin'
+[main] INFO com.bushpath.doodle.node.plugin.PluginManager - Registered SketchPlugin 'com.bushpath.doodle.numarck.NumarckPlugin'
+[main] INFO com.bushpath.doodle.node.plugin.PluginManager - Registered SketchPlugin 'com.bushpath.doodle.synopsis.SynopsisPlugin'
+[main] INFO com.bushpath.doodle.node.plugin.PluginManager - Registered SketchPlugin 'com.bushpath.doodle.fennel.FennelPlugin'

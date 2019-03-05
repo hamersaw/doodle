@@ -1,0 +1,34 @@
+serverThreadCount = 2
+
+#
+# FileSystem Configuration
+#
+[filesystem]
+workerThreadCount = 3
+
+[filesystem.namenode]
+ipcPort = 9000
+
+[filesystem.datanode]
+xferPort = 8020
+ipcPort = 8030
+infoPort = 8040
+
+#
+# Gossip Configuration
+#
+[gossip]
+intervalMilliSeconds = 2500
+
+#
+# Memory Management Configuration
+#
+[memoryManagement]
+intervalMilliSeconds = 1000
+writeDiffMilliSeconds = 10000
+
+#
+# Plugins Configuration
+#
+[plugins]
+directory = "/home/hamersaw/Development/doodle/plugins"

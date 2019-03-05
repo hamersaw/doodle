@@ -1,4 +1,4 @@
-package com.bushpath.doodle.node;
+package com.bushpath.doodle;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

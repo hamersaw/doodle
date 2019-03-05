@@ -1,0 +1,43 @@
+serverThreadCount = 4
+
+#
+# Control Plane Configuration
+#
+[control]
+directory = "control"
+
+[control.journal]
+directory = "control-journal"
+maximumFileSizeBytes = 2097152
+
+#
+# Data Plane Configuration
+#
+[data]
+directory = "data"
+
+[data.replication]
+intervalMilliSeconds = 1000
+
+[data.journal]
+directory = "data-journal"
+maximumFileSizeBytes = 67108864
+
+#
+# Gossip Configuration
+#
+[gossip]
+intervalMilliSeconds = 2500
+
+#
+# Memory Management Configuration
+#
+[memoryManagement]
+intervalMilliSeconds = 1000
+writeDiffMilliSeconds = 10000
+
+#
+# Plugins Configuration
+#
+[plugins]
+directory = "/home/hamersaw/Development/doodle/plugins"

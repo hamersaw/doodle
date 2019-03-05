@@ -1,5 +1,6 @@
 package com.bushpath.doodle.node.control;
 
+import com.bushpath.doodle.Service;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.NodeShowRequest;
@@ -10,8 +11,6 @@ import com.bushpath.doodle.protobuf.DoodleProtos.Node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.bushpath.doodle.node.Service;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

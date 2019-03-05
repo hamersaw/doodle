@@ -103,9 +103,10 @@ message FileMkdirResponse {
  */
 
 message GossipRequest {
-    Node node = 1;
-    int32 nodesHash = 2;
-    int64 operationTimestamp = 3;
+    int32 nodeId = 1;
+    //Node node = 1; // TODO - remove
+    //int32 nodesHash = 2;
+    int64 operationTimestamp = 2;
 }
 
 message GossipResponse {
@@ -269,7 +270,6 @@ message SketchWriteResponse {
 /**
  * Miscellaneous Messages
  */
-
 message File {
     int32 inode = 1;
     FileType fileType = 2;

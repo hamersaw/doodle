@@ -3,7 +3,7 @@ package com.bushpath.doodle.node.plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bushpath.doodle.node.Service;
+import com.bushpath.doodle.Service;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
 import com.bushpath.doodle.protobuf.DoodleProtos.PluginListRequest;

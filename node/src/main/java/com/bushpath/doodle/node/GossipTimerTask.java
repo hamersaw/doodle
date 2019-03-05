@@ -43,9 +43,10 @@ public class GossipTimerTask extends TimerTask {
                 .getRandomNode(this.nodeManager.getThisNodeId());
 
             // check if there are other registered nodes
-            if (nodeMetadata == null) {
+            // TODO - remove
+            /*if (nodeMetadata == null) {
                 nodeMetadata = this.nodeManager.getRandomSeed();
-            }
+            }*/
 
             // fallback to contacting a seed node
             if (nodeMetadata == null) {
@@ -54,8 +55,8 @@ public class GossipTimerTask extends TimerTask {
 
             // create GossipRequest
             GossipRequest request = GossipRequest.newBuilder()
-                .setNode(this.thisNode)
-                .setNodesHash(this.nodeManager.hashCode())
+                //.setNode(this.thisNode) TODO - remove
+                //.setNodesHash(this.nodeManager.hashCode())
                 .setOperationTimestamp(
                     this.operationJournal.getTimestamp())
                 .build();
@@ -77,7 +78,8 @@ public class GossipTimerTask extends TimerTask {
             }
 
             // handle response
-            for (Node node : response.getNodesList()) {
+            // TODO - remove
+            /*for (Node node : response.getNodesList()) {
                 // check if node exists
                 if (this.nodeManager.contains(node.getId())) {
                     continue;
@@ -94,7 +96,7 @@ public class GossipTimerTask extends TimerTask {
                         (short) node.getDatanodeIpcPort(),
                         (short) node.getDatanodeInfoPort()
                     ));
-            }
+            }*/
 
             // handle operations
             for (Operation operation : response.getOperationsList()) {
