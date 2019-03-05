@@ -34,7 +34,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -48,8 +47,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors; 
-import java.util.concurrent.ExecutorService;
 
 public class Main {
     protected static final Logger log =
@@ -67,8 +64,6 @@ public class Main {
         String persistDirectory = args[2]; 
         int nodeId = Integer.parseInt(args[3]);
         String hostsPath = args[4];
-
-        System.out.println(ipAddress + " " + port + " " + persistDirectory + " " + nodeId + " " + hostsPath + " " + args[5]);
 
         // parse configuration file
         Toml toml = new Toml();
@@ -141,7 +136,7 @@ public class Main {
 
                 int id = Integer.parseInt(array[3]);
                 NodeMetadata nodeMetadata = new NodeMetadata(
-                        id, array[0], Short.parseShort(array[1]));
+                    id, array[0], Short.parseShort(array[1]));
 
                 nodes.put(id, nodeMetadata);
                 log.debug("added node '{}' - {}:{}",

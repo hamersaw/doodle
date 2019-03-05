@@ -1,7 +1,5 @@
 package com.bushpath.doodle.dfs;
 
-import com.bushpath.doodle.Server;
-
 import com.moandjiezana.toml.Toml;
 
 import org.slf4j.Logger;
@@ -10,7 +8,15 @@ import org.slf4j.LoggerFactory;
 import com.bushpath.anamnesis.ipc.rpc.RpcServer;
 import com.bushpath.anamnesis.ipc.rpc.packet_handler.IpcConnectionContextPacketHandler;
 
+import com.bushpath.doodle.dfs.file.FileManager;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.net.ServerSocket;
+import java.util.TreeMap;
+import java.util.concurrent.Executors; 
+import java.util.concurrent.ExecutorService;
 
 public class Main {
     protected static final Logger log =
@@ -18,15 +24,22 @@ public class Main {
 
     public static void main(String[] args) {
         // check arguments
-        if (args.length != 1) {
-            System.err.println("Usage: <config-file>");
+        if (args.length != 6) {
+            System.err.println("Usage: <ipAddress> <namenodeIpcPort> <datanodeIpcPort> <datanodeXferPort> <nodeId> <hostsFile> <configFile>");
             System.exit(1);
         }
+
+        String ipAddress = args[0];
+        short namenodeIpcPort = Short.parseShort(args[1]);
+        short datanodeIpcPort = Short.parseShort(args[2]);
+        short datanodeXferPort = Short.parseShort(args[3]);
+        int nodeId = Integer.parseInt(args[4]);
+        String hostsPath = args[5];
 
         // parse configuration file
         Toml toml = new Toml();
         try {
-            toml.read(new File(args[0]));
+            toml.read(new File(args[6]));
         } catch (Exception e) {
             log.error("Failed to parse configuration file", e);
             System.exit(2);
@@ -35,23 +48,39 @@ public class Main {
         // initialize FileManager
         FileManager fileManager = new FileManager();
 
-        // initialize Server
-        Server server = new Server(
-                toml.getLong("port").shortValue(),
-                toml.getLong("serverThreadCount").shortValue()
-            );
-
-        // register Services
+        // initialize NodeManager
+        TreeMap<Integer, NodeMetadata> nodes = new TreeMap();
         try {
-            FileSystemService fileSystemService =
-                new FileSystemService(fileManager);
-            server.registerService(fileSystemService);
+            // parse nodes from hosts file
+            FileReader fileIn = new FileReader(hostsPath);
+            BufferedReader in = new BufferedReader(fileIn);
+
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                String[] array = line.split(" ");
+
+                int id = Integer.parseInt(array[3]);
+                NodeMetadata nodeMetadata = new NodeMetadata(
+                    id, array[0], Short.parseShort(array[1]),
+                    Short.parseShort(array[4]),
+                    Short.parseShort(array[5]),
+                    (short) -1, (short) -1);
+
+                nodes.put(id, nodeMetadata);
+                log.debug("added node '{}' - {}:{}",
+                    id, array[0], array[1]);
+            }
+
+            in.close();
+            fileIn.close();
         } catch (Exception e) {
-            log.error("Unknwon Service registration failure", e);
-            System.exit(1);
+            log.error("Failed to initialize NodeManager", e);
+            System.exit(3);
         }
 
-        /*// start HDFS emulation
+        NodeManager nodeManager = new NodeManager(nodeId, nodes);
+
+        // start HDFS emulation
         try {
             // initialize threadpool
             int threadCount =
@@ -60,9 +89,8 @@ public class Main {
                 Executors.newFixedThreadPool(threadCount);
  
             // initialize RpcServer
-            int namenodePort =
-                toml.getLong("filesystem.namenode.ipcPort").intValue();
-            ServerSocket serverSocket = new ServerSocket(namenodePort);
+            ServerSocket serverSocket =
+                new ServerSocket(namenodeIpcPort);
             RpcServer rpcServer =
                 new RpcServer(serverSocket, executorService);
 
@@ -80,47 +108,21 @@ public class Main {
             rpcServer.start();
 
             // initialize DataTransferService
-            int datanodeXferPort =
-                toml.getLong("filesystem.datanode.xferPort").intValue();
             ServerSocket xferServerSocket =
                 new ServerSocket(datanodeXferPort);
             DataTransferService dataTransferService =
                 new DataTransferService(xferServerSocket,
-                    executorService, fileManager, sketchManager);
+                    executorService, fileManager);
 
             // start DataTransferService
             dataTransferService.start();
-        } catch (Exception e) {
-            log.error("Unknown HDFS emulation startup failure", e);
-            System.exit(5);
-        }*/
-
-        try {
-            // start Server
-            server.start();
-
-            /*// start TimerTasks
-            Timer timer = new Timer();
-
-            GossipTimerTask gossipTimerTask =
-                new GossipTimerTask(nodeManager, operationJournal);
-            timer.scheduleAtFixedRate(gossipTimerTask, 0,
-                toml.getLong("gossip.intervalMilliSeconds"));
-
-            timer.scheduleAtFixedRate(replicationTimerTask, 0,
-                toml.getLong("data.replication.intervalMilliSeconds"));
-
-            MemoryManagementTimerTask memoryManagementTimerTask =
-                new MemoryManagementTimerTask(
-                    nodeManager, sketchManager,
-                    toml.getLong("memoryManagement.writeDiffMilliSeconds"));
-            timer.scheduleAtFixedRate(memoryManagementTimerTask, 0,
-                toml.getLong("memoryManagement.intervalMilliSeconds"));*/
 
             // wait indefinitely
-            server.join();
+            rpcServer.join();
+            dataTransferService.join();
         } catch (Exception e) {
-            log.error("Unknown failure", e);
+            log.error("Unknown HDFS emulation startup failure", e);
+            System.exit(4);
         }
     }
 }
