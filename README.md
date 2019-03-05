@@ -1,6 +1,6 @@
 # doodle
 ## OVERVIEW
-Distributed sketch-aligned file system presenting HDFS compatible interface.
+doodle is a distributed sketch-aligned database. It also provides a simple extension to present a low-cost, in-memory HDFS emulation interface.
 
 ## LOGGING
 - __error:__ failures which are unrecoverable
@@ -9,6 +9,24 @@ Distributed sketch-aligned file system presenting HDFS compatible interface.
 - __debug:__ output that may be useful in a debugging setting
 - __trace:__ fine-grained output
 
+## COMMANDS
+#### INSTALLATION
+    cd impl
+    ./setup.sh
+    cd node
+    gradle build
+    cd ../dfs
+    gradle build
+    cd ../cli
+    gradle build
+
+#### STARTING DOODLE CLUSTER
+1. configure hosts in /etc/hosts.txt (format "ip port persistDirectory nodeId")
+2. use provided shell script
+    ./bin/start-nodes.sh
+
+#### STOPPING DOODLE CLUSTER
+    ./bin/stop-nodes.sh
+
 ## TODO
 - add control plugins to 'sketch show' command
-- integrate yarn resource management (YarnClient)

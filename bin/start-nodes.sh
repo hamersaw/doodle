@@ -24,7 +24,7 @@ else
     exit 1
 fi
 
-JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny -Djava.library.path=$BASEDIR/libs/anamnesis-jni/"
+JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny"
 
 # iterate over hosts file
 while read LINE; do
