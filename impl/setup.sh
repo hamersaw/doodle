@@ -12,9 +12,8 @@ cd $BASEDIR/libs/rutils
 gradle build
 cd $DIR
 
-# copy jar and LICENSE file to libs
+# copy jar file to libs
 cp $BASEDIR/libs/rutils/build/libs/rutils-0.1-SNAPSHOT.jar $BASEDIR/libs
-cp $BASEDIR/libs/rutils/libs/okde-java-license $BASEDIR/libs/
 
 # remove git repository
 rm -rf $BASEDIR/libs/rutils

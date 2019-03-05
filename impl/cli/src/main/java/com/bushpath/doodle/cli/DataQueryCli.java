@@ -42,7 +42,7 @@ public class DataQueryCli implements Runnable {
 
     @Option(names = {"-d", "--plugin-directory"},
         description = "Directory containing Doodle plugins [default=../plugins].")
-    private String pluginDirectory = "../plugins";
+    private String pluginDirectory = "../../plugins";
 
     @Option(names = {"-q", "--query"},
         description = "Feature range query (eq. 'f0:0..10', 'f1:0..', 'f2:..10').")

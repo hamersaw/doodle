@@ -17,8 +17,8 @@ VERSION="0.1-SNAPSHOT"
 MAIN_CLASS="com.bushpath.doodle.node.Main"
 
 CLASSPATH=""
-if [ -f $DOODLEDIR/node/build/libs/$APPLICATION-$VERSION.jar ]; then
-    CLASSPATH="$DOODLEDIR/node/build/libs/$APPLICATION-$VERSION.jar"
+if [ -f $DOODLEDIR/impl/node/build/libs/$APPLICATION-$VERSION.jar ]; then
+    CLASSPATH="$DOODLEDIR/impl/node/build/libs/$APPLICATION-$VERSION.jar"
 else
     echo "unable to find $APPLICATION-$VERSION.jar."
     exit 1
