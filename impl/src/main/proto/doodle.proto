@@ -90,6 +90,15 @@ message FileMkdirResponse {
  * Gossip Messages
  */
 
+message FileGossipRequest {
+    int32 nodeId = 1;
+    int64 operationTimestamp = 2;
+}
+
+message FileGossipResponse {
+    repeated FileOperation operations = 1;
+}
+
 message GossipRequest {
     int32 nodeId = 1;
     //Node node = 1; // TODO - remove
@@ -98,8 +107,8 @@ message GossipRequest {
 }
 
 message GossipResponse {
-    repeated Node nodes = 1;
-    repeated Operation operations = 2;
+    //repeated Node nodes = 1; // TODO - remove
+    repeated Operation operations = 1;
 }
 
 message JournalOperationRequest {

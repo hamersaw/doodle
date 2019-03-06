@@ -2,12 +2,11 @@ package com.bushpath.doodle.dfs;
 
 import com.bushpath.anamnesis.ipc.rpc.SocketContext;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileGossipResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileGossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileListRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileOperationResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileOperationRequest;
 
@@ -21,6 +20,7 @@ import com.bushpath.doodle.dfs.file.DoodleInode;
 import com.bushpath.doodle.dfs.file.FileManager;
 
 import java.io.DataInputStream;
+import java.util.Map;
 import java.util.Random;
 
 public class DoodleDfsService {
@@ -29,12 +29,14 @@ public class DoodleDfsService {
 
     protected FileManager fileManager;
     protected NodeManager nodeManager;
+    protected OperationJournal journal;
     protected Random random;
 
     public DoodleDfsService(FileManager fileManager,
-            NodeManager nodeManager) {
+            NodeManager nodeManager, OperationJournal journal) {
         this.fileManager = fileManager;
         this.nodeManager = nodeManager;
+        this.journal = journal;
         this.random = new Random(System.nanoTime());
     }
 
@@ -44,11 +46,33 @@ public class DoodleDfsService {
         FileOperationRequest request =
             FileOperationRequest.parseDelimitedFrom(in);
 
-        this.fileManager.handleOperation(request.getOperation());
-        // TODO - add to operations list
-        
+        // add to journal
+        this.journal.add(request.getOperation());
+
         return FileOperationResponse.newBuilder()
             .build();
+    }
+
+    public Message gossip(DataInputStream in,
+            SocketContext socketContext) throws Exception {
+        // parse request
+        FileGossipRequest request =
+            FileGossipRequest.parseDelimitedFrom(in);
+
+        String user = socketContext.getEffectiveUser();
+        log.trace("Recv gossip request from '{}'", user);
+
+        // init response
+        FileGossipResponse.Builder builder =
+            FileGossipResponse.newBuilder();
+
+        // populate builder
+        for (Map.Entry<Long, FileOperation> entry : this.journal
+                .search(request.getOperationTimestamp()).entrySet()) {
+            builder.addOperations(entry.getValue());
+        }
+
+        return builder.build();
     }
 
     public Message list(DataInputStream in,

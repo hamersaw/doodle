@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.ServerSocket;
+import java.util.Timer;
 import java.util.TreeMap;
 import java.util.concurrent.Executors; 
 import java.util.concurrent.ExecutorService;
@@ -79,9 +80,11 @@ public class Main {
 
         NodeManager nodeManager = new NodeManager(nodeId, nodes);
 
-        // start HDFS emulation
+        // initialize journals
+        OperationJournal journal = new OperationJournal(fileManager);
+
         try {
-            // initialize threadpool
+            // start HDFS emulation
             int threadCount =
                 toml.getLong("filesystem.workerThreadCount").intValue();
             ExecutorService executorService =
@@ -102,7 +105,7 @@ public class Main {
 
             // register DoodleDfsService
             DoodleDfsService doodleDfsService =
-                new DoodleDfsService(fileManager, nodeManager);
+                new DoodleDfsService(fileManager, nodeManager, journal);
             rpcServer.addRpcProtocol(
                 "com.bushpath.doodle.protocol.DfsProtocol",
                 doodleDfsService);
@@ -122,6 +125,21 @@ public class Main {
 
             // start DataTransferService
             dataTransferService.start();
+
+            // start TimerTasks
+            Timer timer = new Timer();
+
+            GossipTimerTask gossipTimerTask =
+                new GossipTimerTask(nodeManager, journal);
+            timer.scheduleAtFixedRate(gossipTimerTask, 0,
+                toml.getLong("gossip.intervalMilliSeconds"));
+
+            /*MemoryManagementTimerTask memoryManagementTimerTask =
+                new MemoryManagementTimerTask(
+                    nodeManager, sketchManager,
+                    toml.getLong("memoryManagement.writeDiffMilliSeconds"));
+            timer.scheduleAtFixedRate(memoryManagementTimerTask, 0,
+                toml.getLong("memoryManagement.intervalMilliSeconds"));*/
 
             // wait indefinitely
             rpcServer.join();
