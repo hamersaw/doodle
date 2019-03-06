@@ -1,11 +1,14 @@
 package com.bushpath.doodle.cli;
 
-import com.bushpath.doodle.CommUtility;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileCreateResponse;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
+import com.bushpath.anamnesis.ipc.rpc.RpcClient;
+
+import com.bushpath.doodle.protobuf.DoodleProtos.File;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileFormat;
-import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperationRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperationResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
+import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
 
 import com.bushpath.rutils.query.Query;
 import com.bushpath.rutils.query.parser.FeatureRangeParser;
@@ -18,8 +21,10 @@ import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Option;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
+import java.util.Random;
 
 @Command(name = "create",
     description = "Create a file.",
@@ -43,7 +48,6 @@ public class FileSystemCreateCli implements Runnable {
     @Override
     public void run() {
         String user = System.getProperty("user.name");
-        String group = user;
 
         // parse query
         Query query = null;
@@ -65,27 +69,57 @@ public class FileSystemCreateCli implements Runnable {
             return;
         }
 
-        // create FileCreateRequest
-        FileCreateRequest request = FileCreateRequest.newBuilder()
+        // create FileOperationRequest
+        Random random = new Random(System.nanoTime());
+        String filename = FileSystemCli.parseFilename(this.path);
+
+        long timestamp = System.currentTimeMillis();
+        File file = File.newBuilder()
+            .setInode(random.nextInt())
+            .setFileType(FileType.REGULAR)
             .setUser(user)
-            .setGroup(group)
-            .setPath(path)
+            .setGroup(user)
+            .setName(filename)
+            .setSize(-1)
+            .setChangeTime(timestamp)
+            .setModificationTime(timestamp)
+            .setAccessTime(timestamp)
             .setFileFormat(this.fileFormat)
-            .setSketchId(this.sketchId)
             .setQuery(queryByteString)
             .build();
-        FileCreateResponse response = null;
+
+        FileOperation fileOperation = FileOperation.newBuilder()
+            .setTimestamp(timestamp)
+            .setPath(this.path)
+            .setFile(file)
+            .setOperationType(OperationType.ADD)
+            .build();
+
+        FileOperationRequest request = FileOperationRequest.newBuilder()
+            .setOperation(fileOperation)
+            .build();
+
+        FileOperationResponse response = null;
 
         // send request
         try {
-            response = (FileCreateResponse) CommUtility.send(
-                MessageType.FILE_CREATE.getNumber(),
-                request, Main.ipAddress, Main.port);
+            RpcClient rpcClient = new RpcClient(Main.ipAddress,
+                Main.port, user,
+                "com.bushpath.doodle.protocol.DfsProtocol");
+
+            // read response
+            DataInputStream in =
+                rpcClient.send("addOperation", request);
+            response = FileOperationResponse.parseDelimitedFrom(in);
+
+            // close DataInputStream and RpcClient
+            in.close();
+            rpcClient.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle FileCreateResponse
+        // TODO - handle FileOperationResponse
     }
 }

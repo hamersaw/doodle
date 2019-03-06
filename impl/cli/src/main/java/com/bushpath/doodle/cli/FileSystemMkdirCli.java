@@ -1,16 +1,22 @@
 package com.bushpath.doodle.cli;
 
-import com.bushpath.doodle.CommUtility;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirRequest;
-import com.bushpath.doodle.protobuf.DoodleProtos.FileMkdirResponse;
+import com.bushpath.anamnesis.ipc.rpc.RpcClient;
+
+import com.bushpath.doodle.protobuf.DoodleProtos.File;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileFormat;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperationRequest;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileOperationResponse;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
-import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.OperationType;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Option;
 
+import java.io.DataInputStream;
 import java.util.Map;
+import java.util.Random;
 
 @Command(name = "mkdir",
     description = "Create a directory.",
@@ -22,26 +28,56 @@ public class FileSystemMkdirCli implements Runnable {
     @Override
     public void run() {
         String user = System.getProperty("user.name");
-        String group = user;
 
-        // create FileMkdirRequest
-        FileMkdirRequest request = FileMkdirRequest.newBuilder()
+        // create FileOperationRequest
+        Random random = new Random(System.nanoTime());
+        String filename = FileSystemCli.parseFilename(this.path);
+
+        long timestamp = System.currentTimeMillis();
+        File file = File.newBuilder()
+            .setInode(random.nextInt())
+            .setFileType(FileType.DIRECTORY)
             .setUser(user)
-            .setGroup(group)
-            .setPath(path)
+            .setGroup(user)
+            .setName(filename)
+            .setSize(-1)
+            .setChangeTime(timestamp)
+            .setModificationTime(timestamp)
+            .setAccessTime(timestamp)
             .build();
-        FileMkdirResponse response = null;
+
+        FileOperation fileOperation = FileOperation.newBuilder()
+            .setTimestamp(timestamp)
+            .setPath(this.path)
+            .setFile(file)
+            .setOperationType(OperationType.ADD)
+            .build();
+
+        FileOperationRequest request = FileOperationRequest.newBuilder()
+            .setOperation(fileOperation)
+            .build();
+
+        FileOperationResponse response = null;
 
         // send request
         try {
-            response = (FileMkdirResponse) CommUtility.send(
-                MessageType.FILE_MKDIR.getNumber(),
-                request, Main.ipAddress, Main.port);
+            RpcClient rpcClient = new RpcClient(Main.ipAddress,
+                Main.port, user,
+                "com.bushpath.doodle.protocol.DfsProtocol");
+
+            // read response
+            DataInputStream in =
+                rpcClient.send("addOperation", request);
+            response = FileOperationResponse.parseDelimitedFrom(in);
+
+            // close DataInputStream and RpcClient
+            in.close();
+            rpcClient.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }
 
-        // TODO - handle FileMkdirResponse
+        // TODO - handle FileOperationResponse
     }
 }

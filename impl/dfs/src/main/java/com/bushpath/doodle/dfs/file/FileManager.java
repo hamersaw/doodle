@@ -1,40 +1,40 @@
 package com.bushpath.doodle.dfs.file;
 
-import com.bushpath.doodle.protobuf.DoodleProtos.Operation;
 import com.bushpath.doodle.protobuf.DoodleProtos.File;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 
+import com.bushpath.rutils.query.Query;
+
+import com.google.protobuf.ByteString;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.dfs.format.Format;
+
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.zip.CRC32;
 
 public class FileManager {
     protected static final Logger log =
         LoggerFactory.getLogger(FileManager.class);
 
     protected Map<Integer, DoodleInode> inodes;
-    protected Map<Long, FileOperation> operations;
+    //protected Map<Long, FileOperation> operations;
     protected ReadWriteLock lock;
-    protected Random random;
 
     public FileManager() {
         this.inodes = new HashMap();
-        this.operations = new TreeMap();
+        //this.operations = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
-        this.random = new Random(System.nanoTime());
 
         // add root directory to inodes
         DoodleDirectory directory = new DoodleDirectory("");
@@ -44,86 +44,6 @@ public class FileManager {
         this.inodes.put(2, inode);
     }
 
-    public void add(String user, String group, String path,
-            int value, DoodleInode inode) throws Exception {
-        this.lock.writeLock().lock();
-        try {
-            // parse path
-            List<String> elements = this.parsePath(path);
-            String filename = elements.remove(elements.size() - 1);
-
-            // retrieve parent directory
-            DoodleEntry doodleEntry = 
-                this.getInode(user, group, elements).getEntry();
-            if (!(doodleEntry instanceof DoodleDirectory)) {
-                throw new RuntimeException("TODO - not directory");
-            }
-
-            DoodleDirectory directory = (DoodleDirectory) doodleEntry;
-
-            // add inode
-            this.inodes.put(value, inode);
-            directory.put(filename, value);
-
-            log.info("Added file '{}' with inode:{}", path, value);
-        } finally {
-            this.lock.writeLock().unlock();
-        }
-    }
-
-    public void addOperation(FileOperation operation)
-            throws Exception {
-        this.operations.put(operation.getTimestamp(), operation);
-    }
-
-    public boolean containsOperation(long timestamp) {
-        return this.operations.containsKey(timestamp);
-    }
-
-    public DoodleInode delete(String user, String group,
-            String path) throws Exception {
-        this.lock.writeLock().lock();
-        try {
-            // parse path
-            List<String> elements = this.parsePath(path);
-            String filename = elements.remove(elements.size() - 1);
-
-            // retrieve parent directory
-            DoodleEntry parentEntry = 
-                this.getInode(user, group, elements).getEntry();
-            if (!(parentEntry instanceof DoodleDirectory)) {
-                throw new RuntimeException("TODO - not directory");
-            }
-
-            DoodleDirectory parentDirectory =
-                (DoodleDirectory) parentEntry;
-
-            // get inode
-            int value = parentDirectory.get(filename);
-            DoodleInode inode = this.inodes.get(value);
-
-            // check if inode is a non-empty directory
-            if (inode.getFileType() == FileType.DIRECTORY) {
-                DoodleDirectory directory =
-                    (DoodleDirectory) inode.getEntry();
-
-                if (directory.getInodes().size() != 0) {
-                    throw new RuntimeException("Directory is not empty");
-                }
-            }
-
-            // delete inode
-            parentDirectory.remove(filename);
-            this.inodes.remove(inode);
-
-            log.info("Deleted file '{}' with inode:{}", path, value);
-
-            return inode;
-        } finally {
-            this.lock.writeLock().unlock();
-        }
-    }
-
     public DoodleInode getInode(int value) {
         this.lock.readLock().lock();
         try {
@@ -131,11 +51,6 @@ public class FileManager {
         } finally {
             this.lock.readLock().unlock();
         }
-    }
-
-    public DoodleInode getInode(String user, String group, String path)
-            throws Exception {
-        return this.getInode(user, group, this.parsePath(path));
     }
 
     protected DoodleInode getInode(String user, String group,
@@ -166,24 +81,6 @@ public class FileManager {
         }
 
         return inode;
-    }
-
-    public Set<Map.Entry<Integer, DoodleInode>> getInodeEntrySet() {
-        this.lock.readLock().lock();
-        try {
-            return this.inodes.entrySet();
-        } finally {
-            this.lock.readLock().unlock();
-        }
-    }
-
-    public Set<Map.Entry<Long, FileOperation>> getOperationsEntrySet() {
-        this.lock.readLock().lock();
-        try {
-            return this.operations.entrySet();
-        } finally {
-            this.lock.readLock().unlock();
-        }
     }
 
     public Collection<DoodleInode> list(String user, String group,
@@ -218,7 +115,7 @@ public class FileManager {
         }
     }
 
-    public String parseFilename(String path) {
+    protected String parseFilename(String path) {
         List<String> elements = this.parsePath(path);
         return elements.get(elements.size() - 1);
     }
@@ -233,74 +130,111 @@ public class FileManager {
         return list;
     }
 
-    public void update(File file) throws Exception {
-        this.lock.writeLock().lock();
-        try {
-            // check if inode exists
-            if (!this.inodes.containsKey(file.getInode())) {
-                throw new RuntimeException("Unable to update inode '"
-                    + file.getInode() + "', it does not exist");
-            }
+    public void handleOperation(FileOperation operation)
+            throws Exception {
+        File file = operation.getFile();
 
-            this.inodes.get(file.getInode()).update(file);
-        } finally {
-            this.lock.writeLock().unlock();
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        CRC32 crc32 = new CRC32();
-
+        // check if parent direcotry exists
+        DoodleDirectory parentDirectory = null;
         this.lock.readLock().lock();
         try {
-            for (FileOperation operation : this.operations.values()) {
-                crc32.update((int) operation.getTimestamp());
-                crc32.update(operation.getPath().getBytes());
+            // parse path
+            List<String> elements =
+                this.parsePath(operation.getPath());
+            String filename =
+                elements.remove(elements.size() - 1);
+
+            // retrieve parent directory
+            DoodleEntry doodleEntry = this.getInode(
+                file.getUser(), file.getGroup(), elements).getEntry();
+
+            if (!(doodleEntry instanceof DoodleDirectory)) {
+                throw new RuntimeException("TODO - not directory ");
             }
+
+            parentDirectory = (DoodleDirectory) doodleEntry;
         } finally {
             this.lock.readLock().unlock();
         }
 
-        return (int) crc32.getValue();
-    }
+        // perform operation
+        String filename = this.parseFilename(operation.getPath());
+        switch(operation.getOperationType()) {
+            case ADD:
+                // create inode
+                DoodleEntry doodleEntry = null;
+                switch (file.getFileType()) {
+                    case DIRECTORY:
+                        doodleEntry = new DoodleDirectory(filename);
+                        break;
+                    case REGULAR:
+                        // parse query
+                        ByteString data = file.getQuery();
+                        ObjectInputStream objectIn =
+                            new ObjectInputStream(data.newInput());
+                        Query query = (Query) objectIn.readObject();
+                        objectIn.close();
 
-    public int filesHashCode() {
-        CRC32 crc32 = new CRC32();
-
-        this.lock.readLock().lock();
-        try {
-            for (Map.Entry<Integer, DoodleInode> entry :
-                    this.inodes.entrySet()) {
-                // skip root node
-                if (entry.getKey() == 2) {
-                    continue;
+                        // create inode
+                        Format format =
+                            Format.getFormat(file.getFileFormat());
+                        doodleEntry = new DoodleFile(filename,
+                            format, query, data, -1);
+                        // TODO - featureCount
+                        break;
                 }
 
-                crc32.update(entry.getKey());
+                DoodleInode doodleInode = new DoodleInode(
+                    file.getInode(), file.getUser(), file.getGroup(),
+                    file.getChangeTime(), file.getModificationTime(),
+                    file.getAccessTime(), doodleEntry);
 
-                DoodleInode inode = entry.getValue();
-                crc32.update(inode.getUser().getBytes());
-                crc32.update(inode.getGroup().getBytes());
-                crc32.update((int) inode.getSize());
-                crc32.update((int) inode.getChangeTime());
-                crc32.update((int) inode.getModificationTime());
-                crc32.update((int) inode.getAccessTime());
+                // add inode
+                this.lock.writeLock().lock();
+                try {
+                    // add inode
+                    this.inodes.put(file.getInode(), doodleInode);
+                    parentDirectory.put(filename, file.getInode());
 
-                // add observations for files
-                if (inode.getFileType() == FileType.REGULAR) {
-                    DoodleFile file = (DoodleFile) inode.getEntry();
-                    for (Map.Entry<Integer, Integer> observations :
-                            file.getObservationEntrySet()) {
-                        crc32.update(observations.getKey());
-                        crc32.update(observations.getValue());
+                    log.info("Added file '{}' with inode:{}",
+                        operation.getPath(), file.getInode());
+                } finally {
+                    this.lock.writeLock().unlock();
+                }
+
+                break;
+            case DELETE:
+                // get inode
+                int inodeValue = parentDirectory.get(filename);
+                DoodleInode inode = this.inodes.get(inodeValue);
+
+                // check if inode is a non-empty directory
+                if (inode.getFileType() == FileType.DIRECTORY) {
+                    DoodleDirectory directory =
+                        (DoodleDirectory) inode.getEntry();
+
+                    if (directory.getInodes().size() != 0) {
+                        throw new
+                            RuntimeException("Directory is not empty");
                     }
                 }
-            }
-        } finally {
-            this.lock.readLock().unlock();
-        }
 
-        return (int) crc32.getValue();
+                this.lock.writeLock().lock();
+                try {
+                    // delete inode
+                    parentDirectory.remove(filename);
+                    this.inodes.remove(inodeValue);
+
+                    log.info("Deleted file '{}' with inode:{}",
+                        operation.getPath(), inodeValue);
+                } finally {
+                    this.lock.writeLock().unlock();
+                }
+
+                break;
+            default:
+                // TODO
+                break;
+        }
     }
 }

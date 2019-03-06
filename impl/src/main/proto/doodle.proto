@@ -12,25 +12,21 @@ enum MessageType {
     CONTROL_LIST = 0;
     CONTROL_SHOW = 1;
     FAILURE = 2;
-    FILE_CREATE = 3;
-    FILE_DELETE = 4;
-    FILE_LIST = 5;
-    FILE_MKDIR = 6;
-    GOSSIP = 7;
-    JOURNAL_OPERATION = 8;
-    JOURNAL_WRITE = 9;
-    JOURNAL_WRITE_SEARCH = 10;
-    NODE_LIST = 11;
-    NODE_SHOW = 12;
-    PIPE_CLOSE = 13;
-    PIPE_OPEN = 14;
-    PIPE_WRITE = 15;
-    PLUGIN_LIST = 16;
-    QUERY = 17;
-    QUERY_PROFILE = 18;
-    SKETCH_LIST = 19;
-    SKETCH_SHOW = 20;
-    SKETCH_WRITE = 21;
+    GOSSIP = 3;
+    JOURNAL_OPERATION = 4;
+    JOURNAL_WRITE = 5;
+    JOURNAL_WRITE_SEARCH = 6;
+    NODE_LIST = 7;
+    NODE_SHOW = 8;
+    PIPE_CLOSE = 9;
+    PIPE_OPEN = 10;
+    PIPE_WRITE = 11;
+    PLUGIN_LIST = 12;
+    QUERY = 13;
+    QUERY_PROFILE = 14;
+    SKETCH_LIST = 15;
+    SKETCH_SHOW = 16;
+    SKETCH_WRITE = 17;
 }
 
 /**
@@ -59,40 +55,32 @@ message ControlShowResponse {
  */
 
 message FileCreateRequest {
-    string user = 1;
-    string group = 2;
-    string path = 3;
-    FileFormat fileFormat = 4;
-    string sketchId = 5;
-    bytes query = 6;
+    string path = 1;
+    FileFormat fileFormat = 2;
+    string sketchId = 3;
+    bytes query = 4;
 }
 
 message FileCreateResponse {
 }
 
-message FileDeleteRequest {
-    string user = 1;
-    string group = 2;
-    string path = 3;
-}
-
-message FileDeleteResponse {
-}
-
 message FileListRequest {
-    string user = 1;
-    string group = 2;
-    string path = 3;
+    string path = 1;
 }
 
 message FileListResponse {
     repeated File files = 1;
 }
 
+message FileOperationRequest {
+    FileOperation operation = 1;
+}
+
+message FileOperationResponse {
+}
+
 message FileMkdirRequest {
-    string user = 1;
-    string group = 2;
-    string path = 3;
+    string path = 1;
 }
 
 message FileMkdirResponse {

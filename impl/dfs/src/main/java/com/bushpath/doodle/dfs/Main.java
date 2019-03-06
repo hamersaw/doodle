@@ -25,21 +25,20 @@ public class Main {
     public static void main(String[] args) {
         // check arguments
         if (args.length != 6) {
-            System.err.println("Usage: <ipAddress> <namenodeIpcPort> <datanodeIpcPort> <datanodeXferPort> <nodeId> <hostsFile> <configFile>");
+            System.err.println("Usage: <ipAddress> <namenodeIpcPort> <datanodeXferPort> <nodeId> <hostsFile> <configFile>");
             System.exit(1);
         }
 
         String ipAddress = args[0];
         short namenodeIpcPort = Short.parseShort(args[1]);
-        short datanodeIpcPort = Short.parseShort(args[2]);
-        short datanodeXferPort = Short.parseShort(args[3]);
-        int nodeId = Integer.parseInt(args[4]);
-        String hostsPath = args[5];
+        short datanodeXferPort = Short.parseShort(args[2]);
+        int nodeId = Integer.parseInt(args[3]);
+        String hostsPath = args[4];
 
         // parse configuration file
         Toml toml = new Toml();
         try {
-            toml.read(new File(args[6]));
+            toml.read(new File(args[5]));
         } catch (Exception e) {
             log.error("Failed to parse configuration file", e);
             System.exit(2);
@@ -68,7 +67,7 @@ public class Main {
 
                 nodes.put(id, nodeMetadata);
                 log.debug("added node '{}' - {}:{}",
-                    id, array[0], array[1]);
+                    id, array[0], array[1], array[4], array[5]);
             }
 
             in.close();
@@ -101,10 +100,17 @@ public class Main {
                 "org.apache.hadoop.hdfs.protocol.ClientProtocol",
                 clientNamenodeService);
 
+            // register DoodleDfsService
+            DoodleDfsService doodleDfsService =
+                new DoodleDfsService(fileManager, nodeManager);
+            rpcServer.addRpcProtocol(
+                "com.bushpath.doodle.protocol.DfsProtocol",
+                doodleDfsService);
+
+            // start RpcServer
 			rpcServer.addPacketHandler(
 				new IpcConnectionContextPacketHandler());
 
-            // start RpcServer
             rpcServer.start();
 
             // initialize DataTransferService

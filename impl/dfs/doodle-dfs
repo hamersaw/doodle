@@ -1,5 +1,5 @@
 #!/bin/sh
-APPLICATION="doodle-fds"
+APPLICATION="doodle-dfs"
 VERSION="0.1-SNAPSHOT"
 MAIN_CLASS="com.bushpath.doodle.dfs.Main"
 
@@ -12,6 +12,6 @@ else
     exit 1
 fi
 
-JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny -Djava.library.path=$BASEDIR/libs/anamnesis-jni/"
+JAVA_OPTS="-Dorg.slf4j.simpleLogger.defaultLogLevel=debug --illegal-access=deny -Djava.library.path=$BASEDIR/libs/anamnesis-jni/"
 
 java -cp $CLASSPATH $JAVA_OPTS $MAIN_CLASS $@
