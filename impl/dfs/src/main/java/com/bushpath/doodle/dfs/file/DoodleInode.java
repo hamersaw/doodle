@@ -60,28 +60,6 @@ public class DoodleInode {
         return this.entry;
     }
 
-    public void update(File file) throws Exception {
-        // update inode
-        if (file.getChangeTime() > this.changeTime) {
-            this.user = file.getUser();
-            this.group = file.getGroup();
-            this.changeTime = file.getChangeTime();
-        }
-
-        // update entry
-        if (file.getModificationTime() > this.modificationTime) {
-            this.entry.update(file);
-            this.modificationTime = file.getModificationTime();
-        }
-
-        // update access
-        if (file.getAccessTime() > this.accessTime) {
-            this.accessTime = file.getAccessTime();
-        }
-
-        this.entry.update(file);
-    }
-
     public File toProtobuf() {
         File.Builder builder = File.newBuilder()
             .setInode(this.inodeValue)

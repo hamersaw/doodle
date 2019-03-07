@@ -1,6 +1,12 @@
 package com.bushpath.doodle.dfs;
 
+import com.bushpath.doodle.CommUtility;
+import com.bushpath.doodle.Inflator;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
+import com.bushpath.doodle.protobuf.DoodleProtos.MessageType;
+import com.bushpath.doodle.protobuf.DoodleProtos.Replica;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.SketchShowRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +15,11 @@ import com.bushpath.doodle.dfs.file.DoodleFile;
 import com.bushpath.doodle.dfs.file.DoodleInode;
 import com.bushpath.doodle.dfs.file.FileManager;
 
-import java.util.TimerTask;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TimerTask;
 
 public class MemoryManagementTimerTask extends TimerTask {
     protected static final Logger log =
@@ -37,17 +46,53 @@ public class MemoryManagementTimerTask extends TimerTask {
                 continue;
             }
 
+            // check if file has already been initialized
             DoodleFile file = (DoodleFile) inode.getEntry();
+            if (file.getSize() != 0) {
+                continue;
+            }
+
             try {
-                if (!file.getInitialized()) {
-                    Map<Long, Integer> blocks = this.blockManager
-                        .initializeFileBlocks(inode.getInodeValue(),
-                            this.nodeManager.getThisNodeId());
+                // retrieve sketch metadata
+                NodeMetadata nodeMetadata = this.nodeManager
+                    .get(this.nodeManager.getThisNodeId());
 
-                    // TODO - add blocks to file
+                // create SketchShowRequest
+                SketchShowRequest request = 
+                    SketchShowRequest.newBuilder()
+                        .setId(file.getQuery().getEntity())
+                        .build();
+                SketchShowResponse response = null;
 
-                    file.setInitialized(true);
+                // send request
+                response = (SketchShowResponse) CommUtility.send(
+                    MessageType.SKETCH_SHOW.getNumber(), request,
+                    nodeMetadata.getIpAddress(),
+                    nodeMetadata.getPort());
+
+                // populate replicas
+                Map<Integer, List<Integer>> replicas = new HashMap();
+                for (Replica replica : response.getReplicasList()) {
+                    replicas.put(replica.getPrimaryNodeId(),
+                        replica.getSecondaryNodeIdsList());
                 }
+
+                // construct Inflator
+                ClassLoader classLoader =
+                    Thread.currentThread().getContextClassLoader();
+                Class c =
+                    classLoader.loadClass(response.getInflatorClass());
+                Constructor constructor = c.getConstructor(List.class);
+                Inflator inflator = (Inflator) constructor
+                    .newInstance(response.getVariablesList());
+
+                // initialize file
+                file.initialize(inflator, replicas);
+
+                // initialize file blocks
+                this.blockManager.initializeFileBlocks(
+                    inode.getInodeValue(), file,
+                    nodeMetadata.toProtobuf());
             } catch (Exception e) {
                 log.warn("failed to initialize inode '{}:{}'",
                     inode.getInodeValue(), file.getName());

@@ -17,5 +17,4 @@ public abstract class DoodleEntry {
     public abstract void buildProtobuf(File.Builder builder);
     public abstract FileType getFileType();
     public abstract long getSize();
-    public abstract void update(File file) throws Exception;
 }
