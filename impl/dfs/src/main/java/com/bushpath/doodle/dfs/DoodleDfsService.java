@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bushpath.doodle.dfs.file.DoodleDirectory;
+import com.bushpath.doodle.dfs.file.DoodleFile;
 import com.bushpath.doodle.dfs.file.DoodleInode;
 import com.bushpath.doodle.dfs.file.FileManager;
 
@@ -70,6 +71,17 @@ public class DoodleDfsService {
         for (Map.Entry<Long, FileOperation> entry : this.journal
                 .search(request.getOperationTimestamp()).entrySet()) {
             builder.addOperations(entry.getValue());
+        }
+
+        // TODO - populate inode blocks
+        for (Integer inodeValue : request.getIncompleteInodesList()) {
+            DoodleInode inode = this.fileManager.getInode(inodeValue);
+            DoodleFile file = (DoodleFile) inode.getEntry();
+
+            for (Map.Entry<Long, Integer> entry :
+                    file.getBlocks().entrySet()) {
+                builder.putBlocks(entry.getKey(), entry.getValue());
+            }
         }
 
         return builder.build();

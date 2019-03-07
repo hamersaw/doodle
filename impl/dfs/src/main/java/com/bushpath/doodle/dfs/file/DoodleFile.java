@@ -8,9 +8,11 @@ import com.bushpath.rutils.query.Query;
 
 import com.google.protobuf.ByteString;
 
+import com.bushpath.doodle.dfs.BlockManager;
 import com.bushpath.doodle.dfs.format.Format;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +46,14 @@ public class DoodleFile extends DoodleEntry {
         this.replicas = replicas;
     }
 
+    public boolean isComplete() {
+        Set<Integer> nodeIds = new HashSet();
+        for (long blockId : this.blocks.keySet()) {
+            nodeIds.add(BlockManager.getNodeId(blockId));
+        }
+
+        return nodeIds.size() == this.replicas.size();
+    }
 
     public Map<Long, Integer> getBlocks() {
         return this.blocks;

@@ -5,24 +5,33 @@ import com.bushpath.anamnesis.ipc.rpc.RpcClient;
 import com.bushpath.doodle.protobuf.DoodleProtos.Failure;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileGossipRequest;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileGossipResponse;
+import com.bushpath.doodle.protobuf.DoodleProtos.FileType;
 import com.bushpath.doodle.protobuf.DoodleProtos.FileOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.dfs.file.DoodleFile;
+import com.bushpath.doodle.dfs.file.DoodleInode;
+import com.bushpath.doodle.dfs.file.FileManager;
+
 import java.io.DataInputStream;
 import java.net.ConnectException;
+import java.util.Map;
 import java.util.TimerTask;
 
 public class GossipTimerTask extends TimerTask {
     protected static final Logger log =
         LoggerFactory.getLogger(GossipTimerTask.class);
 
+    protected FileManager fileManager;
     protected NodeManager nodeManager;
     protected OperationJournal operationJournal;
 
-    public GossipTimerTask(NodeManager nodeManager,
+    public GossipTimerTask(FileManager fileManager,
+            NodeManager nodeManager,
             OperationJournal operationJournal) {
+        this.fileManager = fileManager;
         this.nodeManager = nodeManager;
         this.operationJournal = operationJournal;
     }
@@ -40,12 +49,21 @@ public class GossipTimerTask extends TimerTask {
             }
 
             // create GossipRequest
-            FileGossipRequest request = FileGossipRequest.newBuilder()
-                .setOperationTimestamp(
-                    this.operationJournal.getTimestamp())
-                .build();
+            FileGossipRequest.Builder builder =
+                FileGossipRequest.newBuilder().setOperationTimestamp(
+                    this.operationJournal.getTimestamp());
+
+            for (Map.Entry<Integer, DoodleInode> entry :
+                    this.fileManager.getEntrySet()) {
+                DoodleInode inode = entry.getValue();
+                if (inode.getFileType() == FileType.REGULAR &&
+                        !((DoodleFile) inode.getEntry()).isComplete()) {
+                    builder.addIncompleteInodes(inode.getInodeValue());
+                }
+            }
 
             // send GossipRequest
+            FileGossipRequest request = builder.build();
             FileGossipResponse response = null;
             try {
                 RpcClient rpcClient = new RpcClient(
@@ -73,6 +91,17 @@ public class GossipTimerTask extends TimerTask {
             for (FileOperation operation :
                     response.getOperationsList()) {
                 this.operationJournal.add(operation);
+            }
+
+            for (Map.Entry<Long, Integer> entry :
+                    response.getBlocksMap().entrySet()) {
+                long blockId = entry.getKey();
+
+                DoodleInode inode = this.fileManager
+                    .getInode(BlockManager.getInode(blockId));
+                DoodleFile file = (DoodleFile) inode.getEntry();
+
+                file.addBlock(blockId, entry.getValue());
             }
         } catch (Exception e) {
             log.error("Unknown failure ", e);

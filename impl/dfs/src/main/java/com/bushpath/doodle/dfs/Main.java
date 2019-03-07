@@ -168,7 +168,7 @@ public class Main {
             Timer timer = new Timer();
 
             GossipTimerTask gossipTimerTask =
-                new GossipTimerTask(nodeManager, journal);
+                new GossipTimerTask(fileManager, nodeManager, journal);
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("gossip.intervalMilliSeconds"));
 
