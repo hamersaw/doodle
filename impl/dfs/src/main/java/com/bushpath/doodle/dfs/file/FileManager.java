@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -28,12 +29,10 @@ public class FileManager {
         LoggerFactory.getLogger(FileManager.class);
 
     protected Map<Integer, DoodleInode> inodes;
-    //protected Map<Long, FileOperation> operations;
     protected ReadWriteLock lock;
 
     public FileManager() {
         this.inodes = new HashMap();
-        //this.operations = new TreeMap();
         this.lock = new ReentrantReadWriteLock();
 
         // add root directory to inodes
@@ -42,6 +41,15 @@ public class FileManager {
             new DoodleInode(2, "root", "root", 0, 0, 0, directory);
 
         this.inodes.put(2, inode);
+    }
+
+    public Set<Map.Entry<Integer, DoodleInode>> getEntrySet() {
+        this.lock.readLock().lock();
+        try {
+            return this.inodes.entrySet();
+        } finally {
+            this.lock.readLock().unlock();
+        }
     }
 
     public DoodleInode getInode(int value) {

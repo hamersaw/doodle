@@ -1,5 +1,7 @@
 package com.bushpath.doodle.dfs;
 
+import com.bushpath.doodle.protobuf.DoodleProtos.Node;
+
 public class NodeMetadata {
     protected int id;
     protected String ipAddress;
@@ -47,6 +49,14 @@ public class NodeMetadata {
 
     public short getDatanodeInfoPort() {
         return this.datanodeInfoPort;
+    }
+
+    public Node toProtobuf() {
+        return Node.newBuilder()
+            .setId(this.id)
+            .setIpAddress(this.ipAddress)
+            .setPort(this.port)
+            .build();
     }
 
     @Override

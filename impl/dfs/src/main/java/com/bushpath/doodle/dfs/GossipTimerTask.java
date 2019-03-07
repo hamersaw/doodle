@@ -22,7 +22,7 @@ public class GossipTimerTask extends TimerTask {
     protected OperationJournal operationJournal;
 
     public GossipTimerTask(NodeManager nodeManager,
-            OperationJournal operationJournal) throws Exception {
+            OperationJournal operationJournal) {
         this.nodeManager = nodeManager;
         this.operationJournal = operationJournal;
     }

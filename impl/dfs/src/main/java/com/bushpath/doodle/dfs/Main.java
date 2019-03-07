@@ -14,6 +14,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.ServerSocket;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Timer;
 import java.util.TreeMap;
 import java.util.concurrent.Executors; 
@@ -43,6 +48,35 @@ public class Main {
         } catch (Exception e) {
             log.error("Failed to parse configuration file", e);
             System.exit(2);
+        }
+
+        // load plugins
+        try {
+            // find plugin jars
+            Object[] paths =
+                Files.walk(Paths.get(toml.getString("plugins.directory")))
+                    .filter(Files::isRegularFile)
+                    .filter(p -> !p.endsWith("jar"))
+                    .toArray();
+
+            URL[] urls = new URL[paths.length];
+            for (int i=0; i<urls.length; i++) {
+                String absoluteName = ((Path) paths[i]).toUri().toString();
+
+                log.debug("Loading JAR file '{}'", absoluteName);
+                urls[i] = new URL(absoluteName);
+            }
+
+            // initialize new class loader as child
+            URLClassLoader urlClassLoader =
+                new URLClassLoader(urls, Main.class.getClassLoader());
+
+            // must set ContextClassLoader of current thread
+            // it is adopted by all threads created by this (ex. services)
+            Thread.currentThread().setContextClassLoader(urlClassLoader);
+        } catch (Exception e) {
+            log.error("Failed to load plugins", e);
+            System.exit(3);
         }
 
         // initialize FileManager
@@ -75,10 +109,14 @@ public class Main {
             fileIn.close();
         } catch (Exception e) {
             log.error("Failed to initialize NodeManager", e);
-            System.exit(3);
+            System.exit(4);
         }
 
         NodeManager nodeManager = new NodeManager(nodeId, nodes);
+
+        // initialize BlockManager
+        BlockManager blockManager =
+            new BlockManager(fileManager, nodeManager);
 
         // initialize journals
         OperationJournal journal = new OperationJournal(fileManager);
@@ -134,19 +172,18 @@ public class Main {
             timer.scheduleAtFixedRate(gossipTimerTask, 0,
                 toml.getLong("gossip.intervalMilliSeconds"));
 
-            /*MemoryManagementTimerTask memoryManagementTimerTask =
-                new MemoryManagementTimerTask(
-                    nodeManager, sketchManager,
-                    toml.getLong("memoryManagement.writeDiffMilliSeconds"));
+            MemoryManagementTimerTask memoryManagementTimerTask =
+                new MemoryManagementTimerTask(blockManager,
+                    fileManager, nodeManager);
             timer.scheduleAtFixedRate(memoryManagementTimerTask, 0,
-                toml.getLong("memoryManagement.intervalMilliSeconds"));*/
+                toml.getLong("memoryManagement.intervalMilliSeconds"));
 
             // wait indefinitely
             rpcServer.join();
             dataTransferService.join();
         } catch (Exception e) {
             log.error("Unknown HDFS emulation startup failure", e);
-            System.exit(4);
+            System.exit(5);
         }
     }
 }
