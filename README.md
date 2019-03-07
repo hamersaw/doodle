@@ -33,6 +33,6 @@ doodle is a distributed sketch-aligned database. It also provides a simple exten
 - implement distributed file system overlay
 - **remove NodeMetadata - store Node (protobuf) instead**
 #### DFS
-- __update file blocks through gossip__
+- pass secondary replicas as possible block locations
 - evict and generate blocks on fly
 - implement delete (file and directory) in cli

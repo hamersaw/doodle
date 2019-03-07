@@ -44,15 +44,14 @@ public class DataTransferService extends Thread {
 
     protected ServerSocket serverSocket;
     protected ExecutorService executorService;
-    protected FileManager fileManager;
-    protected Map<Long, byte[]> blocks;
+    protected BlockManager blockManager;
 
     public DataTransferService(ServerSocket serverSocket,
-            ExecutorService executorService, FileManager fileManager) {
+            ExecutorService executorService,
+            BlockManager blockManager) {
         this.serverSocket = serverSocket;
         this.executorService = executorService;
-        this.fileManager = fileManager;
-        this.blocks = new HashMap();
+        this.blockManager = blockManager;
     }
 
     @Override
@@ -67,87 +66,6 @@ public class DataTransferService extends Thread {
             e.printStackTrace();
         }
     }
-
-    /*protected byte[] initBlock(DoodleInode inode,
-            int nodeId, short blockNum) throws Exception {
-        // retrieve sketch
-        DoodleFile file = (DoodleFile) inode.getEntry();
-        Query query = file.getQuery();
-        SketchPlugin sketch = this.sketchManager.get(query.getEntity());
-
-        // retrieve block sizes for this nodeId
-        List<Long> blockSizes = new ArrayList();
-        for (Map.Entry<Long, Long> entry :
-                BlockUtil.getBlockSizes(inode).entrySet()) {
-            int entryNodeId = BlockUtil.getNodeId(entry.getKey());
-            if (entryNodeId == nodeId) {
-                blockSizes.add(entry.getValue());
-            }
-        }
-
-        // initialize instance variables
-        ClassLoader classLoader =
-            Thread.currentThread().getContextClassLoader();
-        Class c = classLoader.loadClass(sketch.getInflatorClass());
-        Constructor constructor = c.getConstructor(List.class);
-        Inflator inflator = (Inflator) constructor
-            .newInstance(sketch.getVariables());
-
-        BlockingQueue<Serializable> queue =
-            this.sketchManager.query(query.getEntity(), nodeId, query);
-
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        DataOutputStream dataOut = new DataOutputStream(byteOut);
-
-        Format format = file.getFormat();
-        int featureCount = sketch.getFeatures().size();
-        long recordSize = format.length(featureCount, 1);
-
-        // generate data
-        int currentBlockNum = 0;
-        long blockSize = 0;
-        long currentBlockSize = blockSizes.get(currentBlockNum);
-        Serializable s = null;
-        while (true) {
-            // retrieve next "bytes" from queue
-            try {
-                s = queue.poll(50, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                System.err.println("failed to poll queue: " + e);
-            }
-
-            if (s instanceof Exception) {
-                throw (Exception) s;
-            } else if (s instanceof Poison) {
-                break;
-            } else if (s == null) {
-                continue;
-            }
-
-            // handle serializable
-            List<float[]> observations = new ArrayList();
-            inflator.process(s, observations);
-            for (float[] observation : observations) {
-                // check if we need to increment blockNum
-                if (blockSize == currentBlockSize) {
-                    blockSize = 0;
-                    currentBlockNum += 1;
-                    currentBlockSize = blockSizes.get(currentBlockNum);
-                }
-
-                // if this block write data to byteOut
-                if (currentBlockNum == blockNum) {
-                    format.format(observation, dataOut);
-                }
-
-                blockSize += recordSize;
-            }
-        }
-
-        dataOut.close();
-        byteOut.close();
-        return byteOut.toByteArray();
-    }*/
 
     protected class Worker implements Runnable {
         protected Socket socket;
@@ -170,7 +88,7 @@ public class DataTransferService extends Thread {
 
                     switch(op) {
                     case READ_BLOCK:
-                        /*DataTransferProtos.OpReadBlockProto
+                        DataTransferProtos.OpReadBlockProto
                             readBlockProto =
                                 DataTransferProtocol.recvReadOp(in);
 
@@ -179,10 +97,17 @@ public class DataTransferService extends Thread {
                                 readBlockProto.getHeader()
                                     .getBaseHeader().getBlock();
 
-                        // parse blockId
+                        // retreive block
                         long blockId =
                             readExtendedBlockProto.getBlockId();
-                        int inodeValue = BlockUtil.getInode(blockId);
+                        byte[] block = blockManager.getBlock(blockId);
+
+                        log.debug("Recv READ_BLOCK op for blockId:{}"
+                            + " offset:{} length:{}", blockId,
+                            readBlockProto.getOffset(),
+                            readBlockProto.getLen());
+
+                        /*int inodeValue = BlockUtil.getInode(blockId);
                         int nodeId = BlockUtil.getNodeId(blockId);
                         short blockNum = BlockUtil.getBlockNum(blockId);
 
@@ -205,7 +130,7 @@ public class DataTransferService extends Thread {
                             log.info("Initialized blockId:{}"
                                 + " with length:{}", blockId,
                                 block.length);
-                        }
+                        }*/
 
                         // send op response
                         DataTransferProtocol.sendBlockOpResponse(out,
@@ -231,7 +156,7 @@ public class DataTransferService extends Thread {
                         // TODO - read client read status proto
                         DataTransferProtos.ClientReadStatusProto
                             readProto = DataTransferProtocol
-                                .recvClientReadStatus(in);*/
+                                .recvClientReadStatus(in);
                         break;
                     default:
                         break;

@@ -15,6 +15,9 @@ import org.apache.hadoop.security.proto.SecurityProtos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bushpath.doodle.dfs.file.DoodleDirectory;
+import com.bushpath.doodle.dfs.file.DoodleEntry;
+import com.bushpath.doodle.dfs.file.DoodleFile;
 import com.bushpath.doodle.dfs.file.DoodleInode;
 import com.bushpath.doodle.dfs.file.FileManager;
 
@@ -45,7 +48,7 @@ public class ClientNamenodeService {
             ClientNamenodeProtocolProtos.GetBlockLocationsRequestProto
                 .parseDelimitedFrom(in);
 
-        /*String user = socketContext.getEffectiveUser();
+        String user = socketContext.getEffectiveUser();
         log.debug("Recv getBlockLocations request for {} from '{}'",
             req.getSrc(), user);
 
@@ -62,8 +65,7 @@ public class ClientNamenodeService {
         return ClientNamenodeProtocolProtos
             .GetBlockLocationsResponseProto.newBuilder()
                 .setLocations(this.toLocatedBlocksProto(inode))
-                .build();*/
-        return null;
+                .build();
     }
 
     public Message getFileInfo(DataInputStream in,
@@ -77,7 +79,7 @@ public class ClientNamenodeService {
         log.debug("Recv getFileInfo request for {} from '{}'",
             req.getSrc(), user);
 
-        /*// retrieve DoodleInode
+        // retrieve DoodleInode
         DoodleInode inode =
             fileManager.getInode(user, user, req.getSrc());
 
@@ -92,8 +94,7 @@ public class ClientNamenodeService {
                 this.toHdfsFileStatusProto(req.getSrc(), inode));
         }
 
-        return gfiBuilder.build();*/
-        return null;
+        return gfiBuilder.build();
     }
 
     public Message getListing(DataInputStream in,
@@ -107,7 +108,7 @@ public class ClientNamenodeService {
         log.debug("Recv getListing request for {} from '{}'",
             req.getSrc(), user);
 
-        /*String startAfter =
+        String startAfter =
             new String(req.getStartAfter().toByteArray());
 
         // execute query
@@ -131,8 +132,7 @@ public class ClientNamenodeService {
         return ClientNamenodeProtocolProtos
             .GetListingResponseProto.newBuilder()
                 .setDirList(dlBuilder.build())
-                .build();*/
-        return null;
+                .build();
     }
 
     public Message getServerDefaults(DataInputStream in,
@@ -144,10 +144,10 @@ public class ClientNamenodeService {
             ClientNamenodeProtocolProtos.GetServerDefaultsRequestProto
                 .parseDelimitedFrom(in);
   
-        /*// retrieve server defaults     
+        // retrieve server defaults     
         HdfsProtos.FsServerDefaultsProto fsServerDefaultsProto =
             HdfsProtos.FsServerDefaultsProto.newBuilder()
-                .setBlockSize(BlockUtil.BLOCK_SIZE)
+                .setBlockSize(BlockManager.BLOCK_SIZE)
                 .setBytesPerChecksum(DataTransferProtocol.CHUNK_SIZE)
                 .setWritePacketSize(-1) // TODO
                 .setReplication(1)
@@ -159,13 +159,12 @@ public class ClientNamenodeService {
         return ClientNamenodeProtocolProtos
             .GetServerDefaultsResponseProto.newBuilder()
                 .setServerDefaults(fsServerDefaultsProto)
-                .build();*/
-        return null;
+                .build();
     }
 
     protected HdfsProtos.HdfsFileStatusProto
             toHdfsFileStatusProto(String path, DoodleInode inode) {
-        /*HdfsProtos.FsPermissionProto permission =
+        HdfsProtos.FsPermissionProto permission =
             HdfsProtos.FsPermissionProto.newBuilder()
                 .setPerm(Integer.MAX_VALUE) // TODO - set permissions on inodes
                 .build();
@@ -192,34 +191,30 @@ public class ClientNamenodeService {
                 DoodleFile file = (DoodleFile) entry;
                 fsBuilder.setFileType(
                         HdfsProtos.HdfsFileStatusProto.FileType.IS_FILE)
-                    .setBlocksize(BlockUtil.BLOCK_SIZE);
+                    .setBlocksize(BlockManager.BLOCK_SIZE);
                 
                 // TODO - if needLocation setLocations
                 break;
         }
 
-        return fsBuilder.build();*/
-        return null;
+        return fsBuilder.build();
     }
 
     protected HdfsProtos.LocatedBlocksProto
             toLocatedBlocksProto(DoodleInode inode) throws Exception {
-        /*DoodleFile file = (DoodleFile) inode.getEntry();
-
-        // compute block sizes
-        LinkedHashMap<Long, Long> blockSizes =
-            BlockUtil.getBlockSizes(inode);
+        DoodleFile file = (DoodleFile) inode.getEntry();
 
         // populate LocatedBlockProto list
         int offset = 0;
         List<HdfsProtos.LocatedBlockProto> list = new ArrayList();
 
         // iterate over blocks
-        for (Map.Entry<Long, Long> entry : blockSizes.entrySet()) {
+        for (Map.Entry<Long, Integer> entry :
+                file.getBlocks().entrySet()) {
             long blockId = entry.getKey();
-            long blockSize = entry.getValue();
+            int blockSize = entry.getValue();
 
-            int nodeId = BlockUtil.getNodeId(blockId);
+            int nodeId = BlockManager.getNodeId(blockId);
 
             log.debug("Creating LocatedBlockProto for "
                 + "blockId:{} offset:{} blockSize:{} nodeId:{}",
@@ -297,7 +292,6 @@ public class ClientNamenodeService {
             .addAllBlocks(list)
             .setUnderConstruction(false) // TODO
             .setIsLastBlockComplete(true) // TODO
-            .build();*/
-        return null;
+            .build();
     }
 }

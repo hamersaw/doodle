@@ -17,6 +17,7 @@ import com.bushpath.doodle.dfs.file.FileManager;
 
 import java.io.DataInputStream;
 import java.net.ConnectException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
 
@@ -93,15 +94,24 @@ public class GossipTimerTask extends TimerTask {
                 this.operationJournal.add(operation);
             }
 
+            Map<Integer, Map<Long, Integer>> inodes = new HashMap();
             for (Map.Entry<Long, Integer> entry :
                     response.getBlocksMap().entrySet()) {
-                long blockId = entry.getKey();
+                int inode = BlockManager.getInode(entry.getKey());
+                if (!inodes.containsKey(inode)) {
+                    inodes.put(inode, new HashMap());
+                }
 
-                DoodleInode inode = this.fileManager
-                    .getInode(BlockManager.getInode(blockId));
+                inodes.get(inode).put(entry.getKey(), entry.getValue());
+            }
+
+            for (Map.Entry<Integer, Map<Long, Integer>> entry :
+                    inodes.entrySet()) {
+                DoodleInode inode =
+                    this.fileManager.getInode(entry.getKey());
                 DoodleFile file = (DoodleFile) inode.getEntry();
 
-                file.addBlock(blockId, entry.getValue());
+                file.addBlocks(entry.getValue());
             }
         } catch (Exception e) {
             log.error("Unknown failure ", e);

@@ -159,7 +159,7 @@ public class Main {
                 new ServerSocket(datanodeXferPort);
             DataTransferService dataTransferService =
                 new DataTransferService(xferServerSocket,
-                    executorService, fileManager);
+                    executorService, blockManager);
 
             // start DataTransferService
             dataTransferService.start();

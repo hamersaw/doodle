@@ -73,11 +73,15 @@ public class DoodleDfsService {
             builder.addOperations(entry.getValue());
         }
 
-        // TODO - populate inode blocks
+        // populate inode blocks
         for (Integer inodeValue : request.getIncompleteInodesList()) {
             DoodleInode inode = this.fileManager.getInode(inodeValue);
-            DoodleFile file = (DoodleFile) inode.getEntry();
+            if (inode == null) {
+                continue; // this node hasn't processed yet
+            }
 
+            // TODO - lock blocks
+            DoodleFile file = (DoodleFile) inode.getEntry();
             for (Map.Entry<Long, Integer> entry :
                     file.getBlocks().entrySet()) {
                 builder.putBlocks(entry.getKey(), entry.getValue());

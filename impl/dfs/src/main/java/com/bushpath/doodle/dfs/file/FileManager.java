@@ -61,6 +61,11 @@ public class FileManager {
         }
     }
 
+    public DoodleInode getInode(String user, String group, String path)
+            throws Exception {
+        return this.getInode(user, group, this.parsePath(path));
+    }
+
     protected DoodleInode getInode(String user, String group,
             List<String> elements) throws Exception {
         // get root entry

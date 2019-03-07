@@ -42,6 +42,8 @@ public class BlockManager {
 
     public void initializeFileBlocks(int inodeValue,
             DoodleFile doodleFile, Node node) throws Exception {
+        Map<Long, Integer> blocksMap = new HashMap();
+
         // retrieve file metadata
         Format format = doodleFile.getFormat();
 
@@ -87,8 +89,8 @@ public class BlockManager {
                 log.info("generated block {} with length {}",
                     blockId, block.length);
 
-                // add block to DoodleFile
-                doodleFile.addBlock(blockId, block.length);
+                // add block to blocksMap
+                blocksMap.put(blockId, block.length);
 
                 // TODO - write Lock
                 this.blocks.put(blockId, block);
@@ -111,18 +113,19 @@ public class BlockManager {
             log.info("generated block {} with length {}",
                 blockId, block.length);
 
-            // add block to DoodleFile
-            doodleFile.addBlock(blockId, block.length);
+            // add block to blocksMap
+            blocksMap.put(blockId, block.length);
 
             // TODO - writeLock
             this.blocks.put(blockId, block);
         }
 
+        // add blocks to file
+        doodleFile.addBlocks(blocksMap);
     } 
 
     public byte[] getBlock(long blockId) {
-        // TODO
-        return null;
+        return this.blocks.get(blockId);
     }
 
     public static int getInode(long blockId) {
