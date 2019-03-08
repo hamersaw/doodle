@@ -25,7 +25,6 @@ intervalMilliSeconds = 2500
 #
 [memoryManagement]
 intervalMilliSeconds = 1000
-writeDiffMilliSeconds = 10000
 
 #
 # Plugins Configuration

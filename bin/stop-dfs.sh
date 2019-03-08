@@ -21,9 +21,9 @@ while read LINE; do
         # if local no 'ssh' necessary
         echo "stopping local node ${ARRAY[3]} - ${ARRAY[0]}:${ARRAY[1]}"
 
-        PID=$(cat "$DOODLEDIR/log/node-${ARRAY[3]}.pid")
+        PID=$(cat "$DOODLEDIR/log/dfs-node-${ARRAY[3]}.pid")
         kill -9 $PID
-        rm "$DOODLEDIR/log/node-${ARRAY[3]}.pid"
+        rm "$DOODLEDIR/log/dfs-node-${ARRAY[3]}.pid"
     else
         # remotely start node
         echo "TODO - start remote node"

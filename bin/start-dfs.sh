@@ -10,21 +10,21 @@ fi
 # intialize instance variables
 DOODLEDIR="$(pwd)/$(dirname $0)/.."
 HOSTS_PATH="$DOODLEDIR/etc/hosts.txt"
-CONFIG_PATH="$DOODLEDIR/etc/node-config.toml"
+CONFIG_PATH="$DOODLEDIR/etc/dfs-config.toml"
 
-APPLICATION="doodle-node"
+APPLICATION="doodle-dfs"
 VERSION="0.1-SNAPSHOT"
-MAIN_CLASS="com.bushpath.doodle.node.Main"
+MAIN_CLASS="com.bushpath.doodle.dfs.Main"
 
 CLASSPATH=""
-if [ -f $DOODLEDIR/impl/node/build/libs/$APPLICATION-$VERSION.jar ]; then
-    CLASSPATH="$DOODLEDIR/impl/node/build/libs/$APPLICATION-$VERSION.jar"
+if [ -f $DOODLEDIR/impl/dfs/build/libs/$APPLICATION-$VERSION.jar ]; then
+    CLASSPATH="$DOODLEDIR/impl/dfs/build/libs/$APPLICATION-$VERSION.jar"
 else
     echo "unable to find $APPLICATION-$VERSION.jar."
     exit 1
 fi
 
-JAVA_OPTS="-Xmx2G -Dorg.slf4j.simpleLogger.defaultLogLevel=info --illegal-access=deny"
+JAVA_OPTS="-Xmx2G -Dorg.slf4j.simpleLogger.defaultLogLevel=debug --illegal-access=deny -Djava.library.path=$DOODLEDIR/impl/dfs/libs/anamnesis-jni/"
 
 # iterate over hosts file
 while read LINE; do
@@ -37,11 +37,11 @@ while read LINE; do
         echo "starting local node ${ARRAY[3]} - ${ARRAY[0]}:${ARRAY[1]}"
 
         java -cp $CLASSPATH $JAVA_OPTS $MAIN_CLASS $@ \
-            ${ARRAY[0]} ${ARRAY[1]} ${ARRAY[2]} \
+            ${ARRAY[0]} ${ARRAY[4]} ${ARRAY[5]} \
             ${ARRAY[3]} $HOSTS_PATH $CONFIG_PATH \
-                > $DOODLEDIR/log/node-${ARRAY[3]}.log 2>&1 &
+                > $DOODLEDIR/log/dfs-node-${ARRAY[3]}.log 2>&1 &
 
-        echo $! > $DOODLEDIR/log/node-${ARRAY[3]}.pid
+        echo $! > $DOODLEDIR/log/dfs-node-${ARRAY[3]}.pid
     else
         # remotely start node
         echo "TODO - start remote node"
