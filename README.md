@@ -13,12 +13,9 @@ doodle is a distributed sketch-aligned database. It also provides a simple exten
 #### COMPILATION
     cd impl
     ./setup.sh
-    cd node
-    gradle build
-    cd ../dfs
-    gradle build
-    cd ../cli
-    gradle build
+    cd node; gradle build; cd ..
+    cd dfs; gradle build; cd ..
+    cd cli; gradle build; cd ..
 
 #### STARTING DOODLE CLUSTER WITH DFS
 1. configure hosts in /etc/hosts.txt (format "ip port persistDirectory nodeId")

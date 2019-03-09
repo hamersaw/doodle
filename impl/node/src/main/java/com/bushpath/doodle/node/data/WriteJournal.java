@@ -168,7 +168,26 @@ public class WriteJournal extends Journal {
             File file = new File(entry.getValue());
             file.delete();
 
-            log.debug("deleted file '{}'", entry.getValue());
+            log.info("deleted file '{}'", entry.getValue());
+        }
+
+        // delete memoryTable data that less than minimum timestamp
+        this.lock.writeLock().lock();
+        try {
+            for (Map.Entry<String, TreeMap<Long, ByteString>> entry :
+                    this.journal.entrySet()) {
+                TreeMap<Long, ByteString> memoryTable =
+                    entry.getValue();
+
+                int totalEntries = memoryTable.size();
+                memoryTable.headMap(minimumTimestamp).clear();
+                int removedEntries = totalEntries - memoryTable.size();
+
+                log.info("removed {} entries from '{}' memoryTable",
+                    removedEntries, entry.getKey());
+            }
+        } finally {
+            this.lock.writeLock().unlock();
         }
     }
 
