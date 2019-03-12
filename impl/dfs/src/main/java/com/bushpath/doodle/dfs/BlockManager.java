@@ -58,11 +58,13 @@ public class BlockManager {
         replicas.put(node, list);
 
         // construct ThreadedCursor
+        long fileStartTime = System.currentTimeMillis();
         ThreadedCursor cursor = new ThreadedCursor(replicas,
             doodleFile.getInflator(), doodleFile.getQuery(), 5000, 4);
         // TODO - configure bufferSize (5000) and workerCount (4)
 
         // generate blocks
+        long blockStartTime = System.currentTimeMillis();
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(byteOut);
 
@@ -75,6 +77,9 @@ public class BlockManager {
 
             // check block size
             if (out.size() >= BLOCK_SIZE) {
+                long blockMaterializationTime =
+                    System.currentTimeMillis() - blockStartTime;
+
                 // close streams
                 out.close();
                 byteOut.close();
@@ -86,8 +91,8 @@ public class BlockManager {
                 byte[] block = byteOut.toByteArray();
                 blockNum += 1;
                 
-                log.info("generated block {} with length {}",
-                    blockId, block.length);
+                log.info("generated block {} with length {} in {} ms",
+                    blockId, block.length, blockMaterializationTime);
 
                 // add block to blocksMap
                 blocksMap.put(blockId, block.length);
@@ -96,6 +101,7 @@ public class BlockManager {
                 this.blocks.put(blockId, block);
 
                 // open new streams
+                blockStartTime = System.currentTimeMillis();
                 byteOut = new ByteArrayOutputStream();
                 out = new DataOutputStream(byteOut);
             }
@@ -105,13 +111,16 @@ public class BlockManager {
         out.close();
         byteOut.close();
         if (out.size() != 0) {
+            long blockMaterializationTime =
+                System.currentTimeMillis() - blockStartTime;
+
             // 4bytes - inode | 2bytes - nodeId | 2bytes blockNum
             long blockId = ((long) inodeValue << 32)
                 | ((long) node.getId() << 16) | ((long) blockNum);
             byte[] block = byteOut.toByteArray();
 
-            log.info("generated block {} with length {}",
-                blockId, block.length);
+            log.info("generated block {} with length {} in {} ms",
+                blockId, block.length, blockMaterializationTime);
 
             // add block to blocksMap
             blocksMap.put(blockId, block.length);
@@ -119,6 +128,11 @@ public class BlockManager {
             // TODO - writeLock
             this.blocks.put(blockId, block);
         }
+
+        long fileMaterializationTime =
+            System.currentTimeMillis() - fileStartTime;
+        log.info("generated file {} with length {} in {} ms",
+            doodleFile.getName(), fileMaterializationTime);
 
         // add blocks to file
         doodleFile.addBlocks(blocksMap);
