@@ -13,6 +13,7 @@ import com.bushpath.doodle.dfs.file.DoodleInode;
 import com.bushpath.doodle.dfs.file.FileManager;
 import com.bushpath.doodle.dfs.format.Format;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class BlockManager {
         // generate blocks
         long blockStartTime = System.currentTimeMillis();
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(byteOut);
+        BufferedOutputStream bufOut = new BufferedOutputStream(byteOut);
+        DataOutputStream out = new DataOutputStream(bufOut);
 
         float[] observation = null;
         int blockNum = 0;
@@ -82,6 +84,7 @@ public class BlockManager {
 
                 // close streams
                 out.close();
+                bufOut.close();
                 byteOut.close();
 
                 // initialize block
@@ -103,12 +106,14 @@ public class BlockManager {
                 // open new streams
                 blockStartTime = System.currentTimeMillis();
                 byteOut = new ByteArrayOutputStream();
-                out = new DataOutputStream(byteOut);
+                bufOut = new BufferedOutputStream(byteOut);
+                out = new DataOutputStream(bufOut);
             }
         }
 
         // finalize last block
         out.close();
+        bufOut.close();
         byteOut.close();
         if (out.size() != 0) {
             long blockMaterializationTime =
@@ -131,8 +136,13 @@ public class BlockManager {
 
         long fileMaterializationTime =
             System.currentTimeMillis() - fileStartTime;
+        long fileLength = 0;
+        for (Integer blockSize : blocksMap.values()) {
+            fileLength += blockSize;
+        }
+
         log.info("generated file {} with length {} in {} ms",
-            doodleFile.getName(), fileMaterializationTime);
+            doodleFile.getName(), fileLength, fileMaterializationTime);
 
         // add blocks to file
         doodleFile.addBlocks(blocksMap);
