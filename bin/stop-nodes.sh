@@ -25,7 +25,7 @@ while read LINE; do
         kill -9 $PID
         rm "$DOODLEDIR/log/node-${ARRAY[3]}.pid"
     else
-        # remotely start node
+        # remotely stop node
         ssh rammerd@${ARRAY[0]} -n "kill `cat $DOODLEDIR/log/node-${ARRAY[3]}.pid`; \
             rm $DOODLEDIR/log/node-${ARRAY[3]}.pid"
     fi

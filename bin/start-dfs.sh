@@ -31,11 +31,11 @@ while read LINE; do
     # parse line into array
     ARRAY=($LINE)
 
+    echo "starting node ${ARRAY[3]} - ${ARRAY[0]}:${ARRAY[1]}"
+
     if [ "${ARRAY[0]}" == "127.0.0.1" ]
     then
         # if local no 'ssh' necessary
-        echo "starting local node ${ARRAY[3]} - ${ARRAY[0]}:${ARRAY[1]}"
-
         java -cp $CLASSPATH $JAVA_OPTS $MAIN_CLASS $@ \
             ${ARRAY[0]} ${ARRAY[4]} ${ARRAY[5]} \
             ${ARRAY[3]} $HOSTS_PATH $CONFIG_PATH \
@@ -44,6 +44,10 @@ while read LINE; do
         echo $! > $DOODLEDIR/log/dfs-node-${ARRAY[3]}.pid
     else
         # remotely start node
-        echo "TODO - start remote node"
+        ssh rammerd@${ARRAY[0]} -n "java -cp $CLASSPATH $JAVA_OPTS $MAIN_CLASS $@ \
+            ${ARRAY[0]} ${ARRAY[4]} ${ARRAY[5]} \
+            ${ARRAY[3]} $HOSTS_PATH $CONFIG_PATH \
+                > $DOODLEDIR/log/dfs-node-${ARRAY[3]}.log 2>&1 & \
+            echo \$! > $DOODLEDIR/log/dfs-node-${ARRAY[3]}.pid"
     fi
 done < $HOSTS_PATH
