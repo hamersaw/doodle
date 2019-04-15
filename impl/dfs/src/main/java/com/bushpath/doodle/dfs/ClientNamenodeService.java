@@ -206,7 +206,7 @@ public class ClientNamenodeService {
         DoodleFile file = (DoodleFile) inode.getEntry();
 
         // populate LocatedBlockProto list
-        int offset = 0;
+        long offset = 0;
         List<HdfsProtos.LocatedBlockProto> list = new ArrayList();
 
         // iterate over blocks
