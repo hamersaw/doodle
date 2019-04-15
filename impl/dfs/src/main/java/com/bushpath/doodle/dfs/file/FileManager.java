@@ -85,8 +85,9 @@ public class FileManager {
             DoodleDirectory directory =
                 (DoodleDirectory) inode.getEntry();
             if (!directory.contains(elements.get(i))) {
-                throw new RuntimeException("TODO - element missing '"
-                    + elements.get(i) + "'");
+                return null;
+                //throw new RuntimeException("TODO - element missing '"
+                //    + elements.get(i) + "'");
             }
 
             // get entry inode
