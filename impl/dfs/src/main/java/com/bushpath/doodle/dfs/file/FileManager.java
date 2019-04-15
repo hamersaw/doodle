@@ -96,6 +96,34 @@ public class FileManager {
         return inode;
     }
 
+    public String getInodePath(int value) throws Exception {
+        DoodleInode inode = this.inodes.get(value);
+        String path = inode.getEntry().getName();
+
+        DoodleInode parent;
+        do {
+            parent = null;
+            int inodeValue = inode.getInodeValue();
+            for (DoodleInode childInode : this.inodes.values()) {
+                if (childInode.getFileType() == FileType.DIRECTORY) {
+                    DoodleDirectory doodleDirectory =
+                        (DoodleDirectory) childInode.getEntry();
+
+                    if (doodleDirectory.contains(inodeValue)) {
+                        parent = childInode;
+                    }
+                }
+            }
+
+            if (parent != null) {
+                path = parent.getEntry().getName() + "/" + path;
+                inode = parent;
+            }
+        } while (parent != null);
+
+        return path;
+    }
+
     public Collection<DoodleInode> list(String user, String group,
             String path) throws Exception {
         this.lock.readLock().lock();

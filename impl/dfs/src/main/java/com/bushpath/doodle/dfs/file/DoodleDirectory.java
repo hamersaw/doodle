@@ -19,6 +19,16 @@ public class DoodleDirectory extends DoodleEntry {
         return this.inodes.containsKey(entry);
     }
 
+    public boolean contains(int inode) {
+        for (Integer mapInode : this.inodes.values()) {
+            if (mapInode == inode) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public int get(String entry) {
         return this.inodes.get(entry);
     }

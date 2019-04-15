@@ -90,8 +90,7 @@ public class ClientNamenodeService {
 
         if (inode != null) {
             // write inode to protobuf
-            gfiBuilder.setFs(
-                this.toHdfsFileStatusProto(req.getSrc(), inode));
+            gfiBuilder.setFs(this.toHdfsFileStatusProto(inode));
         }
 
         return gfiBuilder.build();
@@ -121,7 +120,7 @@ public class ClientNamenodeService {
         for (DoodleInode inode : doodleInodes) {
             // convert DoodleInode to HdfsFileStatusProto
             HdfsProtos.HdfsFileStatusProto hdfsFileStatusProto =
-                this.toHdfsFileStatusProto(inode.getEntry().getName(), inode);
+                this.toHdfsFileStatusProto(inode);
 
             dlBuilder.addPartialListing(hdfsFileStatusProto);
         }
@@ -163,12 +162,14 @@ public class ClientNamenodeService {
     }
 
     protected HdfsProtos.HdfsFileStatusProto
-            toHdfsFileStatusProto(String path, DoodleInode inode) {
+            toHdfsFileStatusProto(DoodleInode inode) throws Exception {
         HdfsProtos.FsPermissionProto permission =
             HdfsProtos.FsPermissionProto.newBuilder()
                 .setPerm(Integer.MAX_VALUE) // TODO - set permissions on inodes
                 .build();
 
+        String path =
+            this.fileManager.getInodePath(inode.getInodeValue());
         DoodleEntry entry = inode.getEntry();
         HdfsProtos.HdfsFileStatusProto.Builder fsBuilder =
             HdfsProtos.HdfsFileStatusProto.newBuilder()
