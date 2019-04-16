@@ -20,7 +20,8 @@ public class FormatCsv implements Format {
 
         for (int i=0; i<observation.length; i++) {
             // TODO - optimize this         
-            String s = Double.toString(observation[i]);
+            //String s = Double.toString(observation[i]);
+            String s = String.format("%f.8");
             int length = s.length();
             if (length > this.precision) {
                 s = s.substring(0, this.precision);
