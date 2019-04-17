@@ -82,85 +82,58 @@ public class DataTransferService extends Thread {
                 DataOutputStream out =
                     new DataOutputStream(this.socket.getOutputStream());
   
-                while (true) {
-                    // read operation
-                    Op op = DataTransferProtocol.readOp(in);
+                // read operation
+                Op op = DataTransferProtocol.readOp(in);
 
-                    switch(op) {
-                    case READ_BLOCK:
-                        DataTransferProtos.OpReadBlockProto
-                            readBlockProto =
-                                DataTransferProtocol.recvReadOp(in);
+                switch(op) {
+                case READ_BLOCK:
+                    DataTransferProtos.OpReadBlockProto
+                        readBlockProto =
+                            DataTransferProtocol.recvReadOp(in);
 
-                        HdfsProtos.ExtendedBlockProto
-                            readExtendedBlockProto =
-                                readBlockProto.getHeader()
-                                    .getBaseHeader().getBlock();
+                    HdfsProtos.ExtendedBlockProto
+                        readExtendedBlockProto =
+                            readBlockProto.getHeader()
+                                .getBaseHeader().getBlock();
 
-                        // retreive block
-                        long blockId =
-                            readExtendedBlockProto.getBlockId();
-                        byte[] block = blockManager.getBlock(blockId);
+                    // retrieve block
+                    long blockId =
+                        readExtendedBlockProto.getBlockId();
+                    byte[] block = blockManager.getBlock(blockId);
 
-                        log.debug("Recv READ_BLOCK op for blockId:{}"
-                            + " offset:{} length:{}", blockId,
-                            readBlockProto.getOffset(),
-                            readBlockProto.getLen());
+                    log.debug("Recv READ_BLOCK op for blockId:{}"
+                        + " offset:{} length:{}", blockId,
+                        readBlockProto.getOffset(),
+                        readBlockProto.getLen());
 
-                        /*int inodeValue = BlockUtil.getInode(blockId);
-                        int nodeId = BlockUtil.getNodeId(blockId);
-                        short blockNum = BlockUtil.getBlockNum(blockId);
+                    // send op response
+                    DataTransferProtocol.sendBlockOpResponse(out,
+                        DataTransferProtos.Status.SUCCESS,
+                        HdfsProtos.ChecksumTypeProto.CHECKSUM_CRC32C,
+                        DataTransferProtocol.CHUNK_SIZE,
+                        readBlockProto.getOffset());
+    
+                    // create checksum
+                    Checksum readChecksum =
+                        ChecksumFactory.buildDefaultChecksum();
+  
+                    // send stream block chunks
+                    BlockOutputStream blockOut =
+                        new BlockOutputStream(in, out,
+                        readChecksum,
+                        readBlockProto.getOffset() + 1);
+                    blockOut.write(block, 
+                        (int) readBlockProto.getOffset(),
+                        (int) readBlockProto.getLen());
+                    blockOut.close();
 
-                        log.debug("Recv READ_BLOCK op for blockId:{}"
-                            + " offset:{} length:{}", blockId,
-                            readBlockProto.getOffset(),
-                            readBlockProto.getLen());
-
-                        // retrieve block
-                        byte[] block = null;
-                        if (blocks.containsKey(blockId)) {
-                            block = blocks.get(blockId);
-                        } else {
-                            // initialize block
-                            DoodleInode inode =
-                                fileManager.getInode(inodeValue);
-                            block = initBlock(inode, nodeId, blockNum);
-                            blocks.put(blockId, block);
-
-                            log.info("Initialized blockId:{}"
-                                + " with length:{}", blockId,
-                                block.length);
-                        }*/
-
-                        // send op response
-                        DataTransferProtocol.sendBlockOpResponse(out,
-                            DataTransferProtos.Status.SUCCESS,
-                            HdfsProtos.ChecksumTypeProto.CHECKSUM_CRC32C,
-                            DataTransferProtocol.CHUNK_SIZE,
-                            readBlockProto.getOffset());
-        
-                        // create checksum
-                        Checksum readChecksum =
-                            ChecksumFactory.buildDefaultChecksum();
-      
-                        // send stream block chunks
-                        BlockOutputStream blockOut =
-                            new BlockOutputStream(in, out,
-                            readChecksum,
-                            readBlockProto.getOffset() + 1);
-                        blockOut.write(block, 
-                            (int) readBlockProto.getOffset(),
-                            (int) readBlockProto.getLen());
-                        blockOut.close();
-
-                        // TODO - read client read status proto
-                        DataTransferProtos.ClientReadStatusProto
-                            readProto = DataTransferProtocol
-                                .recvClientReadStatus(in);
-                        break;
-                    default:
-                        break;
-                    }
+                    // TODO - read client read status proto
+                    DataTransferProtos.ClientReadStatusProto
+                        readProto = DataTransferProtocol
+                            .recvClientReadStatus(in);
+                    break;
+                default:
+                    break;
                 }
             } catch (EOFException | SocketException e) {
                 // socket was closed by client
